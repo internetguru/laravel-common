@@ -1,6 +1,13 @@
 # Laravel Common
 
-This package provides handy utilities for Laravel applications.
+> This package provides handy utilities for Laravel applications.
+
+| branch  | status |
+| :------------- | :------------- |
+| main | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/laravel-tests.yml/badge.svg?branch=main) |
+| staging | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/laravel-tests.yml/badge.svg?branch=staging) |
+| dev | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/laravel-tests.yml/badge.svg?branch=dev) |
+
 
 ## Installation
 
