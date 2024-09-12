@@ -4,5 +4,4 @@
 /.env
 .DS_Store
 .phpunit.result.cache
-phpunit.xml
 composer.lock
