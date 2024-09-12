@@ -4,9 +4,9 @@
 
 | branch  | status |
 | :------------- | :------------- |
-| main | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/laravel-tests.yml/badge.svg?branch=main) |
-| staging | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/laravel-tests.yml/badge.svg?branch=staging) |
-| dev | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/laravel-tests.yml/badge.svg?branch=dev) |
+| main | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=main) |
+| staging | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=staging) |
+| dev | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=dev) |
 
 
 ## Installation
