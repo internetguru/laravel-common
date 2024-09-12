@@ -47,11 +47,12 @@ For more available methods, please refer to the `Helpers` class.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
+use InternetGuru\LaravelCommon\Casts\CarbonIntervalCast;
 
 class Task extends Model
 {
     protected $casts = [
-        'duration' => 'carbon-interval',
+        'duration' => CarbonIntervalCast::class,
     ];
 }
 ```
