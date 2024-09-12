@@ -8,7 +8,10 @@ class CommonServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        // Register any package services or bindings here
+        // Register the Casts
+        $this->app->bind('carbon-interval', function () {
+            return new Casts\CarbonIntervalCast();
+        });
     }
 
     public function boot()
