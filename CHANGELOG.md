@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `carbon-interval` cast.
+
 ## [0.2.0] - 2024-09-12
 
 _Stable release based on [0.2.0-rc.1]._
