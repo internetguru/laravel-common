@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Update README.md file installation instructions and usage examples.
+
 ## [0.1.0] - 2024-09-12
 
 _Stable release based on [0.1.0-rc.1]._
