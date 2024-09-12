@@ -12,14 +12,14 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.1.0-rc.1] - 2024-09-12
 
-## [0.0.0] - 2024-09-12
-
 ### Added
 
 - Create tests for `Helpers` class.
 - Add `Helpers` class with `getAppInfoArray` and `getAppInfo` methods.
 - Initial project structure.
 - New changelog file.
+
+## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
 [0.1.0]: https://https://github.com/internetguru/laravel-common/compare/v0.0.0...v0.1.0
