@@ -17,20 +17,24 @@ You can install the package via Composer:
 composer require internetguru/laravel-common
 ```
 
+Create aliases for the package classes in the `config/app.php` file:
+
+```php
+    use Illuminate\Support\Facades\Facade;
+
+    'aliases' => Facade::defaultAliases()->merge([
+        'Helpers' => InternetGuru\LaravelCommon\Support\Helpers::class,
+    ])->toArray(),
+```
+
 ## Usage
 
 ### Helpers
 
 You can use the `Helpers` class methods, such as `getAppInfoArray` and `getAppInfo`, to get information about the application.
 
-```php
-use InternetGuru\LaravelCommon\Support\Helpers;
-
-// Get an array of app info
-$info = Helpers::getAppInfoArray();
-
-// Get a string of app info
-$infoString = Helpers::getAppInfo();
+```html
+<meta name="generator" content="{{ Helpers::getAppInfo() }}"/>
 ```
 
 For more available methods, please refer to the `Helpers` class.
