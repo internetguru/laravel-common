@@ -14,7 +14,7 @@ class CarbonIntervalCastTest extends TestCase
         $model = new class extends Model
         {
             protected $casts = [
-                'maintenance_period' => 'carbon-interval',
+                'maintenance_period' => CarbonIntervalCast::class,
             ];
         };
 
@@ -32,7 +32,7 @@ class CarbonIntervalCastTest extends TestCase
         $model = new class extends Model
         {
             protected $casts = [
-                'maintenance_period' => 'carbon-interval',
+                'maintenance_period' => CarbonIntervalCast::class,
             ];
         };
 
@@ -49,7 +49,7 @@ class CarbonIntervalCastTest extends TestCase
         $model = new class extends Model
         {
             protected $casts = [
-                'maintenance_period' => 'carbon-interval',
+                'maintenance_period' => CarbonIntervalCast::class,
             ];
         };
 
@@ -64,7 +64,7 @@ class CarbonIntervalCastTest extends TestCase
         $model = new class extends Model
         {
             protected $casts = [
-                'maintenance_period' => 'carbon-interval',
+                'maintenance_period' => CarbonIntervalCast::class,
             ];
         };
 
