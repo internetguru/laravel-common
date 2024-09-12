@@ -39,6 +39,23 @@ You can use the `Helpers` class methods, such as `getAppInfoArray` and `getAppIn
 
 For more available methods, please refer to the `Helpers` class.
 
+### Casts
+
+#### Carbon Interval
+
+> Casts a string to a `CarbonInterval` instance using the `carbon-interval` cast.
+
+```php
+use Illuminate\Database\Eloquent\Model;
+
+class Task extends Model
+{
+    protected $casts = [
+        'duration' => 'carbon-interval',
+    ];
+}
+```
+
 ## Testing
 
 To run the tests, use the following command:
