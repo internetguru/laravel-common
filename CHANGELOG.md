@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Create tests for `Helpers` class.
+- Add `Helpers` class with `getAppInfoArray` and `getAppInfo` methods.
+- Initial project structure.
 - New changelog file.
 
 [Unreleased]: git diff staging..dev
