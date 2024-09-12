@@ -43,7 +43,7 @@ For more available methods, please refer to the `Helpers` class.
 
 #### Carbon Interval
 
-> Casts a string to a `CarbonInterval` instance using the `carbon-interval` cast.
+> Casts a string to a `CarbonInterval` and back.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
