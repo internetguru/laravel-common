@@ -18,7 +18,7 @@ class Breadcrumb extends Component
     public function __construct(string $divider = '›', $skipFirst = true)
     {
         $this->divider = $divider;
-        $this->items = Helpers::parseUrlPath($skipFirst);
+        $this->items = Helpers::parseUrlPath(skipFirst: $skipFirst);
     }
 
     /**
