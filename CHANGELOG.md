@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Add `<x-ig::breadcrumb>` blade component.
+- Merge `internetguru/blade-components` into this package.
 
 ## [0.3.1] - 2024-09-12
 
