@@ -64,6 +64,8 @@ class Helpers
         }
         // Add home
         array_unshift($urlParts, 'home');
+        // clean empty parts
+        $urlParts = array_filter($urlParts);
 
         $currentPath = '';
         $segments = [];
