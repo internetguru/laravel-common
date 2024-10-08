@@ -133,13 +133,13 @@ class HelpersTest extends TestCase
             ],
         ];
 
-        $this->assertEquals($expected, Helpers::parseUrlPath());
+        $this->assertEquals($expected, Helpers::parseUrlPath(skipFirst: 1));
     }
 
     public function test_parse_url_path_with_short()
     {
         // Mock the request path
-        $this->mockRequestPath('en/about/contact');
+        $this->mockRequestPath('/about/contact');
 
         // Mock translations
         $this->mockTranslations([
@@ -176,7 +176,7 @@ class HelpersTest extends TestCase
     public function test_parse_url_path_with_missing_translation()
     {
         // Mock the request path
-        $this->mockRequestPath('en/about/unknown');
+        $this->mockRequestPath('about/unknown');
 
         $this->mockTranslations([
             'navig.home' => 'Home',
@@ -212,7 +212,7 @@ class HelpersTest extends TestCase
     public function test_create_title()
     {
         // Mock the request path
-        $this->mockRequestPath('en/about/contact');
+        $this->mockRequestPath('about/contact');
 
         // Expected result
         $expected = __('navig.contact') . ' – ' . __('navig.about') . ' – ' . __('navig.home');

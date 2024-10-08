@@ -53,13 +53,13 @@ class Helpers
      *  - translation: The translation of the segment
      *  - class: Additional classes to add to the segment
      */
-    public static function parseUrlPath($homeRoute = 'home', $skipFirst = true): array
+    public static function parseUrlPath(string $homeRoute = 'home', int $skipFirst = 0): array
     {
         $url = request()->path();
         $urlParts = explode('/', trim($url, '/'));
 
-        // Skip first segment (language)
-        if ($skipFirst) {
+        // Skip first N segments
+        while ($skipFirst-- > 0) {
             array_shift($urlParts);
         }
         // Add home

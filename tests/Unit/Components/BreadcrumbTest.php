@@ -31,7 +31,8 @@ class BreadcrumbTest extends TestCase
     public function test_constructor_sets_divider_and_items()
     {
         $divider = '|';
-        $breadcrumb = new Breadcrumb($divider);
+        $skipFirst = 1;
+        $breadcrumb = new Breadcrumb($divider, $skipFirst);
 
         $this->assertEquals($divider, $breadcrumb->divider);
         $this->assertEquals(3, count($breadcrumb->items));
