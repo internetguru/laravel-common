@@ -68,14 +68,14 @@ class Task extends Model
 Key features:
 - Breadcrumb items are generated from the current URL path.
 - Divider character can be customized, default `›`.
-- Skip first segment option, default `true`. E.g. to skip the language.
+- Skip first segment option `skip-first`, default `true`. E.g. to skip the language.
 - Translation support for each breadcrumb item.
 - Short translation support for each breadcrumb item.
 
 Translation keys are in format `navig.{segment}`. Short translation keys are in format `navig.{segment}.short`.
 
 ```html
-<x-ig::breadcrumb divider="|">
+<x-ig::breadcrumb divider="|" skip-first="false">
 ```
 
 #### Form components

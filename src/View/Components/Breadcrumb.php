@@ -15,10 +15,10 @@ class Breadcrumb extends Component
     /**
      * Create the component instance.
      */
-    public function __construct(string $divider = '›')
+    public function __construct(string $divider = '›', $skipFirst = true)
     {
         $this->divider = $divider;
-        $this->items = Helpers::parseUrlPath();
+        $this->items = Helpers::parseUrlPath($skipFirst);
     }
 
     /**
