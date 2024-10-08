@@ -31,6 +31,8 @@ Create aliases for the package classes in the `config/app.php` file:
 
 ### Helpers
 
+> The `Helpers` class provides useful methods for Laravel applications.
+
 You can use the `Helpers` class methods, such as `getAppInfoArray` and `getAppInfo`, to get information about the application.
 
 ```html
@@ -55,6 +57,25 @@ class Task extends Model
         'duration' => CarbonIntervalCast::class,
     ];
 }
+```
+
+### Blade Components
+
+#### Breadcrumb
+
+> Blade component that renders breadcrumb navigation.
+
+Key features:
+- Breadcrumb items are generated from the current URL path.
+- Divider character can be customized, default `›`.
+- Skip first segment option, default `true`. E.g. to skip the language.
+- Translation support for each breadcrumb item.
+- Short translation support for each breadcrumb item.
+
+Translation keys are in format `navig.{segment}`. Short translation keys are in format `navig.{segment}.short`.
+
+```html
+<x-ig::breadcrumb divider="|">
 ```
 
 ## Testing

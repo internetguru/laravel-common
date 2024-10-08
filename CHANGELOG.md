@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `<x-ig::breadcrumb>` blade component.
+
 ## [0.3.1] - 2024-09-12
 
 ### Fixed
