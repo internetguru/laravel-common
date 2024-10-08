@@ -1,6 +1,6 @@
 <?php
 
-namespace Internetguru\BladeComponents\View\Components;
+namespace InternetGuru\LaravelCommon\View\Components;
 
 use Illuminate\View\Component;
 
