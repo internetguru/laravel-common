@@ -2,12 +2,13 @@
 
 namespace InternetGuru\LaravelCommon;
 
-use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Translation\FileLoader;
+use Illuminate\Translation\TranslationServiceProvider as BaseTranslationServiceProvider;
 use InternetGuru\LaravelCommon\Support\Translator;
 
-class TranslationServiceProvider extends ServiceProvider implements DeferrableProvider
+/**
+ * @see https://github.com/laravel/framework/blob/11.x/src/Illuminate/Translation/TranslationServiceProvider.php
+ */
+class TranslationServiceProvider extends BaseTranslationServiceProvider
 {
     /**
      * Register the service provider.
@@ -32,27 +33,5 @@ class TranslationServiceProvider extends ServiceProvider implements DeferrablePr
 
             return $trans;
         });
-    }
-
-    /**
-     * Register the translation line loader.
-     *
-     * @return void
-     */
-    protected function registerLoader()
-    {
-        $this->app->singleton('translation.loader', function ($app) {
-            return new FileLoader($app['files'], $app['path.lang']);
-        });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['translator', 'translation.loader'];
     }
 }
