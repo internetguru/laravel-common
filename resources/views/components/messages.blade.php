@@ -1,6 +1,6 @@
 <div class="toast-wrapper position-relative" style="z-index: 1050;">
     <div class="toast-container">
-        @if($errors->any())
+        @if($errors?->any())
             @foreach($errors->all() as $error)
                 <x-ig::message type="danger" message="{!! $error !!}"/>
             @endforeach
