@@ -47,7 +47,7 @@ class Translator extends BaseTranslator
         if (! is_string($line)) {
             return;
         }
-        preg_match_all('/(?<!:):\w+/', $line, $matches);
+        preg_match_all('/(?<!:):[a-zA-Z_]\w*/', $line, $matches);
         $placeholders = $matches[0] ?? [];
 
         $providedVariables = array_map(fn ($k) => ':' . $k, array_keys($replace));
