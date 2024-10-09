@@ -34,7 +34,9 @@ class Translator extends BaseTranslator
     private function checkMissingTranslation($key, $line, $locale = null)
     {
         if ($line === $key) {
-            $message = $locale ? "Missing translation for locale '{$locale}': {$key}" : "Missing translation: {$key}";
+            $message = $locale
+                ? "Missing translation for locale '{$locale}': {$key}"
+                : "Missing translation: {$key}";
             $this->log($message);
         }
     }

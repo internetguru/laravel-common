@@ -14,11 +14,7 @@ class BreadcrumbTest extends TestCase
     {
         parent::setUp();
 
-        $this->app['router']->get('/', function () {
-            return 'Home';
-        })->name('home');
-
-        $request = Request::create('en/about/contact', 'GET');
+        $request = Request::create('about/contact', 'GET');
         $this->app->instance('request', $request);
     }
 
@@ -31,8 +27,7 @@ class BreadcrumbTest extends TestCase
     public function test_constructor_sets_divider_and_items()
     {
         $divider = '|';
-        $skipFirst = 1;
-        $breadcrumb = new Breadcrumb($divider, $skipFirst);
+        $breadcrumb = new Breadcrumb($divider);
 
         $this->assertEquals($divider, $breadcrumb->divider);
         $this->assertEquals(3, count($breadcrumb->items));

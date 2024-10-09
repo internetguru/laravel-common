@@ -3,7 +3,9 @@
 namespace InternetGuru\LaravelCommon\Support;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Helpers
 {
@@ -59,43 +61,32 @@ class Helpers
         $urlParts = explode('/', trim($url, '/'));
 
         // Skip first N segments
-        while ($skipFirst-- > 0) {
+        for ($i = 0; $i < $skipFirst; $i++) {
             array_shift($urlParts);
         }
-        // Add home
-        array_unshift($urlParts, 'home');
         // clean empty parts
         $urlParts = array_filter($urlParts);
+        // Add root segment
+        array_unshift($urlParts, '');
 
         $currentPath = '';
         $segments = [];
         $totalParts = count($urlParts);
 
         foreach ($urlParts as $index => $segment) {
-            $currentPath = $segment === 'home' ? route($homeRoute) : $currentPath . '/' . $segment;
-            $translationKey = 'navig.' . $segment;
-            $translation = __($translationKey);
-
-            // Check if there is a short translation and use it if not the last item
-            if ($index < $totalParts - 1) {
-                $shortTranslationKey = $translationKey . '.short';
-                $shortTranslation = __($shortTranslationKey);
-                if ($shortTranslation !== $shortTranslationKey) {
-                    $translation = $shortTranslation;
-                }
+            $currentPath = $currentPath == '/' ? $currentPath . $segment : $currentPath . '/' . $segment;
+            try {
+                $routeName = Route::getRoutes()->match(request()->create($currentPath))->getName();
+                $uri = $currentPath;
+            } catch (NotFoundHttpException $e) {
+                $routeName = $segment;
+                $uri = '';
             }
-
-            $segment = [
-                'route' => $currentPath,
+            $translation = trans_choice("navig.$routeName", $totalParts - $index - $skipFirst);
+            $segments[] = [
+                'uri' => $uri,
                 'translation' => $translation,
-                'class' => '',
             ];
-
-            if ($translation === $translationKey) {
-                $segment['class'] = 'text-danger';
-            }
-
-            $segments[] = $segment;
         }
 
         return $segments;

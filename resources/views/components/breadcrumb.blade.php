@@ -1,11 +1,11 @@
 <nav style="--bs-breadcrumb-divider: '{{ $divider }}';" aria-label="breadcrumb">
     <ol class="breadcrumb">
         @foreach ($items as $index => $item)
-            <li class="breadcrumb-item {{ $loop->last ? 'active' : '' }} {{ $item['class'] }}">
-                @if ($loop->last)
+            <li class="breadcrumb-item {{ $loop->last ? 'active' : '' }}">
+                @if ($loop->last || ! $item['uri'])
                     {{ $item['translation'] }}
                 @else
-                    <a href="{{ $item['route'] }}">{{ $item['translation'] }}</a>
+                    <a href="{{ $item['uri'] }}">{{ $item['translation'] }}</a>
                 @endif
             </li>
         @endforeach
