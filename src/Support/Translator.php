@@ -17,7 +17,7 @@ class Translator extends BaseTranslator
         $this->checkMissingTranslation($key, $line);
         $this->checkMissingVariables($key, $line, $replace);
 
-        if (App::isDebug()) {
+        if (App::hasDebugModeEnabled()) {
             $locales = $this->getAvailableLocales();
 
             foreach ($locales as $locale) {

@@ -33,7 +33,7 @@ class TranslatorTest extends TestCase
     public function test_get_returns_correct_translation()
     {
         App::shouldReceive('environment')->andReturn('production');
-        App::shouldReceive('isDebug')->andReturn(false);
+        App::shouldReceive('hasDebugModeEnabled')->andReturn(false);
 
         $loader = new ArrayLoader;
         $loader->addMessages('en', '*', [
@@ -48,7 +48,7 @@ class TranslatorTest extends TestCase
     public function test_get_logs_missing_translation()
     {
         App::shouldReceive('environment')->andReturn('production');
-        App::shouldReceive('isDebug')->andReturn(false);
+        App::shouldReceive('hasDebugModeEnabled')->andReturn(false);
 
         Log::shouldReceive('warning')
             ->once()
@@ -64,7 +64,7 @@ class TranslatorTest extends TestCase
     public function test_get_logs_missing_variables()
     {
         App::shouldReceive('environment')->andReturn('production');
-        App::shouldReceive('isDebug')->andReturn(false);
+        App::shouldReceive('hasDebugModeEnabled')->andReturn(false);
 
         Log::shouldReceive('warning')
             ->once()
@@ -83,7 +83,7 @@ class TranslatorTest extends TestCase
     public function test_get_check_multiple_locales_in_debug_mode()
     {
         App::shouldReceive('environment')->andReturn('production');
-        App::shouldReceive('isDebug')->andReturn(true);
+        App::shouldReceive('hasDebugModeEnabled')->andReturn(true);
 
         Log::shouldReceive('warning')
             ->once()
@@ -104,7 +104,7 @@ class TranslatorTest extends TestCase
         $this->expectException(TranslatorException::class);
 
         App::shouldReceive('environment')->andReturn('local');
-        App::shouldReceive('isDebug')->andReturn(true);
+        App::shouldReceive('hasDebugModeEnabled')->andReturn(true);
 
         $loader = new ArrayLoader;
 

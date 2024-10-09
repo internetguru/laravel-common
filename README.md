@@ -29,14 +29,24 @@ Create aliases for the package classes in the `config/app.php` file:
 
 ## Usage
 
-### Automatic Functionality
+### Translation Service Provider
 
-Custom `Translator` class that adds enhanced logging for missing translations and variables, helping in debugging localization issues.
+> Custom `TranslationServiceProvider` class that adds enhanced logging for missing translations and variables, helping in debugging localization issues.
 
 - **Missing Translation Logging**: Logs warnings when a translation key is missing.
 - **Missing Variables Logging**: Logs warnings when variables required in a translation string are not provided.
 - **Debug Mode Checks**: In debug mode, it checks all available locales for missing translations and variables.
 - **TranslatorException**: Throws an `InternetGuru\LaravelCommon\Exceptions\TranslatorException` exception instead of logging when the app is not in production mode.
+
+Add the following lines to the `config/app.php` file:
+
+```php
+    use Illuminate\Support\ServiceProvider;
+
+    'providers' => ServiceProvider::defaultProviders()->replace([
+        Illuminate\Translation\TranslationServiceProvider::class => InternetGuru\LaravelCommon\TranslationServiceProvider::class,
+    ])->toArray(),
+```
 
 ### Helpers
 
