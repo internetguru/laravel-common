@@ -69,7 +69,7 @@ class Translator extends BaseTranslator
     private function getAvailableLocales(): array
     {
         $locales = [];
-        $langPath = resource_path('lang');
+        $langPath = base_path('lang');
 
         if (File::exists($langPath)) {
             $directories = File::directories($langPath);
