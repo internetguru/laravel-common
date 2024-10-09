@@ -33,27 +33,31 @@ class Translator extends BaseTranslator
 
     private function checkMissingTranslation($key, $line, $locale = null)
     {
-        if ($line === $key) {
-            $message = $locale
-                ? "Missing translation for locale '{$locale}': {$key}"
-                : "Missing translation: {$key}";
-            $this->log($message);
+        if ($line !== $key) {
+            return;
         }
+        $message = $locale
+            ? "Missing translation for locale '{$locale}': {$key}"
+            : "Missing translation: {$key}";
+        $this->log($message);
     }
 
     private function checkMissingVariables($key, $line, $replace, $locale = null)
     {
-        if (is_string($line)) {
-            preg_match_all('/(?<!:):\w+/', $line, $matches);
-            $placeholders = $matches[0] ?? [];
+        if (! is_string($line)) {
+            return;
+        }
+        preg_match_all('/(?<!:):\w+/', $line, $matches);
+        $placeholders = $matches[0] ?? [];
 
-            $providedVariables = array_map(fn ($k) => ':' . $k, array_keys($replace));
-            $missingVariables = array_diff($placeholders, $providedVariables);
+        $providedVariables = array_map(fn ($k) => ':' . $k, array_keys($replace));
+        $missingVariables = array_diff($placeholders, $providedVariables);
 
-            if ($missingVariables) {
-                $message = $locale ? "Missing variables for '{$key}' in locale '{$locale}': " . implode(', ', $missingVariables) : "Missing variables for '{$key}': " . implode(', ', $missingVariables);
-                $this->log($message);
-            }
+        if ($missingVariables) {
+            $message = $locale
+                ? "Missing variables for '{$key}' in locale '{$locale}': " . implode(', ', $missingVariables)
+                : "Missing variables for '{$key}': " . implode(', ', $missingVariables);
+            $this->log($message);
         }
     }
 
