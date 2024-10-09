@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Add `<x-ig::breadcrumb>` blade component.
 - Merge `internetguru/blade-components` into this package.
+- Add custom Translator class to handle missing translation keys and variables.
 
 ## [0.3.1] - 2024-09-12
 
