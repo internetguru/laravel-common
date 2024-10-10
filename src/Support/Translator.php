@@ -31,6 +31,15 @@ class Translator extends BaseTranslator
         return $line;
     }
 
+    public function has($key, $locale = null)
+    {
+        try {
+            return parent::has($key, $locale);
+        } catch (TranslatorException $e) {
+            return false;
+        }
+    }
+
     private function checkMissingTranslation($key, $line, $locale = null)
     {
         if ($line !== $key) {
