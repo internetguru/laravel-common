@@ -16,6 +16,13 @@ class BreadcrumbTest extends TestCase
 
         $request = Request::create('about/contact', 'GET');
         $this->app->instance('request', $request);
+
+        $this->app['router']->get('about', function () {
+            return 'about';
+        });
+        $this->app['router']->get('about/contact', function () {
+            return 'contact';
+        });
     }
 
     protected function tearDown(): void
