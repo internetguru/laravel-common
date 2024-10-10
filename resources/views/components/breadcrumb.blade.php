@@ -3,9 +3,9 @@
         @foreach ($items as $index => $item)
             <li class="breadcrumb-item {{ $loop->last ? 'active' : '' }}">
                 @if ($loop->last || ! $item['uri'])
-                    {{ $item['translation'] }}
+                    {!! $item['translation'] !!}
                 @else
-                    <a href="{{ $item['uri'] }}">{{ $item['translation'] }}</a>
+                    <a href="{{ $item['uri'] }}">{!! $item['translation'] !!}</a>
                 @endif
             </li>
         @endforeach
