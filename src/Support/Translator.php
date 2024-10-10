@@ -31,10 +31,10 @@ class Translator extends BaseTranslator
         return $line;
     }
 
-    public function has($key, $locale = null)
+    public function has($key, $locale = null, $fallback = true)
     {
         try {
-            return parent::has($key, $locale);
+            return parent::has($key, $locale, $fallback);
         } catch (TranslatorException $e) {
             return false;
         }
