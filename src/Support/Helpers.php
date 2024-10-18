@@ -69,8 +69,8 @@ class Helpers
         // Add root segment
         array_unshift($urlParts, '');
 
-        // If request status is not ok
-        if (request()->status() != 200) {
+        // If error page, return empty array
+        if (isset(app('view')->getSections()['code']) && isset(app('view')->getSections()['message'])) {
             $urlParts = [''];
         }
 
