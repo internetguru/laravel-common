@@ -69,14 +69,8 @@ class Helpers
         // Add root segment
         array_unshift($urlParts, '');
 
-        try {
-            $route = Route::getRoutes()->match(request());
-            if ($route->methods()[0] !== 'GET') {
-                throw new NotFoundHttpException;
-            }
-            $routeName = $route->getName();
-        } catch (NotFoundHttpException $e) {
-            // target route does not exist or it is not GET
+        // If request status is not ok
+        if (request()->status() != 200) {
             $urlParts = [''];
         }
 
