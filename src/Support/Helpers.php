@@ -70,9 +70,13 @@ class Helpers
         array_unshift($urlParts, '');
 
         try {
-            Route::getRoutes()->match(request())->getName();
+            $route = Route::getRoutes()->match(request());
+            if ($route->methods()[0] !== 'GET') {
+                throw new NotFoundHttpException;
+            }
+            $routeName = $route->getName();
         } catch (NotFoundHttpException $e) {
-            // target route does not exist
+            // target route does not exist or it is not GET
             $urlParts = [''];
         }
 
