@@ -1,6 +1,6 @@
 <div class="toast-wrapper" style="
     z-index: 1050;
-    --bs-success-rgb: #263238;
+    --bs-success-rgb: 38, 50, 56;
 ">
     <div class="toast-container">
         @if(isset($errors) && $errors->any())
