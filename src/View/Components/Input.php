@@ -8,6 +8,6 @@ class Input extends Component
 {
     public function render()
     {
-        return view('package::components.forms.input');
+        return view('common::components.forms.input');
     }
 }

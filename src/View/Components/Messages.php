@@ -8,6 +8,6 @@ class Messages extends Component
 {
     public function render()
     {
-        return view('package::components.messages');
+        return view('common::components.messages');
     }
 }

@@ -8,6 +8,6 @@ class Form extends Component
 {
     public function render()
     {
-        return view('package::components.forms.form');
+        return view('common::components.forms.form');
     }
 }

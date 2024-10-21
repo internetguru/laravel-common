@@ -47,7 +47,7 @@ class BreadcrumbTest extends TestCase
 
         $view = $breadcrumb->render();
         $this->assertInstanceOf(View::class, $view);
-        $this->assertEquals('package::components.breadcrumb', $view->name());
+        $this->assertEquals('common::components.breadcrumb', $view->name());
         $this->assertStringContainsString("--bs-breadcrumb-divider: '|';", $view->render());
     }
 }

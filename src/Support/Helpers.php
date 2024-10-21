@@ -120,6 +120,6 @@ class Helpers
             $link = preg_replace('/^(https?:\/\/)/', '$1mail.', config('app.url'));
         }
 
-        return " <a href=\"$link\">" . __('emails.inbox') . '</a>';
+        return " <a href=\"$link\">" . __('common::messages.inbox') . '</a>';
     }
 }

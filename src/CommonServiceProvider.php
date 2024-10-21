@@ -14,7 +14,8 @@ class CommonServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'package');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'common');
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'common');
         Blade::componentNamespace('InternetGuru\LaravelCommon\View\Components', 'ig');
     }
 }

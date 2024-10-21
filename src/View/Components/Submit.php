@@ -8,6 +8,6 @@ class Submit extends Component
 {
     public function render()
     {
-        return view('package::components.forms.submit');
+        return view('common::components.forms.submit');
     }
 }

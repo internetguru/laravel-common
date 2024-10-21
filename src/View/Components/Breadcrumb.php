@@ -26,7 +26,7 @@ class Breadcrumb extends Component
      */
     public function render(): View
     {
-        return view('package::components.breadcrumb', [
+        return view('common::components.breadcrumb', [
             'divider' => $this->divider,
             'items' => $this->items,
         ]);
