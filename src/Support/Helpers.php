@@ -104,4 +104,22 @@ class Helpers
             Arr::pluck(array_reverse(self::parseUrlPath($homeRoute)), 'translation')
         );
     }
+
+    public static function getEmailClientLink(): string
+    {
+        if (config('mail.mailers.' . config('mail.default') . '.host') != 'mailpit') {
+            return '';
+        }
+        // Generate link to Mailpit inbox
+        $link = config('app.url');
+        if (config('app.env') == 'local') {
+            $port = parse_url($link, PHP_URL_PORT);
+            $port = $port + 10000;
+            $link = parse_url($link, PHP_URL_SCHEME) . '://' . parse_url($link, PHP_URL_HOST) . ":$port";
+        } else {
+            $link = preg_replace('/^(https?:\/\/)/', '$1mail.', config('app.url'));
+        }
+
+        return " <a href=\"$link\">" . __('emails.inbox') . '</a>';
+    }
 }

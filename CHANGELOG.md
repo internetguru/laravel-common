@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Add `getEmailClientLink` function to helpers.
 - Add `<x-ig::breadcrumb>` blade component.
 - Merge `internetguru/blade-components` into this package.
 - Add custom Translator class to handle missing translation keys and variables.
