@@ -1,4 +1,7 @@
-<div class="toast-wrapper position-relative" style="z-index: 1050;">
+<div class="toast-wrapper" style="
+    z-index: 1050;
+    --bs-success-rgb: #263238;
+">
     <div class="toast-container">
         @if(isset($errors) && $errors->any())
             @foreach($errors->all() as $error)
