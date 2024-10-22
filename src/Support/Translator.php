@@ -14,6 +14,10 @@ class Translator extends BaseTranslator
     {
         $line = parent::get($key, $replace, $locale, $fallback);
 
+        if (strpos($key, '.') === false) {
+            return $line;
+        }
+
         $this->checkMissingTranslation($key, $line);
         $this->checkMissingVariables($key, $line, $replace);
 
