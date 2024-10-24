@@ -17,28 +17,40 @@ You can install the package via Composer:
 composer require internetguru/laravel-common
 ```
 
-Create aliases for the package classes in the `config/app.php` file:
+## Helper Methods ~ Globals
 
-```php
+> The `Helpers` class provides useful methods for Laravel applications.
+
+Configuration and example usage:
+
+1) Add the following lines to the `config/app.php` file:
+
+    ```php
     use Illuminate\Support\Facades\Facade;
 
     'aliases' => Facade::defaultAliases()->merge([
         'Helpers' => InternetGuru\LaravelCommon\Support\Helpers::class,
     ])->toArray(),
-```
+    ```
 
-## Usage
+2) Use `Helpers` class methods in your application:
 
-### Translation Service Provider
+    ```html
+    <meta name="generator" content="{{ Helpers::getAppInfo() }}"/>
+    ```
 
-> Custom `TranslationServiceProvider` class that adds enhanced logging for missing translations and variables, helping in debugging localization issues.
+For all available methods, see the [Helpers](src/Support/Helpers.php) class.
+
+## Translation Service Provider
+
+>  Enhanced logging for missing translations and variables.
 
 - **Missing Translation Logging**: Logs warnings when a translation key is missing.
 - **Missing Variables Logging**: Logs warnings when variables required in a translation string are not provided.
-- **Debug Mode Checks**: In debug mode, it checks all available locales for missing translations and variables.
+- **All Locale Check**: In debug mode, it checks all available locales for missing translations and variables.
 - **TranslatorException**: Throws an `InternetGuru\LaravelCommon\Exceptions\TranslatorException` exception instead of logging when the app is not in production mode.
 
-Add the following lines to the `config/app.php` file:
+Add the following lines to the `config/app.php` file to use the `TranslationServiceProvider`:
 
 ```php
     use Illuminate\Support\ServiceProvider;
@@ -48,23 +60,11 @@ Add the following lines to the `config/app.php` file:
     ])->toArray(),
 ```
 
-### Helpers
-
-> The `Helpers` class provides useful methods for Laravel applications.
-
-You can use the `Helpers` class methods, such as `getAppInfoArray` and `getAppInfo`, to get information about the application.
-
-```html
-<meta name="generator" content="{{ Helpers::getAppInfo() }}"/>
-```
-
-For more available methods, please refer to the `Helpers` class.
-
-### Casts
-
-#### Carbon Interval
+## Carbon Interval Cast
 
 > Casts a string to a `CarbonInterval` and back.
+
+Example usage:
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -78,31 +78,92 @@ class Task extends Model
 }
 ```
 
-### Blade Components
+## Blade Components
 
-#### Breadcrumb
+> The package provides a set of Blade components for Laravel applications.
 
-> Blade component that renders breadcrumb navigation.
+### Breadcrumb
 
-Key features:
-- Breadcrumb items are generated from the current URL path.
-- Translation support for each breadcrumb item as `navig.{segment}`.
-- Short translation support for each breadcrumb item as `navig.{segment}.short`.
-- Divider character can be customized, default `›`.
-- Skip first N path segments option `skip-first`, default `0`. E.g. to skip the language.
+> The Breadcrumb Blade component renders breadcrumb navigation in your application, helping users understand their location within the app's hierarchy.
 
-Note: The `navig` translation file should be created in the `resources/lang/{lang}` directory.
+Key Features:
+
+ - **Automatic Path Parsing**: Automatically parses the current URL and generates breadcrumb items based on your routes and translations.
+ - **Customizable Divider**: Allows customization of the divider symbol between breadcrumb items.
+ - **Localization Support**: Supports translation of breadcrumb items using Laravel's localization system.
+ - **Short and Long Labels**: Supports both short and long labels for breadcrumb items.
+ - **Segment Skipping**: Optionally skip a specified number of URL segments, useful for nested routes or prefixes.
+
+Usage:
 
 ```html
-<x-ig::breadcrumb divider="|" skip-first="1">
+<!-- By default, this will generate breadcrumb items based on the current URL path. -->
+<x-ig::breadcrumb/>
+<!-- You can change the divider symbol by setting the divider attribute -->
+<x-ig::breadcrumb divider="|" />
+<!-- If you need to skip certain segments of the URL (e.g., an language prefix), use the skipFirst attribute -->
+<x-ig::breadcrumb :skipFirst="1" />
 ```
 
-#### Form components
+Example:
 
-> Blade components that render form elements.
+- Assuming you have the following routes defined:
+    ```php
+    <?php
+    Route::get('/', function () {
+        // ...
+    })->name('home');
 
-Recaptcha is enabled by default. To disable it, set the `recaptcha` attribute to `false`.
-You need to install the `internetguru/laravel-recaptchav3` package for the Recaptcha to work. See the [documentation](https://github.com/internetguru/laravel-recaptchav3) for more information.
+    Route::get('/products', function () {
+        // ...
+    })->name('products.index');
+
+    Route::get('/products/{product}', function ($product) {
+        // ...
+    })->name('products.show');
+    ```
+- And your translation files (resources/lang/en/navig.php) include:
+    ```php
+    <?php
+    return [
+        'home' => 'Long Application Name|LAN',
+        'products.index' => 'All Products|Products',
+        'products.show' => 'Product Details',
+    ];
+    ```
+- When you visit the `/products/123` URL, the breadcrumb will render as follows:
+    ```
+    LAN > Products > Product Details
+    ```
+- When you visit the `/products` URL, the long label will be used for the `products.index` route:
+    ```
+    LAN > All Products
+    ```
+- When you visit the `/` URL, the long label will be used for the `home` route:
+    ```
+    Long Application Name
+    ```
+
+### System Messages
+
+> The `messages` Blade component renders system success messages and errros messages.
+
+Include the component in your Blade template where you want the system messages to appear:
+
+```html
+<x-ig::system-messages />
+```
+
+### Form Inputs
+
+> The package provides a set of Blade components for form inputs.
+
+Notes:
+
+- Google Recaptcha V3 is enabled by default. To disable it, set the `recaptcha` attribute to `false`.
+- You need to install the [internetguru/laravel-recaptchav3](https://github.com/internetguru/laravel-recaptchav3) package for the Recaptcha to work.
+
+Complete example:
 
 ```html
 <x-ig::form action="route('test')" :recaptcha="false"/>
