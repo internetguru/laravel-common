@@ -130,15 +130,15 @@ Example:
         'products.show' => 'Product Details',
     ];
     ```
-- When you visit the `/products/123` URL, the breadcrumb will render as follows:
+- When you visit the `/products/123` URL, the short translation will be used for the `home` and `products.index` routes.
     ```
     LAN > Products > Product Details
     ```
-- When you visit the `/products` URL, the long label will be used for the `products.index` route:
+- When you visit the `/products` URL, the short label will be used for the `home` route.
     ```
     LAN > All Products
     ```
-- When you visit the `/` URL, the long label will be used for the `home` route:
+- When you visit the `/` URL, the long label will be used for the `home` route.
     ```
     Long Application Name
     ```
