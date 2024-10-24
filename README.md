@@ -2,12 +2,11 @@
 
 > This package provides handy utilities for Laravel applications.
 
-| branch  | status |
+| Branch  | Status |
 | :------------- | :------------- |
-| main | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=main) |
-| staging | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=staging) |
-| dev | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=dev) |
-
+| Main | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=main) |
+| Staging | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=staging) |
+| Dev | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=dev) |
 
 ## Installation
 
@@ -23,7 +22,7 @@ composer require internetguru/laravel-common
 
 Configuration and example usage:
 
-1) Add the following lines to the `config/app.php` file:
+1. Add the following lines to the `config/app.php` file:
 
     ```php
     use Illuminate\Support\Facades\Facade;
@@ -33,7 +32,7 @@ Configuration and example usage:
     ])->toArray(),
     ```
 
-2) Use `Helpers` class methods in your application:
+2. Use `Helpers` class methods in your application:
 
     ```html
     <meta name="generator" content="{{ Helpers::getAppInfo() }}"/>
@@ -43,7 +42,7 @@ For all available methods, see the [Helpers](src/Support/Helpers.php) class.
 
 ## Translation Service Provider
 
->  Enhanced logging for missing translations and variables.
+> Enhanced logging for missing translations and variables.
 
 - **Missing Translation Logging**: Logs warnings when a translation key is missing.
 - **Missing Variables Logging**: Logs warnings when variables required in a translation string are not provided.
@@ -53,11 +52,11 @@ For all available methods, see the [Helpers](src/Support/Helpers.php) class.
 Add the following lines to the `config/app.php` file to use the `TranslationServiceProvider`:
 
 ```php
-    use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
-    'providers' => ServiceProvider::defaultProviders()->replace([
-        Illuminate\Translation\TranslationServiceProvider::class => InternetGuru\LaravelCommon\TranslationServiceProvider::class,
-    ])->toArray(),
+'providers' => ServiceProvider::defaultProviders()->replace([
+    Illuminate\Translation\TranslationServiceProvider::class => InternetGuru\LaravelCommon\TranslationServiceProvider::class,
+])->toArray(),
 ```
 
 ## Carbon Interval Cast
@@ -88,11 +87,11 @@ class Task extends Model
 
 Key Features:
 
- - **Automatic Path Parsing**: Automatically parses the current URL and generates breadcrumb items based on your routes and translations.
- - **Customizable Divider**: Allows customization of the divider symbol between breadcrumb items.
- - **Localization Support**: Supports translation of breadcrumb items using Laravel's localization system.
- - **Short and Long Labels**: Supports both short and long labels for breadcrumb items.
- - **Segment Skipping**: Optionally skip a specified number of URL segments, useful for nested routes or prefixes.
+- **Automatic Path Parsing**: Automatically parses the current URL and generates breadcrumb items based on your routes and translations.
+- **Customizable Divider**: Allows customization of the divider symbol between breadcrumb items.
+- **Localization Support**: Supports translation of breadcrumb items using Laravel's localization system.
+- **Short and Long Labels**: Supports both short and long labels for breadcrumb items.
+- **Segment Skipping**: Optionally skip a specified number of URL segments, useful for nested routes or prefixes.
 
 Usage:
 
@@ -101,7 +100,7 @@ Usage:
 <x-ig::breadcrumb/>
 <!-- You can change the divider symbol by setting the divider attribute -->
 <x-ig::breadcrumb divider="|" />
-<!-- If you need to skip certain segments of the URL (e.g., an language prefix), use the skipFirst attribute -->
+<!-- If you need to skip certain segments of the URL (e.g., a language prefix), use the skipFirst attribute -->
 <x-ig::breadcrumb :skipFirst="1" />
 ```
 
@@ -146,7 +145,7 @@ Example:
 
 ### System Messages
 
-> The `messages` Blade component renders system success messages and errros messages.
+> The `messages` Blade component renders system success messages and error messages.
 
 Include the component in your Blade template where you want the system messages to appear:
 
