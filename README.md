@@ -42,14 +42,13 @@ For all available methods, see the [Helpers](src/Support/Helpers.php) class.
 
 ## Translation Service Provider
 
-> Enhanced logging for missing translations and variables.
+> Logs missing translations and translation variables in the current language. Throws an exception when not in production environment. In debug mode, checks all available languages.
 
-- **Missing Translation Logging**: Logs warnings when a translation key is missing.
-- **Missing Variables Logging**: Logs warnings when variables required in a translation string are not provided.
-- **All Locale Check**: In debug mode, it checks all available locales for missing translations and variables.
-- **TranslatorException**: Throws an `InternetGuru\LaravelCommon\Exceptions\TranslatorException` exception instead of logging when the app is not in production mode.
+- **Logs warning** when a translation key is missing or a variable required in a translation string is not provided.
+- **Checks all languages** in debug mode from all available locales.
+- **Throws exception** `InternetGuru\LaravelCommon\Exceptions\TranslatorException` instead of logging when the app is not in production mode.
 
-Add the following lines to the `config/app.php` file to use the `TranslationServiceProvider`:
+To use the provider, add the following lines to the `config/app.php` file:
 
 ```php
 use Illuminate\Support\ServiceProvider;
@@ -77,21 +76,15 @@ class Task extends Model
 }
 ```
 
-## Blade Components
+## Breadcrumb Blade Component
 
-> The package provides a set of Blade components for Laravel applications.
-
-### Breadcrumb
-
-> The Breadcrumb Blade component renders breadcrumb navigation in your application, helping users understand their location within the app's hierarchy.
+> Renders breadcrumb navigation based on routes matching the current URL segments. Supports translations with short and long labels, custom divider, and segment skipping.
 
 Key Features:
 
-- **Automatic Path Parsing**: Automatically parses the current URL and generates breadcrumb items based on your routes and translations.
-- **Customizable Divider**: Allows customization of the divider symbol between breadcrumb items.
-- **Localization Support**: Supports translation of breadcrumb items using Laravel's localization system.
-- **Short and Long Labels**: Supports both short and long labels for breadcrumb items.
-- **Segment Skipping**: Optionally skip a specified number of URL segments, useful for nested routes or prefixes.
+- **Customizable Divider** – Allows a custom divider symbol between breadcrumb items.
+- **Short and Long Labels** – Using `trans_choice` if available shows n-th right translation based on the item positon.
+- **Segment Skipping** – Skips a specified number of URL segments. Useful for nested routes or routes with prefixes (e.g. language).
 
 Usage:
 
@@ -143,9 +136,9 @@ Example:
     Long Application Name
     ```
 
-### System Messages
+## System Messages Blade Component
 
-> The `messages` Blade component renders system success messages and error messages.
+> Renders system temporary success messages and persistent error messages in different colors, with a close button.
 
 Include the component in your Blade template where you want the system messages to appear:
 
@@ -153,13 +146,13 @@ Include the component in your Blade template where you want the system messages 
 <x-ig::system-messages />
 ```
 
-### Form Inputs
+## Form Blade Components
 
-> The package provides a set of Blade components for form inputs.
+> The package provides a set of Blade components for form and various inputs.
 
 Notes:
 
-- Google Recaptcha V3 is enabled by default. To disable it, set the `recaptcha` attribute to `false`.
+- The [Google Recaptcha V3](https://developers.google.com/recaptcha/docs/v3) service is enabled by default. To disable it, set the `recaptcha` attribute to `false`.
 - You need to install the [internetguru/laravel-recaptchav3](https://github.com/internetguru/laravel-recaptchav3) package for the Recaptcha to work.
 
 Complete example:
@@ -189,10 +182,6 @@ To run the tests, use the following command:
 ```
 
 This package uses [Orchestra Testbench](https://github.com/orchestral/testbench) to bootstrap a minimal Laravel environment for testing.
-
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## License
 
