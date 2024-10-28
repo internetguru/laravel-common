@@ -2,11 +2,11 @@
 
 > This package provides handy utilities for Laravel applications.
 
-| Branch  | Status |
-| :------------- | :------------- |
-| Main | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=main) |
-| Staging | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=staging) |
-| Dev | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=dev) |
+| Branch  | Status | Code Coverage |
+| :------------- | :------------- | :------------- |
+| Main | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=main) | ![coverage](https://raw.githubusercontent.com/internetguru/laravel-common/refs/heads/badges/main-coverage.svg) |
+| Staging | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=staging) | ![coverage](https://raw.githubusercontent.com/internetguru/laravel-common/refs/heads/badges/main-coverage.svg) |
+| Dev | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=dev) | ![coverage](https://raw.githubusercontent.com/internetguru/laravel-common/refs/heads/badges/main-coverage.svg) |
 
 ## Installation
 
@@ -14,6 +14,21 @@ You can install the package via Composer:
 
 ```bash
 composer require internetguru/laravel-common
+```
+
+## Run Tests Locally
+
+In Visual Studio Code you can simpy use `Ctrl+Shift+B` to run the tests.
+
+To run the tests manually, you can use the following commands:
+
+```sh
+# Build the Docker image
+docker build -t laravel-common .
+# Run the tests
+docker run --rm laravel-common
+# Both steps combined
+docker build -t laravel-common . && docker run --rm laravel-common
 ```
 
 ## Helper Methods ~ Globals
@@ -172,16 +187,6 @@ Complete example:
     <x-ig::submit>Submit Form</x-ig::submit>
 </x-ig::form>
 ```
-
-## Testing
-
-To run the tests, use the following command:
-
-```bash
-./vendor/bin/phpunit
-```
-
-This package uses [Orchestra Testbench](https://github.com/orchestral/testbench) to bootstrap a minimal Laravel environment for testing.
 
 ## License
 
