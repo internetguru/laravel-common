@@ -5,7 +5,10 @@
         "psr-4": {
             "InternetGuru\\LaravelCommon\\": "src/",
             "Tests\\": "tests/"
-        }
+        },
+        "files": [
+            "src/Support/macros.php"
+        ]
     },
     "authors": [
         {
@@ -13,6 +16,9 @@
             "email": "pavel.petrzela@internetguru.cz"
         }
     ],
+    "require": {
+        "laravel/framework": "^10.0 || ^11.0"
+    },
     "require-dev": {
         "laravel/pint": "^1.17",
         "orchestra/testbench": "^9.5",

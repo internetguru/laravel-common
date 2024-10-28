@@ -5,9 +5,6 @@ namespace InternetGuru\LaravelCommon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-use function InternetGuru\LaravelCommon\Support\initCarbonMacros;
-use function InternetGuru\LaravelCommon\Support\initNumberMacros;
-
 class CommonServiceProvider extends ServiceProvider
 {
     public function register()

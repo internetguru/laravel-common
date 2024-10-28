@@ -1,9 +1,7 @@
 <?php
 
-namespace InternetGuru\LaravelCommon\Support;
-
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Number;
+use Illuminate\Support\Number;
 use NumberFormatter;
 
 function initNumberMacros()
