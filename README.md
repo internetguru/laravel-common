@@ -5,8 +5,8 @@
 | Branch  | Status | Code Coverage |
 | :------------- | :------------- | :------------- |
 | Main | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=main) | ![coverage](https://raw.githubusercontent.com/internetguru/laravel-common/refs/heads/badges/main-coverage.svg) |
-| Staging | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=staging) | ![coverage](https://raw.githubusercontent.com/internetguru/laravel-common/refs/heads/badges/main-coverage.svg) |
-| Dev | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=dev) | ![coverage](https://raw.githubusercontent.com/internetguru/laravel-common/refs/heads/badges/main-coverage.svg) |
+| Staging | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=staging) | ![coverage](https://raw.githubusercontent.com/internetguru/laravel-common/refs/heads/badges/staging-coverage.svg) |
+| Dev | ![tests](https://github.com/internetguru/laravel-common/actions/workflows/phpunit.yml/badge.svg?branch=dev) | ![coverage](https://raw.githubusercontent.com/internetguru/laravel-common/refs/heads/badges/dev-coverage.svg) |
 
 ## Installation
 
