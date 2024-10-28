@@ -3,6 +3,7 @@
 namespace Tests\Unit\Support;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use InternetGuru\LaravelCommon\Support\Helpers;
 use Mockery;
@@ -13,9 +14,8 @@ class HelpersTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->app['router']->get('/', function () {
-            return 'Home';
-        })->name('home');
+        // Define routes for testing
+        Route::get('/', function () {})->name('home');
     }
 
     protected function tearDown(): void
