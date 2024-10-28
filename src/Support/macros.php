@@ -2,7 +2,6 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Number;
-use NumberFormatter;
 
 function initNumberMacros()
 {
