@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Add Number currency and Carbon macros.
 - Generate code-coverage badges.
 - Add Dockerfile for local testing.
 - Add `getEmailClientLink` function to helpers.

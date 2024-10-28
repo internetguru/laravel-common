@@ -55,6 +55,35 @@ Configuration and example usage:
 
 For all available methods, see the [Helpers](src/Support/Helpers.php) class.
 
+## Helper Macros
+
+> Package registers a set of useful macros for Carbon and Numbers. See the [Macros](src/Support/Macros.php) class for all available macros.
+
+Example usage:
+
+```php
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Number;
+
+Number::useCurrency('USD'); // Set the default currency
+echo Number::currencyForHumans(1234);
+// Output (en_US locale): $1,234
+echo Number::currencyForHumans();
+// Output (en_US locale): $
+echo Number::currencyForHumans(1234.567, in: 'EUR', precision: 2);
+// Output (en_US locale): €1,234.57
+app()->setLocale('cs_CZ'); // Set the locale to Czech
+echo Number::currencyForHumans(1234.567, in: 'EUR', precision: 2);
+// Output (cs_CZ locale): 1 234,57 €
+
+$date = Carbon::parse('2023-12-31');
+echo $date->dateForHumans();
+// Output (en_US locale): 12/31/2023
+$dateTime = Carbon::parse('2023-12-31 18:30:00');
+echo $dateTime->dateTimeForHumans();
+// Output (en_US locale): 12/31/2023 6:30 PM
+```
+
 ## Translation Service Provider
 
 > Logs missing translations and translation variables in the current language. Throws an exception when not in production environment. In debug mode, checks all available languages.
