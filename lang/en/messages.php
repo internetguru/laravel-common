@@ -2,6 +2,6 @@
 
 return [
 
-    'inbox' => 'Go to inbox.',
+    'inbox' => 'Inbox',
 
 ];

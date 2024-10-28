@@ -2,6 +2,6 @@
 
 return [
 
-    'inbox' => 'Přejít do schránky.',
+    'inbox' => 'Schránka',
 
 ];
