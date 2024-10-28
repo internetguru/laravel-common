@@ -57,7 +57,7 @@ For all available methods, see the [Helpers](src/Support/Helpers.php) class.
 
 ## Helper Macros
 
-> Package registers a set of useful macros for Carbon and Numbers. See the [Macros](src/Support/Macros.php) class for all available macros.
+> Package registers a set of useful macros for Carbon and Numbers. See the [macros.php](src/Support/macros.php) file for the complete list.
 
 Example usage:
 
@@ -83,6 +83,44 @@ $dateTime = Carbon::parse('2023-12-31 18:30:00');
 echo $dateTime->dateTimeForHumans();
 // Output (en_US locale): 12/31/2023 6:30 PM
 ```
+
+## `CheckPostItemNames` Middleware
+
+> Middleware that checks for invalid POST parameter names containing dots `"."`. This middleware helps prevent issues with Laravel's input handling. Throws an exception in non-production environments and logs a warning in production.
+
+To use the middleware for the `web` group, add the following lines to the `bootstrap/app.php` file:
+
+   ```php
+   $middleware->group('web', [
+         // ...
+         \InternetGuru\LaravelCommon\Middleware\CheckPostItemNames::class,
+    ]);
+   ```
+
+   Alternatively, you can assign the middleware to specific routes or controllers as needed.
+
+Example:
+
+- When a POST request contains parameter names with dots:
+
+    ```http
+    POST /submit-form
+    Content-Type: application/x-www-form-urlencoded
+
+    username=johndoe&user.email=johndoe@example.com
+    ```
+
+- **In Non-Production Environments**: The middleware will throw an exception with the message:
+
+  ```
+  Invalid POST parameter names containing dots: user.email
+  ```
+
+- **In Production Environment**: The middleware will log a warning:
+
+  ```
+  [WARNING] Invalid POST parameter names containing dots: user.email
+  ```
 
 ## Translation Service Provider
 
