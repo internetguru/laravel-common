@@ -1,0 +1,12 @@
+.card {
+    border: 0;
+    padding: $card-spacer-y $card-spacer-x;
+    width: 100%;
+    max-width: $card-max-width;
+
+    @include media-1 {
+        box-shadow: $box-shadow;
+        background-color: $card-bg;
+        padding: $card-spacer-y * 2 $card-spacer-x * 2;
+    }
+}
