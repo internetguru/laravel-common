@@ -8,6 +8,6 @@ class Message extends Component
 {
     public function render()
     {
-        return view('common::components.message');
+        return view('ig-common::components.message');
     }
 }

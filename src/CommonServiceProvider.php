@@ -14,10 +14,14 @@ class CommonServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'common');
-        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'common');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'ig-common');
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'ig-common');
         Blade::componentNamespace('InternetGuru\LaravelCommon\View\Components', 'ig');
         $this->registerMacros();
+
+        $this->publishes([
+            __DIR__ . '/../resources/sass' => resource_path('sass'),
+        ], 'ig-common:sass');
     }
 
     private function registerMacros()

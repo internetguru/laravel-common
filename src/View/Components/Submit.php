@@ -8,6 +8,6 @@ class Submit extends Component
 {
     public function render()
     {
-        return view('common::components.forms.submit');
+        return view('ig-common::components.forms.submit');
     }
 }

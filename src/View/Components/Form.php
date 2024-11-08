@@ -8,6 +8,6 @@ class Form extends Component
 {
     public function render()
     {
-        return view('common::components.forms.form');
+        return view('ig-common::components.forms.form');
     }
 }

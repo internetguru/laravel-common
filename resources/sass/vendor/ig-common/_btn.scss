@@ -1,0 +1,27 @@
+@mixin btn-shadow() {
+    box-shadow: $box-shadow-sm;
+
+    &:hover,
+    &:focus {
+        box-shadow: $box-shadow;
+    }
+}
+@mixin btn-ico() {
+    svg {
+        padding-right: $spacer * 0.5;
+        font-size: 1.5em;
+        vertical-align: -0.25em;
+    }
+}
+
+.btn {
+    font-weight: 500;
+
+    &-shadow {
+        @include btn-shadow;
+    }
+
+    &-ico {
+        @include btn-ico;
+    }
+}

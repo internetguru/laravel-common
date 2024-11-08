@@ -26,7 +26,7 @@ class Breadcrumb extends Component
      */
     public function render(): View
     {
-        return view('common::components.breadcrumb', [
+        return view('ig-common::components.breadcrumb', [
             'divider' => $this->divider,
             'items' => $this->items,
         ]);

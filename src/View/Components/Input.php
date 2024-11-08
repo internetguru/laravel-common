@@ -8,6 +8,6 @@ class Input extends Component
 {
     public function render()
     {
-        return view('common::components.forms.input');
+        return view('ig-common::components.forms.input');
     }
 }
