@@ -1,0 +1,27 @@
+@include link-color($link-color);
+a {
+    @include transition;
+    text-decoration: none;
+    padding-bottom: 0;
+    color: rgba(var(--link-color), 1);
+
+    &[href] {
+        border-bottom: 1px solid rgba(var(--link-color), 0.5);
+    }
+
+    &[href="#"] {
+        border-bottom: none;
+    }
+
+    &.link-ico {
+        border-bottom: none;
+
+        svg {
+            vertical-align: middle;
+        }
+    }
+}
+
+.text-danger {
+    @include link-color($red);
+}
