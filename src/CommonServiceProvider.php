@@ -18,10 +18,6 @@ class CommonServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . '/../lang', 'ig-common');
         Blade::componentNamespace('InternetGuru\LaravelCommon\View\Components', 'ig');
         $this->registerMacros();
-
-        $this->publishes([
-            __DIR__ . '/../resources/sass' => resource_path('sass'),
-        ], 'ig-common:sass');
     }
 
     private function registerMacros()
