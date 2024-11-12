@@ -6,3 +6,7 @@ main {
 dd {
     margin-left: $spacer;
 }
+
+.form-control:focus {
+    box-shadow: inset 0 0 0 0.1rem rgba(13, 110, 253, 0.25);
+}
