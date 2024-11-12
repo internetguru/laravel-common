@@ -20,6 +20,10 @@ a {
             vertical-align: middle;
         }
     }
+
+    &.disabled {
+        color: rgba(var(--link-color), 0.5);
+    }
 }
 
 .text-danger {
