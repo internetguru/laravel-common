@@ -14,5 +14,9 @@
         border-bottom: none;
         display: inline-block;
         padding: 0.1em 0.2em;
+
+        &[href] {
+            border-bottom: none;
+        }
     }
 }
