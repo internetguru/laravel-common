@@ -8,8 +8,8 @@
 }
 @mixin btn-ico() {
     svg {
-        padding-right: $spacer * 0.5;
-        font-size: 1.5em;
+        padding-right: $spacer * 0.2;
+        font-size: 1.4em;
         vertical-align: -0.25em;
     }
 }
