@@ -47,12 +47,12 @@ class Translator extends BaseTranslator
 
     private function checkMissingTranslation($key, $line, $locale = null)
     {
-        if ($line !== $key) {
+        if ($line && $line !== $key) {
             return;
         }
         $message = $locale
-            ? "Missing translation for locale '{$locale}': {$key}"
-            : "Missing translation: {$key}";
+            ? "Missing or empty translation for locale '{$locale}': {$key}"
+            : "Missing or empty translation: {$key}";
         $this->log($message);
     }
 
