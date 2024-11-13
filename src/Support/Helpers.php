@@ -3,6 +3,7 @@
 namespace InternetGuru\LaravelCommon\Support;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -81,8 +82,20 @@ class Helpers
         foreach ($urlParts as $index => $segment) {
             $currentPath = $currentPath == '/' ? $currentPath . $segment : $currentPath . '/' . $segment;
             try {
-                $routeName = Route::getRoutes()->match(request()->create($currentPath))->getName();
+                $route = Route::getRoutes()->match(request()->create($currentPath));
+                $routeName = $route->getName();
                 $uri = $currentPath;
+                foreach ($route->middleware() as $item) {
+                    if (strpos($item, 'can:') === 0) {
+                        [$permission, $model] = explode(',', substr($item, 4));
+                        $parameters = $route->parameters();
+                        $modelInstance = array_key_exists($model, $parameters) ? $parameters[$model] : app($model);
+                        if (! Gate::allows($permission, $modelInstance)) {
+                            // If user does not have permission, return the route name and empty URI
+                            $uri = '';
+                        }
+                    }
+                }
             } catch (NotFoundHttpException $e) {
                 $routeName = $segment;
                 $uri = '';
