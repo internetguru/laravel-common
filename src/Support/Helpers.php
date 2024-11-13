@@ -69,9 +69,9 @@ class Helpers
         // Add root segment
         array_unshift($urlParts, '');
 
-        // If error page, return empty array
+        // If error page, return error
         if (isset(app('view')->getSections()['code']) && isset(app('view')->getSections()['message'])) {
-            $urlParts = [''];
+            $urlParts = ['', 'error'];
         }
 
         $currentPath = '';
