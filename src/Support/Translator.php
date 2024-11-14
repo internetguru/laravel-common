@@ -50,6 +50,10 @@ class Translator extends BaseTranslator
         if ($line && $line !== $key) {
             return;
         }
+        // do not check $key tarting with validation.custom
+        if (strpos($key, 'validation.custom') === 0) {
+            return;
+        }
         $message = $locale
             ? "Missing or empty translation for locale '{$locale}': {$key}"
             : "Missing or empty translation: {$key}";
