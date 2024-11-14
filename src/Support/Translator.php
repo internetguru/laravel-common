@@ -50,8 +50,8 @@ class Translator extends BaseTranslator
         if ($line && $line !== $key) {
             return;
         }
-        // do not check $key starting with validation.custom
-        if (strpos($key, 'validation.custom') === 0) {
+        // do not check $key starting with validation.
+        if (strpos($key, 'validation.') === 0) {
             return;
         }
         $message = $locale
