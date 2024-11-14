@@ -50,7 +50,7 @@ class Translator extends BaseTranslator
         if ($line && $line !== $key) {
             return;
         }
-        // do not check $key tarting with validation.custom
+        // do not check $key starting with validation.custom
         if (strpos($key, 'validation.custom') === 0) {
             return;
         }
@@ -63,6 +63,10 @@ class Translator extends BaseTranslator
     private function checkMissingVariables($key, $line, $replace, $locale = null)
     {
         if (! is_string($line)) {
+            return;
+        }
+        // do not check $key starting with validation.
+        if (strpos($key, 'validation.') === 0) {
             return;
         }
         preg_match_all('/(?<!:):[a-zA-Z_]\w*/', $line, $matches);
