@@ -17,7 +17,7 @@ class PreventDuplicateSubmissions
             if (cache()->has($requestKey)) {
                 // Duplicate request detected
                 return back()->withInput()->withErrors([
-                    'error' => 'Duplicate submission detected. Please wait before resubmitting.',
+                    'error' => __('ig-common::messages.duplicate_submission'),
                 ]);
             }
 
