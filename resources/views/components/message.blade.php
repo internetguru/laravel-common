@@ -1,6 +1,7 @@
 @props([
     'type',
     'message',
+    'class' => '',
 ])
 
 <div class="toast text-white bg-{{ $type }} m-3 border-0 {{ $class ?? '' }}" role="alert" aria-live="assertive" aria-atomic="true"
