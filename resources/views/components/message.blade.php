@@ -3,7 +3,7 @@
     'message',
 ])
 
-<div class="toast text-white bg-{{ $type }} m-3 border-0" role="alert" aria-live="assertive" aria-atomic="true"
+<div class="toast text-white bg-{{ $type }} m-3 border-0 {{ $class ?? '' }}" role="alert" aria-live="assertive" aria-atomic="true"
     data-bs-autohide="{{ $type == 'success' ? 'true' : 'false' }}" style="
         padding: 0.3em 0.8em;
         border-radius: 0.2em;
