@@ -9,7 +9,7 @@ class PreventDuplicateSubmissions
 {
     public function handle(Request $request, Closure $next): mixed
     {
-        if ($request->isMethod('post')) {
+        if ($request->isMethod('post') && ! str_contains($request->path(), 'livewire/update')) {
             // Generate a unique key based on the request ignoring the g-recaptcha-response field
             $requestKey = sha1($request->ip() . '|' . $request->path() . '|' . serialize($request->except('g-recaptcha-response')));
 
