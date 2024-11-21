@@ -17,34 +17,34 @@
     @include button-variant(
         $white,
         $white,
-        var(--bs-primary),
+        var($blue),
         darken($white, 10%),
         darken($white, 10%),
-        var(--bs-primary)
+        var($blue)
     );
 
     &.btn-primary {
-        color: var(--bs-primary);
+        color: var($blue);
     }
 
     &.btn-secondary {
-        color: var(--bs-secondary);
+        color: var($gray-600);
     }
 
     &.btn-success {
-        color: var(--bs-success);
+        color: var($green);
     }
 
     &.btn-danger {
-        color: var(--bs-danger);
+        color: var($red);
     }
 
     &.btn-warning {
-        color: var(--bs-warning);
+        color: var($yellow);
     }
 
     &.btn-info {
-        color: var(--bs-info);
+        color: var($cyan);
     }
 }
 
