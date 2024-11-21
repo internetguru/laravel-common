@@ -13,6 +13,40 @@
         vertical-align: -0.25em;
     }
 }
+@mixin btn-white() {
+    @include button-variant(
+        $white,
+        $white,
+        var(--bs-primary),
+        darken($white, 10%),
+        darken($white, 10%),
+        var(--bs-primary)
+    );
+
+    &.btn-primary {
+        color: var(--bs-primary);
+    }
+
+    &.btn-secondary {
+        color: var(--bs-secondary);
+    }
+
+    &.btn-success {
+        color: var(--bs-success);
+    }
+
+    &.btn-danger {
+        color: var(--bs-danger);
+    }
+
+    &.btn-warning {
+        color: var(--bs-warning);
+    }
+
+    &.btn-info {
+        color: var(--bs-info);
+    }
+}
 
 .btn {
     font-weight: 500;
@@ -23,5 +57,9 @@
 
     &-ico {
         @include btn-ico;
+    }
+
+    &-white {
+        @include btn-white;
     }
 }
