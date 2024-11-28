@@ -45,6 +45,32 @@ class Translator extends BaseTranslator
         }
     }
 
+    /**
+     * Rewrite of the original method to allow for logging missing translations
+     */
+    public function choice($key, $number, array $replace = [], $locale = null)
+    {
+        // Use parent::get to ignore missing translation errors at this point
+        $line = $this->get(
+            $key, $replace, $locale = $this->localeForChoice($key, $locale)
+        );
+
+        // If the given "number" is actually an array or countable we will simply count the
+        // number of elements in an instance. This allows developers to pass an array of
+        // items without having to count it on their end first which gives bad syntax.
+        if (is_countable($number)) {
+            $number = count($number);
+        }
+
+        if (! isset($replace['count'])) {
+            $replace['count'] = $number;
+        }
+
+        return $this->makeReplacements(
+            $this->getSelector()->choose($line, $number, $locale), $replace
+        );
+    }
+
     private function checkMissingTranslation($key, $line, $locale = null)
     {
         if ($line && $line !== $key) {
@@ -73,7 +99,14 @@ class Translator extends BaseTranslator
         $placeholders = $matches[0] ?? [];
 
         $providedVariables = array_map(fn ($k) => ':' . $k, array_keys($replace));
-        $missingVariables = array_diff($placeholders, $providedVariables);
+        // allow to use $provided varaibles multiple times
+        $missingVariables = [];
+        foreach ($placeholders as $placeholder) {
+            $key = array_search($placeholder, $providedVariables);
+            if ($key === false) {
+                $missingVariables[] = $placeholder;
+            }
+        }
 
         if ($missingVariables) {
             $message = $locale
