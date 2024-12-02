@@ -23,5 +23,6 @@ abstract class TestCase extends BaseTestCase
     protected function getEnvironmentSetUp($app)
     {
         // Set up environment configuration if necessary
+        $app['config']->set('view.compiled', __DIR__ . '/cache');
     }
 }
