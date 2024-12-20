@@ -63,7 +63,7 @@
     @endif
     @if ($type !== 'hidden')
         @if ($type !== 'checkbox')
-            <label for="{{ $name }}">{{ $slot }}@if($type == 'select')▼@endif</label>
+            <label for="{{ $name }}">{{ $slot }}@if($type == 'select')<span>▼</span>@endif</label>
         @endif
         @error($name)
             <span class="invalid-feedback" role="alert">
