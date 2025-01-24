@@ -14,40 +14,71 @@
     }
 }
 @mixin btn-white() {
-    $btnColor: $blue;
-
     &.btn-primary {
-        $btnColor: $blue;
+        @include button-variant(
+            $background: $white,
+            $border: $white,
+            $color: $blue,
+            $hover-background: $white,
+            $hover-border: $white,
+            $hover-color: $blue,
+        );
     }
 
     &.btn-secondary {
-        $btnColor: $gray-600;
+        @include button-variant(
+            $background: $white,
+            $border: $white,
+            $color: $gray-600,
+            $hover-background: $white,
+            $hover-border: $white,
+            $hover-color: $gray-600,
+        );
     }
 
     &.btn-success {
-        $btnColor: $green;
+        @include button-variant(
+            $background: $white,
+            $border: $white,
+            $color: $green,
+            $hover-background: $white,
+            $hover-border: $white,
+            $hover-color: $green,
+        );
     }
 
     &.btn-danger {
-        $btnColor: $red;
+        @include button-variant(
+            $background: $white,
+            $border: $white,
+            $color: $red,
+            $hover-background: $white,
+            $hover-border: $white,
+            $hover-color: $red,
+        );
     }
 
     &.btn-warning {
-        $btnColor: $yellow;
+        @include button-variant(
+            $background: $white,
+            $border: $white,
+            $color: $yellow,
+            $hover-background: $white,
+            $hover-border: $white,
+            $hover-color: $yellow,
+        );
     }
 
     &.btn-info {
-        $btnColor: $cyan;
+        @include button-variant(
+            $background: $white,
+            $border: $white,
+            $color: $cyan,
+            $hover-background: $white,
+            $hover-border: $white,
+            $hover-color: $cyan,
+        );
     }
-
-    @include button-variant(
-        $background: $white,
-        $border: $white,
-        $color: $btnColor,
-        $hover-background: $white,
-        $hover-border: $white,
-        $hover-color: $btnColor,
-    );
 }
 
 .btn {
