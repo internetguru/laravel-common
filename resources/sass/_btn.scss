@@ -14,35 +14,38 @@
     }
 }
 @mixin btn-white() {
-    @include button-variant(
-        $white,
-        $white,
-        $blue,
-    );
+    $btnColor: $blue;
 
     &.btn-primary {
-        color: $blue;
+        $btnColor: $blue;
     }
 
     &.btn-secondary {
-        color: $gray-600;
+        $btnColor: $gray-600;
     }
 
     &.btn-success {
-        color: $green;
+        $btnColor: $green;
     }
 
     &.btn-danger {
-        color: $red;
+        $btnColor: $red;
     }
 
     &.btn-warning {
-        color: $yellow;
+        $btnColor: $yellow;
     }
 
     &.btn-info {
-        color: $cyan;
+        $btnColor: $cyan;
     }
+
+    @include button-variant(
+        $background: $white,
+        $border: $white,
+        $color: $btnColor,
+        $hover-color: $blue,
+    );
 }
 
 .btn {
