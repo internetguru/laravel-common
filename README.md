@@ -262,7 +262,7 @@ Complete example:
 Include the component in your Blade template where you want the language switcher to appear:
 
 ```html
-<x-ig::language-switch />
+<x-ig::lang-switch />
 ```
 
 ## License
