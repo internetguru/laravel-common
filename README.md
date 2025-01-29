@@ -255,6 +255,16 @@ Complete example:
 </x-ig::form>
 ```
 
+## Language Switch Blade Component
+
+> Renders a language switcher as a list of links with the current language highlighted.
+
+Include the component in your Blade template where you want the language switcher to appear:
+
+```html
+<x-ig::language-switch />
+```
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
