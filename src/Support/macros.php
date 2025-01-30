@@ -12,7 +12,7 @@ function initNumberMacros()
         // return CZK $input
         $inputWithNumber = sprintf($inputTemplate, $number);
 
-        return preg_replace('/\d+/', $inputWithNumber, $formattedNumber);
+        return preg_replace('/value="[^"]+"/', "value=\"$formattedNumber\"", $inputWithNumber);
     });
 
     // Return number formatted to currency
