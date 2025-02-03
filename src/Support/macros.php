@@ -8,7 +8,7 @@ function initNumberMacros()
     // Return number formatted to currency with input
     Number::macro('formatCurrencyToInput', function (mixed $number, ?string $in = null, int $precision = 0, string $inputTemplate = '%s'): string {
         $formattedNumber = Number::currencyForHumans($number, $in ?? Number::$currency, $precision);
-        $formattedNumber = preg_replace('/\xc2\xa0/', '', $formattedNumber);
+        $formattedNumber = preg_replace('/\xc2\xa0|[, .]/', '', $formattedNumber);
 
         // return $input Kč
         // return CZK $input
