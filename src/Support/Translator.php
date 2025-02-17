@@ -80,6 +80,10 @@ class Translator extends BaseTranslator
         if (strpos($key, 'validation.') === 0) {
             return;
         }
+        // do not check vendor translations
+        if (strpos($key, '::') !== false) {
+            return;
+        }
         $message = $locale
             ? "Missing or empty translation for locale '{$locale}': {$key}"
             : "Missing or empty translation: {$key}";
