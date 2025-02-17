@@ -143,6 +143,9 @@ class Translator extends BaseTranslator
             }
         }
 
+        // exclude vendor translations
+        $locales = array_filter($locales, fn ($locale) => strpos($locale, 'vendor') === false);
+
         return $locales;
     }
 }
