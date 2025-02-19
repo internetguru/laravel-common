@@ -1,0 +1,22 @@
+.messages-wrapper {
+    padding: 0 !important;
+}
+
+.toast-container {
+    position: fixed;
+    top: unset;
+    bottom: 1.5em;
+
+    @include link-color(#b3befa);
+
+    a {
+        text-transform: uppercase;
+        border-bottom: none;
+        display: inline-block;
+        padding: 0.1em 0.2em;
+
+        &[href] {
+            border-bottom: none;
+        }
+    }
+}

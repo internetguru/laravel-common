@@ -1,0 +1,26 @@
+.container-fluid {
+
+    padding: 0;
+
+    > *:not(.section),
+    .section > * {
+        max-width: $global-max-width;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 $spacer;
+    }
+    > .section > .row {
+        padding: 0;
+    }
+}
+.section {
+    @include verticalSpacer;
+
+    > *:first-child {
+        padding-top: 0;
+    }
+
+    &-light {
+        background: $section-light-bg;
+    }
+}

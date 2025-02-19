@@ -3,12 +3,27 @@
 namespace Tests\Unit\Support;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use InternetGuru\LaravelCommon\Support\Helpers;
+use Mockery;
 use Tests\TestCase;
 
 class HelpersTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Define routes for testing
+        Route::get('/', function () {})->name('home');
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
+    }
+
     private function mock_app_info()
     {
         // Fake the root disk to simulate accessing root files
