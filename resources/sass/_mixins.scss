@@ -1,0 +1,52 @@
+@mixin verticalSpacer {
+    padding: $spacer-top 0 $spacer-bottom 0;
+}
+
+@mixin link-color($color) {
+    a:not(.btn) {
+        --link-color: #{red($color), green($color), blue($color)};
+        color: $color;
+    }
+}
+
+@mixin flexNowrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $spacer;
+}
+
+@mixin print {
+    @at-root #{if(&, '.print &', '.print')} {
+        @content
+    }
+}
+
+@mixin flex {
+    @include flexNowrap;
+    flex-wrap: wrap;
+}
+
+@mixin media-1 {
+    @media (min-width: 30em) {
+        @content;
+    }
+}
+
+@mixin media-2 {
+    @media (min-width: 40em) {
+        @content;
+    }
+}
+
+@mixin media-3 {
+    @media (min-width: 60em) {
+        @content;
+    }
+}
+
+@mixin media-4 {
+    @media (min-width: 80em) {
+        @content;
+    }
+}

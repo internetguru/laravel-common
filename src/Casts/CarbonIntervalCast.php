@@ -37,6 +37,6 @@ class CarbonIntervalCast implements CastsAttributes
             return null;
         }
 
-        return $value->forHumans();
+        return $value->locale('en')->forHumans();
     }
 }

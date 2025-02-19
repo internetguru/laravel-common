@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Casts;
 
-use InternetGuru\LaravelCommon\Casts\CarbonIntervalCast;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
+use InternetGuru\LaravelCommon\Casts\CarbonIntervalCast;
 use Tests\TestCase;
 
 class CarbonIntervalCastTest extends TestCase

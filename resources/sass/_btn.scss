@@ -1,0 +1,102 @@
+@mixin btn-shadow() {
+    box-shadow: $box-shadow-sm;
+
+    &:hover,
+    &:focus {
+        box-shadow: $box-shadow;
+    }
+}
+@mixin btn-ico() {
+    svg {
+        padding-right: $spacer * 0.2;
+        font-size: 1.4em;
+        vertical-align: -0.25em;
+    }
+}
+@mixin btn-white() {
+    &.btn-primary {
+        @include button-variant(
+            $background: $white,
+            $border: $white,
+            $color: $blue,
+            $hover-background: $white,
+            $hover-border: $white,
+            $hover-color: $blue,
+        );
+    }
+
+    &.btn-secondary {
+        @include button-variant(
+            $background: $white,
+            $border: $white,
+            $color: $gray-800,
+            $hover-background: $white,
+            $hover-border: $white,
+            $hover-color: $gray-800,
+        );
+    }
+
+    &.btn-success {
+        @include button-variant(
+            $background: $white,
+            $border: $white,
+            $color: $green,
+            $hover-background: $white,
+            $hover-border: $white,
+            $hover-color: $green,
+        );
+    }
+
+    &.btn-danger {
+        @include button-variant(
+            $background: $white,
+            $border: $white,
+            $color: $red,
+            $hover-background: $white,
+            $hover-border: $white,
+            $hover-color: $red,
+        );
+    }
+
+    &.btn-warning {
+        @include button-variant(
+            $background: $white,
+            $border: $white,
+            $color: $yellow,
+            $hover-background: $white,
+            $hover-border: $white,
+            $hover-color: $yellow,
+        );
+    }
+
+    &.btn-info {
+        @include button-variant(
+            $background: $white,
+            $border: $white,
+            $color: $cyan,
+            $hover-background: $white,
+            $hover-border: $white,
+            $hover-color: $cyan,
+        );
+    }
+}
+
+.btn {
+    font-weight: 500;
+
+    &-shadow {
+        @include btn-shadow;
+    }
+
+    &-ico {
+        @include btn-ico;
+    }
+
+    &-white {
+        @include btn-white;
+    }
+
+    &.disabled {
+        color: $gray-500;
+    }
+}

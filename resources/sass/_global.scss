@@ -1,0 +1,13 @@
+main {
+    min-height: $main-min-height;
+    position: relative;
+}
+
+dd {
+    margin-left: $spacer;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: inset 0 0 0 0.1rem rgba(13, 110, 253, 0.25);
+}

@@ -1,0 +1,18 @@
+// Bootstrap global settings
+$enable-grid-classes: false;
+$enable-important-utilities: false;
+$transition-collapse: height .15s ease;
+$blockquote-footer-font-size: inherit;
+
+// Containers, Spacers
+$main-min-height: 70vh;
+$global-max-width: 87em;
+$col-narrow-max-width: 23em;
+$spacer-top: 4em;
+$spacer-bottom: 4em;
+$card-max-width: 30em;
+
+// Colors
+$link-color: #007bff;
+$card-bg: #ffffff;
+$section-light-bg: #f8f9fa;

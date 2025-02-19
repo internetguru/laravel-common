@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Add `CheckPostItemNames` middleware.
+- Add Number currency and Carbon macros.
+- Generate code-coverage badges.
+- Add Dockerfile for local testing.
+- Add `getEmailClientLink` function to helpers.
+- Add `<x-ig::breadcrumb>` blade component.
+- Merge `internetguru/blade-components` into this package.
+- Add custom Translator class to handle missing translation keys and variables.
+
 ## [0.3.1] - 2024-09-12
 
 ### Fixed
@@ -45,6 +58,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
 [0.3.1]: https://https://github.com/internetguru/laravel-common/compare/v0.3.0...v0.3.1
 [0.3.0]: https://https://github.com/internetguru/laravel-common/compare/v0.2.0...v0.3.0
 [0.3.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v0.2.0
