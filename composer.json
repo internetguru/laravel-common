@@ -1,6 +1,8 @@
 {
     "name": "internetguru/laravel-common",
     "type": "library",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "InternetGuru\\LaravelCommon\\": "src/",
