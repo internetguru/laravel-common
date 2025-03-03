@@ -7,10 +7,6 @@
     }
 }
 
-.form-floating > .form-control:focus ~ label::after, .form-floating > .form-control:not(:placeholder-shown) ~ label::after, .form-floating > .form-control-plaintext ~ label::after, .form-floating > .form-select ~ label::after {
-    background: transparent;
-}
-
 .form-control:focus {
     box-shadow: none;
     outline: 0.25rem solid rgba(13, 110, 253, 0.25);
