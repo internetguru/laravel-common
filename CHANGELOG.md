@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.4.4] - 2025-03-03
+
+### Fixed
+
+- Keep placeholder bg to white.
+
 ## [0.4.3] - 2025-02-27
 
 ### Fixed
@@ -80,6 +86,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[0.4.4]: https://https://github.com/internetguru/laravel-common/compare/v0.4.3...v0.4.4
 [0.4.3]: https://https://github.com/internetguru/laravel-common/compare/v0.4.2...v0.4.3
 [0.4.2]: https://https://github.com/internetguru/laravel-common/compare/v0.4.1...v0.4.2
 [0.4.1]: https://https://github.com/internetguru/laravel-common/compare/v0.4.0...v0.4.1
