@@ -19,12 +19,12 @@ class Translator extends BaseTranslator
             return $line;
         }
 
-        $this->checkMissingTranslation($key, $line);
-        $this->checkMissingVariables($key, $line, $replace);
-
         if (App::hasDebugModeEnabled()) {
-            $locales = $this->getAvailableLocales();
 
+            $this->checkMissingTranslation($key, $line);
+            $this->checkMissingVariables($key, $line, $replace);
+
+            $locales = $this->getAvailableLocales();
             foreach ($locales as $locale) {
                 $tmpLine = parent::get($key, $replace, $locale, $fallback);
 
