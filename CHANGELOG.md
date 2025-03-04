@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.4.5] - 2025-03-04
+
+### Fixed
+
+- Fix check for missing translations only when debug true.
+
 ## [0.4.4] - 2025-03-03
 
 ### Fixed
@@ -86,6 +92,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[0.4.5]: https://https://github.com/internetguru/laravel-common/compare/v0.4.4...v0.4.5
 [0.4.4]: https://https://github.com/internetguru/laravel-common/compare/v0.4.3...v0.4.4
 [0.4.3]: https://https://github.com/internetguru/laravel-common/compare/v0.4.2...v0.4.3
 [0.4.2]: https://https://github.com/internetguru/laravel-common/compare/v0.4.1...v0.4.2
