@@ -12,7 +12,6 @@ class Translator extends BaseTranslator
 {
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
-        $fallback = App::environment() == 'production';
         $line = parent::get($key, $replace, $locale, $fallback);
 
         if (strpos($key, '.') === false) {
