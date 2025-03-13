@@ -119,13 +119,11 @@ class Translator extends BaseTranslator
 
     private function log(string $message)
     {
-        if (App::environment() == 'production') {
-            Log::warning($message);
+        Log::warning($message);
 
-            return;
+        if (App::hasDebugModeEnabled()) {
+            throw new TranslatorException($message);
         }
-
-        throw new TranslatorException($message);
     }
 
     private function getAvailableLocales(): array
