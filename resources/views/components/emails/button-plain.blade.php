@@ -1,0 +1,6 @@
+@props([
+    'link',
+])
+
+-- {{ $slot }}
+{{ $link }}
