@@ -12,6 +12,7 @@ class Translator extends BaseTranslator
 {
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
+        $fallback = $fallback && $locale == 'en';
         $line = parent::get($key, $replace, $locale, $fallback);
 
         if (strpos($key, '.') === false) {
