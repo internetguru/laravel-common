@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add email layouts, components and translations.
+
 ## [0.5.0-rc.1] - 2025-02-19
 
 ## [0.4.7] - 2025-03-04
