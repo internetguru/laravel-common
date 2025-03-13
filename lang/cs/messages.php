@@ -7,6 +7,7 @@ return [
     'demo.warning' => 'Veškeré informace jsou pouze ilustrativní a mohou se kdykoliv změnit či resetovat.',
 
     'translated' => 'Přeloženo',
+    'missing-en' => 'Chybí anglický překlad',
 
     'email.hello' => 'Dobrý den!',
     'email.regards' => 'S pozdravem',
