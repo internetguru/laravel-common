@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [0.5.0-rc.2] - 2025-03-13
 
 ### Added
 
@@ -112,7 +112,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
-[Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[0.5.0-rc.2]: https://github.com/internetguru/laravel-common/releases/tag/v0.4.7
 [0.5.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v0.4.2
 [0.4.7]: https://https://github.com/internetguru/laravel-common/compare/v0.4.6...v0.4.7
 [0.4.6]: https://https://github.com/internetguru/laravel-common/compare/v0.4.5...v0.4.6
