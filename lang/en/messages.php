@@ -9,4 +9,8 @@ return [
     'partially-missing' => 'Partially missing',
     'translated' => 'Translated',
 
+    'email.regards' => 'Regards',
+    'email.signature' => 'Team :company',
+    'email.trouble' => 'If you\'re having trouble clicking the button, click the URL below or copy and paste it into your web browser.',
+
 ];

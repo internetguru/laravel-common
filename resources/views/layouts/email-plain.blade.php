@@ -1,7 +1,7 @@
 @yield('content')
 
-@lang('emails.regards'),
-{{ config('app.name') . ' ' . settings('common.company_name') }}
+@lang('ig-common::messages.email.regards'),
+{{ config('app.name') }}
 {{ config('app.url') }}
 
 @lang('layouts.service', ['link' => __('layouts.service.www')])

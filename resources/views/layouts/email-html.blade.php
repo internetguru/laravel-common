@@ -7,7 +7,7 @@
 <meta name="color-scheme" content="light">
 <meta name="copyright" content="@lang('layouts.provider.name')"/>
 <meta name="author" content="@lang('layouts.provider.email')"/>
-<meta name="generator" content="{{ Helpers::getAppInfo() }}"/>
+<meta name="generator" content="{{ InternetGuru\LaravelCommon\Support\Helpers::getAppInfo() }}"/>
 <meta name="supported-color-schemes" content="light">
 <style>
     p, li {
@@ -49,8 +49,8 @@
         @yield('content')
 
         <p class="salutation">
-            @lang('emails.regards'),<br />
-            {{ config('app.name') . ' ' . settings('common.company_name') }}<br />
+            @lang('ig-common::messages.email.regards'),<br />
+            {{ config('app.name') }}<br />
             <a href="{{ config('app.url') }}">{{ config('app.url') }}</a>
         </p>
 

@@ -6,7 +6,7 @@
 <hr />
 
 <p>
-    @lang('emails.trouble', ['actionText' => $text])<br>
+    @lang('ig-common::messages.email.trouble', ['actionText' => $text])<br>
     <span class="break-all">
         <a href="{{ $link }}">{{ $link }}</a>
     </span>
