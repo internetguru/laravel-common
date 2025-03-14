@@ -2,6 +2,9 @@
     'link',
     'text',
 ])
+@php
+    $link = strpos($link, '?') === false ? $link . '?usp=plain' : $link . '&usp=plain';
+@endphp
 
 <hr />
 

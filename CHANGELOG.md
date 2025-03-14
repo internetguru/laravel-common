@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.1] - 2025-03-14
+
+### Fixed
+
+- Fix missing email subcopy usp plain.
+
 ## [0.6.0] - 2025-03-14
 
 _Stable release based on [0.6.0-rc.1]._
@@ -162,6 +168,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[0.6.1]: https://https://github.com/internetguru/laravel-common/compare/v0.6.0...v0.6.1
 [0.6.0]: https://https://github.com/internetguru/laravel-common/compare/v0.5.4...v0.6.0
 [0.6.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v0.5.4
 [0.5.4]: https://https://github.com/internetguru/laravel-common/compare/v0.5.3...v0.5.4
