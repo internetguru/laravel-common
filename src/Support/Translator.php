@@ -12,25 +12,14 @@ class Translator extends BaseTranslator
 {
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
-        $fallback = $fallback && $locale == 'en';
         $line = parent::get($key, $replace, $locale, $fallback);
 
-        if (strpos($key, '.') === false) {
-            return $line;
-        }
+        $locales = $this->getAvailableLocales();
+        foreach ($locales as $locale) {
+            $tmpLine = parent::get($key, $replace, $locale, false);
 
-        if (App::hasDebugModeEnabled()) {
-
-            $this->checkMissingTranslation($key, $line);
-            $this->checkMissingVariables($key, $line, $replace);
-
-            $locales = $this->getAvailableLocales();
-            foreach ($locales as $locale) {
-                $tmpLine = parent::get($key, $replace, $locale, $fallback);
-
-                $this->checkMissingTranslation($key, $tmpLine, $locale);
-                $this->checkMissingVariables($key, $tmpLine, $replace, $locale);
-            }
+            $this->checkMissingTranslation($key, $tmpLine, $locale);
+            $this->checkMissingVariables($key, $tmpLine, $replace, $locale);
         }
 
         return $line;
@@ -123,7 +112,6 @@ class Translator extends BaseTranslator
             Log::warning($message);
             return;
         }
-
         throw new TranslatorException($message);
     }
 
