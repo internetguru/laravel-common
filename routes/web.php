@@ -2,8 +2,36 @@
 
 use Illuminate\View\View;
 
-Route::get('/test-500', function (): never {
+Route::get('/error/401', function (): never {
+    abort(401);
+});
+
+Route::get('/error/402', function (): never {
+    abort(402);
+});
+
+Route::get('/error/403', function (): never {
+    abort(403);
+});
+
+Route::get('/error/404', function (): never {
+    abort(404);
+});
+
+Route::get('/error/419', function (): never {
+    abort(419);
+});
+
+Route::get('/error/429', function (): never {
+    abort(429);
+});
+
+Route::get('/error/500', function (): never {
     throw new Exception('Test 500 error');
+});
+
+Route::get('/error/503', function (): never {
+    abort(503);
 });
 
 Route::get('/i18n/missing-all', function (): View {
