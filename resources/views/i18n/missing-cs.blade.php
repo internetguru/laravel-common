@@ -1,1 +1,1 @@
-<p>Missing cs: {{ __('ig-common::messages.missing-cs') }}</p>
+<p>{{ __('ig-common::messages.missing-cs') }}</p>
