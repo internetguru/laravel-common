@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add base view.
+- Add Translator test pages.
+
+### Fixed
+
+- Fix Translator missing translation detection and fallback.
+
 ## [0.5.4] - 2025-03-13
 
 ### Fixed
