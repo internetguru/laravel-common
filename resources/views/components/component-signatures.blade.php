@@ -1,9 +1,9 @@
+<!-- Component Signatures -->
 @if (config('app.debug'))
     @php
         $components = glob(base_path('vendor/internetguru/*'));
     @endphp
 
-    <!-- Component Signatures -->
     <!--
     @foreach ($components as $component)
         @php
@@ -16,4 +16,6 @@
         {{ basename($component) }} {{ $version }}
     @endforeach
     -->
+@else
+    <!-- Available in DEBUG mode. -->
 @endif
