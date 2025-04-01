@@ -40,6 +40,10 @@ Route::get('/error/503', function (): never {
     abort(503);
 })->name('error.503');
 
+Route::get('/error/{code}', function (): never {
+    abort(404);
+})->name('error.unknown');
+
 Route::get('/i18n', function (): View {
     return view('ig-common::layouts.base', [
         'view' => 'i18n.index',
