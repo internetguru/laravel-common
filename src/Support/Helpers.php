@@ -4,6 +4,7 @@ namespace InternetGuru\LaravelCommon\Support;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -105,7 +106,11 @@ class Helpers
                 $routeName = $segment;
                 $uri = '';
             }
-            $translation = trans_choice("navig.$routeName", $totalParts - $index - $skipFirst);
+            $transKey = "ig-common::navig.$routeName";
+            if (! Lang::has($transKey)) {
+                $transKey = "navig.$routeName";
+            }
+            $translation = trans_choice($transKey, $totalParts - $index - $skipFirst);
             $segments[] = [
                 'uri' => $uri,
                 'translation' => $translation,
