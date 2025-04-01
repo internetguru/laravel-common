@@ -13,4 +13,7 @@ return [
     'i18n.complete.description' => 'Kompletní překlady.',
     'i18n.complete.title' => 'Testovací stránka pro překlady',
 
+    'errors.index.description' => 'Rozcestník.',
+    'errors.index.title' => 'Testovací stránka pro chyby.',
+
 ];

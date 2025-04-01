@@ -13,4 +13,7 @@ return [
     'i18n.complete.description' => 'Complete translations.',
     'i18n.complete.title' => 'Translation Test Page',
 
+    'errors.index.description' => 'Index page.',
+    'errors.index.title' => 'Error Test Pages.',
+
 ];

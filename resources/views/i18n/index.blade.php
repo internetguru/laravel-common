@@ -1,4 +1,4 @@
-<div claas="section i18n">
+<div claas="i18n">
     <div>
         <ul>
             <li><a href="{{ route('i18n.missing-all') }}">Missing All</a></li>
