@@ -2,6 +2,8 @@
 
 return [
 
+    'i18n.index.description' => 'Rozcestník.',
+    'i18n.index.title' => 'Testovací stránka pro překlady',
     'i18n.missing-all.description' => 'Chybí všechny překlady.',
     'i18n.missing-all.title' => 'Testovací stránka pro překlady',
     'i18n.missing-cs.description' => 'Chybí český překlad.',

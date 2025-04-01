@@ -2,6 +2,8 @@
 
 return [
 
+    'i18n.index.description' => 'Index page.',
+    'i18n.index.title' => 'Translation Test Page',
     'i18n.missing-all.description' => 'All translations are missing.',
     'i18n.missing-all.title' => 'Translation Test Page',
     'i18n.missing-cs.description' => 'Czech translation is missing.',

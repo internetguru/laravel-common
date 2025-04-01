@@ -34,6 +34,12 @@ Route::get('/error/503', function (): never {
     abort(503);
 });
 
+Route::get('/i18n', function (): View {
+    return view('ig-common::layouts.base', [
+        'view' => 'i18n.index',
+    ]);
+})->name('i18n.index');
+
 Route::get('/i18n/missing-all', function (): View {
     return view('ig-common::layouts.base', [
         'view' => 'i18n.missing-all',
