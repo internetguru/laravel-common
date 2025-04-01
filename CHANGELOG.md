@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add error handler and error pages.
+- Add errors index page.
+- Add i18n index page.
+
 ## [0.6.3] - 2025-03-14
 
 ### Fixed
