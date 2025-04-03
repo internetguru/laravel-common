@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.4] - 2025-04-03
+
+### Fixed
+
+- Add SetPrevPage middleware to fix laravel _prev session.
+
 ## [0.7.3] - 2025-04-03
 
 ### Fixed
@@ -210,6 +216,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[0.7.4]: https://https://github.com/internetguru/laravel-common/compare/v0.7.3...v0.7.4
 [0.7.3]: https://https://github.com/internetguru/laravel-common/compare/v0.7.2...v0.7.3
 [0.7.2]: https://https://github.com/internetguru/laravel-common/compare/v0.7.1...v0.7.2
 [0.7.1]: https://https://github.com/internetguru/laravel-common/compare/v0.7.0...v0.7.1
