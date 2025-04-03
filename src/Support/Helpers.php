@@ -2,6 +2,7 @@
 
 namespace InternetGuru\LaravelCommon\Support;
 
+use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Lang;
@@ -102,7 +103,7 @@ class Helpers
                         }
                     }
                 }
-            } catch (NotFoundHttpException $e) {
+            } catch (Exception $e) {
                 $routeName = $segment;
                 $uri = '';
             }
