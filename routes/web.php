@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Exception\ConnectException;
 use Illuminate\View\View;
 
 Route::get('/error', function (): View {
@@ -39,6 +40,10 @@ Route::get('/error/500', function (): never {
 Route::get('/error/503', function (): never {
     abort(503);
 })->name('error.503');
+
+Route::get('/error/connect', function (): never {
+    throw new ConnectException('Test connect error', new \GuzzleHttp\Psr7\Request('GET', 'test'));
+})->name('error.connect');
 
 Route::get('/error/{code}', function (): never {
     abort(404);

@@ -29,4 +29,8 @@ return [
     'unknown' => 'Neznámá chyba',
     'unknown_message' => 'Omlouváme se, došlo k neznámé chybě. Zkuste to prosím později.',
 
+    'connection_error' => 'Nepodařilo se navázat spojení se vzdáleným serverem. Zkuste to prosím později.',
+    'ratelimit' => 'Překročen bezpečnostní limit operací. Opakujte akci později.',
+    'session_expired' => 'Vypršela doba čekání na odpověď. Opakujte akci znovu.',
+
 ];
