@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.8] - 2025-04-04
+
+### Fixed
+
+- Keep Laravel handle the 500 error in debug mode.
+
 ## [0.7.7] - 2025-04-04
 
 ### Fixed
@@ -235,6 +241,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[0.7.8]: https://https://github.com/internetguru/laravel-common/compare/v0.7.7...v0.7.8
 [0.7.7]: https://https://github.com/internetguru/laravel-common/compare/v0.7.6...v0.7.7
 [0.7.6]: https://https://github.com/internetguru/laravel-common/compare/v0.7.5...v0.7.6
 [0.7.5]: https://https://github.com/internetguru/laravel-common/compare/v0.7.4...v0.7.5
