@@ -14,11 +14,6 @@ class Handler extends ExceptionHandler
         $this->renderable(function (Throwable $e, $request) {
             $statusCode = $e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500;
 
-            // rethrow 500 if debug mode is enabled
-            if ($statusCode == 500 && app()->hasDebugModeEnabled()) {
-                throw $e;
-            }
-
             // connection error from remote server, e.g. dns not resolved or timeout
             if ($e instanceof ConnectException) {
                 if ($request->expectsJson()) {
@@ -49,6 +44,11 @@ class Handler extends ExceptionHandler
             // global error
             if ($request->expectsJson()) {
                 return response()->json(['message' => $e->getMessage()], $statusCode);
+            }
+
+            // keep Laravel handle the 500 error in debug mode
+            if ($statusCode == 500 && app()->hasDebugModeEnabled()) {
+                return;
             }
 
             if (! in_array($statusCode, [401, 402, 403, 404, 419, 429, 500, 503])) {
