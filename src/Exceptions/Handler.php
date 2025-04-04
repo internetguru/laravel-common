@@ -11,27 +11,24 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->renderable(function (Throwable $e, $request) {
-            if ($e instanceof HttpExceptionInterface) {
-                $statusCode = $e->getStatusCode();
+            $statusCode = $e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500;
 
-                if (! in_array($statusCode, [401, 402, 403, 404, 419, 429, 500, 503])) {
-                    return response()->view('ig-common::layouts.base', [
-                        'exception' => $e,
-                        'view' => 'layouts.empty',
-                        'title' => "$statusCode " . __('ig-common::errors.unknown'),
-                        'description' => __('ig-common::errors.unknown_message'),
-                    ], $statusCode);
-                }
-
+            if (! in_array($statusCode, [401, 402, 403, 404, 419, 429, 500, 503])) {
                 return response()->view('ig-common::layouts.base', [
                     'exception' => $e,
                     'view' => 'layouts.empty',
-                    'title' => "$statusCode " . __('ig-common::errors.' . $statusCode),
-                    'description' => __('ig-common::errors.' . $statusCode . '_message'),
+                    'title' => "$statusCode " . __('ig-common::errors.unknown'),
+                    'description' => __('ig-common::errors.unknown_message'),
                 ], $statusCode);
             }
 
-            return null;
+            return response()->view('ig-common::layouts.base', [
+                'exception' => $e,
+                'view' => 'layouts.empty',
+                'title' => "$statusCode " . __('ig-common::errors.' . $statusCode),
+                'description' => __('ig-common::errors.' . $statusCode . '_message'),
+            ], $statusCode);
         });
+
     }
 }
