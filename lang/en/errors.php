@@ -29,4 +29,8 @@ return [
     'unknown' => 'Unknown error',
     'unknown_message' => 'Sorry, an unknown error has occurred. Please try again later.',
 
+    'connection_error' => 'Failed to connect to the remote server. Please try again later.',
+    'ratelimit' => 'Request rate limit exceeded. Please try again shortly.',
+    'session_expired' => 'Session expired. Please try again.',
+
 ];

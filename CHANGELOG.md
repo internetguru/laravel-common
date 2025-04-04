@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.6] - 2025-04-04
+
+### Fixed
+
+- Fix 419, 429 and ConnectException go back with input and error message.
+- Fix missing json error handling.
+
 ## [0.7.5] - 2025-04-03
 
 ### Fixed
@@ -222,6 +229,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[0.7.6]: https://https://github.com/internetguru/laravel-common/compare/v0.7.5...v0.7.6
 [0.7.5]: https://https://github.com/internetguru/laravel-common/compare/v0.7.4...v0.7.5
 [0.7.4]: https://https://github.com/internetguru/laravel-common/compare/v0.7.3...v0.7.4
 [0.7.3]: https://https://github.com/internetguru/laravel-common/compare/v0.7.2...v0.7.3
