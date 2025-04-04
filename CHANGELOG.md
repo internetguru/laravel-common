@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.7] - 2025-04-04
+
+### Fixed
+
+- Rethrow 500 if debug mode is enabled.
+
 ## [0.7.6] - 2025-04-04
 
 ### Fixed
@@ -229,6 +235,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[0.7.7]: https://https://github.com/internetguru/laravel-common/compare/v0.7.6...v0.7.7
 [0.7.6]: https://https://github.com/internetguru/laravel-common/compare/v0.7.5...v0.7.6
 [0.7.5]: https://https://github.com/internetguru/laravel-common/compare/v0.7.4...v0.7.5
 [0.7.4]: https://https://github.com/internetguru/laravel-common/compare/v0.7.3...v0.7.4

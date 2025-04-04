@@ -14,6 +14,11 @@ class Handler extends ExceptionHandler
         $this->renderable(function (Throwable $e, $request) {
             $statusCode = $e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500;
 
+            // rethrow 500 if debug mode is enabled
+            if ($statusCode == 500 && app()->hasDebugModeEnabled()) {
+                throw $e;
+            }
+
             // connection error from remote server, e.g. dns not resolved or timeout
             if ($e instanceof ConnectException) {
                 if ($request->expectsJson()) {
