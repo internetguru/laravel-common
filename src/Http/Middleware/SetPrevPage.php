@@ -18,6 +18,11 @@ class SetPrevPage
             return $next($request);
         }
 
+        // do not accept img requests
+        if ($request->is('img/*')) {
+            return $next($request);
+        }
+
         // save current and previous page to session
         if ($request->route() !== null) {
             $currentUrl = $request->url();
