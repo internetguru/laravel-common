@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.8.0-rc.1] - 2025-04-07
 
+### Added
+
+- Support route parameters in `parseUrlPath` ~ in breadcrumb and title.
+
 ## [0.7.11] - 2025-04-07
 
 ### Fixed
