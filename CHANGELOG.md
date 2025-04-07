@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.7.10] - 2025-04-07
+
+### Fixed
+
+- Fix routes are not in web middleware group.
+
 ## [0.7.9] - 2025-04-07
 
 ### Fixed
@@ -244,6 +250,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[0.7.10]: https://https://github.com/internetguru/laravel-common/compare/v0.7.9...v0.7.10
 [0.7.9]: https://https://github.com/internetguru/laravel-common/compare/v0.7.8...v0.7.9
 [0.7.8]: https://https://github.com/internetguru/laravel-common/compare/v0.7.7...v0.7.8
 [0.7.7]: https://https://github.com/internetguru/laravel-common/compare/v0.7.6...v0.7.7
