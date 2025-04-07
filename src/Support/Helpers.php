@@ -80,12 +80,14 @@ class Helpers
         $currentPath = '';
         $segments = [];
         $totalParts = count($urlParts);
+        $parameters = [];
 
         foreach ($urlParts as $index => $segment) {
             $currentPath = $currentPath == '/' ? $currentPath . $segment : $currentPath . '/' . $segment;
             try {
                 $route = Route::getRoutes()->match(request()->create($currentPath));
                 $routeName = $route->getName();
+                $parameters = $route->parameters();
                 $uri = $currentPath;
                 foreach ($route->middleware() as $item) {
                     if ($item == 'auth') {
@@ -95,7 +97,6 @@ class Helpers
                         }
                     } elseif (strpos($item, 'can:') === 0) {
                         [$permission, $model] = explode(',', substr($item, 4));
-                        $parameters = $route->parameters();
                         $modelInstance = array_key_exists($model, $parameters) ? $parameters[$model] : app($model);
                         if (! Gate::allows($permission, $modelInstance)) {
                             // If user does not have permission, return the route name and empty URI
@@ -111,7 +112,7 @@ class Helpers
             if (! Lang::has($transKey)) {
                 $transKey = "navig.$routeName";
             }
-            $translation = trans_choice($transKey, $totalParts - $index - $skipFirst);
+            $translation = trans_choice($transKey, $totalParts - $index - $skipFirst, $parameters);
             $segments[] = [
                 'uri' => $uri,
                 'translation' => $translation,
