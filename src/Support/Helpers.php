@@ -112,6 +112,7 @@ class Helpers
             if (! Lang::has($transKey)) {
                 $transKey = "navig.$routeName";
             }
+            $parameters = $parameters['data'] ?? $parameters;
             $translation = trans_choice($transKey, $totalParts - $index - $skipFirst, $parameters);
             $segments[] = [
                 'uri' => $uri,
