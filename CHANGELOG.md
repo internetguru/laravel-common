@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add editable Alpine JS component and simple blade helper `<x-ig::editable />`.
+
 ## [0.8.2] - 2025-04-08
 
 ### Fixed
