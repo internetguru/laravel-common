@@ -16,4 +16,8 @@ return [
     'errors.index.description' => ' ',
     'errors.index.title' => 'Testovací stránka pro chyby',
 
+    'support.body' => 'Zde popište svůj problém:%0A%0A%0A--- Níže neupravujte ---%0A:version%0A:url',
+    'support.subject' => 'Požadavek na technickou podporu',
+    'support.link' => 'Technická podpora',
+
 ];
