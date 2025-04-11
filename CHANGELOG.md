@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `email-feedback` blade component.
+
 ## [0.9.0] - 2025-04-09
 
 _Stable release based on [0.9.0-rc.1]._
