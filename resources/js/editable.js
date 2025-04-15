@@ -1,6 +1,7 @@
 export default function initEditable() {
     return {
         isEdited: false,
+        isSubmitting: false,
 
         init() {
             // Track form changes on all forms without editable-skip class
@@ -15,11 +16,16 @@ export default function initEditable() {
                     input.addEventListener('change', () => this.checkFormEdited(inputs));
                     input.addEventListener('input', () => this.checkFormEdited(inputs));
                 });
+
+                // Add submit event listener to the form
+                form.addEventListener('submit', () => {
+                    this.isSubmitting = true;
+                });
             });
 
             // Set up beforeunload event
             window.addEventListener('beforeunload', (e) => {
-                if (this.isEdited) {
+                if (this.isEdited && !this.isSubmitting) {
                     e.preventDefault();
                     return;
                 }
