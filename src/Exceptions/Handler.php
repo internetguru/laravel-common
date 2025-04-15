@@ -12,6 +12,12 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->renderable(function (Throwable $e, $request) {
+
+            // do not provcess any exception in testing mode
+            if (app()->environment('testing')) {
+                return;
+            }
+
             $statusCode = $e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500;
 
             // connection error from remote server, e.g. dns not resolved or timeout
