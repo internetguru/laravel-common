@@ -113,6 +113,11 @@ class Helpers
                 $transKey = "navig.$routeName";
             }
             $parameters = $parameters['data'] ?? $parameters;
+            foreach ($parameters as $key => $value) {
+                if (Lang::has($transKey . '.' . $value)) {
+                    $parameters[$key] = Lang::get($transKey . '.' . $value);
+                }
+            }
             $translation = trans_choice($transKey, $totalParts - $index - $skipFirst, $parameters);
             $segments[] = [
                 'uri' => $uri,
