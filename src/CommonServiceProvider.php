@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use InternetGuru\LaravelCommon\Exceptions\Handler;
+use InternetGuru\LaravelCommon\Livewire\Messages;
+use Livewire\Livewire;
 
 class CommonServiceProvider extends ServiceProvider
 {
@@ -25,6 +27,8 @@ class CommonServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'ig-common');
         $this->loadTranslationsFrom(__DIR__ . '/../lang', 'ig-common');
         Blade::componentNamespace('InternetGuru\LaravelCommon\View\Components', 'ig');
+        Livewire::component('ig-messages', Messages::class);
+
         $this->registerMacros();
     }
 
