@@ -56,12 +56,6 @@
 
         <hr />
         @php
-            $serviceLink = sprintf(
-                '<a href="https://%s"><img src="https://%s"/>%s</a>',
-                __('layouts.service.www'),
-                __('layouts.service.www') . '/favicon.ico',
-                __('layouts.service.name')
-            );
             $providerLink = sprintf(
                 '<a href="https://%s">%s</a>',
                 __('layouts.provider.www'),
@@ -69,7 +63,7 @@
             );
         @endphp
         <p>
-            @lang('layouts.service', ['link' => $serviceLink])<br/>
+            <x-ig-common::emails.service />
             @lang('layouts.provider', ['link' => $providerLink, 'year' => date('Y')])
         </p>
 
