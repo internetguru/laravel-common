@@ -25,6 +25,14 @@ class Messages extends Component
                     $this->addMessage('danger', $error);
                 }
             }
+            // foreach error bag
+            if ($errors && method_exists($errors, 'getBags')) {
+                foreach ($errors->getBags() as $bag) {
+                    foreach ($bag->all() as $error) {
+                        $this->addMessage('danger', $error);
+                    }
+                }
+            }
         }
 
         // Add success messages

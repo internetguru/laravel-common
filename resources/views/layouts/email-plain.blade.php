@@ -1,9 +1,7 @@
 @yield('content')
 
-@lang('ig-common::messages.email.regards'),
-{{ config('app.name') }}
-{{ config('app.url') }}
+<x-ig-common::emails.salutation-plain />
 
-@lang('layouts.service', ['link' => __('layouts.service.www')])
+<x-ig-common::emails.service-plain />
 
 @lang('layouts.provider', ['link' => __('layouts.provider.www'), 'year' => date('Y')])
