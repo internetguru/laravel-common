@@ -19,7 +19,9 @@ class Translator extends BaseTranslator
             $tmpLine = parent::get($key, $replace, $locale, false);
 
             $this->checkMissingTranslation($key, $tmpLine, $locale);
-            $this->checkMissingVariables($key, $tmpLine, $replace, $locale);
+            if ($this->handleMissingTranslationKeys) {
+                $this->checkMissingVariables($key, $tmpLine, $replace, $locale);
+            }
         }
 
         return $line;
