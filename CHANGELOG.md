@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.12.0-rc.1] - 2025-04-16
 
+### Added
+
+- Support breadcrumb dynamic parameter translations.
+
+### Fixed
+
+- Fix `Translator::has` function check for missing translations with parameters.
+
 ## [0.11.2] - 2025-04-16
 
 ### Fixed
@@ -30,13 +38,13 @@ _Stable release based on [0.11.0-rc.1]._
 
 ### Changed
 
-- Refactor messages componet into livewire with `ig-message` event listener for dynamic messages.
+- Refactor messages component into livewire with `ig-message` event listener for dynamic messages.
 
 ## [0.10.2] - 2025-04-15
 
 ### Fixed
 
-- Do not provcess any exception in testing mode.
+- Do not process any exception in testing mode.
 
 ## [0.10.1] - 2025-04-15
 
@@ -151,7 +159,7 @@ _Stable release based on [0.8.0-rc.1]._
 
 ### Fixed
 
-- Fix error pages and reduce views.)
+- Fix error pages and reduce views.
 
 ## [0.7.0] - 2025-04-01
 
