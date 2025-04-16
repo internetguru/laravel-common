@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Refactor messages componet into livewire with `ig-message` event listener for dynamic messages.
+
 ## [0.10.2] - 2025-04-15
 
 ### Fixed
