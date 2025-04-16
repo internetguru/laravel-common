@@ -6,7 +6,7 @@
         ">
             <div class="toast-container">
                 @foreach ($messages as $index => $message)
-                    <div wire:key="message-{{ $index }}">
+                    <div wire:key="message-{{ time() }}" data-index="{{ $index }}">
                         <x-ig::message
                             type="{{ $message['type'] }}"
                             message="{!! $message['content'] !!}"
@@ -24,7 +24,6 @@
     <script>
         document.addEventListener('livewire:initialized', function () {
             initToasts();
-            console.log('Livewire initialized');
 
             // Re-init toasts whenever messages are updated
             Livewire.hook('morph.updated', ({ el }) => {
@@ -44,16 +43,10 @@
             function initToast(toast) {
                 var bsToast = new Toast(toast);
 
-                toast.addEventListener('hidden.bs.toast', function() {
-                    // Find the index from the wire:key attribute
-                    const parentEl = toast.closest('[wire\\:key^="message-"]');
-                    if (parentEl) {
-                        const keyAttr = parentEl.getAttribute('wire:key');
-                        const index = keyAttr.replace('message-', '');
-                        // Call the Livewire removeMessage method
-                        @this.removeMessage(parseInt(index));
-                    }
-                });
+                if (toast.classList.contains('bg-success')) {
+                    const index = toast.parentNode.getAttribute('data-index');
+                    @this.removeMessageQuietly(parseInt(index));
+                }
 
                 bsToast.show();
             }

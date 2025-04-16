@@ -3,6 +3,7 @@
 namespace Internetguru\LaravelCommon\Livewire;
 
 use Livewire\Attributes\On;
+use Livewire\Attributes\Renderless;
 use Livewire\Component;
 
 class Messages extends Component
@@ -46,6 +47,12 @@ class Messages extends Component
         }
     }
 
+    #[Renderless]
+    public function removeMessageQuietly($index)
+    {
+        $this->removeMessage($index);
+    }
+
     public function addMessage($type, $content)
     {
         $this->messages[] = [
@@ -55,12 +62,9 @@ class Messages extends Component
     }
 
     #[On('ig-message')]
-    public function handleMessage($data)
+    public function handleMessage($type, $message)
     {
-        // Process the message data
-        if (isset($data['type']) && isset($data['message'])) {
-            $this->addMessage($data['type'], $data['message']);
-        }
+        $this->addMessage($type, $message);
     }
 
     public function render()
