@@ -4,6 +4,7 @@ namespace InternetGuru\LaravelCommon\Exceptions;
 
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Spatie\Ignition\Ignition;
 use Throwable;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
@@ -13,9 +14,17 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (Throwable $e, $request) {
 
-            // do not provcess any exception in testing mode
+            // do not process any exception in testing mode
             if (app()->environment('testing')) {
                 return;
+            }
+
+            // Explicitly render Laravel's debug page when in debug mode
+            if (app()->hasDebugModeEnabled()) {
+                return Ignition::make()
+                    ->setTheme('dark')
+                    ->renderException($e)
+                    ->toResponse($request);
             }
 
             $statusCode = $e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500;
@@ -50,11 +59,6 @@ class Handler extends ExceptionHandler
             // global error
             if ($request->expectsJson()) {
                 return response()->json(['message' => $e->getMessage()], $statusCode);
-            }
-
-            // keep Laravel handle the 500 error in debug mode
-            if ($statusCode == 500 && app()->hasDebugModeEnabled()) {
-                return;
             }
 
             if (! in_array($statusCode, [401, 402, 403, 404, 419, 429, 500, 503])) {
