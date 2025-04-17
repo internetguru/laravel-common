@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Add `<x-ig::footer-copy>` blade component.
 - Add `randomWorkTime` macro for `Carbon`.
 
+### Changed
+
+- Always show `Ignition` error page in debug mode.
+
 ### Fixed
 
 - Translate i18n index page.
