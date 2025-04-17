@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `<x-ig::footer-copy>` blade component.
+
 ## [0.12.1] - 2025-04-16
 
 ### Fixed
