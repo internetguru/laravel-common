@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Translate i18n index page.
+- Fix navig translation for 404 pages.
 
 ## [0.12.1] - 2025-04-16
 
