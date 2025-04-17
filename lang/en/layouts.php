@@ -13,6 +13,11 @@ return [
     'i18n.complete.description' => 'Complete translations.',
     'i18n.complete.title' => 'Translation Test Page',
 
+    'i18n.link.missing-all' => 'Missing all translations',
+    'i18n.link.missing-cs' => 'Missing CS',
+    'i18n.link.missing-en' => 'Missing EN',
+    'i18n.link.complete' => 'Complete translations',
+
     'errors.index.description' => ' ',
     'errors.index.title' => 'Error Test Pages',
 

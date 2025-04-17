@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Add `<x-ig::footer-copy>` blade component.
 
+### Fixed
+
+- Translate i18n index page.
+
 ## [0.12.1] - 2025-04-16
 
 ### Fixed
