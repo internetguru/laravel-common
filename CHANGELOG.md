@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Add `<x-ig::footer-copy>` blade component.
+- Add `randomWorkTime` macro for `Carbon`.
 
 ### Fixed
 

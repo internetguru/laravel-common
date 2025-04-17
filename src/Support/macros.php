@@ -40,4 +40,8 @@ function initCarbonMacros()
     Carbon::macro('dateForHumans', fn () => $this->isoFormat('L'));
 
     Carbon::macro('dateTimeForHumans', fn () => $this->isoFormat('L LT'));
+
+    Carbon::macro('randomWorkTime', function (int $from = 9, int $to = 17) {
+        return $this->setTime(rand($from, $to - 1), rand(0, 59), rand(0, 59));
+    });
 }
