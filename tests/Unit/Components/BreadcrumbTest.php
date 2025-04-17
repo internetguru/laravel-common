@@ -37,7 +37,7 @@ class BreadcrumbTest extends TestCase
         $breadcrumb = new Breadcrumb($divider);
 
         $this->assertEquals($divider, $breadcrumb->divider);
-        $this->assertEquals(3, count($breadcrumb->items));
+        $this->assertEquals(2, count($breadcrumb->items));
     }
 
     public function test_render_returns_correct_view()

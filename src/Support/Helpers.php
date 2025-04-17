@@ -73,7 +73,7 @@ class Helpers
         array_unshift($urlParts, '');
 
         // If error page, return error
-        if (isset(app('view')->getSections()['code']) && isset(app('view')->getSections()['message'])) {
+        if (! app('request')->route()) {
             $urlParts = ['', 'error'];
         }
 

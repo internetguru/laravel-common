@@ -32,4 +32,4 @@ COPY . /app
 RUN composer install --prefer-dist --no-interaction
 
 # Run the PHPUnit tests by default
-CMD ["./vendor/bin/phpunit"]
+CMD ["./vendor/bin/phpunit", "--coverage-text"]

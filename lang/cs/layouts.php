@@ -13,6 +13,11 @@ return [
     'i18n.complete.description' => 'Kompletní překlady.',
     'i18n.complete.title' => 'Testovací stránka pro překlady',
 
+    'i18n.link.missing-all' => 'Chybí všechny překlady',
+    'i18n.link.missing-cs' => 'Chybí čeština',
+    'i18n.link.missing-en' => 'Chybí angličtina',
+    'i18n.link.complete' => 'Kompletní překlady',
+
     'errors.index.description' => ' ',
     'errors.index.title' => 'Testovací stránka pro chyby',
 

@@ -17,6 +17,7 @@ class ParseUrlPathTest extends TestCase
         Route::get('/products', function () {})->name('products.index');
         Route::get('/products/{category}', function () {})->name('products.category');
         Route::get('/products/{category}/{item}', function () {})->name('products.item');
+        Route::get('/admin/dashboard', function () {})->name('admin.dashboard');
     }
 
     public function testParseUrlPathRoot()
@@ -115,8 +116,8 @@ class ParseUrlPathTest extends TestCase
                 'translation' => __('navig.home'),
             ],
             [
-                'uri' => '',
-                'translation' => __('navig.non-existent'),
+                'uri' => '/error',
+                'translation' => 'Error Pages',
             ],
         ];
 

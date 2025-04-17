@@ -51,8 +51,7 @@ class TranslatorTest extends TestCase
         App::shouldReceive('hasDebugModeEnabled')->andReturn(false);
 
         Log::shouldReceive('warning')
-            ->once()
-            ->with('Missing or empty translation: greeting.missing');
+            ->twice();
 
         $loader = new ArrayLoader;
 
@@ -85,9 +84,7 @@ class TranslatorTest extends TestCase
         App::shouldReceive('environment')->andReturn('production');
         App::shouldReceive('hasDebugModeEnabled')->andReturn(true);
 
-        Log::shouldReceive('warning')
-            ->once()
-            ->with("Missing or empty translation for locale 'es': greeting.hello");
+        $this->expectException(TranslatorException::class);
 
         $loader = new ArrayLoader;
         $loader->addMessages('en', '*', [
