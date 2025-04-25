@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add diff.sh script to show components version diff to given revision.
+
 ## [0.13.2] - 2025-04-25
 
 ### Fixed
