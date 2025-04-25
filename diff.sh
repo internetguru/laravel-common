@@ -6,4 +6,4 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-diff <(git show dev:composer.json | jq '.require' | jq 'to_entries[] | select(.key | startswith("internetguru/")) | .key + ":" + .value') <(git show $1:composer.json | jq '.require' | jq 'to_entries[] | select(.key | startswith("internetguru/")) | .key + ":" + .value')
+diff <(git show dev:composer.lock | jq '.packages[] | select(.name | startswith("internetguru/")) | .name + ":" + .version') <(git show $1:composer.lock | jq '.packages[] | select(.name | startswith("internetguru/")) | .name + ":" + .version')
