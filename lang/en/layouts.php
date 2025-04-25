@@ -21,7 +21,8 @@ return [
     'errors.index.description' => ' ',
     'errors.index.title' => 'Error Test Pages',
 
-    'support.body' => 'Describe your issue here:%0A%0A%0A--- Do not edit below ---%0A:version%0A:url',
+    'support.header' => 'Describe your issue here:',
+    'support.footer' => '--- Do not edit below this line ---',
     'support.subject' => 'Tech Support Request',
     'support.link' => 'Technical support',
 
