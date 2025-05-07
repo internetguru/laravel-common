@@ -10,6 +10,8 @@ use InternetGuru\LaravelCommon\Exceptions\TranslatorException;
 
 class Translator extends BaseTranslator
 {
+    private bool $logMissingTranslations = true;
+
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
         $line = parent::get($key, $replace, $locale, $fallback);
@@ -30,9 +32,12 @@ class Translator extends BaseTranslator
     public function has($key, $locale = null, $fallback = true)
     {
         try {
+            $this->logMissingTranslations = false;
             return parent::has($key, $locale, $fallback);
         } catch (TranslatorException $e) {
             return false;
+        } finally {
+            $this->logMissingTranslations = true;
         }
     }
 
@@ -109,6 +114,9 @@ class Translator extends BaseTranslator
 
     private function log(string $message)
     {
+        if (! $this->logMissingTranslations) {
+            return;
+        }
         if (! App::hasDebugModeEnabled()) {
             Log::warning($message);
             return;
