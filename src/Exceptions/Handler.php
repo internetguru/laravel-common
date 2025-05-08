@@ -14,6 +14,11 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (Throwable $e, $request) {
 
+            // handle AuthenticationException
+            if ($e instanceof \Illuminate\Auth\AuthenticationException) {
+                return;
+            }
+
             // do not process any exception in testing mode
             if (app()->environment('testing')) {
                 return;
@@ -24,7 +29,7 @@ class Handler extends ExceptionHandler
                 return Ignition::make()
                     ->setTheme('dark')
                     ->renderException($e)
-                    ->toResponse($request);
+                    ?->toResponse($request);
             }
 
             $statusCode = $e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500;
