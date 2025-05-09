@@ -14,4 +14,5 @@ return [
     'email.signature' => 'Team :company',
     'email.trouble' => 'If you\'re having trouble clicking the button, click the URL below or copy and paste it into your web browser.',
 
+    'recaptcha' => 'Google couldn\'t verify you\'re human. Try updating your system or browser, using a different browser or device, or log in.',
 ];
