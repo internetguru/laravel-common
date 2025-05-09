@@ -14,4 +14,5 @@ return [
     'email.signature' => 'Tým :company',
     'email.trouble' => 'Pokud máte problém s kliknutím na tlačítko, klikněte na URL níže nebo ji zkopírujte a vložte do svého webového prohlížeče.',
 
+    'recaptcha' => 'Google nepotvrdil vaši důvěryhodnost. Zkuste aktualizovat systém či prohlížeč, použít jiný prohlížeč či zařízení, a nebo se můžete přihlásit.',
 ];

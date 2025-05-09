@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Bind default `ReCaptchaInterface` service.
+
 ## [0.14.3] - 2025-05-08
 
 ### Fixed
