@@ -1,6 +1,6 @@
 @props([
     'method' => 'POST',
-    'recaptcha' => true,
+    'recaptcha' => app(\InternetGuru\LaravelCommon\Contracts\ReCaptchaInterface::class)->isEnabled(),
 ])
 <form method="{{ $method }}" {{ $attributes }}>
     @csrf
