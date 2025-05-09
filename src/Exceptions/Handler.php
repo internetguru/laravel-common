@@ -19,6 +19,11 @@ class Handler extends ExceptionHandler
                 return;
             }
 
+            // handle ValidationException
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                return;
+            }
+
             // do not process any exception in testing mode
             if (app()->environment('testing')) {
                 return;
