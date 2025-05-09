@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.4] - 2025-05-09
+
+### Fixed
+
+- Fix compose recaptcha version to dev-master.
+
 ## [1.0.3] - 2025-05-09
 
 ### Fixed
@@ -443,6 +449,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[1.0.4]: https://https://github.com/internetguru/laravel-common/compare/v1.0.3...v1.0.4
 [1.0.3]: https://https://github.com/internetguru/laravel-common/compare/v1.0.2...v1.0.3
 [1.0.2]: https://https://github.com/internetguru/laravel-common/compare/v1.0.1...v1.0.2
 [1.0.1]: https://https://github.com/internetguru/laravel-common/compare/v1.0.0...v1.0.1
