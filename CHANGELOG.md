@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.2] - 2025-05-09
+
+### Fixed
+
+- Update ReCaptcha isEnabled function.
+
 ## [1.0.1] - 2025-05-09
 
 ### Fixed
@@ -431,6 +437,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[1.0.2]: https://https://github.com/internetguru/laravel-common/compare/v1.0.1...v1.0.2
 [1.0.1]: https://https://github.com/internetguru/laravel-common/compare/v1.0.0...v1.0.1
 [1.0.0]: https://https://github.com/internetguru/laravel-common/compare/v0.14.3...v1.0.0
 [1.0.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v0.14.3
