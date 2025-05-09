@@ -10,7 +10,7 @@ interface ReCaptchaInterface
     /**
      * ReCAPTCHA score threshold
      */
-    public const RECAPTCHA_SCORE_THRESHOLD = 1;
+    public const RECAPTCHA_SCORE_THRESHOLD = 0.7;
 
     /**
      * Check if ReCAPTCHA is enabled
