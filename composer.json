@@ -23,7 +23,7 @@
         "torann/geoip": "^3.0",
         "spatie/laravel-ignition": "^2.9",
         "livewire/livewire": "^3.6",
-        "internetguru/laravel-recaptchav3": "dev-master"
+        "internetguru/laravel-recaptchav3": "dev-main"
     },
     "require-dev": {
         "laravel/pint": "^1.17",
