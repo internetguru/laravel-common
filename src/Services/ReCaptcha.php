@@ -9,9 +9,20 @@ class ReCaptcha implements ReCaptchaInterface
 {
     public function isEnabled(): bool
     {
-        // Disable recaptcha in demo mode and
-        // enable recaptcha only for guests
-        return ! config('app.demo') && ! auth()->check();
+        if (app()->environment('local')) {
+            return false;
+        }
+        if (app()->environment('testing')) {
+            return false;
+        }
+        if (config('app.demo', false)) {
+            return false;
+        }
+        if (auth()->check()) {
+            return false;
+        }
+
+        return true;
     }
 
     public function validate(Request $request): void
