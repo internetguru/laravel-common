@@ -36,6 +36,10 @@ class CommonServiceProvider extends ServiceProvider
         Blade::componentNamespace('InternetGuru\LaravelCommon\View\Components', 'ig');
         Livewire::component('ig-messages', Messages::class);
 
+        $this->publishes([
+            __DIR__ . '/../database/migrations' => database_path('migrations'),
+        ], 'ig-common:migrations');
+
         // Register middleware to inject ReCaptcha script
         $this->app['router']->pushMiddlewareToGroup('web', InjectRecaptchaScript::class);
 

@@ -48,25 +48,13 @@
     <div style="max-width: 50em;">
         @yield('content')
 
+        @section('footer')
         <p class="salutation">
             <x-ig-common::emails.salutation />
         </p>
 
-        @yield('footer')
-
-        <hr />
-        @php
-            $providerLink = sprintf(
-                '<a href="https://%s">%s</a>',
-                __('layouts.provider.www'),
-                __('layouts.provider.name')
-            );
-        @endphp
-        <p>
-            <x-ig-common::emails.service />
-            @lang('layouts.provider', ['link' => $providerLink, 'year' => date('Y')])
-        </p>
-
+        <x-ig-common::emails.footer-html />
+        @show
     </div>
 </body>
 </html>
