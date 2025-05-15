@@ -16,9 +16,10 @@ class LogSentNotification
         $message  = $event->response->getOriginalMessage();
         $headers = $message->getHeaders();
         $to = $headers->get('to')->toString();
+        $replyTo = $headers->get('reply-to')?->toString() ?? null;
         $subject = $message->getSubject() ?? 'n/a';
         $body = $message->getTextBody() ?? 'n/a';
 
-        MailLog::log($to, $subject, $body);
+        MailLog::log($to, $replyTo, $subject, $body);
     }
 }

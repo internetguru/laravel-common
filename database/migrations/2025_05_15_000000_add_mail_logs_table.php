@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('mail_logs', function (Blueprint $table) {
             $table->id();
             $table->string('to');
+            $table->string('replyto')->nullable();
             $table->string('subject');
             $table->text('body');
             $table->timestamps();
