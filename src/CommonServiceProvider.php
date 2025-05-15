@@ -12,6 +12,10 @@ use InternetGuru\LaravelCommon\Exceptions\Handler;
 use InternetGuru\LaravelCommon\Livewire\Messages;
 use InternetGuru\LaravelCommon\Services\ReCaptcha;
 use Livewire\Livewire;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Notifications\Events\NotificationSent;
+use InternetGuru\LaravelCommon\Listeners\LogSentNotification;
+
 
 class CommonServiceProvider extends ServiceProvider
 {
@@ -39,6 +43,11 @@ class CommonServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'ig-common:migrations');
+
+        Event::listen(
+            NotificationSent::class,
+            [LogSentNotification::class, 'handle']
+        );
 
         // Register middleware to inject ReCaptcha script
         $this->app['router']->pushMiddlewareToGroup('web', InjectRecaptchaScript::class);
