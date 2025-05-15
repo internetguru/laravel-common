@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.0.0-rc.1] - 2025-05-15
 
+### Added
+
+- Add `IgMailable` that add ref to subject.
+- Log emails into database and to standard log.
+
 ## [1.0.4] - 2025-05-09
 
 ### Fixed
