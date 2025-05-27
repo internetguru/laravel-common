@@ -56,7 +56,7 @@
             </p>
 
             <x-ig-common::emails.footer-html />
-        @show
+        @endif
     </div>
 </body>
 </html>
