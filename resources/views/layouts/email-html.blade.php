@@ -48,13 +48,15 @@
     <div style="max-width: 50em;">
         @yield('content')
 
-        @section('footer')
-        <p class="salutation">
-            <x-ig-common::emails.salutation />
-        </p>
+        @hasSection('footer')
+            @yield('footer')
+        @else
+            <p class="salutation">
+                <x-ig-common::emails.salutation />
+            </p>
 
-        <x-ig-common::emails.footer-html />
-        @show
+            <x-ig-common::emails.footer-html />
+        @endif
     </div>
 </body>
 </html>
