@@ -1,9 +1,7 @@
 @yield('content')
 
-@hasSection('footer')
-@yield('footer')
-@else
+@section('footer')
 <x-ig-common::emails.salutation-plain />
 
 <x-ig-common::emails.footer-plain />
-@endif
+@show
