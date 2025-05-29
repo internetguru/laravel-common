@@ -4,7 +4,7 @@ return [
 
     'inbox' => 'Schránka',
     'duplicate_submission' => 'Tento formulář byl již před chvilkou odeslán.',
-    'demo.warning' => 'Veškeré informace jsou pouze ilustrativní a mohou se kdykoliv změnit či resetovat.',
+    'demo.warning' => '**Režim demo**: Veškeré informace jsou pouze ilustrativní a mohou se kdykoliv změnit či resetovat.',
 
     'translated' => 'Přeloženo',
     'missing-en' => 'Chybí anglický překlad',
