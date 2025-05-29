@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Update demo mode info styles and message.
+
 ## [2.0.5] - 2025-05-29
 
 ### Fixed
