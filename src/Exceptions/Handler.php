@@ -33,16 +33,8 @@ class Handler extends ExceptionHandler
 
             // Explicitly render Laravel's debug page when in debug mode
             if (app()->hasDebugModeEnabled()) {
-                return Ignition::make()
-                    ->setTheme('dark')
-                    ->addCustomHtmlToHead(
-                        sprintf('<div class="px-3 py-2 bg-red-500 text-white"
-                         style="font-size: 1em; position: fixed; z-index: 1000;">%s</div>', 'DEBUG ' . $statusCode)
-                    )
-                    ->renderException($e)
-                    ?->toResponse($request);
+                dd($e);
             }
-
 
             // connection error from remote server, e.g. dns not resolved or timeout
             if ($e instanceof ConnectException) {
