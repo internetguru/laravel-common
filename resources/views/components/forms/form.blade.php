@@ -5,12 +5,19 @@
 ])
 
 @php
-    if (! $testid) {
-        $action = $attributes->get('action', 'no-action');
-        $route = Route::getRoutes()->match(request()->create($action, $method));
-        $testid = 'external';
-        if ($route) {
-            $testid = $route->getName();
+    if (! isset($attributes['action'])) {
+        $attributes['action'] = 'no-action';
+    } elseif (! $testid) {
+        try {
+            $action = $attributes->get('action');
+            $route = Route::getRoutes()->match(request()->create($action, $method));
+            $testid = 'external';
+            if ($route) {
+                $testid = $route->getName();
+            }
+        } catch (\Exception $e) {
+            // If we can't determine the route, we will use 'external' as a fallback
+            $testid = 'external';
         }
     }
 @endphp
