@@ -6,6 +6,7 @@
 
 @php
     if (! $testid) {
+        $action = $attributes->get('action', 'no-action');
         $route = Route::getRoutes()->match(request()->create($action));
         $testid = 'external';
         if ($route) {
