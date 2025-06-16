@@ -2,7 +2,18 @@
     'method' => 'POST',
     'recaptcha' => app(\InternetGuru\LaravelCommon\Contracts\ReCaptchaInterface::class)->isEnabled(),
 ])
-<form method="{{ $method }}" {{ $attributes }}>
+
+@php
+    if (! $testid) {
+        $route = Route::getRoutes()->match(request()->create($action));
+        $testid = 'external';
+        if ($route) {
+            $testid = $route->getName();
+        }
+    }
+@endphp
+
+<form method="{{ $method }}" {{ $attributes }} data-testid="form-{{ $testid }}">
     @csrf
     @if ($recaptcha)
         {!! RecaptchaV3::field('store') !!}
