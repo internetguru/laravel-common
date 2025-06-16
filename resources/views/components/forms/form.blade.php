@@ -6,7 +6,7 @@
 
 @php
     if (! isset($attributes['action'])) {
-        $attributes['action'] = 'no-action';
+        $testid = 'no-action';
     } elseif (! $testid) {
         try {
             $action = $attributes->get('action');
