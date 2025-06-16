@@ -1,6 +1,7 @@
 @props([
     'method' => 'POST',
     'recaptcha' => app(\InternetGuru\LaravelCommon\Contracts\ReCaptchaInterface::class)->isEnabled(),
+    'testid' => null,
 ])
 
 @php
