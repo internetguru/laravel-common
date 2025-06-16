@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add medium light border to system messages.
+
 ## [2.2.3] - 2025-06-16
 
 ### Fixed
