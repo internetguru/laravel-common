@@ -1,4 +1,4 @@
-<ul class="list-inline">
+<ul class="list-inline" data-testid="lang-switch">
     @foreach (config('languages') as $lang => $title)
         @php
             if ($lang == app()->getLocale()) {

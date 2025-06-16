@@ -1,4 +1,4 @@
-<nav style="--bs-breadcrumb-divider: '{{ $divider }}';" aria-label="breadcrumb">
+<nav style="--bs-breadcrumb-divider: '{{ $divider }}';" aria-label="breadcrumb" data-testid="breadcrumb">
     <ol class="breadcrumb" style="margin-bottom: 0;">
         @foreach ($items as $index => $item)
             <li class="breadcrumb-item {{ $loop->last ? 'active' : '' }}">
