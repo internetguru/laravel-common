@@ -17,6 +17,7 @@
             name="{{ $name }}"
             placeholder="{{ $slot }}"
             style="height: {{ $rows }}rem"
+            data-testid="input-{{ $name }}"
             @if ($disabled) disabled @endif
             {{ $attributes }}
         >{{ old($name) ?? $value ?? '' }}</textarea>
@@ -26,6 +27,7 @@
             id="{{ $name }}"
             name="{{ $name }}"
             placeholder="{{ $slot }}"
+            data-testid="input-{{ $name }}"
             @if ($disabled) disabled @endif
             {{ $attributes }}
         >
@@ -45,6 +47,7 @@
             class="form-check-input me-2 @error($name) is-invalid @enderror"
             id="{{ $name }}"
             name="{{ $name }}"
+            data-testid="input-{{ $name }}"
             @if (old($name) ?? $checked) checked @endif
             @if ($disabled) disabled @endif
             {{ $attributes }}
@@ -56,6 +59,7 @@
             id="{{ $name }}"
             name="{{ $name }}"
             placeholder="{{ $slot }}"
+            data-testid="input-{{ $name }}"
             @if ($type !== 'password') value="{{ old($name) ?? $value ?? '' }}" @endif
             @if ($disabled) disabled @endif
             {{ $attributes }}
@@ -66,7 +70,7 @@
             <label for="{{ $name }}">{{ $slot }}@if($type == 'select')<span>▼</span>@endif</label>
         @endif
         @error($name)
-            <span class="invalid-feedback" role="alert">
+            <span class="invalid-feedback" role="alert" data-testid="input-error-{{ $name }}">
                 <strong>{{ $message }}</strong>
             </span>
         @enderror
