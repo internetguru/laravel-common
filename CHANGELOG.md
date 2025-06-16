@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `data-testid` attributes to components for easier testing.
+
 ## [2.1.1] - 2025-05-31
 
 ### Fixed
