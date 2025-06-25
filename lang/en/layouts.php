@@ -26,4 +26,6 @@ return [
     'support.subject' => 'Tech Support Request',
     'support.link' => 'Technical support',
 
+    'readonly_mode' => '**Read-Only Mode**: Write operations are disabled.',
+
 ];
