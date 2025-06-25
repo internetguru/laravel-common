@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add read-only mode info component.
+- Add ReadOnlyServiceProvider to handle read-only mode.
+
 ## [2.3.2] - 2025-06-16
 
 ### Fixed
