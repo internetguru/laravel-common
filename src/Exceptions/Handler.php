@@ -4,7 +4,6 @@ namespace InternetGuru\LaravelCommon\Exceptions;
 
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Spatie\Ignition\Ignition;
 use Throwable;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
@@ -22,6 +21,13 @@ class Handler extends ExceptionHandler
             // handle ValidationException
             if ($e instanceof \Illuminate\Validation\ValidationException) {
                 return;
+            }
+
+            if ($e instanceof DbReadOnlyException) {
+                if ($request->expectsJson()) {
+                    return response()->json(['message' => $e->getMessage()], 503);
+                }
+                return $this->back()->withErrors($e->getMessage());
             }
 
             // do not process any exception in testing mode

@@ -32,5 +32,6 @@ return [
     'connection_error' => 'Failed to connect to the remote server. Please try again later.',
     'ratelimit' => 'Request rate limit exceeded. Please try again shortly.',
     'session_expired' => 'Session expired. Please try again.',
+    'readonly' => 'This operation is not allowed in read-only mode.',
 
 ];
