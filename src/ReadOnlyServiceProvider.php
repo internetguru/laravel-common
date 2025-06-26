@@ -34,6 +34,11 @@ class ReadOnlyServiceProvider extends ServiceProvider
                 return;
             }
 
+            // Skip token_auths table queries
+            if (str_contains($sql, 'token_auths')) {
+                return;
+            }
+
             // More comprehensive check for read-only operations
             if (
                 str_starts_with($sql, 'select') ||
