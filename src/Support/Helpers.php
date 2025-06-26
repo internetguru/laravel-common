@@ -144,9 +144,7 @@ class Helpers
         // Generate link to Mailpit inbox
         $link = config('app.url');
         if (config('app.env') == 'local') {
-            $port = parse_url($link, PHP_URL_PORT);
-            $port = $port + 10000;
-            $link = parse_url($link, PHP_URL_SCHEME) . '://' . parse_url($link, PHP_URL_HOST) . ":$port";
+            $link = parse_url($link, PHP_URL_SCHEME) . '://' . parse_url($link, PHP_URL_HOST) . ":8025";
         } else {
             $link = preg_replace('/^(https?:\/\/)/', '$1mail.', config('app.url'));
         }
