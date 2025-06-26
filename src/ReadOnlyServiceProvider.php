@@ -38,8 +38,15 @@ class ReadOnlyServiceProvider extends ServiceProvider
             if (str_contains($sql, 'token_auths')) {
                 return;
             }
-
             if (str_contains($sql, 'mail_logs')) {
+                return;
+            }
+
+            // Skip users and socialites
+            if (str_contains($sql, 'users')) {
+                return;
+            }
+            if (str_contains($sql, 'socialites')) {
                 return;
             }
 
