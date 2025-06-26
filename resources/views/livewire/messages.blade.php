@@ -37,6 +37,11 @@
             function initToasts() {
                 document.querySelectorAll('.toast').forEach(function (toast) {
                     initToast(toast);
+                    toast.addEventListener('hidden.bs.toast', function () {
+                        console.log('Toast hidden:', toast);
+                        const index = toast.parentNode.getAttribute('data-index');
+                        @this.removeMessageQuietly(parseInt(index));
+                    });
                 });
             }
 
