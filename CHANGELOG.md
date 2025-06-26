@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Local mail port is always 8025.
+
 ## [2.5.1] - 2025-06-26
 
 ### Fixed
