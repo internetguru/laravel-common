@@ -9,6 +9,10 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 class Handler extends ExceptionHandler
 {
+    protected $dontReport = [
+        DbReadOnlyException::class,
+    ];
+
     public function register()
     {
         $this->renderable(function (Throwable $e, $request) {
