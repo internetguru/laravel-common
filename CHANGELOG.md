@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Do not report DbReadOnlyException.
+- Skip token_auths table queries in read-only mode.
+
 ## [2.4.2] - 2025-06-26
 
 ### Fixed
