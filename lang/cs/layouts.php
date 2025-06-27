@@ -26,6 +26,6 @@ return [
     'support.subject' => 'Požadavek na technickou podporu',
     'support.link' => 'Technická podpora',
 
-    'readonly_mode' => '**Režim pouze pro čtení**: Operace které mění data jsou zakázány.',
+    'readonly_mode' => '**Režim pro čtení**: Úpravy a ukládání dat nejsou povoleny.',
 
 ];
