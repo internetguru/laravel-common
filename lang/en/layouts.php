@@ -28,4 +28,6 @@ return [
 
     'readonly_mode' => '**Read-only mode**: Editing and saving data is not allowed.',
 
+    'just_now' => 'just now',
+
 ];

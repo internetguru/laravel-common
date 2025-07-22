@@ -28,4 +28,6 @@ return [
 
     'readonly_mode' => '**Režim pro čtení**: Úpravy a ukládání dat nejsou povoleny.',
 
+    'just_now' => 'právě teď',
+
 ];
