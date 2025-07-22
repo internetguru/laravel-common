@@ -41,6 +41,17 @@ function initCarbonMacros()
 
     Carbon::macro('dateTimeForHumans', fn () => $this->isoFormat('L LT'));
 
+    Carbon::macro('myDiffForHumans', function (): string {
+        $diff = $this->diffForHumans();
+        $seconds = $this->diffInSeconds();
+
+        if ($seconds < 60) {
+            return __('ig-common::layouts.just_now');
+        }
+
+        return $diff;
+    });
+
     Carbon::macro('timeForHumans', function () {
         return preg_replace(['/:00 /', '/^0/'], '', $this->isoFormat('LT'));
     });
