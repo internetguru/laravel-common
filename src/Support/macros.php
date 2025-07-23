@@ -43,7 +43,7 @@ function initCarbonMacros()
 
     Carbon::macro('myDiffForHumans', function (): string {
         $diff = $this->diffForHumans();
-        $seconds = $this->diffInSeconds();
+        $seconds = $this->diffInSeconds(now(), true);
 
         if ($seconds < 60) {
             return __('ig-common::layouts.just_now');
