@@ -52,8 +52,8 @@ class CommonServiceProvider extends ServiceProvider
         // Register middleware to inject ReCaptcha script
         $this->app['router']->pushMiddlewareToGroup('web', InjectRecaptchaScript::class);
 
-        // throw if queue connection is sync
-        if ($this->app['config']->get('queue.default') === 'sync') {
+        // throw if queue connection is sync and if not testing
+        if ($this->app['config']->get('queue.default') === 'sync' && ! app()->runningUnitTests()) {
             throw new \Exception('Queue connection is set to sync. Please change it to a different connection.');
         }
 
