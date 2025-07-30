@@ -24,8 +24,10 @@
 
 <form method="{{ $method }}" {{ $attributes }} data-testid="form-{{ $testid }}">
     @csrf
+    <div wire:ignore.self>
     @if ($recaptcha)
         {!! RecaptchaV3::field('store') !!}
     @endif
+    </div>
     {{ $slot }}
 </form>
