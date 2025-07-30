@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.8.1] - 2025-07-30
+
+### Fixed
+
+- Fix add wire ignore self to for recaptcha script"
+
 ## [2.8.0] - 2025-07-24
 
 _Stable release based on [2.8.0-rc.1]._
@@ -636,6 +642,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[2.8.1]: https://https://github.com/internetguru/laravel-common/compare/v2.8.0...v2.8.1
 [2.8.0]: https://https://github.com/internetguru/laravel-common/compare/v2.7.1...v2.8.0
 [2.8.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v2.7.1
 [2.7.1]: https://https://github.com/internetguru/laravel-common/compare/v2.7.0...v2.7.1
