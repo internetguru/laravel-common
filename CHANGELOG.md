@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.8.3] - 2025-08-04
+
+### Fixed
+
+- Remove wire:ignore from form recaptcha.
+
 ## [2.8.2] - 2025-07-30
 
 ### Fixed
@@ -651,6 +657,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[2.8.3]: https://https://github.com/internetguru/laravel-common/compare/v2.8.2...v2.8.3
 [2.8.2]: https://https://github.com/internetguru/laravel-common/compare/v2.8.1...v2.8.2
 [2.8.1]: https://https://github.com/internetguru/laravel-common/compare/v2.8.0...v2.8.1
 [2.8.0]: https://https://github.com/internetguru/laravel-common/compare/v2.7.1...v2.8.0
