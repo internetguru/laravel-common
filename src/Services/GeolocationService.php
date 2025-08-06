@@ -25,7 +25,7 @@ class GeolocationService
         if (RateLimiter::tooManyAttempts('geoip-lookup', 5)) {
             Log::warning('Rate limit exceeded for GeoIP lookups.');
 
-            return config('location');
+            return new Location(config('location'));
         }
 
         try {
@@ -34,13 +34,13 @@ class GeolocationService
         } catch (\Exception $e) {
             Log::error('GeoIP lookup failed: ' . $e->getMessage());
 
-            return config('location');
+            return new Location(config('location'));
         }
 
         if (! $location) {
             Log::error('Could not resolve location from IP: ' . $ip);
 
-            return config('location');
+            return new Location(config('location'));
         }
 
         Cache::put($cacheKey, $location);
