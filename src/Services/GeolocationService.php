@@ -23,24 +23,18 @@ class GeolocationService
         }
 
         if (RateLimiter::tooManyAttempts('geoip-lookup', 5)) {
-            Log::warning('Rate limit exceeded for GeoIP lookups.');
-
-            return new Location(config('location'));
+            throw new GeolocationServiceException('Rate limit exceeded for GeoIP lookups.');
         }
 
         try {
             $location = GeoIP::getLocation($ip);
             RateLimiter::hit('geoip-lookup', 60); // 60 seconds cooldown
         } catch (\Exception $e) {
-            Log::error('GeoIP lookup failed: ' . $e->getMessage());
-
-            return new Location(config('location'));
+            throw new GeolocationServiceException('GeoIP lookup failed: ' . $e->getMessage());
         }
 
         if (! $location) {
-            Log::error('Could not resolve location from IP: ' . $ip);
-
-            return new Location(config('location'));
+            throw new GeolocationServiceException('Could not resolve location from IP: ' . $ip);
         }
 
         Cache::put($cacheKey, $location);
