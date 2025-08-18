@@ -53,7 +53,7 @@ class CommonServiceProvider extends ServiceProvider
         ], 'ig-common:views');
 
         $this->publishes([
-            __DIR__ . '/../lang' => resource_path('lang/vendor/ig-common'),
+            __DIR__ . '/../lang' => base_path('lang/vendor/ig-common'),
         ], 'ig-common:lang');
 
         Event::listen(
