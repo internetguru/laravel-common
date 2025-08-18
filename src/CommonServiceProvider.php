@@ -44,6 +44,18 @@ class CommonServiceProvider extends ServiceProvider
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'ig-common:migrations');
 
+        $this->publishes([
+            __DIR__ . '/../config/ig-common.php' => config_path('ig-common.php'),
+        ], 'ig-common:config');
+
+        $this->publishes([
+            __DIR__ . '/../resources/views' => resource_path('views/vendor/ig-common'),
+        ], 'ig-common:views');
+
+        $this->publishes([
+            __DIR__ . '/../lang' => resource_path('lang/vendor/ig-common'),
+        ], 'ig-common:lang');
+
         Event::listen(
             NotificationSent::class,
             [LogSentNotification::class, 'handle']
