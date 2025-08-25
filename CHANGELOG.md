@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.9.0] - 2025-08-25
+
+_Stable release based on [2.9.0-rc.1]._
+
 ## [2.9.0-rc.1] - 2025-08-25
 
 ### Added
@@ -690,6 +694,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[2.9.0]: https://https://github.com/internetguru/laravel-common/compare/v2.8.8...v2.9.0
 [2.9.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v2.8.8
 [2.8.8]: https://https://github.com/internetguru/laravel-common/compare/v2.8.7...v2.8.8
 [2.8.7]: https://https://github.com/internetguru/laravel-common/compare/v2.8.6...v2.8.7
