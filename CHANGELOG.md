@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Simplify eamil regards to "Sent from :url".
+
 ## [2.9.0] - 2025-08-25
 
 _Stable release based on [2.9.0-rc.1]._

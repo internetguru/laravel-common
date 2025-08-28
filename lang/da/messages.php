@@ -10,7 +10,7 @@ return [
     'missing-da' => 'Mangler dansk oversættelse',
 
     'email.hello' => 'Hej!',
-    'email.regards' => 'Venlig hilsen',
+    'email.regards' => 'Sendt fra',
     'email.signature' => 'Team :company',
     'email.trouble' => 'Hvis du har problemer med at klikke på knappen, klik på URL\'en nedenfor, eller kopier den og indsæt den i din browser.',
 
