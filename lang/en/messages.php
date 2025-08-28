@@ -10,7 +10,7 @@ return [
     'missing-cs' => 'Missing Czech translation',
 
     'email.hello' => 'Hello!',
-    'email.regards' => 'Regards',
+    'email.regards' => 'Sent from',
     'email.signature' => 'Team :company',
     'email.trouble' => 'If you\'re having trouble clicking the button, click the URL below or copy and paste it into your web browser.',
 
