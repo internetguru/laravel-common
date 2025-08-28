@@ -1,3 +1,1 @@
-@lang('ig-common::messages.email.regards'),
-{{ config('app.name') }}
-{{ config('app.url') }}
+@lang('ig-common::messages.email.regards') {{ config('app.url') }}
