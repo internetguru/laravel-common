@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.10.1] - 2025-09-02
+
+### Fixed
+
+- Skip unnamed navig sub-routes.
+
 ## [2.10.0] - 2025-08-28
 
 _Stable release based on [2.10.0-rc.1]._
@@ -707,6 +713,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[2.10.1]: https://https://github.com/internetguru/laravel-common/compare/v2.10.0...v2.10.1
 [2.10.0]: https://https://github.com/internetguru/laravel-common/compare/v2.9.0...v2.10.0
 [2.10.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v2.9.0
 [2.9.0]: https://https://github.com/internetguru/laravel-common/compare/v2.8.8...v2.9.0
