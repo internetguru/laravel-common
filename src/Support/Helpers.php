@@ -88,6 +88,10 @@ class Helpers
                 $route = Route::getRoutes()->match(request()->create($currentPath));
                 $routeName = $route->getName();
                 $parameters = $route->parameters();
+                if ($routeName === null) {
+                    // skip unnamed sub-routes
+                    continue;
+                }
                 $uri = $currentPath;
                 foreach ($route->middleware() as $item) {
                     if ($item == 'auth') {
