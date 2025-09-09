@@ -13,6 +13,10 @@ class LogSentNotification
             return;
         }
 
+        if (! isset($event->response) || ! method_exists($event->response, 'getOriginalMessage')) {
+            return;
+        }
+
         $message  = $event->response->getOriginalMessage();
         $headers = $message->getHeaders();
         $to = $headers->get('to')->toString();
