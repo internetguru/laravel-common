@@ -7,6 +7,6 @@
     );
     $subject = urlencode(__('ig-common::layouts.support.subject'));
 @endphp
-<a href="mailto:@lang('layouts.provider.email')?body={{ $body }}&subject={{ $subject }}" data-testid="support-link">
+<a href="mailto:@lang('ig-common::layouts.provider.email')?body={{ $body }}&subject={{ $subject }}" data-testid="support-link">
     @lang('ig-common::layouts.support.link')
 </a>

@@ -30,4 +30,9 @@ return [
 
     'just_now' => 'lige nu',
 
+    'provider' => '© 2022–:year af :link – Alle rettigheder forbeholdes.',
+    'provider.email' => 'info@internetguru.io',
+    'provider.name' => 'Internet Guru',
+    'provider.www' => 'www.internetguru.io',
+
 ];

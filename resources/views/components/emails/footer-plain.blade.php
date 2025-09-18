@@ -1,3 +1,3 @@
-<x-ig-common::emails.service-plain />
+<x-ig-common::emails.salutation-plain />
 
-@lang('layouts.provider', ['link' => __('layouts.provider.www'), 'year' => date('Y')])
+@lang('ig-common::layouts.provider', ['link' => __('ig-common::layouts.provider.www'), 'year' => date('Y')])
