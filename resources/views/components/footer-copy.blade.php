@@ -1,10 +1,10 @@
 @php
 $serviceLink = sprintf(
     '<a href="https://%s" data-testid="%s">%s</a>',
-    __('layouts.provider.www'),
+    __('ig-common::layouts.provider.www'),
     'provider-link',
-    __('layouts.provider.name')
+    __('ig-common::layouts.provider.name')
 );
 @endphp
 
-@lang('layouts.provider', ['link' => $serviceLink, 'year' => date('Y')])
+@lang('ig-common::layouts.provider', ['link' => $serviceLink, 'year' => date('Y')])

@@ -30,4 +30,9 @@ return [
 
     'just_now' => 'právě teď',
 
+    'provider' => '© 2022–:year :link – Všechna práva vyhrazena.',
+    'provider.email' => 'info@internetguru.io',
+    'provider.name' => 'Internet Guru',
+    'provider.www' => 'www.internetguru.cz',
+
 ];

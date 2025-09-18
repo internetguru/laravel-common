@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="color-scheme" content="light">
-<meta name="copyright" content="@lang('layouts.provider.name')"/>
-<meta name="author" content="@lang('layouts.provider.email')"/>
+<meta name="copyright" content="@lang('ig-common::layouts.provider.name')"/>
+<meta name="author" content="@lang('ig-common::layouts.provider.email')"/>
 <meta name="generator" content="{{ InternetGuru\LaravelCommon\Support\Helpers::getAppInfo() }}"/>
 <meta name="supported-color-schemes" content="light">
 <style>
@@ -49,10 +49,6 @@
         @yield('content')
 
         @section('footer')
-            <p class="salutation">
-                <x-ig-common::emails.salutation />
-            </p>
-
             <x-ig-common::emails.footer-html />
         @show
     </div>
