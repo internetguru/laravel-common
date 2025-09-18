@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Remove external email translations.
+- Simplify email template.
+
 ## [2.10.2] - 2025-09-09
 
 ### Fixed
