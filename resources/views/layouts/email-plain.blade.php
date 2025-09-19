@@ -1,6 +1,6 @@
 @section('content')
 <x-ig-common::emails.salutation-plain />
-@endsection
+@show
 
 @section('footer')
 <x-ig-common::emails.footer-plain />
