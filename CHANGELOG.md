@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.12.2] - 2025-09-19
+
+### Fixed
+
+- Fix plain text email template
+
 ## [2.12.1] - 2025-09-19
 
 ### Fixed
@@ -739,6 +745,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[2.12.2]: https://https://github.com/internetguru/laravel-common/compare/v2.12.1...v2.12.2
 [2.12.1]: https://https://github.com/internetguru/laravel-common/compare/v2.12.0...v2.12.1
 [2.12.0]: https://https://github.com/internetguru/laravel-common/compare/v2.11.0...v2.12.0
 [2.12.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v2.11.0
