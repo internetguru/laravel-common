@@ -48,7 +48,7 @@
     <div style="max-width: 50em;">
         @section('content')
             <x-ig-common::emails.salutation />
-        @endsection
+        @show
 
         @section('footer')
             <x-ig-common::emails.footer-html />
