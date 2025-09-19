@@ -46,7 +46,9 @@
 </head>
 <body>
     <div style="max-width: 50em;">
-        @yield('content')
+        @section('content')
+            <x-ig-common::emails.salutation />
+        @endsection
 
         @section('footer')
             <x-ig-common::emails.footer-html />
