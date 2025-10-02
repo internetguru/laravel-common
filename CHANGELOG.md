@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.12.5] - 2025-10-02
+
+### Fixed
+
+- Show 1 year for date between 11 months and 15 days and 12 months and 15 days.
+
 ## [2.12.4] - 2025-10-02
 
 ### Fixed
@@ -757,6 +763,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[2.12.5]: https://https://github.com/internetguru/laravel-common/compare/v2.12.4...v2.12.5
 [2.12.4]: https://https://github.com/internetguru/laravel-common/compare/v2.12.3...v2.12.4
 [2.12.3]: https://https://github.com/internetguru/laravel-common/compare/v2.12.2...v2.12.3
 [2.12.2]: https://https://github.com/internetguru/laravel-common/compare/v2.12.1...v2.12.2
