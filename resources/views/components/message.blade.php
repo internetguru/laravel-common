@@ -24,6 +24,6 @@
         <div class="toast-body flex-grow-1">
             {!! $message !!}
         </div>
-        <button type="button" class="btn-close btn-close-white m-2" style="margin-top: 0.7em;" data-bs-dismiss="toast" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white m-2" style="margin-top: 0.7em; flex-shrink: 0;" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
 </div>
