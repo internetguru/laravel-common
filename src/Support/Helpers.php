@@ -109,8 +109,8 @@ class Helpers
                     }
                 }
             } catch (Exception $e) {
-                $routeName = $segment;
-                $uri = '';
+                // If route not found skip it
+                continue;
             }
             $transKey = "ig-common::navig.$routeName";
             if (! Lang::has($transKey)) {
