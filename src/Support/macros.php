@@ -49,6 +49,12 @@ function initCarbonMacros()
             return __('ig-common::layouts.just_now');
         }
 
+        // show 1 year for date between 11 months and 15 days and 12 months and 15 days
+        $fullDiff = $this->diff(now(), true);
+        if (($fullDiff->m == 11 && $fullDiff->d >= 15) || ($fullDiff->m == 12 && $fullDiff->d <= 15)) {
+            return '1 ' . __('ig-common::layouts.year');
+        }
+
         return $diff;
     });
 

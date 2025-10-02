@@ -29,6 +29,7 @@ return [
     'readonly_mode' => '**Read-only mode**: Editing and saving data is not allowed.',
 
     'just_now' => 'just now',
+    'year' => 'year',
 
     'provider' => '© 2022–:year by :link – All rights reserved.',
     'provider.email' => 'info@internetguru.io',

@@ -29,6 +29,7 @@ return [
     'readonly_mode' => '**Režim pro čtení**: Úpravy a ukládání dat nejsou povoleny.',
 
     'just_now' => 'právě teď',
+    'year' => 'rok',
 
     'provider' => '© 2022–:year :link – Všechna práva vyhrazena.',
     'provider.email' => 'info@internetguru.io',
