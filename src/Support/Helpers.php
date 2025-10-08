@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class Helpers
 {
@@ -101,14 +102,14 @@ class Helpers
                         }
                     } elseif (strpos($item, 'can:') === 0) {
                         [$permission, $model] = explode(',', substr($item, 4));
-                        $modelInstance = array_key_exists($model, $parameters) ? $parameters[$model] : app($model);
+                        $modelInstance = array_key_exists($model, $parameters) ? $parameters[$model] : $model;
                         if (! Gate::allows($permission, $modelInstance)) {
                             // If user does not have permission, return the route name and empty URI
                             $uri = '';
                         }
                     }
                 }
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 // If route not found skip it
                 continue;
             }
