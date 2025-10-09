@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Add description to base layout.
+
 ## [2.12.6] - 2025-10-08
 
 ### Fixed
