@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- Add description to base layout.
+
 ## [2.12.6] - 2025-10-08
 
 ### Fixed
@@ -769,6 +775,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
 [2.12.6]: https://https://github.com/internetguru/laravel-common/compare/v2.12.5...v2.12.6
 [2.12.5]: https://https://github.com/internetguru/laravel-common/compare/v2.12.4...v2.12.5
 [2.12.4]: https://https://github.com/internetguru/laravel-common/compare/v2.12.3...v2.12.4
