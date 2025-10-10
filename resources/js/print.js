@@ -9,7 +9,7 @@ export default () => ({
                 <title>Print</title>
                 <style type="text/css">${styles}</style>
             </head>
-            <body class="print-dialog">${html}</body>
+            <body>${html}</body>
         </html>`
 
         const script = document.createElement("script")
@@ -25,13 +25,14 @@ export default () => ({
         try {
             docReady(() => { setTimeout(() => {
                 window.print()
-                window.location.reload()
+                // window.location.reload()
             }, 250) })
         } catch (ex) {
             console.log(ex)
         }
         `
         document.body.appendChild(script)
+        document.body.classList.add('print-dialog')
     },
 
     printElement(querySelector, styles = '') {
