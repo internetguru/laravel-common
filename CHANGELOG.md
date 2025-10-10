@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `print-button` component.
+
 ## [2.13.0] - 2025-10-09
 
 _Stable release based on [2.13.0-rc.1]._
