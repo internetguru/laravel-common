@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Add `print-button` component.
+
 ## [2.13.0] - 2025-10-09
 
 _Stable release based on [2.13.0-rc.1]._
@@ -779,6 +785,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
 [2.13.0]: https://https://github.com/internetguru/laravel-common/compare/v2.12.6...v2.13.0
 [2.13.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v2.12.6
 [2.12.6]: https://https://github.com/internetguru/laravel-common/compare/v2.12.5...v2.12.6
