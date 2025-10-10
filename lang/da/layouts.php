@@ -36,4 +36,6 @@ return [
     'provider.name' => 'Internet Guru',
     'provider.www' => 'www.internetguru.io',
 
+    'print' => 'Udskriv',
+
 ];
