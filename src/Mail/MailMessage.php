@@ -3,6 +3,8 @@
 namespace InternetGuru\LaravelCommon\Mail;
 
 use Illuminate\Notifications\Messages\MailMessage as BaseMailMessage;
+use InternetGuru\LaravelCommon\Exceptions\GeolocationServiceException;
+use InternetGuru\LaravelCommon\Services\GeolocationService;
 
 class MailMessage extends BaseMailMessage
 {
@@ -14,4 +16,18 @@ class MailMessage extends BaseMailMessage
 
         return $this;
     }
+
+    public function view($view, array $data = [])
+    {
+        $data['ip'] = request()->ip();
+        try {
+            $timezone = app(GeolocationService::class)->getLocation($data['ip'])->timezone;
+        } catch (GeolocationServiceException $ex) {
+            $timezone = null;
+        }
+        $data['timezone'] = $timezone;
+
+        return parent::view($view, $data);
+    }
+
 }

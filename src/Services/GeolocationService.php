@@ -3,7 +3,6 @@
 namespace InternetGuru\LaravelCommon\Services;
 
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use InternetGuru\LaravelCommon\Exceptions\GeolocationServiceException;
 use Torann\GeoIP\Facades\GeoIP;
