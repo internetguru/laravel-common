@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Add ip and timezone into email footer.
+- Add `TimezoneMiddleware` to set `display_timezone` session by ip.
 
 ## [2.14.2] - 2025-10-10
 
