@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add ip and timezone into email footer.
+
 ## [2.14.2] - 2025-10-10
 
 ### Fixed

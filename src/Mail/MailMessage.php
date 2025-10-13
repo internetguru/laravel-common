@@ -3,6 +3,7 @@
 namespace InternetGuru\LaravelCommon\Mail;
 
 use Illuminate\Notifications\Messages\MailMessage as BaseMailMessage;
+use InternetGuru\LaravelCommon\Services\GeolocationService;
 
 class MailMessage extends BaseMailMessage
 {
@@ -14,4 +15,13 @@ class MailMessage extends BaseMailMessage
 
         return $this;
     }
+
+    public function view($view, array $data = [])
+    {
+        $data['ip'] = request()->ip();
+        $data['timezone'] = app(GeolocationService::class)->getLocation($data['ip'])->timezone;
+
+        return parent::view($view, $data);
+    }
+
 }
