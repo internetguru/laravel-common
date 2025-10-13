@@ -12,7 +12,7 @@ class TimezoneMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (session()->has('display_timezone')) {
-            return next($request);
+            return $next($request);
         }
 
         $settingsIp = config('app.settings_ip');
