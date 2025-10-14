@@ -19,10 +19,11 @@ class Translator extends BaseTranslator
         $locales = $this->getAvailableLocales();
         foreach ($locales as $locale) {
             $tmpLine = parent::get($key, $replace, $locale, false);
+            $srcLine = parent::get($key, [], $locale, false);
 
             $this->checkMissingTranslation($key, $tmpLine, $locale);
             if ($this->handleMissingTranslationKeys) {
-                $this->checkMissingVariables($key, $tmpLine, $replace, $locale);
+                $this->checkMissingVariables($key, $srcLine, $replace, $locale);
             }
         }
 
