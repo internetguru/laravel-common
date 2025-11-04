@@ -1,0 +1,89 @@
+export default () => ({
+    input: null,
+    clearButton: null,
+
+    init() {
+        // Find the input element
+        this.input = this.$el.querySelector('input[type="text"], input[type="search"], input[type="email"], input[type="url"], input[type="tel"], input[type="number"], textarea, input[type="password"]');
+
+        if (!this.input) {
+            console.warn('Clearable: No suitable input found');
+            return;
+        }
+
+        // Don't add clearable functionality to invalid or disabled inputs
+        if (this.input.disabled || this.input.classList.contains('is-invalid')) {
+            return;
+        }
+
+        // Set up wrapper positioning if it is static
+        if (window.getComputedStyle(this.$el).position === 'static') {
+            this.$el.style.position = 'relative';
+        }
+
+        // Create clear button
+        this.clearButton = document.createElement('button');
+        this.clearButton.type = 'button';
+        this.clearButton.innerHTML = '✕';
+        this.clearButton.style.cssText = `
+            position: absolute;
+            right: 0.5em;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1.125em;
+            line-height: 1;
+            padding: 0.25em 0.375em;
+            color: #999;
+            display: none;
+            z-index: 10;
+        `;
+
+        // Add hover effect
+        this.clearButton.addEventListener('mouseenter', () => {
+            this.clearButton.style.color = '#333';
+        });
+        this.clearButton.addEventListener('mouseleave', () => {
+            this.clearButton.style.color = '#999';
+        });
+
+        // Add click handler
+        this.clearButton.addEventListener('click', () => this.clear());
+
+        // Append button to wrapper
+        this.$el.appendChild(this.clearButton);
+
+        // Add padding to input to make room for button
+        const computedStyle = window.getComputedStyle(this.input);
+        const currentPaddingRight = parseFloat(computedStyle.paddingRight) || 0;
+        const fontSize = parseFloat(computedStyle.fontSize) || 16;
+        this.input.style.paddingRight = (currentPaddingRight + (2 * fontSize)) + 'px';
+
+        // Update visibility on input
+        this.input.addEventListener('input', () => this.updateVisibility());
+
+        // Initial visibility check
+        this.updateVisibility();
+    },
+
+    clear() {
+        if (this.input) {
+            this.input.value = '';
+            this.input.dispatchEvent(new Event('input', { bubbles: true }));
+            this.input.focus();
+            this.updateVisibility();
+        }
+    },
+
+    updateVisibility() {
+        if (this.clearButton) {
+            const shouldShow = this.input
+                && this.input.value.length > 0
+                && !this.input.disabled
+                && !this.input.classList.contains('is-invalid');
+            this.clearButton.style.display = shouldShow ? 'block' : 'none';
+        }
+    }
+});
