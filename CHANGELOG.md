@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add alpine js `clearable` component to input forms, use it by default in ig input component.
+
+### Fixed
+
+- Allow to define ig input class.
+
 ## [2.15.3] - 2025-10-14
 
 ### Fixed

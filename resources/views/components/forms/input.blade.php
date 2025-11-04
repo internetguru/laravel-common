@@ -7,9 +7,13 @@
     'rows' => 10,
     'disabled' => false,
     'checked' => false,
+    'clearable' => true,
 ])
 
-<div @class(["mt-3", "form-floating" => $type !== "checkbox"])>
+<div
+    @class(["mt-3", "form-floating" => $type !== "checkbox"])
+    @if($clearable) x-data="clearable" @endif
+>
     @if ($type === 'textarea')
         <textarea
             id="{{ $name }}"
