@@ -1,8 +1,14 @@
 export default () => ({
     input: null,
     clearButton: null,
+    observer: null,
 
     init() {
+        this.setupClearable();
+        this.setupLivewireListeners();
+    },
+
+    setupClearable() {
         // Find the input element
         this.input = this.$el.querySelector('input[type="text"], input[type="search"], input[type="email"], input[type="url"], input[type="tel"], input[type="number"], textarea, input[type="password"]');
 
@@ -68,6 +74,43 @@ export default () => ({
         this.updateVisibility();
     },
 
+    setupLivewireListeners() {
+        // Listen for Livewire updates
+        document.addEventListener('livewire:navigated', () => {
+            this.reinitialize();
+        });
+
+        document.addEventListener('livewire:updated', (event) => {
+            if (this.$el.contains(event.detail.component.el) || event.detail.component.el.contains(this.$el)) {
+                this.reinitialize();
+            }
+        });
+
+        // Set up MutationObserver as fallback
+        this.observer = new MutationObserver(() => {
+            if (!this.$el.contains(this.clearButton) || !this.$el.contains(this.input)) {
+                this.reinitialize();
+            }
+        });
+
+        this.observer.observe(this.$el, {
+            childList: true,
+            subtree: true
+        });
+    },
+
+    reinitialize() {
+        // Clean up existing button
+        if (this.clearButton && this.$el.contains(this.clearButton)) {
+            this.clearButton.remove();
+        }
+
+        // Re-setup clearable
+        setTimeout(() => {
+            this.setupClearable();
+        }, 10);
+    },
+
     clear() {
         if (this.input) {
             this.input.value = '';
@@ -84,6 +127,15 @@ export default () => ({
                 && !this.input.disabled
                 && !this.input.classList.contains('is-invalid');
             this.clearButton.style.display = shouldShow ? 'block' : 'none';
+        }
+    },
+
+    destroy() {
+        if (this.observer) {
+            this.observer.disconnect();
+        }
+        if (this.clearButton && this.$el.contains(this.clearButton)) {
+            this.clearButton.remove();
         }
     }
 });
