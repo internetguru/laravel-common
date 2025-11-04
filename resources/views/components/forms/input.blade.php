@@ -12,24 +12,22 @@
 <div @class(["mt-3", "form-floating" => $type !== "checkbox"])>
     @if ($type === 'textarea')
         <textarea
-            class="form-control @error($name) is-invalid @enderror"
             id="{{ $name }}"
             name="{{ $name }}"
             placeholder="{{ $slot }}"
             style="height: {{ $rows }}rem"
             data-testid="input-{{ $name }}"
             @if ($disabled) disabled @endif
-            {{ $attributes }}
+            {{ $attributes->merge(['class' => 'form-control' . ($errors->has($name) ? ' is-invalid' : '')]) }}
         >{{ old($name) ?? $value ?? '' }}</textarea>
     @elseif ($type === 'select')
         <select
-            class="form-control @error($name) is-invalid @enderror"
             id="{{ $name }}"
             name="{{ $name }}"
             placeholder="{{ $slot }}"
             data-testid="input-{{ $name }}"
             @if ($disabled) disabled @endif
-            {{ $attributes }}
+            {{ $attributes->merge(['class' => 'form-control' . ($errors->has($name) ? ' is-invalid' : '')]) }}
         >
             @foreach($options as $key => $option)
                 @if (is_array($option))
@@ -44,25 +42,23 @@
     @elseif ($type == 'checkbox')
         <label><input
             type="{{ $type }}"
-            class="form-check-input me-2 @error($name) is-invalid @enderror"
             id="{{ $name }}"
             name="{{ $name }}"
             data-testid="input-{{ $name }}"
             @if (old($name) ?? $checked) checked @endif
             @if ($disabled) disabled @endif
-            {{ $attributes }}
+            {{ $attributes->merge(['class' => 'form-check-input me-2' . ($errors->has($name) ? ' is-invalid' : '')]) }}
         />{{ $slot }}</label>
     @else
         <input
             type="{{ $type }}"
-            class="form-control @error($name) is-invalid @enderror"
             id="{{ $name }}"
             name="{{ $name }}"
             placeholder="{{ $slot }}"
             data-testid="input-{{ $name }}"
             @if ($type !== 'password') value="{{ old($name) ?? $value ?? '' }}" @endif
             @if ($disabled) disabled @endif
-            {{ $attributes }}
+            {{ $attributes->merge(['class' => 'form-control' . ($errors->has($name) ? ' is-invalid' : '')]) }}
         />
     @endif
     @if ($type !== 'hidden')
