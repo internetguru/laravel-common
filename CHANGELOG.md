@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.16.3] - 2025-11-04
+
+### Fixed
+
+- Fix double init clearable button.
+
 ## [2.16.2] - 2025-11-04
 
 ### Fixed
@@ -859,6 +865,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[2.16.3]: https://https://github.com/internetguru/laravel-common/compare/v2.16.2...v2.16.3
 [2.16.2]: https://https://github.com/internetguru/laravel-common/compare/v2.16.1...v2.16.2
 [2.16.1]: https://https://github.com/internetguru/laravel-common/compare/v2.16.0...v2.16.1
 [2.16.0]: https://https://github.com/internetguru/laravel-common/compare/v2.15.3...v2.16.0
