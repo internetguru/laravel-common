@@ -31,6 +31,7 @@ export default () => ({
         this.clearButton = document.createElement('button');
         this.clearButton.type = 'button';
         this.clearButton.innerHTML = '✕';
+        this.clearButton.className = 'clear-button';
         this.clearButton.style.cssText = `
             position: absolute;
             right: 0.5em;
@@ -95,8 +96,9 @@ export default () => ({
 
     reinitialize() {
         // Clean up existing button
-        if (this.clearButton && this.$el.contains(this.clearButton)) {
-            this.clearButton.remove();
+        $btn = $el.querySelector('.clear-button');
+        if ($btn) {
+            $btn.remove();
         }
 
         // Re-setup clearable
