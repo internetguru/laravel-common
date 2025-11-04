@@ -61,12 +61,6 @@ export default () => ({
         // Append button to wrapper
         this.$el.appendChild(this.clearButton);
 
-        // Add padding to input to make room for button
-        const computedStyle = window.getComputedStyle(this.input);
-        const currentPaddingRight = parseFloat(computedStyle.paddingRight) || 0;
-        const fontSize = parseFloat(computedStyle.fontSize) || 16;
-        this.input.style.paddingRight = (currentPaddingRight + (2 * fontSize)) + 'px';
-
         // Update visibility on input
         this.input.addEventListener('input', () => this.updateVisibility());
 
