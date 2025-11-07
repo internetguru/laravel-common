@@ -9,6 +9,10 @@ export default () => ({
     },
 
     setupClearable() {
+        if (!this.$el) {
+            console.warn('Clearable: No element found');
+            return;
+        }
         // Find the input element
         this.input = this.$el.querySelector('input[type="text"], input[type="search"], input[type="email"], input[type="url"], input[type="tel"], input[type="number"], textarea, input[type="password"]');
 
@@ -96,9 +100,9 @@ export default () => ({
 
     reinitialize() {
         // Clean up existing button
-        $btn = $el.querySelector('.clear-button');
-        if ($btn) {
-            $btn.remove();
+        const btn = this.$el.querySelector('.clear-button');
+        if (btn) {
+            btn.remove();
         }
 
         // Re-setup clearable
