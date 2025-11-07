@@ -8,5 +8,5 @@
 <hr />
 <p>
     @lang('ig-common::layouts.provider', ['link' => $providerLink, 'year' => date('Y')])<br />
-    {{ $ip }} @if($timezone)({{ $timezone }})@endif
+    IP: {{ $ip }} @if($timezone)({{ $timezone }})@endif
 </p>
