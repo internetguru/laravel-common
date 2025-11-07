@@ -22,7 +22,7 @@
             style="height: {{ $rows }}rem"
             data-testid="input-{{ $name }}"
             @if ($disabled) disabled @endif
-            {{ $attributes->merge(['class' => 'form-control' . ($errors->has($name) ? ' is-invalid' : '')]) }}
+            {{ $attributes->merge(['class' => 'form-control' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
         >{{ old($name) ?? $value ?? '' }}</textarea>
     @elseif ($type === 'select')
         <select
@@ -31,7 +31,7 @@
             placeholder="{{ $slot }}"
             data-testid="input-{{ $name }}"
             @if ($disabled) disabled @endif
-            {{ $attributes->merge(['class' => 'form-control' . ($errors->has($name) ? ' is-invalid' : '')]) }}
+            {{ $attributes->merge(['class' => 'form-control' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
         >
             @foreach($options as $key => $option)
                 @if (is_array($option))
@@ -51,7 +51,7 @@
             data-testid="input-{{ $name }}"
             @if (old($name) ?? $checked) checked @endif
             @if ($disabled) disabled @endif
-            {{ $attributes->merge(['class' => 'form-check-input me-2' . ($errors->has($name) ? ' is-invalid' : '')]) }}
+            {{ $attributes->merge(['class' => 'form-check-input me-2' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
         />{{ $slot }}</label>
     @else
         <input
@@ -62,7 +62,7 @@
             data-testid="input-{{ $name }}"
             @if ($type !== 'password') value="{{ old($name) ?? $value ?? '' }}" @endif
             @if ($disabled) disabled @endif
-            {{ $attributes->merge(['class' => 'form-control' . ($errors->has($name) ? ' is-invalid' : '')]) }}
+            {{ $attributes->merge(['class' => 'form-control' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
         />
     @endif
     @if ($type !== 'hidden')
