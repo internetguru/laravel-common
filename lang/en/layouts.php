@@ -36,6 +36,10 @@ return [
     'provider.name' => 'Internet Guru',
     'provider.www' => 'www.internetguru.io',
 
+    'email.generated-at' => 'Generated at :url',
+    'email.generator' => 'Generator: :generator',
+    'email.requested-from' => 'Requested from :ip (:timezone)',
+
     'print' => 'Print',
 
 ];
