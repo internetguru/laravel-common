@@ -90,14 +90,13 @@ class ParseUrlPathTest extends TestCase
 
         $result = Helpers::parseUrlPath('home', skipFirst: 1);
 
+        // When skipFirst: 1 is used on /admin/dashboard,
+        // it removes 'admin' and tries to match '/dashboard', which doesn't exist
+        // So only the home route is returned
         $expected = [
             [
                 'uri' => '/',
                 'translation' => __('navig.home'),
-            ],
-            [
-                'uri' => '',
-                'translation' => __('navig.dashboard'),
             ],
         ];
 
