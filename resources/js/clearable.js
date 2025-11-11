@@ -39,7 +39,7 @@ export default () => ({
         this.clearButton.style.cssText = `
             position: absolute;
             right: 0.5em;
-            top: 50%;
+            top: 1.5em;
             transform: translateY(-50%);
             border: none;
             background: none;
