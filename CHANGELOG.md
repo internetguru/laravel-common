@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Extend email footer.
+
+### Fixed
+
+- Fix clearable bnutton position for textarea.
+
 ## [2.16.7] - 2025-11-07
 
 ### Added
@@ -17,9 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Email footer newlines.
-### Changed
-
-- Extend email footer.
 
 ## [2.16.5] - 2025-11-07
 
