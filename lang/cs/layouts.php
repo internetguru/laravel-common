@@ -36,6 +36,11 @@ return [
     'provider.name' => 'Internet Guru',
     'provider.www' => 'www.internetguru.cz',
 
+    'email.generated-at' => 'Vygenerováno na :url',
+    'email.generator' => 'Generátor: :generator',
+    'email.requested-from' => 'Požadavek od :ip (:timezone)',
+
+
     'print' => 'Vytisknout',
 
 ];

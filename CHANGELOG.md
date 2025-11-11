@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.17.0] - 2025-11-11
+
+_Stable release based on [2.17.0-rc.1]._
+
+## [2.17.0-rc.1] - 2025-11-11
+
+### Changed
+
+- Extend email footer.
+
+### Fixed
+
+- Fix clearable bnutton position for textarea.
+
 ## [2.16.7] - 2025-11-07
 
 ### Added
@@ -886,6 +900,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[2.17.0]: https://https://github.com/internetguru/laravel-common/compare/v2.16.7...v2.17.0
+[2.17.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v2.16.7
 [2.16.7]: https://https://github.com/internetguru/laravel-common/compare/v2.16.6...v2.16.7
 [2.16.6]: https://https://github.com/internetguru/laravel-common/compare/v2.16.5...v2.16.6
 [2.16.5]: https://https://github.com/internetguru/laravel-common/compare/v2.16.4...v2.16.5
