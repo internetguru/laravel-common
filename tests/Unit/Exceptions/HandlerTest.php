@@ -23,7 +23,7 @@ class HandlerTest extends TestCase
         parent::setUp();
         $this->handler = app(Handler::class);
         $this->request = new Request();
-        
+
         // Add the package views path with both namespaces
         View::addNamespace('ig-common', __DIR__ . '/../../../resources/views');
         View::addNamespace('common', __DIR__ . '/../../../resources/views');
@@ -46,9 +46,9 @@ class HandlerTest extends TestCase
     {
         $e = new DbReadOnlyException('Database is read-only');
         $this->request->headers->set('Accept', 'application/json');
-        
+
         $response = $this->handler->render($this->request, $e);
-        
+
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(503, $response->getStatusCode());
         $this->assertEquals(['message' => 'Database is read-only'], $response->getData(true));
@@ -58,9 +58,9 @@ class HandlerTest extends TestCase
     {
         $e = new AuthenticationException();
         $this->request->headers->set('Accept', 'application/json');
-        
+
         $response = $this->handler->render($this->request, $e);
-        
+
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(['message' => 'Unauthenticated.'], $response->getData(true));
@@ -70,9 +70,9 @@ class HandlerTest extends TestCase
     {
         $e = ValidationException::withMessages(['field' => ['Invalid input']]);
         $this->request->headers->set('Accept', 'application/json');
-        
+
         $response = $this->handler->render($this->request, $e);
-        
+
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(422, $response->getStatusCode());
         $expectedData = [
@@ -89,9 +89,9 @@ class HandlerTest extends TestCase
         $request = new \GuzzleHttp\Psr7\Request('GET', 'http://example.com');
         $e = new ConnectException('Could not connect', $request);
         $this->request->headers->set('Accept', 'application/json');
-        
+
         $response = $this->handler->render($this->request, $e);
-        
+
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(500, $response->getStatusCode());
         $this->assertArrayHasKey('message', $response->getData(true));
@@ -101,9 +101,9 @@ class HandlerTest extends TestCase
     {
         $e = new HttpException(429);
         $this->request->headers->set('Accept', 'application/json');
-        
+
         $response = $this->handler->render($this->request, $e);
-        
+
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(429, $response->getStatusCode());
         $this->assertArrayHasKey('message', $response->getData(true));
@@ -113,9 +113,9 @@ class HandlerTest extends TestCase
     {
         $e = new HttpException(419);
         $this->request->headers->set('Accept', 'application/json');
-        
+
         $response = $this->handler->render($this->request, $e);
-        
+
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(419, $response->getStatusCode());
         $this->assertArrayHasKey('message', $response->getData(true));
@@ -124,50 +124,134 @@ class HandlerTest extends TestCase
     public function testUnknownHttpExceptionWithHtmlResponse()
     {
         app()['env'] = 'production';
-        
+
         $e = new HttpException(418);
-        
+
         $response = $this->handler->render($this->request, $e);
-        
+
         $this->assertEquals(418, $response->getStatusCode());
         // Just verify status code is in the response since translations might not be available
         $this->assertStringContainsString('418', $response->getContent());
-        
+
         app()['env'] = 'testing';
     }
 
     public function testKnownHttpExceptionWithHtmlResponse()
     {
         app()['env'] = 'production';
-        
+
         $e = new HttpException(404);
-        
+
         $response = $this->handler->render($this->request, $e);
-        
+
         $this->assertEquals(404, $response->getStatusCode());
         // Just verify status code is in the response since translations might not be available
         $this->assertStringContainsString('404', $response->getContent());
-        
+
         app()['env'] = 'testing';
     }
 
     public function testBackWithPreviousPage()
     {
         session(['prevPage' => '/previous']);
-        
+
         $e = new DbReadOnlyException('Database is read-only');
         $response = $this->handler->render($this->request, $e);
-        
+
         $this->assertStringEndsWith('/previous', $response->getTargetUrl());
     }
 
     public function testBackWithoutPreviousPage()
     {
         session()->forget('prevPage');
-        
+
         $e = new DbReadOnlyException('Database is read-only');
         $response = $this->handler->render($this->request, $e);
-        
+
         $this->assertTrue($response->getTargetUrl() !== '');
+    }
+
+    public function testConnectExceptionWithoutJson()
+    {
+        app()['env'] = 'production';
+
+        $guzzleRequest = new \GuzzleHttp\Psr7\Request('GET', 'http://example.com');
+        $e = new ConnectException('Could not connect', $guzzleRequest);
+
+        // Set up previous page in session for redirect
+        session(['prevPage' => '/previous']);
+
+        $response = $this->handler->render($this->request, $e);
+
+        // Should redirect back with error
+        $this->assertNotNull($response);
+        $this->assertTrue(method_exists($response, 'getTargetUrl'));
+
+        app()['env'] = 'testing';
+    }
+
+    public function testThrottleExceptionWithoutJson()
+    {
+        app()['env'] = 'production';
+
+        $e = new HttpException(429);
+
+        // Set up previous page in session for redirect
+        session(['prevPage' => '/previous']);
+
+        $response = $this->handler->render($this->request, $e);
+
+        // Should redirect back with error
+        $this->assertNotNull($response);
+        $this->assertTrue(method_exists($response, 'getTargetUrl'));
+
+        app()['env'] = 'testing';
+    }
+
+    public function testSessionExpiredWithoutJson()
+    {
+        app()['env'] = 'production';
+
+        $e = new HttpException(419);
+
+        // Set up previous page in session for redirect
+        session(['prevPage' => '/previous']);
+
+        $response = $this->handler->render($this->request, $e);
+
+        // Should redirect back with error
+        $this->assertNotNull($response);
+        $this->assertTrue(method_exists($response, 'getTargetUrl'));
+
+        app()['env'] = 'testing';
+    }
+
+    public function testGenericExceptionWithJsonResponse()
+    {
+        $e = new HttpException(500, 'Internal Server Error');
+        $this->request->headers->set('Accept', 'application/json');
+
+        $response = $this->handler->render($this->request, $e);
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(500, $response->getStatusCode());
+        $this->assertEquals(['message' => 'Internal Server Error'], $response->getData(true));
+    }
+
+    public function testMultipleHttpStatusCodesHtmlResponse()
+    {
+        app()['env'] = 'production';
+
+        $statusCodes = [401, 402, 403, 500, 503];
+
+        foreach ($statusCodes as $code) {
+            $e = new HttpException($code);
+            $response = $this->handler->render($this->request, $e);
+
+            $this->assertEquals($code, $response->getStatusCode());
+            $this->assertStringContainsString((string)$code, $response->getContent());
+        }
+
+        app()['env'] = 'testing';
     }
 }
