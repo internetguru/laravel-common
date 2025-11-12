@@ -1,4 +1,3 @@
-
 -- 
 
 @lang('ig-common::layouts.email.generated-at', ['url' => session('currentPage') ?? '-'])
