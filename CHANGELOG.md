@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0] - 2025-11-14
+
+_Stable release based on [3.0.0-rc.1]._
+
+## [3.0.0-rc.1] - 2025-11-14
+
+### Added
+
+- Add new tests.
+
+### Changed
+
+- Refactor email mail message and notification base classes.
+
 ## [2.17.2] - 2025-11-12
 
 ### Fixed
@@ -912,6 +926,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[3.0.0]: https://https://github.com/internetguru/laravel-common/compare/v2.17.2...v3.0.0
+[3.0.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v2.17.2
 [2.17.2]: https://https://github.com/internetguru/laravel-common/compare/v2.17.1...v2.17.2
 [2.17.1]: https://https://github.com/internetguru/laravel-common/compare/v2.17.0...v2.17.1
 [2.17.0]: https://https://github.com/internetguru/laravel-common/compare/v2.16.7...v2.17.0

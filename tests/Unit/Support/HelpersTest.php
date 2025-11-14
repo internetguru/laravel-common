@@ -79,4 +79,61 @@ class HelpersTest extends TestCase
 
         $this->assertEquals($expected, Helpers::getAppInfoArray());
     }
+
+    public function test_create_title()
+    {
+        // Define routes for testing
+        Route::get('/about', function () {})->name('about');
+        Route::get('/contact', function () {})->name('contact');
+
+        // Mock translations
+        app('translator')->addLines([
+            'navig.home' => 'Home',
+            'navig.about' => 'About',
+        ], 'en', 'ig-common');
+
+        $this->get('/');
+        $title = Helpers::createTitle();
+        $this->assertStringContainsString('Home', $title);
+
+        $this->get('/about');
+        $title = Helpers::createTitle();
+        $this->assertStringContainsString('About', $title);
+    }
+
+    public function test_get_email_client_link_with_mailpit_local()
+    {
+        Config::set('mail.default', 'smtp');
+        Config::set('mail.mailers.smtp.host', 'mailpit');
+        Config::set('app.env', 'local');
+        Config::set('app.url', 'http://localhost');
+
+        $link = Helpers::getEmailClientLink();
+
+        $this->assertStringContainsString('localhost:8025', $link);
+        $this->assertStringContainsString('href=', $link);
+    }
+
+    public function test_get_email_client_link_with_mailpit_production()
+    {
+        Config::set('mail.default', 'smtp');
+        Config::set('mail.mailers.smtp.host', 'mailpit');
+        Config::set('app.env', 'production');
+        Config::set('app.url', 'https://example.com');
+
+        $link = Helpers::getEmailClientLink();
+
+        $this->assertStringContainsString('mail.example.com', $link);
+        $this->assertStringContainsString('href=', $link);
+    }
+
+    public function test_get_email_client_link_without_mailpit()
+    {
+        Config::set('mail.default', 'smtp');
+        Config::set('mail.mailers.smtp.host', 'smtp.gmail.com');
+
+        $link = Helpers::getEmailClientLink();
+
+        $this->assertEquals('', $link);
+    }
 }

@@ -6,8 +6,8 @@
     );
     $url = sprintf(
         '<a href="%s">%s</a>',
-        session('currentPage') ?? '-',
-        session('currentPage') ?? '-',
+        $url ?? '-',
+        $url ?? '-',
     );
 @endphp
 <hr />
