@@ -3,11 +3,11 @@
 namespace InternetGuru\LaravelCommon\Mail;
 
 use Illuminate\Notifications\Messages\MailMessage as BaseMailMessage;
-use InternetGuru\LaravelCommon\Exceptions\GeolocationServiceException;
-use InternetGuru\LaravelCommon\Services\GeolocationService;
 
 class MailMessage extends BaseMailMessage
 {
+    protected array $extraMailData = [];
+
     public function subject($subject)
     {
         // random 5 digit number, can start with 0
@@ -19,15 +19,13 @@ class MailMessage extends BaseMailMessage
 
     public function view($view, array $data = [])
     {
-        $data['ip'] = request()->ip();
-        try {
-            $timezone = app(GeolocationService::class)->getLocation($data['ip'])->timezone;
-        } catch (GeolocationServiceException $ex) {
-            $timezone = null;
-        }
-        $data['timezone'] = $timezone;
-
-        return parent::view($view, $data);
+        return parent::view($view, $data + $this->extraMailData);
     }
 
+    public function setExtraMailData(array $data): static
+    {
+        $this->extraMailData = $data;
+
+        return $this;
+    }
 }
