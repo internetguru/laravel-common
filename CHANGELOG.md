@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add new tests.
+
+### Changed
+
+- Refactor email mail message and notification base classes.
+
 ## [2.17.2] - 2025-11-12
 
 ### Fixed

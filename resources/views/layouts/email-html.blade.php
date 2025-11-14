@@ -47,11 +47,11 @@
 <body>
     <div style="max-width: 50em;">
         @section('content')
-            <x-ig-common::emails.salutation />
+            <p>{{ $content ?? '' }}</p>
         @show
 
         @section('footer')
-            <x-ig-common::emails.footer-html :$ip :$timezone :$session />
+            <x-ig-common::emails.footer-html :$ip :$timezone :$url />
         @show
     </div>
 </body>

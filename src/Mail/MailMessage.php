@@ -19,9 +19,7 @@ class MailMessage extends BaseMailMessage
 
     public function view($view, array $data = [])
     {
-        $data = array_merge($data, $this->extraMailData);
-
-        return parent::view($view, $data);
+        return parent::view($view, $data + $this->extraMailData);
     }
 
     public function setExtraMailData(array $data): static

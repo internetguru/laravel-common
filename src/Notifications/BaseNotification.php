@@ -20,7 +20,7 @@ abstract class BaseNotification extends Notification implements ShouldQueue
 
     protected ?int $userId;
 
-    protected ?array $sessionData = null;
+    protected ?string $url = null;
 
     public function __construct()
     {
@@ -32,7 +32,7 @@ abstract class BaseNotification extends Notification implements ShouldQueue
         }
         $this->timezone = $timezone;
         $this->userId = auth()?->id();
-        $this->sessionData = session()?->all();
+        $this->url = session('currentPage', null);
     }
 
     public function via(object $notifiable): array
@@ -46,15 +46,25 @@ abstract class BaseNotification extends Notification implements ShouldQueue
             'ip' => $this->ipAddress,
             'timezone' => $this->timezone,
             'userId' => $this->userId,
-            'session' => $this->sessionData,
+            'url' => $this->url,
         ];
     }
 
-    protected function getMailMessage(): MailMessage
+    public function toMail(object $notifiable): MailMessage
     {
-        $mailMessage = new IgMailMessage;
-        $mailMessage->setExtraMailData($this->getExtraMailData());
+        $message = new IgMailMessage;
+        $message->setExtraMailData($this->getExtraMailData());
 
-        return $mailMessage;
+        return $message
+            ->subject('Laravel Common Base Notification')
+            ->view(
+                [
+                    'html' => 'ig-common::layouts.email-html',
+                    'text' => 'ig-common::layouts.email-plain',
+                ],
+                [
+                    'content' => 'This is a base notification. Please extend this class and override the toMail method.',
+                ]
+            );
     }
 }

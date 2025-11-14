@@ -1,7 +1,7 @@
 @section('content')
-<x-ig-common::emails.salutation-plain />
+{{ $content ?? '' }}
 @show
 
 @section('footer')
-<x-ig-common::emails.footer-plain :$ip :$timezone :$session />
+<x-ig-common::emails.footer-plain :$ip :$timezone :$url />
 @show

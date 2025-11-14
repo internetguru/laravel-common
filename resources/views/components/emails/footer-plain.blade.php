@@ -1,6 +1,6 @@
 -- 
 
-@lang('ig-common::layouts.email.generated-at', ['url' => $session['currentPage'] ?? '-'])
+@lang('ig-common::layouts.email.generated-at', ['url' => $url ?? '-'])
 
 @lang('ig-common::layouts.email.generator', ['generator' => InternetGuru\LaravelCommon\Support\Helpers::getAppInfo()])
 
