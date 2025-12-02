@@ -1,6 +1,6 @@
 @props([
     'method' => 'POST',
-    'recaptcha' => app(\InternetGuru\LaravelCommon\Contracts\ReCaptchaInterface::class)->isEnabled(),
+    'recaptcha' => app(\InternetGuru\LaravelRecaptchaV3\RecaptchaV3::class)->isEnabled(),
     'testid' => null,
 ])
 
@@ -25,7 +25,8 @@
 <form method="{{ $method }}" {{ $attributes }} data-testid="form-{{ $testid }}">
     @csrf
     @if ($recaptcha)
-        {!! RecaptchaV3::field('store') !!}
+        @recaptchaField('store')
+        @recaptchaScript('store')
     @endif
     {{ $slot }}
 </form>
