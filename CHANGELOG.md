@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Move recaptcha into laravel-recaptchav3 package.
+
 ## [3.0.0] - 2025-11-14
 
 _Stable release based on [3.0.0-rc.1]._
