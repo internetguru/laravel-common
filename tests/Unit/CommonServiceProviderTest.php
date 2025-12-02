@@ -2,23 +2,12 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
-use InternetGuru\LaravelCommon\CommonServiceProvider;
-use InternetGuru\LaravelCommon\Contracts\ReCaptchaInterface;
-use InternetGuru\LaravelCommon\Services\ReCaptcha;
 use Livewire\Livewire;
 use Tests\TestCase;
 
 class CommonServiceProviderTest extends TestCase
 {
-    public function test_recaptcha_interface_is_bound()
-    {
-        $service = app(ReCaptchaInterface::class);
-
-        $this->assertInstanceOf(ReCaptcha::class, $service);
-    }
 
     public function test_views_are_loaded()
     {

@@ -235,7 +235,6 @@ Include the component in your Blade template where you want the system messages 
 Notes:
 
 - The [Google Recaptcha V3](https://developers.google.com/recaptcha/docs/v3) service is enabled by default. To disable it, set the `recaptcha` attribute to `false`.
-- You need to install the [internetguru/laravel-recaptchav3](https://github.com/internetguru/laravel-recaptchav3) package for the Recaptcha to work.
 
 Complete example:
 
