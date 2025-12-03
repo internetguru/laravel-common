@@ -8,6 +8,7 @@
     'disabled' => false,
     'checked' => false,
     'clearable' => true,
+    'showError' => true,
 ])
 
 <div
@@ -69,10 +70,12 @@
         @if ($type !== 'checkbox')
             <label for="{{ $name }}">{{ $slot }}@if($type == 'select')<span>▼</span>@endif</label>
         @endif
-        @error($name)
-            <span class="invalid-feedback" role="alert" data-testid="input-error-{{ $name }}">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
+        @if ($showError)
+            @error($name)
+                <span class="invalid-feedback" role="alert" data-testid="input-error-{{ $name }}">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        @endif
     @endif
 </div>

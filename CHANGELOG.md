@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `show-error` attribute, default true, to show or hide error message in ig input component.
+
 ## [4.0.0] - 2025-12-02
 
 _Stable release based on [4.0.0-rc.1]._
