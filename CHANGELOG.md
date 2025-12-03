@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.1.0] - 2025-12-03
+
+_Stable release based on [4.1.0-rc.1]._
+
+## [4.1.0-rc.1] - 2025-12-03
+
+### Added
+
+- Add `show-error` attribute, default true, to show or hide error message in ig input component.
+
 ## [4.0.0] - 2025-12-02
 
 _Stable release based on [4.0.0-rc.1]._
@@ -936,6 +946,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[4.1.0]: https://https://github.com/internetguru/laravel-common/compare/v4.0.0...v4.1.0
+[4.1.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v4.0.0
 [4.0.0]: https://https://github.com/internetguru/laravel-common/compare/v3.0.0...v4.0.0
 [4.0.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v3.0.0
 [3.0.0]: https://https://github.com/internetguru/laravel-common/compare/v2.17.2...v3.0.0
