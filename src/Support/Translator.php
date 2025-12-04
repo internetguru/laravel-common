@@ -100,7 +100,7 @@ class Translator extends BaseTranslator
         // allow to use $provided varaibles multiple times
         $missingVariables = [];
         foreach ($placeholders as $placeholder) {
-            if (array_search($placeholder, $providedVariables) === false) {
+            if (array_search(strtolower($placeholder), array_map('strtolower', $providedVariables)) === false) {
                 $missingVariables[] = $placeholder;
             }
         }
