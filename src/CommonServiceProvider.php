@@ -64,6 +64,7 @@ class CommonServiceProvider extends ServiceProvider
 
     private function registerMacros()
     {
+        initStringMacros();
         initNumberMacros();
         initCarbonMacros();
     }
