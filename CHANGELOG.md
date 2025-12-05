@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add Str::ref macro.
+
 ## [4.1.1] - 2025-12-04
 
 ### Fixed
