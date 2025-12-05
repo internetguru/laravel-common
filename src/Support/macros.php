@@ -2,6 +2,25 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Number;
+use Illuminate\Support\Str;
+
+function initStringMacros()
+{
+    Str::macro('ref', function (int $length = 6) {
+        throw_if($length < 1, new InvalidArgumentException('Length must be at least 1'));
+
+        $letters = 'abcdefghjkmnpqrstuvwxyz';
+        $pool = $letters . '23456789';
+
+        $ref = $letters[random_int(0, strlen($letters) - 1)];
+
+        for ($i = 1; $i < $length; $i++) {
+            $ref .= $pool[random_int(0, strlen($pool) - 1)];
+        }
+
+        return $ref;
+    });
+}
 
 function initNumberMacros()
 {
