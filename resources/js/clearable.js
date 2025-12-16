@@ -34,6 +34,7 @@ export default () => ({
         // Create clear button
         this.clearButton = document.createElement('button');
         this.clearButton.type = 'button';
+        this.clearButton.tabIndex = -1;
         this.clearButton.innerHTML = '✕';
         this.clearButton.className = 'clear-button';
         this.clearButton.style.cssText = `
@@ -50,7 +51,6 @@ export default () => ({
             color: #999;
             display: none;
             z-index: 10;
-            tabindex: -1;
         `;
 
         // Add hover effect
