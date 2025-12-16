@@ -55,6 +55,13 @@
             {{ $attributes->merge(['class' => 'form-check-input me-2' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
         />{{ $slot }}</label>
     @else
+        @php
+            $autocomplete = match($type) {
+                'url', 'tel', 'email' => $type,
+                'password' => 'current-password',
+                default => 'off',
+            };
+        @endphp
         <input
             type="{{ $type }}"
             id="{{ $name }}"
@@ -63,7 +70,7 @@
             data-testid="input-{{ $name }}"
             @if ($type !== 'password') value="{{ old($name) ?? $value ?? '' }}" @endif
             @if ($disabled) disabled @endif
-            {{ $attributes->merge(['class' => 'form-control' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
+            {{ $attributes->merge(['autocomplete' => $autocomplete, 'class' => 'form-control' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
         />
     @endif
     @if ($type !== 'hidden')
