@@ -50,6 +50,7 @@ export default () => ({
             color: #999;
             display: none;
             z-index: 10;
+            tabindex: -1;
         `;
 
         // Add hover effect
