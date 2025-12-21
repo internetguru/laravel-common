@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.2.8] - 2025-12-21
+
+### Fixed
+
+- Fix fallback current page to app.url again.
+
 ## [4.2.7] - 2025-12-21
 
 ### Fixed
@@ -1007,6 +1013,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[4.2.8]: https://https://github.com/internetguru/laravel-common/compare/v4.2.7...v4.2.8
 [4.2.7]: https://https://github.com/internetguru/laravel-common/compare/v4.2.6...v4.2.7
 [4.2.6]: https://https://github.com/internetguru/laravel-common/compare/v4.2.5...v4.2.6
 [4.2.5]: https://https://github.com/internetguru/laravel-common/compare/v4.2.4...v4.2.5
