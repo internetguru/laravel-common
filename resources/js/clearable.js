@@ -34,7 +34,7 @@ export default () => ({
         // Create clear button
         this.clearButton = document.createElement('button');
         this.clearButton.type = 'button';
-        this.clearButton.tabIndex = -1;
+        this.clearButton.setAttribute('tabindex', '-1');
         this.clearButton.innerHTML = '✕';
         this.clearButton.className = 'clear-button';
         this.clearButton.style.cssText = `
