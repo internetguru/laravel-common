@@ -6,8 +6,8 @@
     );
     $url = sprintf(
         '<a href="%s">%s</a>',
-        $url ?? '-',
-        $url ?? '-',
+        $url ?? config('app.url'),
+        $url ?? config('app.url'),
     );
 @endphp
 <hr />

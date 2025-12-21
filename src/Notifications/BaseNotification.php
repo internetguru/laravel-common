@@ -32,7 +32,7 @@ abstract class BaseNotification extends Notification implements ShouldQueue
         }
         $this->timezone = $timezone;
         $this->userId = auth()?->id();
-        $this->url = session('currentPage', config('app.url'));
+        $this->url = session('currentPage', null);
     }
 
     public function via(object $notifiable): array
