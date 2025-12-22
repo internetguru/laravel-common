@@ -6,13 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 use InternetGuru\LaravelCommon\Exceptions\GeolocationServiceException;
 use InternetGuru\LaravelCommon\Mail\MailMessage as IgMailMessage;
+use InternetGuru\LaravelCommon\Middleware\LogNotificationFailure;
 use InternetGuru\LaravelCommon\Services\GeolocationService;
+use Throwable;
 
 abstract class BaseNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
+    public int $tries = 10;
+
+    public int $backoff = 120; // 2 minutes
 
     protected ?string $ipAddress;
 
@@ -66,5 +74,20 @@ abstract class BaseNotification extends Notification implements ShouldQueue
                     'content' => 'This is a base notification. Please extend this class and override the toMail method.',
                 ]
             );
+    }
+
+    public function middleware()
+    {
+        return [
+            new LogNotificationFailure,
+        ];
+    }
+
+    public function failed(Throwable $exception): void
+    {
+        Log::error('Notification job permanently failed: ' . $exception->getMessage(), [
+            'exception' => $exception,
+            'notification' => get_class($this),
+        ]);
     }
 }

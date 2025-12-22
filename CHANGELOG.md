@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Log warning when notification failed and error when failed permanently.
+
 ## [4.2.8] - 2025-12-21
 
 ### Fixed
