@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `darvis/livewire-injection-stopper` package to prevent bot injections in livewire forms.
+
 ## [4.3.0] - 2025-12-22
 
 _Stable release based on [4.3.0-rc.1]._
