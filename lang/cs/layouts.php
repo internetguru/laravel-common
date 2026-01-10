@@ -38,8 +38,7 @@ return [
 
     'email.generated-at' => 'Vygenerováno na :url',
     'email.generator' => 'Generátor: :generator',
-    'email.requested-from' => 'Požadavek od :ip (:timezone)',
-
+    'email.requested-from' => 'Odesláno z :ip (:timezone)',
 
     'print' => 'Vytisknout',
 
