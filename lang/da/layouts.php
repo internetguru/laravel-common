@@ -38,7 +38,7 @@ return [
 
     'email.generated-at' => 'Genereret på :url',
     'email.generator' => 'Generator: :generator',
-    'email.requested-from' => 'Anmodet fra :ip (:timezone)',
+    'email.requested-from' => 'Sendt fra :ip (:timezone)',
 
     'print' => 'Udskriv',
 
