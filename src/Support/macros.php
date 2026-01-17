@@ -9,8 +9,8 @@ function initStringMacros()
     Str::macro('ref', function (int $length = 6) {
         throw_if($length < 2, new InvalidArgumentException('Length must be at least 2'));
 
-        // exclude similar looking characters: i, l, o, 0, 1
-        $letters = 'abcdefghjkmnpqrstuvwxyz';
+        // exclude similar looking characters: i, l, o, 0, 1, u
+        $letters = 'abcdefghjkmnpqrstvwxyz';
         $digits = '23456789';
         $pool = $letters . $digits;
 
