@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.4.8] - 2026-01-17
+
+### Fixed
+
+- Fix BaseNotification properities visibility.
+
 ## [4.4.7] - 2026-01-17
 
 ### Fixed
@@ -1072,6 +1078,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[4.4.8]: https://https://github.com/internetguru/laravel-common/compare/v4.4.7...v4.4.8
 [4.4.7]: https://https://github.com/internetguru/laravel-common/compare/v4.4.6...v4.4.7
 [4.4.6]: https://https://github.com/internetguru/laravel-common/compare/v4.4.5...v4.4.6
 [4.4.5]: https://https://github.com/internetguru/laravel-common/compare/v4.4.4...v4.4.5
