@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [4.5.0-rc.1] - 2026-01-17
 
+### Added
+
+- Add Ulid32 trait and `ulid32` validation rule.
+
 ## [4.4.9] - 2026-01-17
 
 ### Fixed
