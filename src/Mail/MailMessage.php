@@ -13,7 +13,6 @@ class MailMessage extends BaseMailMessage
 
     public function __construct()
     {
-        parent::__construct();
         $this->refNumber = Str::ref(5);
     }
 
