@@ -57,9 +57,9 @@ abstract class BaseNotification extends Notification implements ShouldQueue
         ];
     }
 
-    public function toMail(object $notifiable, ?string $refNumber = null): MailMessage
+    public function toMail(object $notifiable): MailMessage
     {
-        $message = new IgMailMessage($refNumber);
+        $message = new IgMailMessage;
         $message->setExtraMailData($this->getExtraMailData());
 
         return $message
