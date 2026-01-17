@@ -7,15 +7,23 @@ use Illuminate\Support\Str;
 function initStringMacros()
 {
     Str::macro('ref', function (int $length = 6) {
-        throw_if($length < 1, new InvalidArgumentException('Length must be at least 1'));
+        throw_if($length < 2, new InvalidArgumentException('Length must be at least 2'));
 
+        // exclude similar looking characters: i, l, o, 0, 1
         $letters = 'abcdefghjkmnpqrstuvwxyz';
-        $pool = $letters . '23456789';
+        $digits = '23456789';
+        $pool = $letters . $digits;
 
         $ref = $letters[random_int(0, strlen($letters) - 1)];
 
+        $digitPosition = random_int(1, $length - 1);
+
         for ($i = 1; $i < $length; $i++) {
-            $ref .= $pool[random_int(0, strlen($pool) - 1)];
+            if ($i === $digitPosition) {
+                $ref .= $digits[random_int(0, strlen($digits) - 1)];
+            } else {
+                $ref .= $pool[random_int(0, strlen($pool) - 1)];
+            }
         }
 
         return $ref;

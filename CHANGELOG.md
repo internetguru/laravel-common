@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.4.3] - 2026-01-17
+
+### Fixed
+
+- `Str::ref` now starts with a letter and have at least one digit.
+
 ## [4.4.2] - 2026-01-17
 
 ### Fixed
@@ -1045,6 +1051,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[4.4.3]: https://https://github.com/internetguru/laravel-common/compare/v4.4.2...v4.4.3
 [4.4.2]: https://https://github.com/internetguru/laravel-common/compare/v4.4.1...v4.4.2
 [4.4.1]: https://https://github.com/internetguru/laravel-common/compare/v4.4.0...v4.4.1
 [4.4.0]: https://https://github.com/internetguru/laravel-common/compare/v4.3.0...v4.4.0
