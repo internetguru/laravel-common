@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.4.9] - 2026-01-17
+
+### Fixed
+
+- Show ref number without # and uppercase.
+
 ## [4.4.8] - 2026-01-17
 
 ### Fixed
@@ -1081,6 +1087,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[4.4.9]: https://https://github.com/internetguru/laravel-common/compare/v4.4.8...v4.4.9
 [4.4.8]: https://https://github.com/internetguru/laravel-common/compare/v4.4.7...v4.4.8
 [4.4.7]: https://https://github.com/internetguru/laravel-common/compare/v4.4.6...v4.4.7
 [4.4.6]: https://https://github.com/internetguru/laravel-common/compare/v4.4.5...v4.4.6

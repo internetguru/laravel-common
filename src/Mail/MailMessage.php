@@ -25,7 +25,8 @@ class MailMessage extends BaseMailMessage
 
     public function subject($subject)
     {
-        $this->subject = "$subject (Ref #{$this->refNumber})";
+        $ref = strtoupper($this->refNumber);
+        $this->subject = "$subject (Ref {$ref})";
 
         return $this;
     }
