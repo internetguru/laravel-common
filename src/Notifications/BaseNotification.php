@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 use InternetGuru\LaravelCommon\Exceptions\GeolocationServiceException;
 use InternetGuru\LaravelCommon\Mail\MailMessage as IgMailMessage;
@@ -58,9 +57,9 @@ abstract class BaseNotification extends Notification implements ShouldQueue
         ];
     }
 
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(object $notifiable, ?string $refNumber = null): MailMessage
     {
-        $message = new IgMailMessage;
+        $message = new IgMailMessage($refNumber);
         $message->setExtraMailData($this->getExtraMailData());
 
         return $message

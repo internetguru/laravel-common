@@ -11,9 +11,15 @@ class MailMessage extends BaseMailMessage
 
     protected string $refNumber;
 
-    public function __construct()
+    public function __construct(?string $refNumber = null)
     {
         parent::__construct();
+
+        if (! is_null($refNumber)) {
+            $this->refNumber = $refNumber;
+
+            return;
+        }
 
         $this->refNumber = Str::ref(5);
     }
