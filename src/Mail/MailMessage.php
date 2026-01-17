@@ -3,16 +3,24 @@
 namespace InternetGuru\LaravelCommon\Mail;
 
 use Illuminate\Notifications\Messages\MailMessage as BaseMailMessage;
+use Illuminate\Support\Str;
 
 class MailMessage extends BaseMailMessage
 {
     protected array $extraMailData = [];
 
+    protected string $refNumber;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->refNumber = Str::ref(5);
+    }
+
     public function subject($subject)
     {
-        // random 5 digit number, can start with 0
-        $refNumber = str_pad(random_int(100, 99999), 5, '0', STR_PAD_LEFT);
-        $this->subject = "$subject (Ref #{$refNumber})";
+        $this->subject = "$subject (Ref #{$this->refNumber})";
 
         return $this;
     }
