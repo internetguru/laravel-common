@@ -21,13 +21,13 @@ abstract class BaseNotification extends Notification implements ShouldQueue
 
     public int $backoff = 120; // 2 minutes
 
-    protected ?string $ipAddress;
+    public ?string $ipAddress;
 
-    protected ?string $timezone;
+    public ?string $timezone;
 
-    protected ?int $userId;
+    public ?int $userId;
 
-    protected ?string $url = null;
+    public ?string $url = null;
 
     public function __construct()
     {
