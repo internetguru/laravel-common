@@ -14,4 +14,6 @@ return [
     'email.signature' => 'Tým :company',
     'email.trouble' => 'Pokud máte problém s kliknutím na tlačítko, klikněte na URL níže nebo ji zkopírujte a vložte do svého webového prohlížeče.',
 
+    'validation.ulid32' => 'Neplatný formát kódu.',
+
 ];
