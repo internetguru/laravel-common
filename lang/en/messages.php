@@ -14,4 +14,6 @@ return [
     'email.signature' => 'Team :company',
     'email.trouble' => 'If you\'re having trouble clicking the button, click the URL below or copy and paste it into your web browser.',
 
+    'validation.ulid32' => 'Invalid code format.',
+
 ];
