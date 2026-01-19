@@ -3,6 +3,7 @@
 namespace InternetGuru\LaravelCommon\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifyCsrfToken;
+use InternetGuru\LaravelCommon\Support\Helpers;
 
 class VerifyCsrfToken extends BaseVerifyCsrfToken
 {
@@ -12,8 +13,7 @@ class VerifyCsrfToken extends BaseVerifyCsrfToken
 
     protected function inExceptArray($request)
     {
-        // Exclude private and reserved IP addresses from CSRF verification ~ e.g. server
-        if (! filter_var($request->ip(), FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+        if (Helpers::verifyRequestSignature($request)) {
             return true;
         }
 
