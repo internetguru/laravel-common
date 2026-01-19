@@ -2,6 +2,7 @@
 
 namespace InternetGuru\LaravelCommon\Support;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
