@@ -2,13 +2,12 @@
 
 namespace InternetGuru\LaravelCommon\Support;
 
-use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Helpers
@@ -149,11 +148,36 @@ class Helpers
         // Generate link to Mailpit inbox
         $link = config('app.url');
         if (config('app.env') == 'local') {
-            $link = parse_url($link, PHP_URL_SCHEME) . '://' . parse_url($link, PHP_URL_HOST) . ":8025";
+            $link = parse_url($link, PHP_URL_SCHEME) . '://' . parse_url($link, PHP_URL_HOST) . ':8025';
         } else {
             $link = preg_replace('/^(https?:\/\/)/', '$1mail.', config('app.url'));
         }
 
         return " <a href=\"$link\">" . __('ig-common::messages.inbox') . '</a>';
+    }
+
+    public static function verifyRequestSignature(Request $request): bool
+    {
+        if (! $request->hasHeader('X-Signature') || ! $request->hasHeader('X-Timestamp')) {
+            return false;
+        }
+
+        $clientTimestamp = (int) $request->header('X-Timestamp');
+        $clientSignature = $request->header('X-Signature');
+        $appKey = config('app.key');
+
+        // 1. Verify Freshness (Allow +/- 1 minutes for clock drift)
+        $diff = Carbon::now()->timestamp - $clientTimestamp;
+        if (abs($diff) > 60) {
+            return false;
+        }
+
+        // 2. Check signature
+        $serverSignature = hash_hmac('sha256', (string) $clientTimestamp, $appKey);
+        if (! hash_equals($serverSignature, $clientSignature)) {
+            return false;
+        }
+
+        return true;
     }
 }
