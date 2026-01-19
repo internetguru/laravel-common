@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add custom VerifyCsrfToken middleware to exclude private ip addresses and livewire routes from CSRF verification.
+
 ## [4.5.2] - 2026-01-18
 
 ### Fixed
