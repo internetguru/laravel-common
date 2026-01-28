@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.7.0] - 2026-01-28
+
+_Stable release based on [4.7.0-rc.1]._
+
 ## [4.7.0-rc.1] - 2026-01-28
 
 ### Added
@@ -1146,6 +1150,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[4.7.0]: https://https://github.com/internetguru/laravel-common/compare/v4.6.4...v4.7.0
 [4.7.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v4.6.4
 [4.6.4]: https://https://github.com/internetguru/laravel-common/compare/v4.6.3...v4.6.4
 [4.6.3]: https://https://github.com/internetguru/laravel-common/compare/v4.6.2...v4.6.3
