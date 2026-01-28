@@ -7,9 +7,7 @@ use Illuminate\Support\Str;
 
 class MailMessage extends BaseMailMessage
 {
-    protected array $extraMailData = [
-        'noreplyMessage' => '',
-    ];
+    protected array $extraMailData = [];
 
     protected string $refNumber;
 
@@ -35,6 +33,9 @@ class MailMessage extends BaseMailMessage
 
     public function view($view, array $data = [])
     {
+        // Reset noreply message from previous calls ~ e.g from base
+        $this->extraMailData['noreplyMessage'] = '';
+
         $replyToAddress = array_column($this->replyTo ?? [], 0);
         $fromAddress = array_column($this->from ?? [], 0);
 
@@ -51,7 +52,7 @@ class MailMessage extends BaseMailMessage
         }
 
         if (! $valid) {
-            $this->extraMailData['noreplyMessage'] = __('internetguru/laravel-common::mail.noreply_warning');
+            $this->extraMailData['noreplyMessage'] = __('ig-common::layouts.email.no-reply-note');
         }
 
         return parent::view($view, array_merge($data, $this->extraMailData));
