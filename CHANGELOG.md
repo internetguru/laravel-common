@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-- Fix noreply note.
+- Fix noreply note to work with reply-to.
 
 ## [4.7.1] - 2026-01-28
 
