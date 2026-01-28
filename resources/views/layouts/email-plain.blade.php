@@ -3,5 +3,5 @@
 @show
 
 @section('footer')
-<x-ig-common::emails.footer-plain :$ip :$timezone :$url />
+<x-ig-common::emails.footer-plain :$ip :$timezone :$url :$noreplyMessage />
 @show

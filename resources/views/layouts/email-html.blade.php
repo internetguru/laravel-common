@@ -51,7 +51,7 @@
         @show
 
         @section('footer')
-            <x-ig-common::emails.footer-html :$ip :$timezone :$url />
+            <x-ig-common::emails.footer-html :$ip :$timezone :$url :$noreplyMessage />
         @show
     </div>
 </body>
