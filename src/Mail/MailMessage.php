@@ -33,24 +33,26 @@ class MailMessage extends BaseMailMessage
         return $this;
     }
 
-    public function replyTo($address, $name = null)
-    {
-        $this->updatenoreplyMessage($address);
-
-        return parent::replyTo($address, $name);
-    }
-
-    public function from($address, $name = null)
-    {
-        $this->updatenoreplyMessage($address);
-
-        return parent::from($address, $name);
-    }
-
     public function view($view, array $data = [])
     {
-        $address = $this->from[0][0] ?? config('mail.from.address', '');
-        $this->updatenoreplyMessage($address);
+        $replyToAddress = array_column($this->replyTo ?? [], 0);
+        $fromAddress = array_column($this->from ?? [], 0);
+
+        // Replyto has priority over From address
+        $checkAddresses = empty($replyToAddress) ? $fromAddress : $replyToAddress;
+
+        // One valid address is enough
+        $valid = false;
+        foreach ($checkAddresses as $address) {
+            if ($this->isValidReplyAddress($address)) {
+                $valid = true;
+                break;
+            }
+        }
+
+        if (! $valid) {
+            $this->extraMailData['noreplyMessage'] = __('internetguru/laravel-common::mail.noreply_warning');
+        }
 
         return parent::view($view, array_merge($data, $this->extraMailData));
     }
@@ -62,15 +64,15 @@ class MailMessage extends BaseMailMessage
         return $this;
     }
 
-    private function updatenoreplyMessage(?string $address): void
+    private function isValidReplyAddress(?string $address): bool
     {
         if (! $address) {
-            return;
+            return false;
         }
         if (Str::contains($address, ['no-reply', 'noreply'], ignoreCase: true)) {
-            $this->setExtraMailData(['noreplyMessage' => __('ig-common::layouts.email.no-reply-note')]);
-        } else {
-            $this->setExtraMailData(['noreplyMessage' => '']);
+            return false;
         }
+
+        return true;
     }
 }
