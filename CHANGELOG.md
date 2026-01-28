@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add automatic replyto message to email footers when from / replyto address is no-reply.
+
 ## [4.6.4] - 2026-01-25
 
 ### Fixed

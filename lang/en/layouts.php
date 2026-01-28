@@ -39,6 +39,7 @@ return [
     'email.generated-at' => 'Generated at :url',
     'email.generator' => 'Generator: :generator',
     'email.requested-from' => 'Sent from :ip (:timezone)',
+    'email.no-reply-note' => 'Replies to this message will not be delivered.',
 
     'print' => 'Print',
 
