@@ -39,7 +39,7 @@ return [
     'email.generated-at' => 'Vygenerováno na :url',
     'email.generator' => 'Generátor: :generator',
     'email.requested-from' => 'Odesláno z :ip (:timezone)',
-    'email.no-reply-note' => 'Odpovědi na tuto zprávu nebudou doručeny.',
+    'email.no-reply-note' => 'Odpovědi na tuto adresu nejsou z bezpečnostních důvodů doručovány.',
 
     'print' => 'Vytisknout',
 

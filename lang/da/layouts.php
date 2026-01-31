@@ -39,7 +39,7 @@ return [
     'email.generated-at' => 'Genereret på :url',
     'email.generator' => 'Generator: :generator',
     'email.requested-from' => 'Sendt fra :ip (:timezone)',
-    'email.no-reply-note' => 'Svar på denne besked vil ikke blive leveret.',
+    'email.no-reply-note' => 'Svar til denne adresse leveres ikke af sikkerhedsmæssige årsager.',
 
     'print' => 'Udskriv',
 
