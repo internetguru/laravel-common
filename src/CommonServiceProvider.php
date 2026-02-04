@@ -54,6 +54,10 @@ class CommonServiceProvider extends ServiceProvider
             [LogSentNotification::class, 'handle']
         );
 
+        \Illuminate\Support\Facades\Validator::extend('ulid32', function ($attribute, $value, $parameters, $validator) {
+            return (new \InternetGuru\LaravelCommon\Rules\Ulid32)->passes($attribute, $value);
+        });
+
         // throw if queue connection is sync and if not testing
         if ($this->app['config']->get('queue.default') === 'sync' && ! app()->runningUnitTests()) {
             throw new \Exception('Queue connection is set to sync. Please change it to a different connection.');
