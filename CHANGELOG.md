@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.7.6] - 2026-02-04
+
+### Fixed
+
+- Fix register ulid32 validation rule.
+
 ## [4.7.5] - 2026-02-04
 
 ### Fixed
@@ -1183,6 +1189,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[4.7.6]: https://https://github.com/internetguru/laravel-common/compare/v4.7.5...v4.7.6
 [4.7.5]: https://https://github.com/internetguru/laravel-common/compare/v4.7.4...v4.7.5
 [4.7.4]: https://https://github.com/internetguru/laravel-common/compare/v4.7.3...v4.7.4
 [4.7.3]: https://https://github.com/internetguru/laravel-common/compare/v4.7.2...v4.7.3
