@@ -11,6 +11,7 @@ use Illuminate\Support\ServiceProvider;
 use InternetGuru\LaravelCommon\Exceptions\Handler;
 use InternetGuru\LaravelCommon\Listeners\LogSentNotification;
 use InternetGuru\LaravelCommon\Livewire\Messages;
+use InternetGuru\LaravelCommon\Rules\Ulid32;
 use Livewire\Livewire;
 
 class CommonServiceProvider extends ServiceProvider
@@ -54,9 +55,8 @@ class CommonServiceProvider extends ServiceProvider
             [LogSentNotification::class, 'handle']
         );
 
-        \Illuminate\Support\Facades\Validator::extend('ulid32', function ($attribute, $value, $parameters, $validator) {
-            return (new \InternetGuru\LaravelCommon\Rules\Ulid32)->passes($attribute, $value);
-        });
+        // export ulid32 validation rule
+        \Illuminate\Support\Facades\Validator::extend('ulid32', fn ($a, $v) => Ulid32::isValid($v), __('ig-common::messages.validation.ulid32'));
 
         // throw if queue connection is sync and if not testing
         if ($this->app['config']->get('queue.default') === 'sync' && ! app()->runningUnitTests()) {
