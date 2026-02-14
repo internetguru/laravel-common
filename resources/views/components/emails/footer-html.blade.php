@@ -12,6 +12,7 @@
 @endphp
 <hr />
 <p>
+    @lang('ig-common::layouts.email.reference', ['ref' => $refNumber])<br />
     @lang('ig-common::layouts.email.generated-at', ['url' => $url])<br />
     @lang('ig-common::layouts.email.generator', ['generator' => InternetGuru\LaravelCommon\Support\Helpers::getAppInfo()])<br />
     @lang('ig-common::layouts.email.requested-from', ['ip' => $ip, 'timezone' => $timezone ?? 'n/a'])

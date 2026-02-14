@@ -35,6 +35,7 @@ class MailMessage extends BaseMailMessage
     {
         // Reset noreply message from previous calls ~ e.g from base
         $this->extraMailData['noreplyMessage'] = '';
+        $this->extraMailData['refNumber'] = strtoupper($this->refNumber);
 
         $replyToAddress = array_column($this->replyTo ?? [], 0);
         $fromAddress = array_column($this->from ?? [], 0);
