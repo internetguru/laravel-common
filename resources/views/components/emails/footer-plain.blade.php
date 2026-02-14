@@ -1,4 +1,6 @@
--- 
+--
+
+@lang('ig-common::layouts.email.reference', ['ref' => $refNumber])
 
 @lang('ig-common::layouts.email.generated-at', ['url' => $url ?? config('app.url')])
 
