@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Show ref number in the email footer.
+
 ## [4.7.6] - 2026-02-04
 
 ### Fixed
