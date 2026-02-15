@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.8.2] - 2026-02-15
+
+### Fixed
+
+- Fix clearable to work on init with Alpine bindings.
+
 ## [4.8.1] - 2026-02-15
 
 ### Fixed
@@ -1205,6 +1211,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[4.8.2]: https://https://github.com/internetguru/laravel-common/compare/v4.8.1...v4.8.2
 [4.8.1]: https://https://github.com/internetguru/laravel-common/compare/v4.8.0...v4.8.1
 [4.8.0]: https://https://github.com/internetguru/laravel-common/compare/v4.7.6...v4.8.0
 [4.8.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v4.7.6
