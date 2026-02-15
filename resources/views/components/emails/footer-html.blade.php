@@ -4,10 +4,11 @@
         __('ig-common::layouts.provider.www'),
         __('ig-common::layouts.provider.name')
     );
+    $rawUrl = $url ?? config('app.url');
     $url = sprintf(
-        '<a href="%s">%s</a>',
-        $url ?? config('app.url'),
-        $url ?? config('app.url'),
+        '<a href="%s?usp=gen">%s</a>',
+        $rawUrl,
+        $rawUrl,
     );
 @endphp
 <hr />
