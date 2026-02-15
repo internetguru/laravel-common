@@ -75,7 +75,8 @@ export default () => ({
         this._inputHandler = () => this.updateVisibility();
         this.input.addEventListener('input', this._inputHandler);
 
-        this.updateVisibility();
+        // Defer so x-model / Alpine bindings have time to set the value
+        this.$nextTick(() => this.updateVisibility());
     },
 
     setupLivewireListeners() {
