@@ -6,7 +6,7 @@
     );
     $rawUrl = $url ?? config('app.url');
     $url = sprintf(
-        '<a href="%s?usp=gen">%s</a>',
+        '<a href="%s?usp=gen">%s?usp=gen</a>',
         $rawUrl,
         $rawUrl,
     );
@@ -14,12 +14,12 @@
 <hr />
 <p>
     @lang('ig-common::layouts.email.reference', ['ref' => $refNumber])<br />
+    @if ($noreplyMessage)
+        {{ $noreplyMessage }}<br />
+    @endif
     @lang('ig-common::layouts.email.generated-at', ['url' => $url])<br />
     @lang('ig-common::layouts.email.generator', ['generator' => InternetGuru\LaravelCommon\Support\Helpers::getAppInfo()])<br />
     @lang('ig-common::layouts.email.requested-from', ['ip' => $ip, 'timezone' => $timezone ?? 'n/a'])
-    @if ($noreplyMessage)
-        <br />{{ $noreplyMessage }}
-    @endif
 </p>
 <p>
     @lang('ig-common::layouts.provider', ['link' => $providerLink, 'year' => date('Y')])
