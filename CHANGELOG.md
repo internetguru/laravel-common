@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.8.3] - 2026-02-15
+
+### Fixed
+
+- Add `?usp=gen` to email footer url.
+
 ## [4.8.2] - 2026-02-15
 
 ### Fixed
@@ -1208,6 +1214,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[4.8.3]: https://https://github.com/internetguru/laravel-common/compare/v4.8.2...v4.8.3
 [4.8.2]: https://https://github.com/internetguru/laravel-common/compare/v4.8.1...v4.8.2
 [4.8.1]: https://https://github.com/internetguru/laravel-common/compare/v4.8.0...v4.8.1
 [4.8.0]: https://https://github.com/internetguru/laravel-common/compare/v4.7.6...v4.8.0
