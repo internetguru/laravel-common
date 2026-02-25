@@ -18,6 +18,7 @@
   - [TranslationServiceProvider](#translationserviceprovider)
 - [Middleware](#middleware)
   - [CheckPostItemNames](#checkpostitemnames-middleware)
+  - [InjectUmamiScript](#injectumamiscript-middleware)
   - [PreventDuplicateSubmissions](#preventduplicatesubmissions-middleware)
   - [SetPrevPage](#setprevpage-middleware)
   - [TimezoneMiddleware](#timezonemiddleware)
@@ -157,6 +158,29 @@ Example:
   ```
   [WARNING] Invalid POST parameter names containing dots: user.email
   ```
+
+### `InjectUmamiScript` Middleware
+
+> Automatically injects the [Umami](https://umami.is/) analytics tracking script into HTML responses when `UMAMI_WEBSITE_ID` is set.
+
+The script is injected before the closing `</head>` tag. Set the following environment variables to enable:
+
+| Variable | Description | Default |
+| --- | --- | --- |
+| `UMAMI_WEBSITE_ID` | Your Umami website ID (required to enable tracking). | `''` (disabled) |
+| `UMAMI_SRC` | URL to the Umami tracking script. | `https://umami.internetguru.io/script.js` |
+
+Example `.env`:
+
+```dotenv
+UMAMI_WEBSITE_ID=0d38f931-afdc-4a99-a913-5c601fc95629
+```
+
+The injected script:
+
+```html
+<script defer src="https://umami.internetguru.io/script.js" data-website-id="0d38f931-afdc-4a99-a913-5c601fc95629"></script>
+```
 
 ### `PreventDuplicateSubmissions` Middleware
 
