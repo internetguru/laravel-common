@@ -124,6 +124,13 @@ use Illuminate\Support\ServiceProvider;
 
 All middleware listed below is automatically registered in the `web` middleware group by the `CommonServiceProvider`. No manual registration is needed.
 
+To bypass a specific middleware on a route, use the `withoutMiddleware` method:
+
+```php
+Route::get('/example', ExampleController::class)
+    ->withoutMiddleware(\InternetGuru\LaravelCommon\Http\Middleware\PreventDuplicateSubmissions::class);
+```
+
 ### `CheckPostItemNames` Middleware
 
 > Checks for invalid POST parameter names containing dots `"."`. Helps prevent issues with Laravel's input handling. Throws an exception in non-production environments and logs a warning in production.
