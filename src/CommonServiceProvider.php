@@ -9,8 +9,13 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use InternetGuru\LaravelCommon\Exceptions\Handler;
+use InternetGuru\LaravelCommon\Http\Middleware\CheckPostItemNames;
+use InternetGuru\LaravelCommon\Http\Middleware\PreventDuplicateSubmissions;
+use InternetGuru\LaravelCommon\Http\Middleware\SetPrevPage;
 use InternetGuru\LaravelCommon\Listeners\LogSentNotification;
 use InternetGuru\LaravelCommon\Livewire\Messages;
+use InternetGuru\LaravelCommon\Middleware\TimezoneMiddleware;
+use InternetGuru\LaravelCommon\Middleware\VerifyCsrfToken;
 use InternetGuru\LaravelCommon\Rules\Ulid32;
 use Livewire\Livewire;
 
@@ -28,6 +33,8 @@ class CommonServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->registerMiddleware();
+
         Route::middleware('web')->group(__DIR__ . '/../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'ig-common');
         $this->loadTranslationsFrom(__DIR__ . '/../lang', 'ig-common');
@@ -64,6 +71,16 @@ class CommonServiceProvider extends ServiceProvider
         }
 
         $this->registerMacros();
+    }
+
+    private function registerMiddleware()
+    {
+        $router = $this->app['router'];
+        $router->pushMiddlewareToGroup('web', CheckPostItemNames::class);
+        $router->pushMiddlewareToGroup('web', PreventDuplicateSubmissions::class);
+        $router->pushMiddlewareToGroup('web', SetPrevPage::class);
+        $router->pushMiddlewareToGroup('web', TimezoneMiddleware::class);
+        $router->pushMiddlewareToGroup('web', VerifyCsrfToken::class);
     }
 
     private function registerMacros()

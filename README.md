@@ -83,6 +83,7 @@ Auto-registered via package discovery. It provides:
 - Listener for [mail logging](#mail-logging) (`NotificationSent` event).
 - Registration of the [`ulid32` validation rule](#ulid32-validation-rule).
 - Registration of all [helper macros](#helper-macros) (String, Number, Carbon).
+- Automatic registration of all [middleware](#middleware) into the `web` middleware group.
 - Queue connection safety check — throws an exception at boot if the queue connection is set to `sync` (except during unit tests).
 
 ### ReadOnlyServiceProvider
@@ -121,20 +122,11 @@ use Illuminate\Support\ServiceProvider;
 
 ## Middleware
 
+All middleware listed below is automatically registered in the `web` middleware group by the `CommonServiceProvider`. No manual registration is needed.
+
 ### `CheckPostItemNames` Middleware
 
-> Checks for invalid POST parameter names containing dots `"."`. Helps prevent issues with Laravel's input handling. Throws an exception in non-production environments and logs a warning in production.
-
-To use the middleware for the `web` group, add the following to `bootstrap/app.php`:
-
-```php
-$middleware->group('web', [
-    // ...
-    \InternetGuru\LaravelCommon\Http\Middleware\CheckPostItemNames::class,
-]);
-```
-
-Alternatively, you can assign the middleware to specific routes or controllers as needed.
+> Checks for invalid POST parameter names containing dots `"."`. Helps prevent issues with Laravel's input handling. Throws an exception in non-production environments and logs a warning in production.
 
 Example:
 
@@ -163,13 +155,6 @@ Example:
 
 > Prevents duplicate POST form submissions by caching a hashed request fingerprint (IP + path + input minus reCAPTCHA) for 1 minute. Livewire update requests are excluded.
 
-```php
-$middleware->group('web', [
-    // ...
-    \InternetGuru\LaravelCommon\Http\Middleware\PreventDuplicateSubmissions::class,
-]);
-```
-
 When a duplicate submission is detected, the user is redirected back with input and an error message.
 
 ### `SetPrevPage` Middleware
@@ -178,38 +163,15 @@ When a duplicate submission is detected, the user is redirected back with input 
 
 Ignores AJAX requests and image (`img/*`) requests. Prevents tracking the same URL consecutively.
 
-```php
-$middleware->group('web', [
-    // ...
-    \InternetGuru\LaravelCommon\Http\Middleware\SetPrevPage::class,
-]);
-```
-
 ### `TimezoneMiddleware`
 
 > Detects the user's timezone via IP geolocation and stores it in the session as `display_timezone`.
 
 Uses the [GeolocationService](#geolocationservice) to resolve the IP address. Falls back to `config('geoip.default_location.timezone')` on failure. Resolves only once per session.
 
-```php
-$middleware->group('web', [
-    // ...
-    \InternetGuru\LaravelCommon\Middleware\TimezoneMiddleware::class,
-]);
-```
-
 ### `VerifyCsrfToken`
 
 > Extends Laravel's CSRF verification with HMAC-based request signature verification. Requests containing a valid `X-Signature` and `X-Timestamp` header pair bypass CSRF checks. Livewire routes are also excluded by default.
-
-To use, replace the default `VerifyCsrfToken` middleware:
-
-```php
-$middleware->group('web', [
-    // ...
-    \InternetGuru\LaravelCommon\Middleware\VerifyCsrfToken::class,
-]);
-```
 
 The signature is validated using the app key with a 60-second freshness window.
 
