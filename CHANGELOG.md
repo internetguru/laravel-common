@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [4.8.6] - 2026-02-25
+
+### Fixed
+
+- Fix generate noreply message and update translations.
+
 ## [4.8.5] - 2026-02-25
 
 ### Fixed
@@ -1230,6 +1236,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[4.8.6]: https://https://github.com/internetguru/laravel-common/compare/v4.8.5...v4.8.6
 [4.8.5]: https://https://github.com/internetguru/laravel-common/compare/v4.8.4...v4.8.5
 [4.8.4]: https://https://github.com/internetguru/laravel-common/compare/v4.8.3...v4.8.4
 [4.8.3]: https://https://github.com/internetguru/laravel-common/compare/v4.8.2...v4.8.3

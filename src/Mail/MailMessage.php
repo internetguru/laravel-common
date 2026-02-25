@@ -33,30 +33,34 @@ class MailMessage extends BaseMailMessage
 
     public function view($view, array $data = [])
     {
-        // Reset noreply message from previous calls ~ e.g from base
-        $this->extraMailData['noreplyMessage'] = '';
         $this->extraMailData['refNumber'] = strtoupper($this->refNumber);
+
+        return parent::view($view, array_merge($data, $this->extraMailData));
+    }
+
+    public function data()
+    {
+        $data = parent::data();
 
         $replyToAddress = array_column($this->replyTo ?? [], 0);
         $fromAddress = array_column($this->from ?? [], 0);
 
-        // Replyto has priority over From address
-        $checkAddresses = empty($replyToAddress) ? $fromAddress : $replyToAddress;
+        // If reply-to is explicitly set, don't show the no-reply note
+        $valid = ! empty($replyToAddress);
 
-        // One valid address is enough
-        $valid = false;
-        foreach ($checkAddresses as $address) {
-            if ($this->isValidReplyAddress($address)) {
-                $valid = true;
-                break;
+        // Otherwise, check if from address is a valid reply address
+        if (! $valid) {
+            foreach ($fromAddress as $address) {
+                if ($this->isValidReplyAddress($address)) {
+                    $valid = true;
+                    break;
+                }
             }
         }
 
-        if (! $valid) {
-            $this->extraMailData['noreplyMessage'] = __('ig-common::layouts.email.no-reply-note');
-        }
+        $data['noreplyMessage'] = $valid ? '' : __('ig-common::layouts.email.no-reply-note');
 
-        return parent::view($view, array_merge($data, $this->extraMailData));
+        return $data;
     }
 
     public function setExtraMailData(array $data): static
