@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Register all middlewares automatically.
+- Review readme.
+
 ## [4.8.5] - 2026-02-25
 
 ### Fixed
