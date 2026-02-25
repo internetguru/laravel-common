@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.8.5] - 2026-02-25
+
+### Fixed
+
+- Fix readme.
+
 ## [4.8.4] - 2026-02-15
 
 ### Fixed
@@ -1227,6 +1233,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[4.8.5]: https://https://github.com/internetguru/laravel-common/compare/v4.8.4...v4.8.5
 [4.8.4]: https://https://github.com/internetguru/laravel-common/compare/v4.8.3...v4.8.4
 [4.8.3]: https://https://github.com/internetguru/laravel-common/compare/v4.8.2...v4.8.3
 [4.8.2]: https://https://github.com/internetguru/laravel-common/compare/v4.8.1...v4.8.2
