@@ -7,6 +7,7 @@ use Illuminate\Notifications\Events\NotificationSent;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use InternetGuru\LaravelCommon\Exceptions\Handler;
 use InternetGuru\LaravelCommon\Http\Middleware\CheckPostItemNames;
@@ -21,26 +22,60 @@ use Livewire\Livewire;
 
 class CommonServiceProvider extends ServiceProvider
 {
-    public function register()
-    {
-        // Register custom exception handler
-        $this->app->extend(ExceptionHandler::class, function ($handler, $app) {
-            $customHandler = new Handler($app);
+    protected array $webMiddleware = [
+        CheckPostItemNames::class,
+        PreventDuplicateSubmissions::class,
+        SetPrevPage::class,
+        TimezoneMiddleware::class,
+        VerifyCsrfToken::class,
+    ];
 
-            return $customHandler;
-        });
+    public function register(): void
+    {
+        $this->app->extend(ExceptionHandler::class, fn ($handler, $app) => new Handler($app));
     }
 
-    public function boot()
+    public function boot(): void
     {
         $this->registerMiddleware();
+        $this->registerRoutes();
+        $this->registerViews();
+        $this->registerTranslations();
+        $this->registerPublishing();
+        $this->registerEvents();
+        $this->registerValidationRules();
+        $this->registerMacros();
+        $this->ensureQueueIsNotSync();
+    }
 
+    private function registerMiddleware(): void
+    {
+        $router = $this->app['router'];
+
+        foreach ($this->webMiddleware as $middleware) {
+            $router->pushMiddlewareToGroup('web', $middleware);
+        }
+    }
+
+    private function registerRoutes(): void
+    {
         Route::middleware('web')->group(__DIR__ . '/../routes/web.php');
+    }
+
+    private function registerViews(): void
+    {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'ig-common');
-        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'ig-common');
         Blade::componentNamespace('InternetGuru\LaravelCommon\View\Components', 'ig');
         Livewire::component('ig-messages', Messages::class);
+    }
 
+    private function registerTranslations(): void
+    {
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'ig-common');
+    }
+
+    private function registerPublishing(): void
+    {
         $this->publishes([
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'ig-common:migrations');
@@ -56,37 +91,29 @@ class CommonServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../lang' => base_path('lang/vendor/ig-common'),
         ], 'ig-common:lang');
-
-        Event::listen(
-            NotificationSent::class,
-            [LogSentNotification::class, 'handle']
-        );
-
-        // export ulid32 validation rule
-        \Illuminate\Support\Facades\Validator::extend('ulid32', fn ($a, $v) => Ulid32::isValid($v), __('ig-common::messages.validation.ulid32'));
-
-        // throw if queue connection is sync and if not testing
-        if ($this->app['config']->get('queue.default') === 'sync' && ! app()->runningUnitTests()) {
-            throw new \Exception('Queue connection is set to sync. Please change it to a different connection.');
-        }
-
-        $this->registerMacros();
     }
 
-    private function registerMiddleware()
+    private function registerEvents(): void
     {
-        $router = $this->app['router'];
-        $router->pushMiddlewareToGroup('web', CheckPostItemNames::class);
-        $router->pushMiddlewareToGroup('web', PreventDuplicateSubmissions::class);
-        $router->pushMiddlewareToGroup('web', SetPrevPage::class);
-        $router->pushMiddlewareToGroup('web', TimezoneMiddleware::class);
-        $router->pushMiddlewareToGroup('web', VerifyCsrfToken::class);
+        Event::listen(NotificationSent::class, [LogSentNotification::class, 'handle']);
     }
 
-    private function registerMacros()
+    private function registerValidationRules(): void
+    {
+        Validator::extend('ulid32', fn ($a, $v) => Ulid32::isValid($v), __('ig-common::messages.validation.ulid32'));
+    }
+
+    private function registerMacros(): void
     {
         initStringMacros();
         initNumberMacros();
         initCarbonMacros();
+    }
+
+    private function ensureQueueIsNotSync(): void
+    {
+        if ($this->app['config']->get('queue.default') === 'sync' && ! $this->app->runningUnitTests()) {
+            throw new \Exception('Queue connection is set to sync. Please change it to a different connection.');
+        }
     }
 }
