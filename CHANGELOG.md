@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add Umami analytics script injection via `UMAMI_WEBSITE_ID` env variable.
+
 ## [5.0.0] - 2026-02-25
 
 _Stable release based on [5.0.0-rc.1]._
