@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Add Umami analytics script injection via `UMAMI_WEBSITE_ID` env variable.
+
 ## [5.0.0] - 2026-02-25
 
 _Stable release based on [5.0.0-rc.1]._
@@ -1247,6 +1253,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
 [5.0.0]: https://https://github.com/internetguru/laravel-common/compare/v4.8.6...v5.0.0
 [5.0.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v4.8.6
 [4.8.6]: https://https://github.com/internetguru/laravel-common/compare/v4.8.5...v4.8.6

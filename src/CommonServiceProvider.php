@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use InternetGuru\LaravelCommon\Exceptions\Handler;
 use InternetGuru\LaravelCommon\Http\Middleware\CheckPostItemNames;
+use InternetGuru\LaravelCommon\Http\Middleware\InjectUmamiScript;
 use InternetGuru\LaravelCommon\Http\Middleware\PreventDuplicateSubmissions;
 use InternetGuru\LaravelCommon\Http\Middleware\SetPrevPage;
 use InternetGuru\LaravelCommon\Listeners\LogSentNotification;
@@ -24,6 +25,7 @@ class CommonServiceProvider extends ServiceProvider
 {
     protected array $webMiddleware = [
         CheckPostItemNames::class,
+        InjectUmamiScript::class,
         PreventDuplicateSubmissions::class,
         SetPrevPage::class,
         TimezoneMiddleware::class,
@@ -32,6 +34,8 @@ class CommonServiceProvider extends ServiceProvider
 
     public function register(): void
     {
+        $this->mergeConfigFrom(__DIR__ . '/../config/ig-common.php', 'ig-common');
+
         $this->app->extend(ExceptionHandler::class, fn ($handler, $app) => new Handler($app));
     }
 
