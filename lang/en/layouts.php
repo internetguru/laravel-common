@@ -40,7 +40,7 @@ return [
     'email.generated-at' => 'Generated at :url',
     'email.generator' => 'Generator: :generator',
     'email.requested-from' => 'Sent from :ip (:timezone)',
-    'email.no-reply-note' => 'For security reasons, replies to this message are not delivered.',
+    'email.no-reply-note' => 'Replies to this message are not delivered.',
 
     'print' => 'Print',
 
