@@ -307,6 +307,18 @@ Key Features:
 - **Customizable Divider** – Allows a custom divider symbol between breadcrumb items.
 - **Short and Long Labels** – Using `trans_choice` if available shows n-th right translation based on the item position.
 - **Segment Skipping** – Skips a specified number of URL segments. Useful for nested routes or routes with prefixes (e.g. language).
+- **Skip Prefixes** – Routes whose URI starts with a configured prefix are treated as error pages (no breadcrumb generated), preventing missing translation warnings. Configured via `breadcrumb_skip_prefixes` in `config/ig-common.php`:
+
+    ```php
+    'breadcrumb_skip_prefixes' => [
+        '_debugbar',
+        '_ignition',
+        'livewire',
+        'storage',
+        'telescope',
+        'horizon',
+    ],
+    ```
 
 Usage:
 

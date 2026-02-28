@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add configurable `breadcrumb_skip_prefixes` to treat internal routes (e.g. `_debugbar`, `livewire`, `storage`) as error pages in breadcrumbs, preventing missing translation warnings.
+
 ## [5.1.0] - 2026-02-25
 
 _Stable release based on [5.1.0-rc.1]._
