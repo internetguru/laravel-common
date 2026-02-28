@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.2.0] - 2026-02-28
+
+_Stable release based on [5.2.0-rc.1]._
+
+## [5.2.0-rc.1] - 2026-02-28
+
+### Added
+
+- Add configurable `breadcrumb_skip_prefixes` to treat internal routes (e.g. `_debugbar`, `livewire`, `storage`) as error pages in breadcrumbs, preventing missing translation warnings.
+
+### Changed
+
+- Remove "For security reasons" from no-reply email note.
+
 ## [5.1.0] - 2026-02-25
 
 _Stable release based on [5.1.0-rc.1]._
@@ -1257,6 +1271,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[5.2.0]: https://https://github.com/internetguru/laravel-common/compare/v5.1.0...v5.2.0
+[5.2.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.1.0
 [5.1.0]: https://https://github.com/internetguru/laravel-common/compare/v5.0.0...v5.1.0
 [5.1.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.0.0
 [5.0.0]: https://https://github.com/internetguru/laravel-common/compare/v4.8.6...v5.0.0

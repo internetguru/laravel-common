@@ -73,8 +73,11 @@ class Helpers
         // Add root segment
         array_unshift($urlParts, '');
 
-        // If error page, return error
-        if (! app('request')->route()) {
+        // If error page or internal/system route, show error breadcrumb
+        $route = app('request')->route();
+        $skipPrefixes = config('ig-common.breadcrumb_skip_prefixes', []);
+        $shouldSkip = ! $route || collect($skipPrefixes)->contains(fn ($prefix) => str_starts_with($route->uri(), $prefix));
+        if ($shouldSkip) {
             $urlParts = ['', 'error'];
         }
 
