@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [5.3.0] - 2026-03-08
+
+### Changed
+
+- Auto-discover breadcrumb navig translations from all registered language namespaces instead of manual config.
+
+### Removed
+
+- Remove `navig_namespaces` config option (no longer needed).
+
 ## [5.2.0] - 2026-02-28
 
 _Stable release based on [5.2.0-rc.1]._
