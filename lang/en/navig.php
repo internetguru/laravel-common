@@ -2,11 +2,6 @@
 
 return [
 
-    'login' => 'Login',
-    'register' => 'New Account',
-    'register.email' => 'New Account with Email',
-    'users.index' => 'Users',
-    'users.show' => 'User Detail',
     'error' => 'Error',
     'errors.index' => 'Error Pages|Errors',
     'error.401' => '401 Unauthorized',
@@ -18,7 +13,6 @@ return [
     'error.500' => '500 Internal Server Error',
     'error.503' => '503 Service Unavailable',
     'error.unknown' => 'Neznámá chyba',
-    'token_auth' => 'One-time Login',
     'i18n' => 'Translations',
     'i18n.index' => 'Translations Check|Translations',
     'i18n.missing-all' => 'All translations are missing',

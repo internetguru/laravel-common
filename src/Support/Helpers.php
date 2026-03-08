@@ -118,7 +118,19 @@ class Helpers
             }
             $transKey = "ig-common::navig.$routeName";
             if (! Lang::has($transKey)) {
-                $transKey = "navig.$routeName";
+                // Check all registered language namespaces for navig translations
+                $found = false;
+                foreach (app('translator')->getLoader()->namespaces() as $ns => $path) {
+                    $nsKey = "$ns::navig.$routeName";
+                    if (Lang::has($nsKey)) {
+                        $transKey = $nsKey;
+                        $found = true;
+                        break;
+                    }
+                }
+                if (! $found) {
+                    $transKey = "navig.$routeName";
+                }
             }
             $parameters = $parameters['data'] ?? $parameters;
             foreach ($parameters as $key => $value) {
