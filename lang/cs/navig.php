@@ -2,11 +2,6 @@
 
 return [
 
-    'login' => 'Přihlášení',
-    'register' => 'Nový účet',
-    'register.email' => 'Nový účet s emailem',
-    'users.index' => 'Uživatelé',
-    'users.show' => 'Detail uživatele',
     'error' => 'Chyba',
     'errors.index' => 'Chybové stránky|Chyby',
     'error.401' => '401 Neautorizováno',
@@ -18,7 +13,6 @@ return [
     'error.500' => '500 Interní chyba serveru',
     'error.503' => '503 Služba nedostupná',
     'error.unknown' => 'Neznámá chyba',
-    'token_auth' => 'Jednorázové přihlášení',
     'i18n' => 'Překlady',
     'i18n.index' => 'Kontrola překladů|Překlady',
     'i18n.missing-all' => 'Chybí všechny překlady',

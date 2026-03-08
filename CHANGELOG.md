@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.3.0] - 2026-03-08
+
+_Stable release based on [5.3.0-rc.1]._
+
+## [5.3.0-rc.1] - 2026-03-08
+
+## [5.3.0] - 2026-03-08
+
+### Changed
+
+- Auto-discover breadcrumb navig translations from all registered language namespaces instead of manual config.
+
+### Removed
+
+- Remove `navig_namespaces` config option (no longer needed).
+
 ## [5.2.0] - 2026-02-28
 
 _Stable release based on [5.2.0-rc.1]._
@@ -1271,6 +1287,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[5.3.0]: https://https://github.com/internetguru/laravel-common/compare/v5.2.0...v5.3.0
+[5.3.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.2.0
 [5.2.0]: https://https://github.com/internetguru/laravel-common/compare/v5.1.0...v5.2.0
 [5.2.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.1.0
 [5.1.0]: https://https://github.com/internetguru/laravel-common/compare/v5.0.0...v5.1.0
