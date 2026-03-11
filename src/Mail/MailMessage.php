@@ -11,6 +11,8 @@ class MailMessage extends BaseMailMessage
 
     protected string $refNumber;
 
+    protected bool $includeRefNumber = true;
+
     public function __construct()
     {
         $this->refNumber = Str::ref(5);
@@ -23,17 +25,28 @@ class MailMessage extends BaseMailMessage
         return $this;
     }
 
+    public function withoutRefNumber(): static
+    {
+        $this->includeRefNumber = false;
+
+        return $this;
+    }
+
     public function subject($subject)
     {
-        $ref = strtoupper($this->refNumber);
-        $this->subject = "$subject (Ref {$ref})";
+        if ($this->includeRefNumber) {
+            $ref = strtoupper($this->refNumber);
+            $this->subject = "$subject (Ref {$ref})";
+        } else {
+            $this->subject = $subject;
+        }
 
         return $this;
     }
 
     public function view($view, array $data = [])
     {
-        $this->extraMailData['refNumber'] = strtoupper($this->refNumber);
+        $this->extraMailData['refNumber'] = $this->includeRefNumber ? strtoupper($this->refNumber) : null;
 
         return parent::view($view, array_merge($data, $this->extraMailData));
     }

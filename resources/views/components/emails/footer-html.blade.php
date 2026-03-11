@@ -13,7 +13,9 @@
 @endphp
 <hr />
 <p>
-    @lang('ig-common::layouts.email.reference', ['ref' => $refNumber])<br />
+    @if ($refNumber)
+        @lang('ig-common::layouts.email.reference', ['ref' => $refNumber])<br />
+    @endif
     @if ($noreplyMessage)
         {{ $noreplyMessage }}<br />
     @endif
