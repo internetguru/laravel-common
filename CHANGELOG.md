@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Rename `token_auths` to `pin_logins` in read-only mode whitelist.
 
+### Added
+
+- Add `withoutRefNumber()` method to `MailMessage` to optionally exclude reference number from subject and footer.
+
 ## [5.3.0] - 2026-03-08
 
 _Stable release based on [5.3.0-rc.1]._
