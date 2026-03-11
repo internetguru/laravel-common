@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add optional subdomain to ulidUrl.
+
 ## [5.3.1] - 2026-03-11
 
 ### Changed

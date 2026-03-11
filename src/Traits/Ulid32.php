@@ -16,13 +16,22 @@ trait Ulid32
         return view('ig-common::components.ulid-link', compact('url', 'title', 'content'))->render();
     }
 
-    public function ulidUrl($usp = null): string
+    public function ulidUrl($usp = null, ?string $subdomain = null): string
     {
         $route = strtolower(class_basename($this)) . '.show';
         $ulid = $this->ulid;
         $usp = $usp ?? Route::currentRouteName();
+        $url = route($route, compact('ulid', 'usp'));
 
-        return route($route, compact('ulid', 'usp'));
+        if ($subdomain !== null) {
+            $parsed = parse_url($url);
+            $parsed['host'] = $subdomain . '.' . $parsed['host'];
+            $url = $parsed['scheme'] . '://' . $parsed['host']
+                . ($parsed['path'] ?? '')
+                . (isset($parsed['query']) ? '?' . $parsed['query'] : '');
+        }
+
+        return $url;
     }
 
     public function shortUlidForHumans(): string
