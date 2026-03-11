@@ -126,21 +126,21 @@ class ReadOnlyServiceProviderTest extends TestCase
         }
     }
 
-    public function test_readonly_mode_allows_token_auths_table_queries()
+    public function test_readonly_mode_allows_pin_logins_table_queries()
     {
         Config::set('app.readonly', true);
 
-        // Create token_auths table
-        DB::connection('testing')->statement('CREATE TABLE token_auths (id INTEGER, token TEXT)');
+        // Create pin_logins table
+        DB::connection('testing')->statement('CREATE TABLE pin_logins (id INTEGER, pin TEXT)');
 
         app()->register(\InternetGuru\LaravelCommon\ReadOnlyServiceProvider::class);
 
-        // Should not throw exception for token_auths table
+        // Should not throw exception for pin_logins table
         try {
-            DB::connection('testing')->insert('INSERT INTO token_auths (id, token) VALUES (?, ?)', [1, 'test-token']);
+            DB::connection('testing')->insert('INSERT INTO pin_logins (id, pin) VALUES (?, ?)', [1, 'test-pin']);
             $this->assertTrue(true);
         } catch (DbReadOnlyException $e) {
-            $this->fail('Should allow queries on token_auths table');
+            $this->fail('Should allow queries on pin_logins table');
         }
     }
 

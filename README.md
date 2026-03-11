@@ -91,7 +91,7 @@ Auto-registered via package discovery. It provides:
 
 > Intercepts all write database queries and throws `DbReadOnlyException` when `config('app.readonly')` is `true`.
 
-Read-only operations (`SELECT`, `SHOW`, `DESCRIBE`, `EXPLAIN`, `PRAGMA`) are always allowed. Queries targeting `sessions`, `token_auths`, `mail_logs`, `users`, and `socialites` tables are whitelisted.
+Read-only operations (`SELECT`, `SHOW`, `DESCRIBE`, `EXPLAIN`, `PRAGMA`) are always allowed. Queries targeting `sessions`, `pin_logins`, `mail_logs`, `users`, and `socialites` tables are whitelisted.
 
 To use, register the provider in your `config/app.php`:
 

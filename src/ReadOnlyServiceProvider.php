@@ -34,8 +34,8 @@ class ReadOnlyServiceProvider extends ServiceProvider
                 return;
             }
 
-            // Skip token_auths table queries (+mail_logs)
-            if (str_contains($sql, 'token_auths')) {
+            // Skip pin_logins table queries (+mail_logs)
+            if (str_contains($sql, 'pin_logins')) {
                 return;
             }
             if (str_contains($sql, 'mail_logs')) {
