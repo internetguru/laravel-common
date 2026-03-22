@@ -16,4 +16,9 @@ return [
 
     'validation.ulid32' => 'Invalid code format.',
 
+    'association_history.edited' => 'edited',
+    'association_history.from' => 'from',
+    'association_history.to' => 'to',
+    'association_history.empty' => 'No edit history.'
+
 ];

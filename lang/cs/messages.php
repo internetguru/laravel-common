@@ -16,4 +16,9 @@ return [
 
     'validation.ulid32' => 'Neplatný formát kódu.',
 
+    'association_history.edited' => 'upravil/a',
+    'association_history.from' => 'z',
+    'association_history.to' => 'na',
+    'association_history.empty' => 'Žádná historie úprav.'
+
 ];
