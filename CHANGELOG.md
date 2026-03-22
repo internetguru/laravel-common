@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `AssociationHistory` model and trait for tracking field changes on any model via polymorphic relation.
+
 ## [5.4.0] - 2026-03-11
 
 _Stable release based on [5.4.0-rc.1]._
