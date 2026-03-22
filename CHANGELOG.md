@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Support model appended fields.
+
 ## [5.5.0] - 2026-03-22
 
 _Stable release based on [5.5.0-rc.1]._
