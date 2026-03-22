@@ -20,10 +20,15 @@ class AssociationHistory extends Component
         // For the most recent entry per field: new value = current model attribute.
         // For older entries: new value = next (newer) entry's prev_value.
         $currentValues = [];
+        $originals = $model->getRawOriginal();
         foreach ($histories as $history) {
             $field = $history->column_name;
             if (! isset($currentValues[$field])) {
-                $currentValues[$field] = (string) ($model->getRawOriginal($field) ?? '');
+                if (array_key_exists($field, $originals)) {
+                    $currentValues[$field] = (string) ($originals[$field] ?? '');
+                } else {
+                    $currentValues[$field] = (string) ($model->$field ?? '');
+                }
             }
             $history->new_value = $currentValues[$field];
             $history->is_complex = is_array(json_decode($history->column_prev_value ?? '', true))
