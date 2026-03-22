@@ -23,7 +23,7 @@ trait AssociationHistory
 
             foreach ($tracked as $field) {
                 if ($model->isDirty($field)) {
-                    $model->associationHistoryChanges[$field] = $model->getOriginal($field);
+                    $model->associationHistoryChanges[$field] = $model->getRawOriginal($field);
                 }
             }
         });

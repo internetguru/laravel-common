@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Add `AssociationHistory` model and trait for tracking field changes on any model via polymorphic relation.
+- Add `AssociationHistory` trait, model, migration, and Blade component for tracking field changes on any model.
 
 ## [5.4.0] - 2026-03-11
 
