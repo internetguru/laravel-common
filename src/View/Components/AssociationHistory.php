@@ -27,7 +27,7 @@ class AssociationHistory extends Component
                 if (array_key_exists($field, $originals)) {
                     $currentValues[$field] = (string) ($originals[$field] ?? '');
                 } else {
-                    $currentValues[$field] = (string) ($model->$field ?? '');
+                    $currentValues[$field] = (string) ($model->getAttribute($field) ?? '');
                 }
             }
             $history->new_value = $currentValues[$field];
