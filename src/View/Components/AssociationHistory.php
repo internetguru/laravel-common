@@ -9,11 +9,12 @@ class AssociationHistory extends Component
 {
     public $histories;
 
-    public function __construct(Model $model)
+    public function __construct(Model $model, int $limit = 10)
     {
         $histories = $model->associationHistories()
             ->with('author')
             ->latest()
+            ->limit($limit)
             ->get();
 
         // Derive new_value for each entry from the history chain.
