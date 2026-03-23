@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add support for language domains.
+
 ## [5.7.0] - 2026-03-23
 
 _Stable release based on [5.7.0-rc.1]._
