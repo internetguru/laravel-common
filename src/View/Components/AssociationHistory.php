@@ -7,7 +7,7 @@ use Illuminate\View\Component;
 
 class AssociationHistory extends Component
 {
-    public $histories;
+    public $groups;
 
     public function __construct(Model $model, int $limit = 10)
     {
@@ -18,8 +18,6 @@ class AssociationHistory extends Component
             ->get();
 
         // Derive new_value for each entry from the history chain.
-        // For the most recent entry per field: new value = current model attribute.
-        // For older entries: new value = next (newer) entry's prev_value.
         $currentValues = [];
         $originals = $model->getRawOriginal();
         foreach ($histories as $history) {
@@ -37,7 +35,44 @@ class AssociationHistory extends Component
             $currentValues[$field] = $history->column_prev_value ?? '';
         }
 
-        $this->histories = $histories;
+        // Group by author + 10-minute time window
+        $groups = [];
+        foreach ($histories as $history) {
+            $matched = false;
+            foreach ($groups as &$group) {
+                if ($group['author_id'] === $history->author_id
+                    && abs($group['time']->diffInMinutes($history->created_at)) <= 10
+                ) {
+                    $group['entries'][] = $history;
+                    $matched = true;
+                    break;
+                }
+            }
+            unset($group);
+            if (! $matched) {
+                $groups[] = [
+                    'author_id' => $history->author_id,
+                    'author_name' => $history->author?->name,
+                    'time' => $history->created_at,
+                    'entries' => [$history],
+                ];
+            }
+        }
+
+        // Append "created" entry
+        $createdByField = $model->associationHistoryCreatedBy ?? 'created_by';
+        $creatorId = $model->getAttribute($createdByField);
+        $creator = $creatorId
+            ? app(config('auth.providers.users.model'))->find($creatorId)
+            : null;
+        $groups[] = [
+            'author_id' => $creatorId,
+            'author_name' => $creator?->name,
+            'time' => $model->created_at,
+            'entries' => [],
+        ];
+
+        $this->groups = $groups;
     }
 
     public function render()
