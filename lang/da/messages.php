@@ -16,6 +16,7 @@ return [
 
     'validation.ulid32' => 'Ugyldigt kodeformat.',
 
+    'association_history.guest' => 'gæst',
     'association_history.edited' => 'redigerede',
     'association_history.from' => 'fra',
     'association_history.to' => 'til',

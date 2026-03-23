@@ -29,7 +29,7 @@ trait AssociationHistory
         });
 
         static::updated(function ($model) {
-            if (empty($model->associationHistoryChanges) || ! auth()->id()) {
+            if (empty($model->associationHistoryChanges)) {
                 return;
             }
 

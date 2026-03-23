@@ -13,7 +13,7 @@ return new class extends Migration
             $table->morphs('associable');
             $table->string('column_name');
             $table->string('column_prev_value')->nullable();
-            $table->foreignId('author_id')->constrained('users');
+            $table->foreignId('author_id')->nullable()->constrained('users');
             $table->timestamps();
         });
     }
