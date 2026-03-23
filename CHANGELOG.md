@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.7.0] - 2026-03-23
+
+_Stable release based on [5.7.0-rc.1]._
+
+## [5.7.0-rc.1] - 2026-03-23
+
+### Changed
+
+- Edit history format to dt/dd layout (who at when, what from old to new).
+- Consolidate edit history entries by same person within 10-minute window.
+- Start edit history with "created by" entry.
+
 ## [5.6.5] - 2026-03-23
 
 ### Fixed
@@ -1361,6 +1373,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[5.7.0]: https://https://github.com/internetguru/laravel-common/compare/v5.6.5...v5.7.0
+[5.7.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.6.5
 [5.6.5]: https://https://github.com/internetguru/laravel-common/compare/v5.6.4...v5.6.5
 [5.6.4]: https://https://github.com/internetguru/laravel-common/compare/v5.6.3...v5.6.4
 [5.6.3]: https://https://github.com/internetguru/laravel-common/compare/v5.6.2...v5.6.3
