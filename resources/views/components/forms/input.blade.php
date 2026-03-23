@@ -20,9 +20,12 @@
             id="{{ $name }}"
             name="{{ $name }}"
             placeholder="{{ $slot }}"
-            style="height: {{ $rows }}rem"
+            style="min-height: {{ $rows }}rem; max-height: {{ $rows * 3 }}rem; overflow-y: auto;"
             data-testid="input-{{ $name }}"
             @if ($disabled) disabled @endif
+            x-data
+            x-init="$el.style.height = 'auto'; $el.style.height = $el.scrollHeight + 'px'"
+            x-on:input="$el.style.height = 'auto'; $el.style.height = $el.scrollHeight + 'px'"
             {{ $attributes->merge(['class' => 'form-control' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
         >{{ old($name) ?? $value ?? '' }}</textarea>
     @elseif ($type === 'select')
