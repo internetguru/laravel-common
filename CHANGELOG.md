@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [5.6.3] - 2026-03-23
+
+### Changed
+
+- Allow association history author id to be nullable ~ guest.
+
 ## [5.6.2] - 2026-03-22
 
 ### Fixed
@@ -1346,6 +1352,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[5.6.3]: https://https://github.com/internetguru/laravel-common/compare/v5.6.2...v5.6.3
 [5.6.2]: https://https://github.com/internetguru/laravel-common/compare/v5.6.1...v5.6.2
 [5.6.1]: https://https://github.com/internetguru/laravel-common/compare/v5.6.0...v5.6.1
 [5.6.0]: https://https://github.com/internetguru/laravel-common/compare/v5.5.0...v5.6.0
