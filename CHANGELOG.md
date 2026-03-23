@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Edit history format to dt/dd layout (who at when, what from old to new).
+- Consolidate edit history entries by same person within 10-minute window.
+- Start edit history with "created by" entry.
+
 ## [5.6.5] - 2026-03-23
 
 ### Fixed
