@@ -24,7 +24,9 @@ class RedirectToLangDomain
 
             if ($locale !== $expectedLang) {
                 if (isset($langDomains[$locale])) {
-                    $url = $request->getScheme() . '://' . $langDomains[$locale] . $request->getRequestUri();
+                    $uri = $request->getRequestUri();
+                    $separator = str_contains($uri, '?') ? '&' : '?';
+                    $url = $request->getScheme() . '://' . $langDomains[$locale] . $uri . $separator . 'lang=' . $locale;
 
                     return redirect()->away($url, 302);
                 }
@@ -46,7 +48,9 @@ class RedirectToLangDomain
         }
 
         if (isset($langDomains[$locale])) {
-            $url = $request->getScheme() . '://' . $langDomains[$locale] . $request->getRequestUri();
+            $uri = $request->getRequestUri();
+            $separator = str_contains($uri, '?') ? '&' : '?';
+            $url = $request->getScheme() . '://' . $langDomains[$locale] . $uri . $separator . 'lang=' . $locale;
 
             return redirect()->away($url, 302);
         }
