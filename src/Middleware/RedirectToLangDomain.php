@@ -31,7 +31,9 @@ class RedirectToLangDomain
 
                 $mainDomain = config('app.www');
                 if ($mainDomain && $currentHost !== $mainDomain) {
-                    $url = $request->getScheme() . '://' . $mainDomain . $request->getRequestUri();
+                    $uri = $request->getRequestUri();
+                    $separator = str_contains($uri, '?') ? '&' : '?';
+                    $url = $request->getScheme() . '://' . $mainDomain . $uri . $separator . 'lang=' . $locale;
 
                     return redirect()->away($url, 302);
                 }
