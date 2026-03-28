@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Removed
+
+- Remove `RedirectToLangDomain` middleware.
+
 ## [5.8.3] - 2026-03-28
 
 ### Fixed
