@@ -1,5 +1,14 @@
-.form-control:focus {
-    box-shadow: none;
-    outline: 0.25rem solid rgba(13, 110, 253, 0.25);
-    outline-offset: -0.25em;
+.form-control {
+
+    &:focus {
+            box-shadow: none;
+            outline: 0.25rem solid rgba(13, 110, 253, 0.25);
+            outline-offset: -0.25em;
+    }
+
+    &.is-invalid {
+        background-image: none;
+        padding-right: 0.75rem;
+    }
+
 }
