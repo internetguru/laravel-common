@@ -16,7 +16,6 @@ use InternetGuru\LaravelCommon\Http\Middleware\PreventDuplicateSubmissions;
 use InternetGuru\LaravelCommon\Http\Middleware\SetPrevPage;
 use InternetGuru\LaravelCommon\Listeners\LogSentNotification;
 use InternetGuru\LaravelCommon\Livewire\Messages;
-use InternetGuru\LaravelCommon\Middleware\RedirectToLangDomain;
 use InternetGuru\LaravelCommon\Middleware\TimezoneMiddleware;
 use InternetGuru\LaravelCommon\Middleware\VerifyCsrfToken;
 use InternetGuru\LaravelCommon\Rules\Ulid32;
@@ -28,7 +27,6 @@ class CommonServiceProvider extends ServiceProvider
         CheckPostItemNames::class,
         InjectUmamiScript::class,
         PreventDuplicateSubmissions::class,
-        RedirectToLangDomain::class,
         SetPrevPage::class,
         TimezoneMiddleware::class,
         VerifyCsrfToken::class,
