@@ -68,6 +68,12 @@ function initCarbonMacros()
 
     Carbon::macro('dateTimeForHumans', fn () => $this->isoFormat('L LT'));
 
+    Carbon::macro('toDisplayTimezone', function () {
+        $timezone = session('display_timezone', config('app.timezone'));
+
+        return $this->setTimezone($timezone);
+    });
+
     Carbon::macro('myDiffForHumans', function (): string {
         $diff = $this->diffForHumans();
         $seconds = $this->diffInSeconds(now(), true);
