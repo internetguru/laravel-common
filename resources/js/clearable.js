@@ -19,7 +19,7 @@ export default () => ({
             console.warn('Clearable: No suitable input found');
             return;
         }
-        if (this.input.disabled || this.input.classList.contains('is-invalid')) {
+        if (this.input.disabled) {
             if (this.clearButton && this.$el.contains(this.clearButton)) {
                 this.clearButton.style.display = 'none';
             }
@@ -118,8 +118,7 @@ export default () => ({
         if (this.clearButton) {
             const shouldShow = this.input
                 && this.input.value.length > 0
-                && !this.input.disabled
-                && !this.input.classList.contains('is-invalid');
+                && !this.input.disabled;
             this.clearButton.style.display = shouldShow ? 'block' : 'none';
         }
     },
