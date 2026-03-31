@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.10.2] - 2026-03-31
+
+### Fixed
+
+- Fix clearable input padding.
+
 ## [5.10.1] - 2026-03-31
 
 ### Fixed
@@ -1429,6 +1435,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[5.10.2]: https://https://github.com/internetguru/laravel-common/compare/v5.10.1...v5.10.2
 [5.10.1]: https://https://github.com/internetguru/laravel-common/compare/v5.10.0...v5.10.1
 [5.10.0]: https://https://github.com/internetguru/laravel-common/compare/v5.9.1...v5.10.0
 [5.10.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.9.1
