@@ -24,8 +24,8 @@ export default () => ({
 
         try {
             docReady(() => { setTimeout(() => {
+                window.onafterprint = () => { window.location.reload() }
                 window.print()
-                window.location.reload()
             }, 250) })
         } catch (ex) {
             console.log(ex)

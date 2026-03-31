@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [5.10.1] - 2026-03-31
+
+### Fixed
+
+- Fix print auto-close on mobile-phones.
+
 ## [5.10.0] - 2026-03-28
 
 _Stable release based on [5.10.0-rc.1]._
@@ -1426,6 +1432,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[5.10.1]: https://https://github.com/internetguru/laravel-common/compare/v5.10.0...v5.10.1
 [5.10.0]: https://https://github.com/internetguru/laravel-common/compare/v5.9.1...v5.10.0
 [5.10.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.9.1
 [5.9.1]: https://https://github.com/internetguru/laravel-common/compare/v5.9.0...v5.9.1
