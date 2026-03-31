@@ -120,6 +120,9 @@ export default () => ({
                 && this.input.value.length > 0
                 && !this.input.disabled;
             this.clearButton.style.display = shouldShow ? 'block' : 'none';
+            if (this.input) {
+                this.input.style.paddingRight = shouldShow ? '2em' : '';
+            }
         }
     },
 
