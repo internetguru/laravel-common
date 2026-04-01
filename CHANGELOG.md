@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `MailMessage` `to` method for setting multiple recipients.
+
 ## [5.10.2] - 2026-03-31
 
 ### Fixed
