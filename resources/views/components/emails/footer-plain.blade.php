@@ -8,7 +8,7 @@
 {{ $noreplyMessage }}
 @endif
 
-@lang('ig-common::layouts.email.generated-at', ['url' => ($url ?? config('app.url')) . '?usp=gen'])
+@lang('ig-common::layouts.email.generated-at', ['url' => config('app.url')])
 
 @lang('ig-common::layouts.email.generator', ['generator' => InternetGuru\LaravelCommon\Support\Helpers::getAppInfo()])
 

@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Add `MailMessage` `to` method for setting multiple recipients.
 
+### Changed
+
+- Update email footer: use domain-only URL, wrap tech info (ref, generator, IP, timezone) in `samp` tags.
+
 ## [5.10.2] - 2026-03-31
 
 ### Fixed

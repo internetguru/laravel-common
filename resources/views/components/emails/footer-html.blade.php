@@ -4,24 +4,20 @@
         __('ig-common::layouts.provider.www'),
         __('ig-common::layouts.provider.name')
     );
-    $rawUrl = $url ?? config('app.url');
-    $url = sprintf(
-        '<a href="%s?usp=gen">%s?usp=gen</a>',
-        $rawUrl,
-        $rawUrl,
-    );
+    $domain = config('app.url');
+    $domainLink = sprintf('<a href="%s?usp=gen">%s</a>', $domain, $domain);
 @endphp
 <hr />
 <p>
     @if ($refNumber)
-        @lang('ig-common::layouts.email.reference', ['ref' => $refNumber])<br />
+        @lang('ig-common::layouts.email.reference', ['ref' => '<samp>' . $refNumber . '</samp>'])<br />
     @endif
     @if ($noreplyMessage)
         {{ $noreplyMessage }}<br />
     @endif
-    @lang('ig-common::layouts.email.generated-at', ['url' => $url])<br />
-    @lang('ig-common::layouts.email.generator', ['generator' => InternetGuru\LaravelCommon\Support\Helpers::getAppInfo()])<br />
-    @lang('ig-common::layouts.email.requested-from', ['ip' => $ip, 'timezone' => $timezone ?? 'n/a'])
+    @lang('ig-common::layouts.email.generated-at', ['url' => $domainLink])<br />
+    @lang('ig-common::layouts.email.generator', ['generator' => '<samp>' . InternetGuru\LaravelCommon\Support\Helpers::getAppInfo() . '</samp>'])<br />
+    @lang('ig-common::layouts.email.requested-from', ['ip' => '<samp>' . $ip . '</samp>', 'timezone' => '<samp>' . ($timezone ?? 'n/a') . '</samp>'])
 </p>
 <p>
     @lang('ig-common::layouts.provider', ['link' => $providerLink, 'year' => date('Y')])
