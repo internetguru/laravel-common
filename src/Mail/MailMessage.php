@@ -13,6 +13,29 @@ class MailMessage extends BaseMailMessage
 
     protected bool $includeRefNumber = true;
 
+    /**
+     * Set the "to" recipients of the message.
+     *
+     * @param  array|string  $address  Email address or array of [email => name] pairs
+     * @param  string|null  $name
+     */
+    public function to($address, $name = null): static
+    {
+        if (is_array($address)) {
+            foreach ($address as $key => $value) {
+                if (is_string($key)) {
+                    $this->to[] = [$key, $value];
+                } else {
+                    $this->to[] = [$value, null];
+                }
+            }
+        } else {
+            $this->to[] = [$address, $name];
+        }
+
+        return $this;
+    }
+
     public function __construct()
     {
         $this->refNumber = Str::ref(5);
