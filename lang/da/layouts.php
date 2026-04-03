@@ -29,7 +29,7 @@ return [
     'readonly_mode' => '**Skrivebeskyttet tilstand**: Redigering og lagring af data er ikke tilladt.',
 
     'just_now' => 'lige nu',
-    'year' => 'år',
+    'in_year' => 'om 1 år',
 
     'provider' => '© 2022–:year af :link – Alle rettigheder forbeholdes.',
     'provider.email' => 'info@internetguru.io',
