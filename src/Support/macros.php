@@ -64,6 +64,11 @@ function initNumberMacros()
 
 function initCarbonMacros()
 {
+    // Override English "X from now" to "in X" to match other locales
+    \Carbon\Translator::get('en')->setTranslations([
+        'from_now' => 'in :time',
+    ]);
+
     Carbon::macro('dateForHumans', fn () => $this->isoFormat('L'));
 
     Carbon::macro('dateTimeForHumans', fn () => $this->isoFormat('L LT'));

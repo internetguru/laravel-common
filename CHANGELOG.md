@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.11.2] - 2026-04-03
+
+### Fixed
+
+- Override English "X from now" to "in X" to match other locales.
+
 ## [5.11.1] - 2026-04-03
 
 ### Fixed
@@ -1455,6 +1461,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[5.11.2]: https://https://github.com/internetguru/laravel-common/compare/v5.11.1...v5.11.2
 [5.11.1]: https://https://github.com/internetguru/laravel-common/compare/v5.11.0...v5.11.1
 [5.11.0]: https://https://github.com/internetguru/laravel-common/compare/v5.10.2...v5.11.0
 [5.11.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.10.2
