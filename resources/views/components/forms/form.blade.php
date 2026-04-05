@@ -20,13 +20,15 @@
             $testid = 'external';
         }
     }
+
+    $recaptchaAction = str_replace(['.', '-'], '_', $testid) . '_' . substr(uniqid(), -6);
 @endphp
 
 <form method="{{ $method }}" {{ $attributes }} data-testid="form-{{ $testid }}">
     @csrf
     @if ($recaptcha)
-        @recaptchaField('store')
-        @recaptchaScript('store')
+        @recaptchaField($recaptchaAction)
+        @recaptchaScript($recaptchaAction)
     @endif
     {{ $slot }}
 </form>
