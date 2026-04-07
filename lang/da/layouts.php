@@ -44,4 +44,6 @@ return [
 
     'print' => 'Udskriv',
 
+    'submit-admin' => 'Send til administratorer',
+
 ];
