@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Add admin-button-text blade component with submit-admin translations.
+
+
 ## [5.11.3] - 2026-04-05
 
 ### Fixed
@@ -1467,6 +1474,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
 [5.11.3]: https://https://github.com/internetguru/laravel-common/compare/v5.11.2...v5.11.3
 [5.11.2]: https://https://github.com/internetguru/laravel-common/compare/v5.11.1...v5.11.2
 [5.11.1]: https://https://github.com/internetguru/laravel-common/compare/v5.11.0...v5.11.1
