@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- Hide empty 'from' value in edit history, show 'Added *field*' instead.
+- Change 'created' to 'Entry created' in edit history.
+
 ## [5.12.0] - 2026-04-07
 
 _Stable release based on [5.12.0-rc.1]._
@@ -1478,6 +1485,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
 [5.12.0]: https://https://github.com/internetguru/laravel-common/compare/v5.11.3...v5.12.0
 [5.12.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.11.3
 [5.11.3]: https://https://github.com/internetguru/laravel-common/compare/v5.11.2...v5.11.3
