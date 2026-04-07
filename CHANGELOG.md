@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add admin-button-text blade component with submit-admin translations.
+
+
 ## [5.11.3] - 2026-04-05
 
 ### Fixed

@@ -44,4 +44,6 @@ return [
 
     'print' => 'Vytisknout',
 
+    'submit-admin' => 'Odeslat administrátorům',
+
 ];

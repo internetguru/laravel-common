@@ -44,4 +44,6 @@ return [
 
     'print' => 'Print',
 
+    'submit-admin' => 'Submit to admins',
+
 ];
