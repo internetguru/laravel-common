@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Hide empty 'from' value in edit history.
+- Change 'created' to 'Entry created' in edit history.
+
 ## [5.12.0] - 2026-04-07
 
 _Stable release based on [5.12.0-rc.1]._

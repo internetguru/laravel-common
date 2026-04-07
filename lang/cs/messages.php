@@ -18,7 +18,7 @@ return [
 
     'association_history.guest' => 'host',
     'association_history.at' => 'v',
-    'association_history.created' => 'vytvořeno',
+    'association_history.created' => 'Záznam vytvořen',
     'association_history.edited' => 'upravil/a',
     'association_history.from' => 'z',
     'association_history.to' => 'na',
