@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Hide empty 'from' value in edit history.
+- Hide empty 'from' value in edit history, show 'Added *field*' instead.
 - Change 'created' to 'Entry created' in edit history.
 
 ## [5.12.0] - 2026-04-07

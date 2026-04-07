@@ -11,12 +11,16 @@
             @else
                 @foreach ($group['entries'] as $history)
                     <dd>
-                        <em>{{ $history->column_name }}</em>
                         @if (! $history->is_complex)
                             @if ($history->column_prev_value !== null && $history->column_prev_value !== '')
+                                <em>{{ $history->column_name }}</em>
                                 @lang('ig-common::messages.association_history.from') <samp title="{{ $history->column_prev_value }}">{{ Str::limit($history->column_prev_value, 20) }}</samp>
+                                @lang('ig-common::messages.association_history.to') <samp title="{{ $history->new_value ?? '–' }}">{{ Str::limit($history->new_value ?? '–', 20) }}</samp>
+                            @else
+                                @lang('ig-common::messages.association_history.added') <em>{{ $history->column_name }}</em>
                             @endif
-                            @lang('ig-common::messages.association_history.to') <samp title="{{ $history->new_value ?? '–' }}">{{ Str::limit($history->new_value ?? '–', 20) }}</samp>
+                        @else
+                            <em>{{ $history->column_name }}</em>
                         @endif
                     </dd>
                 @endforeach
