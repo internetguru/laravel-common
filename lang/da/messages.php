@@ -17,8 +17,9 @@ return [
     'validation.ulid32' => 'Ugyldigt kodeformat.',
 
     'association_history.guest' => 'gæst',
+    'association_history.added' => 'Tilføjet',
     'association_history.at' => 'kl.',
-    'association_history.created' => 'oprettet',
+    'association_history.created' => 'Post oprettet',
     'association_history.edited' => 'redigerede',
     'association_history.from' => 'fra',
     'association_history.to' => 'til',
