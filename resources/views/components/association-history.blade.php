@@ -2,9 +2,9 @@
     <dl class="mb-0">
         @foreach ($groups as $group)
             <dt>
+                <time style="font-family: monospace">{{ $group['time']->toDisplayTimezone()->dateTimeForHumans() }}</time>
+                |
                 {{ $group['author_name'] ?? __('ig-common::messages.association_history.guest') }}
-                @lang('ig-common::messages.association_history.at')
-                <span class="text-muted">{{ $group['time']->toDisplayTimezone()->dateTimeForHumans() }}</span>
             </dt>
             @if (empty($group['entries']))
                 <dd>@lang('ig-common::messages.association_history.created')</dd>
