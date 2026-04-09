@@ -17,12 +17,10 @@ return [
     'validation.ulid32' => 'Neplatný formát kódu.',
 
     'association_history.guest' => 'host',
-    'association_history.added' => 'Přidáno',
-    'association_history.at' => 'v',
-    'association_history.created' => 'Záznam vytvořen',
-    'association_history.edited' => 'upravil/a',
-    'association_history.from' => 'z',
-    'association_history.to' => 'na',
+    'association_history.added' => 'Přidání <em>:column</em> <samp>:value</samp>.',
+    'association_history.removed' => 'Odebrání <em>:column</em> <samp>:value</samp>.',
+    'association_history.changed' => 'Úprava <em>:column</em> z <samp>:from</samp> na <samp>:to</samp>.',
+    'association_history.created' => 'Záznam vytvořen.',
     'association_history.empty' => 'Žádná historie úprav.'
 
 ];

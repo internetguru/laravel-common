@@ -17,12 +17,10 @@ return [
     'validation.ulid32' => 'Ugyldigt kodeformat.',
 
     'association_history.guest' => 'gæst',
-    'association_history.added' => 'Tilføjet',
-    'association_history.at' => 'kl.',
+    'association_history.added' => 'Tilføjet <em>:column</em> <samp>:value</samp>.',
+    'association_history.removed' => 'Fjernet <em>:column</em> <samp>:value</samp>.',
+    'association_history.changed' => 'Ændret <em>:column</em> fra <samp>:from</samp> til <samp>:to</samp>.',
     'association_history.created' => 'Post oprettet',
-    'association_history.edited' => 'redigerede',
-    'association_history.from' => 'fra',
-    'association_history.to' => 'til',
     'association_history.empty' => 'Ingen redigeringshistorik.'
 
 ];
