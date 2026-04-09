@@ -11,17 +11,29 @@
             @else
                 @foreach ($group['entries'] as $history)
                     <dd>
-                        @if (! $history->is_complex)
-                            @if ($history->column_prev_value !== null && $history->column_prev_value !== '')
-                                <em>{{ $history->column_name }}</em>
-                                @lang('ig-common::messages.association_history.from') <samp title="{{ $history->column_prev_value }}">{{ Str::limit($history->column_prev_value, 20) }}</samp>
-                                @lang('ig-common::messages.association_history.to') <samp title="{{ $history->new_value ?? '–' }}">{{ Str::limit($history->new_value ?? '–', 20) }}</samp>
-                            @else
-                                @lang('ig-common::messages.association_history.added') <em>{{ $history->column_name }}</em>
-                            @endif
-                        @else
+                        @if ($history->is_complex)
                             <em>{{ $history->column_name }}</em>
+                            @continue
                         @endif
+                        @if ($history->column_prev_value == null || $history->column_prev_value == '')
+                            @lang('ig-common::messages.association_history.added', [
+                                'column' => $history->column_name,
+                                'value' => Str::limit($history->new_value, 20),
+                            ])
+                            @continue
+                        @endif
+                        @if ($history->new_value == null || $history->new_value == '')
+                            @lang('ig-common::messages.association_history.removed', [
+                                'column' => $history->column_name,
+                                'value' => Str::limit($history->column_prev_value, 20),
+                            ])
+                            @continue
+                        @endif
+                        @lang('ig-common::messages.association_history.changed', [
+                            'column' => $history->column_name,
+                            'from' => Str::limit($history->column_prev_value, 20),
+                            'to' => Str::limit($history->new_value, 20),
+                        ])
                     </dd>
                 @endforeach
             @endif

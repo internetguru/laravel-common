@@ -17,12 +17,10 @@ return [
     'validation.ulid32' => 'Invalid code format.',
 
     'association_history.guest' => 'guest',
-    'association_history.added' => 'Added',
-    'association_history.at' => 'at',
-    'association_history.created' => 'Entry created',
-    'association_history.edited' => 'edited',
-    'association_history.from' => 'from',
-    'association_history.to' => 'to',
+    'association_history.added' => 'Added <em>:column</em> <samp>:value</samp>.',
+    'association_history.removed' => 'Removed <em>:column</em> <samp>:value</samp>.',
+    'association_history.changed' => 'Changed <em>:column</em> from <samp>:from</samp> to <samp>:to</samp>.',
+    'association_history.created' => 'Entry created.',
     'association_history.empty' => 'No edit history.'
 
 ];
