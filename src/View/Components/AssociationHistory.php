@@ -55,22 +55,37 @@ class AssociationHistory extends Component
                     'author_name' => $history->author?->name,
                     'time' => $history->created_at,
                     'entries' => [$history],
+                    'is_creation' => false,
                 ];
             }
         }
 
-        // Append "created" entry
+        // Merge or append "created" entry
         $createdByField = $model->associationHistoryCreatedBy ?? 'created_by';
         $creatorId = $model->getAttribute($createdByField);
         $creator = $creatorId
             ? app(config('auth.providers.users.model'))->find($creatorId)
             : null;
-        $groups[] = [
-            'author_id' => $creatorId,
-            'author_name' => $creator?->name,
-            'time' => $model->created_at,
-            'entries' => [],
-        ];
+        $createdMerged = false;
+        foreach ($groups as &$group) {
+            if ($group['author_id'] === $creatorId
+                && abs($group['time']->diffInMinutes($model->created_at)) <= 10
+            ) {
+                $group['is_creation'] = true;
+                $createdMerged = true;
+                break;
+            }
+        }
+        unset($group);
+        if (! $createdMerged) {
+            $groups[] = [
+                'author_id' => $creatorId,
+                'author_name' => $creator?->name,
+                'time' => $model->created_at,
+                'entries' => [],
+                'is_creation' => true,
+            ];
+        }
 
         $this->groups = $groups;
     }

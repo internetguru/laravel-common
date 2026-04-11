@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [5.13.3] - 2026-04-11
+
+### Fixed
+
+- Fix association history merge.
+
 ## [5.13.2] - 2026-04-09
 
 ### Changed
@@ -1504,6 +1510,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[5.13.3]: https://https://github.com/internetguru/laravel-common/compare/v5.13.2...v5.13.3
 [5.13.2]: https://https://github.com/internetguru/laravel-common/compare/v5.13.1...v5.13.2
 [5.13.1]: https://https://github.com/internetguru/laravel-common/compare/v5.13.0...v5.13.1
 [5.13.0]: https://https://github.com/internetguru/laravel-common/compare/v5.12.0...v5.13.0
