@@ -71,9 +71,11 @@ export default () => ({
         // Bind input listener (avoid duplicates by tracking the handler)
         if (this._inputHandler) {
             this.input.removeEventListener('input', this._inputHandler);
+            this.input.removeEventListener('clearable-update', this._inputHandler);
         }
         this._inputHandler = () => this.updateVisibility();
         this.input.addEventListener('input', this._inputHandler);
+        this.input.addEventListener('clearable-update', this._inputHandler);
 
         // Defer so x-model / Alpine bindings have time to set the value
         this.$nextTick(() => this.updateVisibility());
