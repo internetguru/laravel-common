@@ -4,8 +4,8 @@ namespace InternetGuru\LaravelCommon\Exceptions;
 
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -31,6 +31,7 @@ class Handler extends ExceptionHandler
                 if ($request->expectsJson()) {
                     return response()->json(['message' => $e->getMessage()], 503);
                 }
+
                 return $this->back()->withErrors($e->getMessage());
             }
 
@@ -102,6 +103,26 @@ class Handler extends ExceptionHandler
                 $statusCode,
             );
         });
+    }
+
+    public function shouldReport(Throwable $e): bool
+    {
+        // Ignore Livewire locked property update attempts (e.g. from bots)
+        if (get_class($e) === 'Livewire\\Features\\SupportLockedProperties\\CannotUpdateLockedPropertyException') {
+            return false;
+        }
+
+        // Ignore malformed Livewire upload data errors
+        if ($e instanceof \TypeError && str_contains($e->getMessage(), 'method_exists(): Argument #1 ($object_or_class) must be of type object|string, int given')) {
+            return false;
+        }
+
+        // Ignore view errors triggered by malformed Livewire upload data
+        if (get_class($e) === 'Spatie\\LaravelIgnition\\Exceptions\\ViewException' && str_contains($e->getMessage(), 'Trying to access array offset on int')) {
+            return false;
+        }
+
+        return parent::shouldReport($e);
     }
 
     private function back()
