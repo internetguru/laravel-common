@@ -105,13 +105,13 @@ class Handler extends ExceptionHandler
         });
     }
 
-    public function shouldReport(Throwable $e): bool
+    protected function shouldntReport(Throwable $e): bool
     {
         if ($this->isSuppressedLivewireBotException($e)) {
-            return false;
+            return true;
         }
 
-        return parent::shouldReport($e);
+        return parent::shouldntReport($e);
     }
 
     private function isSuppressedLivewireBotException(Throwable $e): bool
