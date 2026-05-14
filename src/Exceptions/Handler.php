@@ -107,22 +107,50 @@ class Handler extends ExceptionHandler
 
     public function shouldReport(Throwable $e): bool
     {
-        // Ignore Livewire locked property update attempts (e.g. from bots)
-        if (get_class($e) === 'Livewire\\Features\\SupportLockedProperties\\CannotUpdateLockedPropertyException') {
-            return false;
-        }
-
-        // Ignore malformed Livewire upload data errors
-        if ($e instanceof \TypeError && str_contains($e->getMessage(), 'method_exists(): Argument #1 ($object_or_class) must be of type object|string, int given')) {
-            return false;
-        }
-
-        // Ignore view errors triggered by malformed Livewire upload data
-        if (get_class($e) === 'Spatie\\LaravelIgnition\\Exceptions\\ViewException' && str_contains($e->getMessage(), 'Trying to access array offset on int')) {
+        if ($this->isSuppressedLivewireBotException($e)) {
             return false;
         }
 
         return parent::shouldReport($e);
+    }
+
+    private function isSuppressedLivewireBotException(Throwable $e): bool
+    {
+        $class = \get_class($e);
+
+        // Bots attempting to tamper with locked Livewire properties
+        if ($class === 'Livewire\\Features\\SupportLockedProperties\\CannotUpdateLockedPropertyException') {
+            return true;
+        }
+
+        // Bots sending file upload requests to components without WithFileUploads trait
+        if ($class === 'Livewire\\Features\\SupportFileUploads\\MissingFileUploadsTraitException') {
+            return true;
+        }
+
+        if ($e instanceof \TypeError) {
+            // Bots sending malformed Livewire upload data (non-object where object expected)
+            if (str_contains($e->getMessage(), 'method_exists(): Argument #1 ($object_or_class) must be of type object|string, int given')) {
+                return true;
+            }
+
+            // Bots injecting array payloads into typed Livewire component properties
+            if (str_contains($e->getMessage(), 'Cannot assign array to property')) {
+                return true;
+            }
+        }
+
+        // View errors triggered by malformed Livewire upload data
+        if ($class === 'Spatie\\LaravelIgnition\\Exceptions\\ViewException' && str_contains($e->getMessage(), 'Trying to access array offset on int')) {
+            return true;
+        }
+
+        // Also check the cause in case Livewire wraps the exception
+        if ($e->getPrevious() !== null) {
+            return $this->isSuppressedLivewireBotException($e->getPrevious());
+        }
+
+        return false;
     }
 
     private function back()
