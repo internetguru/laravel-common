@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.13.6] - 2026-05-14
+
+### Fixed
+
+- Fix logging bot-caused errors.
+
 ## [5.13.5] - 2026-05-03
 
 ### Fixed
@@ -1520,6 +1526,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[5.13.6]: https://https://github.com/internetguru/laravel-common/compare/v5.13.5...v5.13.6
 [5.13.5]: https://https://github.com/internetguru/laravel-common/compare/v5.13.4...v5.13.5
 [5.13.4]: https://https://github.com/internetguru/laravel-common/compare/v5.13.3...v5.13.4
 [5.13.3]: https://https://github.com/internetguru/laravel-common/compare/v5.13.2...v5.13.3
