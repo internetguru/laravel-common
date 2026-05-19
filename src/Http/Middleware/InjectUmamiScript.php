@@ -50,7 +50,7 @@ class InjectUmamiScript
 
         $role = auth()->user()->role ?? null;
         if ($role !== null) {
-            $data['user_role'] = (string) $role;
+            $data['user_role'] = $role instanceof \BackedEnum ? (string) $role->value : (string) $role;
         }
 
         return $data;
