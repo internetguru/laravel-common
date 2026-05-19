@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add Umami user identification `user_type` (logged/guest) and optional `user_role` for logged users.
+
 ## [5.13.7] - 2026-05-14
 
 ### Fixed
