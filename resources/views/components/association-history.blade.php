@@ -9,25 +9,39 @@
             @foreach ($group['entries'] as $history)
                 <dd>
                     @if ($history->is_complex)
-                        <em>{{ $history->column_name }}</em>
+                        @lang('ig-common::messages.association_history.changed-simple', [
+                            'column' => $history->translated_column,
+                        ])
+                        @continue
+                    @endif
+                    @if ($history->is_checkbox)
+                        @if ((string) $history->new_value === '1')
+                            @lang('ig-common::messages.association_history.checked', [
+                                'column' => $history->translated_column,
+                            ])
+                        @else
+                            @lang('ig-common::messages.association_history.unchecked', [
+                                'column' => $history->translated_column,
+                            ])
+                        @endif
                         @continue
                     @endif
                     @if ($history->column_prev_value == null || $history->column_prev_value == '')
                         @lang('ig-common::messages.association_history.added', [
-                            'column' => $history->column_name,
+                            'column' => $history->translated_column,
                             'value' => Str::limit($history->new_value, 20),
                         ])
                         @continue
                     @endif
                     @if ($history->new_value == null || $history->new_value == '')
                         @lang('ig-common::messages.association_history.removed', [
-                            'column' => $history->column_name,
+                            'column' => $history->translated_column,
                             'value' => Str::limit($history->column_prev_value, 20),
                         ])
                         @continue
                     @endif
                     @lang('ig-common::messages.association_history.changed', [
-                        'column' => $history->column_name,
+                        'column' => $history->translated_column,
                         'from' => Str::limit($history->column_prev_value, 20),
                         'to' => Str::limit($history->new_value, 20),
                     ])

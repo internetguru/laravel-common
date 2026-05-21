@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Extend association history config to support translations.
+- Support boolean values in association history.
+
 ## [5.14.1] - 2026-05-19
 
 ### Fixed
