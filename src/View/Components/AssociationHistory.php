@@ -18,6 +18,8 @@ class AssociationHistory extends Component
             ->get();
 
         // Derive new_value for each entry from the history chain.
+        $columnPrefix = config('ig-common.association_history.columns.' . get_class($model));
+        $casts = $model->getCasts();
         $currentValues = [];
         $originals = $model->getRawOriginal();
         foreach ($histories as $history) {
@@ -32,6 +34,10 @@ class AssociationHistory extends Component
             $history->new_value = $currentValues[$field];
             $history->is_complex = is_array(json_decode($history->column_prev_value ?? '', true))
                 || is_array(json_decode($history->new_value ?? '', true));
+            $history->is_checkbox = ($casts[$field] ?? null) === 'boolean';
+            $history->translated_column = $columnPrefix
+                ? __("{$columnPrefix}.{$field}")
+                : $field;
             $currentValues[$field] = $history->column_prev_value ?? '';
         }
 

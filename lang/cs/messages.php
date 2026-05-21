@@ -20,7 +20,10 @@ return [
     'association_history.added' => 'Přidání <em>:column</em> <samp>:value</samp>.',
     'association_history.removed' => 'Odebrání <em>:column</em> <samp>:value</samp>.',
     'association_history.changed' => 'Úprava <em>:column</em> z <samp>:from</samp> na <samp>:to</samp>.',
+    'association_history.changed-simple' => 'Úprava <em>:column</em>.',
+    'association_history.checked' => 'Zaškrtnutí <em>:column</em>.',
+    'association_history.unchecked' => 'Odškrtnutí <em>:column</em>.',
     'association_history.created' => 'Záznam vytvořen.',
-    'association_history.empty' => 'Žádná historie úprav.'
+    'association_history.empty' => 'Žádná historie úprav.',
 
 ];

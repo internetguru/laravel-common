@@ -20,7 +20,10 @@ return [
     'association_history.added' => 'Tilføjet <em>:column</em> <samp>:value</samp>.',
     'association_history.removed' => 'Fjernet <em>:column</em> <samp>:value</samp>.',
     'association_history.changed' => 'Ændret <em>:column</em> fra <samp>:from</samp> til <samp>:to</samp>.',
+    'association_history.changed-simple' => 'Ændret <em>:column</em>.',
+    'association_history.checked' => 'Markeret <em>:column</em>.',
+    'association_history.unchecked' => 'Afmarkeret <em>:column</em>.',
     'association_history.created' => 'Post oprettet',
-    'association_history.empty' => 'Ingen redigeringshistorik.'
+    'association_history.empty' => 'Ingen redigeringshistorik.',
 
 ];

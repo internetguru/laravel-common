@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.15.0] - 2026-05-21
+
+_Stable release based on [5.15.0-rc.1]._
+
+## [5.15.0-rc.1] - 2026-05-21
+
+### Added
+
+- Extend association history config to support translations.
+- Support boolean values in association history.
+
 ## [5.14.1] - 2026-05-19
 
 ### Fixed
@@ -1548,6 +1559,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[5.15.0]: https://https://github.com/internetguru/laravel-common/compare/v5.14.1...v5.15.0
+[5.15.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.14.1
 [5.14.1]: https://https://github.com/internetguru/laravel-common/compare/v5.14.0...v5.14.1
 [5.14.0]: https://https://github.com/internetguru/laravel-common/compare/v5.13.7...v5.14.0
 [5.14.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.13.7

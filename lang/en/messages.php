@@ -20,7 +20,10 @@ return [
     'association_history.added' => 'Added <em>:column</em> <samp>:value</samp>.',
     'association_history.removed' => 'Removed <em>:column</em> <samp>:value</samp>.',
     'association_history.changed' => 'Changed <em>:column</em> from <samp>:from</samp> to <samp>:to</samp>.',
+    'association_history.changed-simple' => 'Changed <em>:column</em>.',
+    'association_history.checked' => 'Checked <em>:column</em>.',
+    'association_history.unchecked' => 'Unchecked <em>:column</em>.',
     'association_history.created' => 'Entry created.',
-    'association_history.empty' => 'No edit history.'
+    'association_history.empty' => 'No edit history.',
 
 ];
