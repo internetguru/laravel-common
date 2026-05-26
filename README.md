@@ -12,6 +12,7 @@
 
 - [Installation](#installation)
 - [Run Tests Locally](#run-tests-locally)
+- [E2E Tests](#e2e-tests)
 - [Service Providers](#service-providers)
   - [CommonServiceProvider](#commonserviceprovider)
   - [ReadOnlyServiceProvider](#readonlyserviceprovider)
@@ -75,6 +76,51 @@ To run the tests manually, you can use the following command:
 ```sh
 ./test.sh
 ```
+
+## E2E Tests
+
+The package ships reusable [Playwright](https://playwright.dev/) test helpers in `tests/e2e/common-tests.js`. Consuming projects can register them into their own test suite with a single call.
+
+### Setup
+
+1. Install Playwright in your project if not already present:
+
+    ```bash
+    npm init playwright@latest
+    ```
+
+2. In your test file, import and register the helpers:
+
+    ```js
+    import { test, expect } from '@playwright/test';
+    import { registerCommonTests } from '../../vendor/internetguru/laravel-common/tests/e2e/common-tests.js';
+
+    registerCommonTests(test, expect, {
+      languages: { en: 'English', cs: 'Česky' },
+      demo: process.env.APP_DEMO === 'true',
+    });
+    ```
+
+### Options
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `languages` | `object` | `{ en: 'English', cs: 'Česky' }` | Language code → label map. Language switch tests are skipped when only one language is configured. |
+| `demo` | `boolean` | `false` | When `true`, includes a test verifying the demo mode banner is visible. |
+
+### Covered test groups
+
+| Group | What is tested |
+| --- | --- |
+| `layout` | `header`, `main`, `footer` presence; `charset`, `viewport`, and `title` meta tags. |
+| `breadcrumb` | Visibility, item count, active state, growth on subpages. |
+| `language switch` | Visibility, correct item count, active highlight, language change, persistence across pages. _(skipped when `languages` has one entry)_ |
+| `error pages` | 401, 403, 404, 500, 503 status codes and `h1` content; error index links; unknown code falls back to 404. |
+| `messages` | `.messages-wrapper` is present on every page. |
+| `demo mode` | Demo banner visible. _(skipped unless `demo: true`)_ |
+| `csrf` | CSRF token meta tag is present and non-empty. |
+| `i18n pages` | `/i18n`, `/i18n/complete`, `/i18n/missing-all`, `/i18n/missing-cs`, `/i18n/missing-en` all load. |
+| `html structure` | `<html lang>` attribute is set; exactly one `<h1>` per page. |
 
 ## Service Providers
 
