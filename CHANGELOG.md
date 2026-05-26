@@ -8,8 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Add `refresh` option to base blade file.
-- Auto refresh error page 503 every 30 seconds.
+- Add auto `refresh` option to base blade file and refresh error page 503 every 30 seconds.
 - Add `InjectMetaRobots` middleware that automatically injects robots value to the page `<head>` from `META_ROBOTS` env.
 
 ### Changed
@@ -92,6 +91,10 @@ _Stable release based on [5.13.0-rc.1]._
 
 ## [5.13.0-rc.1] - 2026-04-07
 
+### Added
+
+- Add e2e tests.
+
 ### Changed
 
 - Hide empty 'from' value in edit history, show 'Added *field*' instead.
@@ -138,7 +141,7 @@ _Stable release based on [5.11.0-rc.1]._
 
 ### Changed
 
-- Update email footer: use domain-only URL, wrap tech info (ref, generator, IP, timezone) in `samp` tags.
+- Update email footer: use domain-only URL, wrap tech info (ref, generator, IP, timezone) in `code` tags.
 
 ## [5.10.2] - 2026-03-31
 
@@ -157,6 +160,10 @@ _Stable release based on [5.11.0-rc.1]._
 _Stable release based on [5.10.0-rc.1]._
 
 ## [5.10.0-rc.1] - 2026-03-28
+
+### Added
+
+- Add Carbon `toDisplayTimezone` macro.
 
 ## [5.9.1] - 2026-03-28
 
