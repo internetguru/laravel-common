@@ -24,7 +24,7 @@ return [
     '500_message' => 'Omlouváme se, na naší straně došlo k chybě. Zkuste to prosím později.',
 
     '503' => 'Služba nedostupná',
-    '503_message' => 'Omlouváme se, provádíme údržbu. Zkuste to prosím později.',
+    '503_message' => 'Chvilku strpení, provádíme bleskovou údržbu. Stránka brzy naskočí.',
 
     'unknown' => 'Neznámá chyba',
     'unknown_message' => 'Omlouváme se, došlo k neznámé chybě. Zkuste to prosím později.',

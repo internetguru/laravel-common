@@ -24,7 +24,7 @@ return [
     '500_message' => 'Beklager, der opstod en fejl på vores side. Prøv igen senere.',
 
     '503' => 'Tjenesten er utilgængelig',
-    '503_message' => 'Beklager, vi udfører vedligeholdelse. Prøv igen senere.',
+    '503_message' => 'Tak for tålmodigheden. Vi udfører hurtig vedligeholdelse. Siden er snart tilbage.',
 
     'unknown' => 'Ukendt fejl',
     'unknown_message' => 'Beklager, der opstod en ukendt fejl. Prøv igen senere.',

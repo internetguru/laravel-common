@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Update error 503 page messages.
+
 ## [5.15.0] - 2026-05-21
 
 _Stable release based on [5.15.0-rc.1]._
