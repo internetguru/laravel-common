@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [5.16.0] - 2026-05-26
+
+_Stable release based on [5.16.0-rc.1]._
+
 ## [5.16.0-rc.1] - 2026-05-26
 
 ### Added
@@ -1581,6 +1585,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[5.16.0]: https://https://github.com/internetguru/laravel-common/compare/v5.15.0...v5.16.0
 [5.16.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.15.0
 [5.15.0]: https://https://github.com/internetguru/laravel-common/compare/v5.14.1...v5.15.0
 [5.15.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.14.1
