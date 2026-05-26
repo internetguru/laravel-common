@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `refresh` option to base blade file.
+- Auto refresh error page 503 every 30 seconds.
+
 ### Changed
 
 - Update error 503 page messages.

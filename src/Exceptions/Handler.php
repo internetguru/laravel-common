@@ -99,6 +99,7 @@ class Handler extends ExceptionHandler
                     'view' => 'layouts.empty',
                     'title' => "$statusCode " . __('ig-common::errors.' . $statusCode),
                     'description' => __('ig-common::errors.' . $statusCode . '_message'),
+                    'refresh' => $statusCode === 503 ? 30 : null,
                 ],
                 $statusCode,
             );
