@@ -56,7 +56,7 @@ class InjectUmamiScript
         return $data;
     }
 
-    protected function isHtmlResponse($response): bool
+    protected function isHtmlResponse(mixed $response): bool
     {
         return $response instanceof Response
             && ! $response->isRedirection()

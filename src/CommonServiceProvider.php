@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use InternetGuru\LaravelCommon\Exceptions\Handler;
 use InternetGuru\LaravelCommon\Http\Middleware\CheckPostItemNames;
+use InternetGuru\LaravelCommon\Http\Middleware\InjectMetaRobots;
 use InternetGuru\LaravelCommon\Http\Middleware\InjectUmamiScript;
 use InternetGuru\LaravelCommon\Http\Middleware\PreventDuplicateSubmissions;
 use InternetGuru\LaravelCommon\Http\Middleware\SetPrevPage;
@@ -25,6 +26,7 @@ class CommonServiceProvider extends ServiceProvider
 {
     protected array $webMiddleware = [
         CheckPostItemNames::class,
+        InjectMetaRobots::class,
         InjectUmamiScript::class,
         PreventDuplicateSubmissions::class,
         SetPrevPage::class,

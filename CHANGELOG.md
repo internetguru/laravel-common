@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Add `refresh` option to base blade file.
 - Auto refresh error page 503 every 30 seconds.
+- Add `InjectMetaRobots` middleware that automatically injects robots value to the page `<head>` from `META_ROBOTS` env.
 
 ### Changed
 
