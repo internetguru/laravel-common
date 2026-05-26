@@ -4,6 +4,7 @@
     'props' => [],
     'title' => null,
     'description' => null,
+    'refresh' => null,
 ])
 
 @php
@@ -15,3 +16,6 @@
 <p class="lead">{{ $description }}</p>
 
 @include("$prefix$view", $props)
+@if ($refresh)
+<script>setTimeout(()=>location.reload(),{{ $refresh * 1000 }})</script>
+@endif

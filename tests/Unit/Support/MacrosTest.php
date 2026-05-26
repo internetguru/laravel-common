@@ -3,7 +3,9 @@
 namespace Tests\Unit\Support;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Number;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class MacrosTest extends TestCase
@@ -94,5 +96,79 @@ class MacrosTest extends TestCase
         $this->assertInstanceOf(Carbon::class, $result);
         $this->assertGreaterThanOrEqual(8, $result->hour);
         $this->assertLessThan(18, $result->hour);
+    }
+
+    public function test_carbon_to_display_timezone_uses_session()
+    {
+        Session::put('display_timezone', 'America/New_York');
+
+        $date = Carbon::parse('2024-06-15 12:00:00', 'UTC');
+        $result = $date->toDisplayTimezone();
+
+        $this->assertEquals('America/New_York', $result->tzName);
+    }
+
+    public function test_carbon_to_display_timezone_falls_back_to_config()
+    {
+        Session::forget('display_timezone');
+        config(['app.timezone' => 'Europe/Prague']);
+
+        $date = Carbon::parse('2024-06-15 12:00:00', 'UTC');
+        $result = $date->toDisplayTimezone();
+
+        $this->assertEquals('Europe/Prague', $result->tzName);
+    }
+
+    public function test_str_ref_default_length()
+    {
+        $this->assertEquals(6, strlen(Str::ref()));
+    }
+
+    public function test_str_ref_custom_length()
+    {
+        $this->assertEquals(10, strlen(Str::ref(10)));
+    }
+
+    public function test_str_ref_starts_with_letter()
+    {
+        for ($i = 0; $i < 30; $i++) {
+            $this->assertMatchesRegularExpression('/^[a-z]/', Str::ref());
+        }
+    }
+
+    public function test_str_ref_contains_at_least_one_digit()
+    {
+        for ($i = 0; $i < 30; $i++) {
+            $this->assertMatchesRegularExpression('/[2-9]/', Str::ref());
+        }
+    }
+
+    public function test_str_ref_excludes_ambiguous_characters()
+    {
+        for ($i = 0; $i < 50; $i++) {
+            $this->assertDoesNotMatchRegularExpression('/[ilo01u]/i', Str::ref(10));
+        }
+    }
+
+    public function test_str_ref_throws_for_length_less_than_2()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        Str::ref(1);
+    }
+
+    public function test_number_currency_for_humans_returns_symbol_without_number()
+    {
+        Number::useCurrency('USD');
+        $symbol = Number::currencyForHumans();
+        $this->assertIsString($symbol);
+        $this->assertNotEmpty($symbol);
+    }
+
+    public function test_number_currency_for_humans_formats_number()
+    {
+        Number::useCurrency('USD');
+        $result = Number::currencyForHumans(1000);
+        $this->assertIsString($result);
+        $this->assertStringContainsString('1', $result);
     }
 }

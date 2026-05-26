@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'meta_robots' => env('META_ROBOTS', null),
+
     'umami_src' => env('UMAMI_SRC', 'https://umami.internetguru.io/script.js'),
     'umami_website_id' => env('UMAMI_WEBSITE_ID', ''),
     'umami_identify' => env('UMAMI_IDENTIFY', true),
