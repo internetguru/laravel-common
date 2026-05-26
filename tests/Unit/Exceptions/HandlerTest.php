@@ -24,25 +24,21 @@ class HandlerTest extends TestCase
         $this->handler = app(Handler::class);
         $this->request = new Request();
 
-        // Add the package views path with both namespaces
         View::addNamespace('ig-common', __DIR__ . '/../../../resources/views');
         View::addNamespace('common', __DIR__ . '/../../../resources/views');
 
-        // Create necessary stubs directory
         if (!is_dir(__DIR__ . '/../../stubs/layouts')) {
             mkdir(__DIR__ . '/../../stubs/layouts', 0777, true);
         }
 
-        // Create empty stub since it's included in base.blade.php
         file_put_contents(__DIR__ . '/../../stubs/layouts/empty.blade.php', '');
 
-        // Mock translations
         app('translator')->addNamespace('ig-common', __DIR__ . '/../../../lang');
 
         View::getFinder()->flush();
     }
 
-    public function testDbReadOnlyExceptionWithJsonResponse()
+    public function test_db_read_only_exception_with_json_response()
     {
         $e = new DbReadOnlyException('Database is read-only');
         $this->request->headers->set('Accept', 'application/json');
@@ -54,7 +50,7 @@ class HandlerTest extends TestCase
         $this->assertEquals(['message' => 'Database is read-only'], $response->getData(true));
     }
 
-    public function testAuthenticationException()
+    public function test_authentication_exception()
     {
         $e = new AuthenticationException();
         $this->request->headers->set('Accept', 'application/json');
@@ -66,7 +62,7 @@ class HandlerTest extends TestCase
         $this->assertEquals(['message' => 'Unauthenticated.'], $response->getData(true));
     }
 
-    public function testValidationException()
+    public function test_validation_exception()
     {
         $e = ValidationException::withMessages(['field' => ['Invalid input']]);
         $this->request->headers->set('Accept', 'application/json');
@@ -75,19 +71,16 @@ class HandlerTest extends TestCase
 
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(422, $response->getStatusCode());
-        $expectedData = [
+        $this->assertEquals([
             'message' => 'Invalid input',
-            'errors' => [
-                'field' => ['Invalid input']
-            ]
-        ];
-        $this->assertEquals($expectedData, $response->getData(true));
+            'errors' => ['field' => ['Invalid input']],
+        ], $response->getData(true));
     }
 
-    public function testConnectExceptionWithJsonResponse()
+    public function test_connect_exception_with_json_response()
     {
-        $request = new \GuzzleHttp\Psr7\Request('GET', 'http://example.com');
-        $e = new ConnectException('Could not connect', $request);
+        $guzzleRequest = new \GuzzleHttp\Psr7\Request('GET', 'http://example.com');
+        $e = new ConnectException('Could not connect', $guzzleRequest);
         $this->request->headers->set('Accept', 'application/json');
 
         $response = $this->handler->render($this->request, $e);
@@ -97,7 +90,7 @@ class HandlerTest extends TestCase
         $this->assertArrayHasKey('message', $response->getData(true));
     }
 
-    public function testThrottleExceptionWithJsonResponse()
+    public function test_throttle_exception_with_json_response()
     {
         $e = new HttpException(429);
         $this->request->headers->set('Accept', 'application/json');
@@ -109,7 +102,7 @@ class HandlerTest extends TestCase
         $this->assertArrayHasKey('message', $response->getData(true));
     }
 
-    public function testSessionExpiredWithJsonResponse()
+    public function test_session_expired_with_json_response()
     {
         $e = new HttpException(419);
         $this->request->headers->set('Accept', 'application/json');
@@ -121,112 +114,7 @@ class HandlerTest extends TestCase
         $this->assertArrayHasKey('message', $response->getData(true));
     }
 
-    public function testUnknownHttpExceptionWithHtmlResponse()
-    {
-        app()['env'] = 'production';
-
-        $e = new HttpException(418);
-
-        $response = $this->handler->render($this->request, $e);
-
-        $this->assertEquals(418, $response->getStatusCode());
-        // Just verify status code is in the response since translations might not be available
-        $this->assertStringContainsString('418', $response->getContent());
-
-        app()['env'] = 'testing';
-    }
-
-    public function testKnownHttpExceptionWithHtmlResponse()
-    {
-        app()['env'] = 'production';
-
-        $e = new HttpException(404);
-
-        $response = $this->handler->render($this->request, $e);
-
-        $this->assertEquals(404, $response->getStatusCode());
-        // Just verify status code is in the response since translations might not be available
-        $this->assertStringContainsString('404', $response->getContent());
-
-        app()['env'] = 'testing';
-    }
-
-    public function testBackWithPreviousPage()
-    {
-        session(['prevPage' => '/previous']);
-
-        $e = new DbReadOnlyException('Database is read-only');
-        $response = $this->handler->render($this->request, $e);
-
-        $this->assertStringEndsWith('/previous', $response->getTargetUrl());
-    }
-
-    public function testBackWithoutPreviousPage()
-    {
-        session()->forget('prevPage');
-
-        $e = new DbReadOnlyException('Database is read-only');
-        $response = $this->handler->render($this->request, $e);
-
-        $this->assertTrue($response->getTargetUrl() !== '');
-    }
-
-    public function testConnectExceptionWithoutJson()
-    {
-        app()['env'] = 'production';
-
-        $guzzleRequest = new \GuzzleHttp\Psr7\Request('GET', 'http://example.com');
-        $e = new ConnectException('Could not connect', $guzzleRequest);
-
-        // Set up previous page in session for redirect
-        session(['prevPage' => '/previous']);
-
-        $response = $this->handler->render($this->request, $e);
-
-        // Should redirect back with error
-        $this->assertNotNull($response);
-        $this->assertTrue(method_exists($response, 'getTargetUrl'));
-
-        app()['env'] = 'testing';
-    }
-
-    public function testThrottleExceptionWithoutJson()
-    {
-        app()['env'] = 'production';
-
-        $e = new HttpException(429);
-
-        // Set up previous page in session for redirect
-        session(['prevPage' => '/previous']);
-
-        $response = $this->handler->render($this->request, $e);
-
-        // Should redirect back with error
-        $this->assertNotNull($response);
-        $this->assertTrue(method_exists($response, 'getTargetUrl'));
-
-        app()['env'] = 'testing';
-    }
-
-    public function testSessionExpiredWithoutJson()
-    {
-        app()['env'] = 'production';
-
-        $e = new HttpException(419);
-
-        // Set up previous page in session for redirect
-        session(['prevPage' => '/previous']);
-
-        $response = $this->handler->render($this->request, $e);
-
-        // Should redirect back with error
-        $this->assertNotNull($response);
-        $this->assertTrue(method_exists($response, 'getTargetUrl'));
-
-        app()['env'] = 'testing';
-    }
-
-    public function testGenericExceptionWithJsonResponse()
+    public function test_generic_exception_with_json_response()
     {
         $e = new HttpException(500, 'Internal Server Error');
         $this->request->headers->set('Accept', 'application/json');
@@ -238,19 +126,132 @@ class HandlerTest extends TestCase
         $this->assertEquals(['message' => 'Internal Server Error'], $response->getData(true));
     }
 
-    public function testMultipleHttpStatusCodesHtmlResponse()
+    public function test_known_http_exception_with_html_response()
     {
         app()['env'] = 'production';
 
-        $statusCodes = [401, 402, 403, 500, 503];
+        $e = new HttpException(404);
+        $response = $this->handler->render($this->request, $e);
 
-        foreach ($statusCodes as $code) {
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertStringContainsString('404', $response->getContent());
+
+        app()['env'] = 'testing';
+    }
+
+    public function test_unknown_http_exception_with_html_response()
+    {
+        app()['env'] = 'production';
+
+        $e = new HttpException(418);
+        $response = $this->handler->render($this->request, $e);
+
+        $this->assertEquals(418, $response->getStatusCode());
+        $this->assertStringContainsString('418', $response->getContent());
+
+        app()['env'] = 'testing';
+    }
+
+    public function test_multiple_http_status_codes_html_response()
+    {
+        app()['env'] = 'production';
+
+        foreach ([401, 402, 403, 500, 503] as $code) {
             $e = new HttpException($code);
             $response = $this->handler->render($this->request, $e);
 
             $this->assertEquals($code, $response->getStatusCode());
-            $this->assertStringContainsString((string)$code, $response->getContent());
+            $this->assertStringContainsString((string) $code, $response->getContent());
         }
+
+        app()['env'] = 'testing';
+    }
+
+    public function test_503_html_response_contains_auto_refresh_script()
+    {
+        app()['env'] = 'production';
+
+        $e = new HttpException(503);
+        $response = $this->handler->render($this->request, $e);
+
+        $this->assertEquals(503, $response->getStatusCode());
+        $this->assertStringContainsString('setTimeout(()=>location.reload(),30000)', $response->getContent());
+
+        app()['env'] = 'testing';
+    }
+
+    public function test_non_503_html_response_has_no_refresh_script()
+    {
+        app()['env'] = 'production';
+
+        foreach ([401, 404, 500] as $code) {
+            $e = new HttpException($code);
+            $response = $this->handler->render($this->request, $e);
+            $this->assertStringNotContainsString('setTimeout(()=>location.reload()', $response->getContent());
+        }
+
+        app()['env'] = 'testing';
+    }
+
+    public function test_back_with_previous_page()
+    {
+        session(['prevPage' => '/previous']);
+
+        $e = new DbReadOnlyException('Database is read-only');
+        $response = $this->handler->render($this->request, $e);
+
+        $this->assertStringEndsWith('/previous', $response->getTargetUrl());
+    }
+
+    public function test_back_without_previous_page()
+    {
+        session()->forget('prevPage');
+
+        $e = new DbReadOnlyException('Database is read-only');
+        $response = $this->handler->render($this->request, $e);
+
+        $this->assertNotEmpty($response->getTargetUrl());
+    }
+
+    public function test_connect_exception_without_json_redirects_back()
+    {
+        app()['env'] = 'production';
+
+        $guzzleRequest = new \GuzzleHttp\Psr7\Request('GET', 'http://example.com');
+        $e = new ConnectException('Could not connect', $guzzleRequest);
+        session(['prevPage' => '/previous']);
+
+        $response = $this->handler->render($this->request, $e);
+
+        $this->assertTrue(method_exists($response, 'getTargetUrl'));
+
+        app()['env'] = 'testing';
+    }
+
+    public function test_throttle_exception_without_json_redirects_back()
+    {
+        app()['env'] = 'production';
+
+        $e = new HttpException(429);
+        session(['prevPage' => '/previous']);
+
+        $response = $this->handler->render($this->request, $e);
+
+        $this->assertTrue(method_exists($response, 'getTargetUrl'));
+
+        app()['env'] = 'testing';
+    }
+
+    public function test_session_expired_without_json_redirects_back()
+    {
+        app()['env'] = 'production';
+
+        $e = new HttpException(419);
+        session(['prevPage' => '/previous']);
+
+        $response = $this->handler->render($this->request, $e);
+
+        $this->assertTrue(method_exists($response, 'getTargetUrl'));
 
         app()['env'] = 'testing';
     }

@@ -7,10 +7,11 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libzip-dev \
     sqlite3 \
-    libsqlite3-dev
+    libsqlite3-dev \
+    libicu-dev
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo pdo_sqlite
+RUN docker-php-ext-install pdo pdo_sqlite intl
 
 # Install xdebug code coverage driver (build from source to bypass pecl.php.net)
 RUN curl -fsSL https://github.com/xdebug/xdebug/archive/refs/tags/3.4.2.tar.gz -o /tmp/xdebug.tar.gz \
