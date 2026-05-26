@@ -18,6 +18,7 @@
   - [TranslationServiceProvider](#translationserviceprovider)
 - [Middleware](#middleware)
   - [CheckPostItemNames](#checkpostitemnames-middleware)
+  - [InjectMetaRobots](#injectmetarobots-middleware)
   - [InjectUmamiScript](#injectumamiscript-middleware)
   - [PreventDuplicateSubmissions](#preventduplicatesubmissions-middleware)
   - [SetPrevPage](#setprevpage-middleware)
@@ -36,6 +37,9 @@
   - [Read-Only Mode Info](#read-only-mode-info-blade-component)
   - [Email Feedback](#email-feedback-blade-component)
   - [Editable](#editable-blade-component)
+  - [Admin Button Text](#admin-button-text-blade-component)
+  - [Association History](#association-history-blade-component)
+  - [Component Signatures](#component-signatures-blade-component)
 - [Casts](#casts)
   - [CarbonIntervalCast](#carbonintervalcast)
 - [Traits](#traits)
@@ -159,6 +163,28 @@ Example:
   [WARNING] Invalid POST parameter names containing dots: user.email
   ```
 
+### `InjectMetaRobots` Middleware
+
+> Automatically injects a `<meta name="robots">` tag into HTML responses before `</head>` when `META_ROBOTS` is set.
+
+Set the following environment variable to enable:
+
+| Variable | Description | Default |
+| --- | --- | --- |
+| `META_ROBOTS` | Robots directive (e.g. `noindex`, `noindex,nofollow`). | `null` (disabled) |
+
+Example `.env`:
+
+```dotenv
+META_ROBOTS=noindex,nofollow
+```
+
+The injected tag:
+
+```html
+<meta name="robots" content="noindex,nofollow"/>
+```
+
 ### `InjectUmamiScript` Middleware
 
 > Automatically injects the [Umami](https://umami.is/) analytics tracking script into HTML responses when `UMAMI_WEBSITE_ID` is set.
@@ -169,6 +195,8 @@ The script is injected before the closing `</head>` tag. Set the following envir
 | --- | --- | --- |
 | `UMAMI_WEBSITE_ID` | Your Umami website ID (required to enable tracking). | `''` (disabled) |
 | `UMAMI_SRC` | URL to the Umami tracking script. | `https://umami.internetguru.io/script.js` |
+| `UMAMI_IDENTIFY` | Send user identity data (`id`, `user_type`, optional `user_role`) on page load. | `true` |
+| `UMAMI_IDENTIFY_HASH` | Hash the user ID with SHA-256 before sending. | `false` |
 
 Example `.env`:
 
@@ -266,6 +294,7 @@ For full implementation details, see the [Helpers](src/Support/Helpers.php) clas
 | `$date->dateTimeForHumans()` | Locale-aware date and time (`L LT` format). |
 | `$date->myDiffForHumans()` | Human-readable time difference with "just now" for <60 seconds and "1 year" normalization. |
 | `$date->timeForHumans()` | Clean time format (removes leading zeros and `:00`). |
+| `$date->toDisplayTimezone()` | Converts the date to the user's display timezone stored in the session (`display_timezone`), falling back to `config('app.timezone')`. |
 | `$date->randomWorkTime($from, $to)` | Sets a random time during work hours (default 9–17). |
 
 Example usage:
@@ -471,6 +500,72 @@ Complete example:
 <x-ig::editable />
 ```
 
+### Admin Button Text Blade Component
+
+> Renders a slot for button text that is replaced with a configurable admin label when the authenticated user is an admin.
+
+```html
+<x-ig::admin-button-text>Save</x-ig::admin-button-text>
+```
+
+When `auth()->user()->isAdmin()` is `true`, the slot content is replaced with the `ig-common::layouts.submit-admin` translation string.
+
+### Association History Blade Component
+
+> Renders a chronological edit history for a model, grouped by author and 10-minute time windows. Requires the `AssociationHistory` trait on the model.
+
+**Setup:**
+
+1. Publish and run the migration:
+
+    ```bash
+    php artisan vendor:publish --tag=ig-common:migrations
+    php artisan migrate
+    ```
+
+2. Add the trait and declare which fields to track:
+
+    ```php
+    use InternetGuru\LaravelCommon\Traits\AssociationHistory;
+
+    class Reservation extends Model
+    {
+        use AssociationHistory;
+
+        protected array $associationHistoryTracked = ['status', 'note'];
+    }
+    ```
+
+3. Optionally configure column label translations in `config/ig-common.php`:
+
+    ```php
+    'association_history' => [
+        'columns' => [
+            \App\Models\Reservation::class => 'reservation.history.column',
+        ],
+    ],
+    ```
+
+    With corresponding translation keys like `reservation.history.column.status`, `reservation.history.column.note`.
+
+4. Render the component:
+
+    ```html
+    <x-ig::association-history :model="$reservation" />
+    ```
+
+    Optional `:limit` attribute (default `10`) controls how many entries are loaded.
+
+The component derives the "new value" for each entry from the current model state and automatically reads the `created_by` field (override via `$associationHistoryCreatedBy`) to prepend a creation entry.
+
+### Component Signatures Blade Component
+
+> Renders an HTML comment listing all installed `internetguru/*` package names and versions. Only active in debug mode.
+
+```html
+<x-ig::component-signatures />
+```
+
 ## Casts
 
 ### CarbonIntervalCast
@@ -594,6 +689,15 @@ Features:
 - Automatically detects no-reply addresses and adds a "replies not delivered" note.
 - Supports arbitrary extra data (`setExtraMailData`) passed to email views (IP, timezone, user ID, etc.).
 
+Available methods:
+
+| Method | Description |
+| --- | --- |
+| `->to($address, $name)` | Set one or multiple recipients. Accepts a single address or an array of `[email => name]` pairs. |
+| `->withoutRefNumber()` | Suppress the `Ref XXXXX` suffix from the subject and footer. |
+| `->setRefNumber($ref)` | Override the auto-generated reference code. |
+| `->setExtraMailData($data)` | Merge additional data passed to the email view. |
+
 ### Mail Logging
 
 > All sent mail notifications are automatically logged to the `mail_logs` database table via the `LogSentNotification` listener.
@@ -619,6 +723,7 @@ Features:
 - **Debug mode**: Uses `dd()` for detailed exception inspection.
 - **JSON support**: Returns JSON responses when the request expects JSON.
 - Redirects to the previously tracked page (via `SetPrevPage` middleware) on error.
+- **503 auto-refresh**: The 503 error page automatically reloads after 30 seconds.
 
 Custom error views are included for standard HTTP status codes. The error pages use the `ig-common::layouts.base` layout.
 
