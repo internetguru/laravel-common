@@ -12,9 +12,17 @@ RUN apt-get update && apt-get install -y \
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_sqlite
 
-# Install xdebug code coverage driver
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
+# Install xdebug code coverage driver (build from source to bypass pecl.php.net)
+RUN curl -fsSL https://github.com/xdebug/xdebug/archive/refs/tags/3.4.2.tar.gz -o /tmp/xdebug.tar.gz \
+    && mkdir /tmp/xdebug \
+    && tar -xzf /tmp/xdebug.tar.gz -C /tmp/xdebug --strip-components=1 \
+    && cd /tmp/xdebug \
+    && phpize \
+    && ./configure \
+    && make -j$(nproc) \
+    && make install \
+    && docker-php-ext-enable xdebug \
+    && rm -rf /tmp/xdebug /tmp/xdebug.tar.gz
 
 RUN echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
