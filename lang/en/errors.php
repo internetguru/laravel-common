@@ -24,7 +24,7 @@ return [
     '500_message' => 'Sorry, something went wrong on our end. Please try again later.',
 
     '503' => 'Service unavailable',
-    '503_message' => 'Sorry, we are doing some maintenance. Please check back soon.',
+    '503_message' => 'Thanks for your patience. Quick maintenance is underway. The page will be back shortly.',
 
     'unknown' => 'Unknown error',
     'unknown_message' => 'Sorry, an unknown error has occurred. Please try again later.',

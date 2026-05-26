@@ -37,17 +37,11 @@ class CommonServiceProviderTest extends TestCase
     public function test_web_routes_are_loaded()
     {
         $routes = Route::getRoutes();
-        $routeNames = [];
 
-        foreach ($routes as $route) {
-            if ($route->getName()) {
-                $routeNames[] = $route->getName();
-            }
-        }
-
-        // Check if at least one route from the package is loaded
-        // The web.php file should contain some routes
-        $this->assertIsArray($routeNames);
+        $this->assertNotNull($routes->getByName('errors.index'));
+        $this->assertNotNull($routes->getByName('error.404'));
+        $this->assertNotNull($routes->getByName('error.503'));
+        $this->assertNotNull($routes->getByName('i18n.index'));
     }
 
     public function test_blade_components_can_be_rendered()
@@ -59,10 +53,20 @@ class CommonServiceProviderTest extends TestCase
 
     public function test_middleware_is_registered()
     {
-        $middleware = app('router')->getMiddlewareGroups()['web'] ?? [];
+        $provider = new \InternetGuru\LaravelCommon\CommonServiceProvider(app());
+        $property = (new \ReflectionClass($provider))->getProperty('webMiddleware');
+        $property->setAccessible(true);
+        $registered = $property->getValue($provider);
 
-        $this->assertIsArray($middleware);
-        $this->assertNotEmpty($middleware);
+        foreach ([
+            \InternetGuru\LaravelCommon\Http\Middleware\CheckPostItemNames::class,
+            \InternetGuru\LaravelCommon\Http\Middleware\InjectMetaRobots::class,
+            \InternetGuru\LaravelCommon\Http\Middleware\InjectUmamiScript::class,
+            \InternetGuru\LaravelCommon\Http\Middleware\PreventDuplicateSubmissions::class,
+            \InternetGuru\LaravelCommon\Http\Middleware\SetPrevPage::class,
+        ] as $class) {
+            $this->assertContains($class, $registered, "$class not found in web middleware group");
+        }
     }
 
     public function test_queue_connection_not_sync_in_non_testing()

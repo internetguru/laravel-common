@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.16.0] - 2026-05-26
+
+_Stable release based on [5.16.0-rc.1]._
+
+## [5.16.0-rc.1] - 2026-05-26
+
+### Added
+
+- Add auto `refresh` option to base blade file and refresh error page 503 every 30 seconds.
+- Add `InjectMetaRobots` middleware that automatically injects robots value to the page `<head>` from `META_ROBOTS` env.
+
+### Changed
+
+- Update error 503 page messages.
+
 ## [5.15.0] - 2026-05-21
 
 _Stable release based on [5.15.0-rc.1]._
@@ -80,6 +95,10 @@ _Stable release based on [5.13.0-rc.1]._
 
 ## [5.13.0-rc.1] - 2026-04-07
 
+### Added
+
+- Add e2e tests.
+
 ### Changed
 
 - Hide empty 'from' value in edit history, show 'Added *field*' instead.
@@ -126,7 +145,7 @@ _Stable release based on [5.11.0-rc.1]._
 
 ### Changed
 
-- Update email footer: use domain-only URL, wrap tech info (ref, generator, IP, timezone) in `samp` tags.
+- Update email footer: use domain-only URL, wrap tech info (ref, generator, IP, timezone) in `code` tags.
 
 ## [5.10.2] - 2026-03-31
 
@@ -145,6 +164,10 @@ _Stable release based on [5.11.0-rc.1]._
 _Stable release based on [5.10.0-rc.1]._
 
 ## [5.10.0-rc.1] - 2026-03-28
+
+### Added
+
+- Add Carbon `toDisplayTimezone` macro.
 
 ## [5.9.1] - 2026-03-28
 
@@ -1559,6 +1582,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[5.16.0]: https://https://github.com/internetguru/laravel-common/compare/v5.15.0...v5.16.0
+[5.16.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.15.0
 [5.15.0]: https://https://github.com/internetguru/laravel-common/compare/v5.14.1...v5.15.0
 [5.15.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.14.1
 [5.14.1]: https://https://github.com/internetguru/laravel-common/compare/v5.14.0...v5.14.1
