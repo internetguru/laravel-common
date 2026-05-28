@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Skip GeoIP lookup for known bots to prevent timeout errors.
+
+### Changed
+
+- Enforce a 5-second timeout on GeoIP HTTP calls to avoid long request hangs.
+
+### Fixed
+
+- Log a warning when a GeoIP lookup times out.
+
 ## [5.16.0] - 2026-05-26
 
 _Stable release based on [5.16.0-rc.1]._
