@@ -35,6 +35,16 @@ class AssociationHistory extends Component
             $history->is_complex = is_array(json_decode($history->column_prev_value ?? '', true))
                 || is_array(json_decode($history->new_value ?? '', true));
             $history->is_checkbox = ($casts[$field] ?? null) === 'boolean';
+            $history->column_prev_value_translated = $history->column_prev_value;
+            $history->new_value_translated = $history->new_value;
+            if (! $history->is_complex) {
+                $history->column_prev_value_translated = $columnPrefix ?
+                    __("{$columnPrefix}.{$field}.{$history->column_prev_value}")
+                    : $history->column_prev_value;
+                $history->new_value_translated = $columnPrefix ?
+                    __("{$columnPrefix}.{$field}.{$history->new_value}")
+                    : $history->new_value;
+            }
             $history->translated_column = $columnPrefix
                 ? __("{$columnPrefix}.{$field}")
                 : $field;
