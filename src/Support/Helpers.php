@@ -99,10 +99,11 @@ class Helpers
                 $uri = $currentPath;
                 foreach ($route->middleware() as $item) {
                     if ($item == 'auth') {
-                        if (! auth()->check()) {
-                            // If user is not authenticated, return the route name and empty URI
-                            $uri = '';
-                        }
+                        // let user log-in
+                        // if (! auth()->check()) {
+                        //     // If user is not authenticated, return the route name and empty URI
+                        //     $uri = '';
+                        // }
                     } elseif (strpos($item, 'can:') === 0) {
                         [$permission, $model] = explode(',', substr($item, 4));
                         $modelInstance = array_key_exists($model, $parameters) ? $parameters[$model] : $model;
