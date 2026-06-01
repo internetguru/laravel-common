@@ -582,7 +582,7 @@ When `auth()->user()->isAdmin()` is `true`, the slot content is replaced with th
     }
     ```
 
-3. Optionally configure column label translations in `config/ig-common.php`:
+3. Optionally configure column label and label value translations in `config/ig-common.php`:
 
     ```php
     'association_history' => [
@@ -592,7 +592,7 @@ When `auth()->user()->isAdmin()` is `true`, the slot content is replaced with th
     ],
     ```
 
-    With corresponding translation keys like `reservation.history.column.status`, `reservation.history.column.note`.
+    With corresponding translation keys like `reservation.history.column.status`, `reservation.history.column.status.pending`, `reservation.history.column.status.confirmed` and `reservation.history.column.note`.
 
 4. Render the component:
 
