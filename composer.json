@@ -22,7 +22,7 @@
         "laravel/framework": "^10.0 || ^11.0 || ^12.0 || ^13.0",
         "torann/geoip": "^3.0",
         "spatie/laravel-ignition": "^2.9",
-        "livewire/livewire": "^3.6 || ^ 4.0",
+        "livewire/livewire": "^3.6 || ^4.0",
         "internetguru/laravel-recaptchav3": "^1.0"
     },
     "require-dev": {
