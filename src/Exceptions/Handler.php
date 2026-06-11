@@ -146,6 +146,21 @@ class Handler extends ExceptionHandler
             return true;
         }
 
+        // Bots sending malformed Livewire upload data that can't be re-serialized for the session
+        if (str_contains($e->getMessage(), "Serialization of 'Illuminate\\Http\\UploadedFile' is not allowed")) {
+            return true;
+        }
+
+        // Bots requesting non-existent Livewire components
+        if ($class === 'Livewire\\Exceptions\\ComponentNotFoundException') {
+            return true;
+        }
+
+        // Bots tampering with Livewire component payloads
+        if ($class === 'Livewire\\Mechanisms\\HandleComponents\\CorruptComponentPayloadException') {
+            return true;
+        }
+
         // Also check the cause in case Livewire wraps the exception
         if ($e->getPrevious() !== null) {
             return $this->isSuppressedLivewireBotException($e->getPrevious());

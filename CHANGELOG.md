@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.18.5] - 2026-06-11
+
+### Fixed
+
+- Suppress another livewire bot related exceptions.
+
 ## [5.18.4] - 2026-06-11
 
 ### Fixed
@@ -1642,6 +1648,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[5.18.5]: https://https://github.com/internetguru/laravel-common/compare/v5.18.4...v5.18.5
 [5.18.4]: https://https://github.com/internetguru/laravel-common/compare/v5.18.3...v5.18.4
 [5.18.3]: https://https://github.com/internetguru/laravel-common/compare/v5.18.2...v5.18.3
 [5.18.2]: https://https://github.com/internetguru/laravel-common/compare/v5.18.1...v5.18.2
