@@ -4,12 +4,13 @@ namespace InternetGuru\LaravelCommon\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Livewire\Livewire;
 
 class PreventDuplicateSubmissions
 {
     public function handle(Request $request, Closure $next): mixed
     {
-        if ($request->isMethod('post') && ! str_contains($request->path(), 'livewire/update')) {
+        if ($request->isMethod('post') && ! Livewire::isLivewireRequest()) {
             // Generate a unique key based on the request ignoring the g-recaptcha-response field
             $requestKey = sha1($request->ip() . '|' . $request->path() . '|' . serialize($request->except('g-recaptcha-response')));
 
