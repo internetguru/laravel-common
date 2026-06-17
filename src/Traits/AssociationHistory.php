@@ -37,7 +37,7 @@ trait AssociationHistory
                 $model->associationHistories()->create([
                     'column_name' => $field,
                     'column_prev_value' => self::castHistoryValue($originalValue),
-                    'author_id' => auth()->id(),
+                    'author_id' => auth()->user()?->getKey(),
                 ]);
             }
 
