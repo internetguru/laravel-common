@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.18.7] - 2026-07-01
+
+### Fixed
+
+- Fix association history translations for enums and text fields.
+
 ## [5.18.6] - 2026-06-17
 
 ### Fixed
@@ -1654,6 +1660,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[5.18.7]: https://https://github.com/internetguru/laravel-common/compare/v5.18.6...v5.18.7
 [5.18.6]: https://https://github.com/internetguru/laravel-common/compare/v5.18.5...v5.18.6
 [5.18.5]: https://https://github.com/internetguru/laravel-common/compare/v5.18.4...v5.18.5
 [5.18.4]: https://https://github.com/internetguru/laravel-common/compare/v5.18.3...v5.18.4
