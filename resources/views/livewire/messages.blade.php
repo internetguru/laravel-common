@@ -34,6 +34,11 @@
                 }
             });
 
+            // Re-init toasts after SPA navigation (e.g. flashed messages on redirect)
+            document.addEventListener('livewire:navigated', function () {
+                initToasts();
+            });
+
             function initToasts() {
                 document.querySelectorAll('.toast').forEach(function (toast) {
                     initToast(toast);
