@@ -22,44 +22,52 @@
 
 @script
     <script>
-        document.addEventListener('livewire:initialized', function () {
-            initToasts();
+        // Resolve the live Messages component for a given toast element.
+        // Never close over @this: it goes stale across wire:navigate.
+        function igMessagesComponent(toast) {
+            const root = toast.closest('[wire\\:id]');
+            return root ? window.Livewire.find(root.getAttribute('wire:id')) : null;
+        }
 
-            // Re-init toasts whenever messages are updated
+        function igInitToast(toast) {
+            if (toast.dataset.igInit) {
+                return;
+            }
+            toast.dataset.igInit = '1';
+
+            toast.addEventListener('hidden.bs.toast', function () {
+                const component = igMessagesComponent(toast);
+                const index = toast.parentNode.getAttribute('data-index');
+                component?.removeMessageQuietly(parseInt(index));
+            });
+
+            new Toast(toast).show();
+
+            if (toast.classList.contains('bg-success')) {
+                const component = igMessagesComponent(toast);
+                const index = toast.parentNode.getAttribute('data-index');
+                component?.removeMessageQuietly(parseInt(index));
+            }
+        }
+
+        function igInitToasts() {
+            document.querySelectorAll('.messages-wrapper .toast').forEach(igInitToast);
+        }
+
+        // Bind global listeners only once, regardless of how many times this
+        // component (re)mounts across navigations.
+        if (! window.igMessagesToastsBound) {
+            window.igMessagesToastsBound = true;
+
+            document.addEventListener('livewire:navigated', igInitToasts);
+
             Livewire.hook('morph.updated', ({ el }) => {
-                if (el.classList.contains('messages-wrapper')) {
-                    setTimeout(() => {
-                        initToasts();
-                    }, 100);
+                if (el.classList && el.classList.contains('messages-wrapper')) {
+                    setTimeout(igInitToasts, 100);
                 }
             });
+        }
 
-            // Re-init toasts after SPA navigation (e.g. flashed messages on redirect)
-            document.addEventListener('livewire:navigated', function () {
-                initToasts();
-            });
-
-            function initToasts() {
-                document.querySelectorAll('.toast').forEach(function (toast) {
-                    initToast(toast);
-                    toast.addEventListener('hidden.bs.toast', function () {
-                        console.log('Toast hidden:', toast);
-                        const index = toast.parentNode.getAttribute('data-index');
-                        @this.removeMessageQuietly(parseInt(index));
-                    });
-                });
-            }
-
-            function initToast(toast) {
-                var bsToast = new Toast(toast);
-
-                if (toast.classList.contains('bg-success')) {
-                    const index = toast.parentNode.getAttribute('data-index');
-                    @this.removeMessageQuietly(parseInt(index));
-                }
-
-                bsToast.show();
-            }
-        });
+        igInitToasts();
     </script>
 @endscript
