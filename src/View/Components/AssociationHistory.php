@@ -3,6 +3,7 @@
 namespace InternetGuru\LaravelCommon\View\Components;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\View\Component;
 
 class AssociationHistory extends Component
@@ -35,16 +36,8 @@ class AssociationHistory extends Component
             $history->is_complex = is_array(json_decode($history->column_prev_value ?? '', true))
                 || is_array(json_decode($history->new_value ?? '', true));
             $history->is_checkbox = ($casts[$field] ?? null) === 'boolean';
-            $history->column_prev_value_translated = $history->column_prev_value;
-            $history->new_value_translated = $history->new_value;
-            if (! $history->is_complex) {
-                $history->column_prev_value_translated = $columnPrefix ?
-                    __("{$columnPrefix}.{$field}.{$history->column_prev_value}")
-                    : $history->column_prev_value;
-                $history->new_value_translated = $columnPrefix ?
-                    __("{$columnPrefix}.{$field}.{$history->new_value}")
-                    : $history->new_value;
-            }
+            $history->column_prev_value_translated = $this->translateValue($columnPrefix, $field, $history->column_prev_value);
+            $history->new_value_translated = $this->translateValue($columnPrefix, $field, $history->new_value);
             $history->translated_column = $columnPrefix
                 ? __("{$columnPrefix}.{$field}")
                 : $field;
@@ -109,5 +102,20 @@ class AssociationHistory extends Component
     public function render()
     {
         return view('ig-common::components.association-history');
+    }
+
+    /**
+     * Translate an enum-like value, falling back to the raw value when no
+     * per-value translation is defined (e.g. free-text or numeric fields).
+     */
+    private function translateValue(?string $columnPrefix, string $field, ?string $value): ?string
+    {
+        if (! $columnPrefix || $value === null || $value === '') {
+            return $value;
+        }
+
+        $key = "{$columnPrefix}.{$field}.{$value}";
+
+        return Lang::has($key) ? __($key) : $value;
     }
 }
