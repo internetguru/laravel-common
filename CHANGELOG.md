@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [5.18.9] - 2026-07-01
+
+### Fixed
+
+- Fix toast messages initialization.
+
 ## [5.18.8] - 2026-07-01
 
 ### Fixed
@@ -1669,6 +1675,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[5.18.9]: https://https://github.com/internetguru/laravel-common/compare/v5.18.8...v5.18.9
 [5.18.8]: https://https://github.com/internetguru/laravel-common/compare/v5.18.7...v5.18.8
 [5.18.7]: https://https://github.com/internetguru/laravel-common/compare/v5.18.6...v5.18.7
 [5.18.6]: https://https://github.com/internetguru/laravel-common/compare/v5.18.5...v5.18.6
