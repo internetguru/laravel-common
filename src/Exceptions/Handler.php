@@ -4,6 +4,9 @@ namespace InternetGuru\LaravelCommon\Exceptions;
 
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Client\ConnectionException as HttpClientConnectionException;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\ViewErrorBag;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
@@ -27,7 +30,16 @@ class Handler extends ExceptionHandler
                 return;
             }
 
+            // a Livewire component request failing should render the same styled
+            // error page as a normal request, not a JSON payload or a redirect -
+            // the frontend swaps it in in place of Livewire's default error overlay
+            $isLivewireRequest = $request->hasHeader('X-Livewire');
+
             if ($e instanceof DbReadOnlyException) {
+                if ($isLivewireRequest) {
+                    return $this->flashErrorAndReload($e->getMessage(), 503);
+                }
+
                 if ($request->expectsJson()) {
                     return response()->json(['message' => $e->getMessage()], 503);
                 }
@@ -48,7 +60,11 @@ class Handler extends ExceptionHandler
             }
 
             // connection error from remote server, e.g. dns not resolved or timeout
-            if ($e instanceof ConnectException) {
+            if ($e instanceof ConnectException || $e instanceof HttpClientConnectionException) {
+                if ($isLivewireRequest) {
+                    return $this->errorPage($e, 500, __('ig-common::errors.connection_error'));
+                }
+
                 if ($request->expectsJson()) {
                     return response()->json(['message' => __('ig-common::errors.connection_error')], 500);
                 }
@@ -58,6 +74,10 @@ class Handler extends ExceptionHandler
 
             // throttle handling
             if ($statusCode == 429) {
+                if ($isLivewireRequest) {
+                    return $this->flashErrorAndReload(__('ig-common::errors.ratelimit'), 429);
+                }
+
                 if ($request->expectsJson()) {
                     return response()->json(['message' => __('ig-common::errors.ratelimit')], 429);
                 }
@@ -67,6 +87,10 @@ class Handler extends ExceptionHandler
 
             // expired session
             if ($statusCode == 419) {
+                if ($isLivewireRequest) {
+                    return $this->flashErrorAndReload(__('ig-common::errors.session_expired'), 419);
+                }
+
                 if ($request->expectsJson()) {
                     return response()->json(['message' => __('ig-common::errors.session_expired')], 419);
                 }
@@ -75,35 +99,56 @@ class Handler extends ExceptionHandler
             }
 
             // global error
-            if ($request->expectsJson()) {
+            if ($request->expectsJson() && ! $isLivewireRequest) {
                 return response()->json(['message' => $e->getMessage()], $statusCode);
             }
 
-            if (! in_array($statusCode, [401, 402, 403, 404, 419, 429, 500, 503])) {
-                return response()->view(
-                    'ig-common::layouts.base',
-                    [
-                        'exception' => $e,
-                        'view' => 'layouts.empty',
-                        'title' => "$statusCode " . __('ig-common::errors.unknown'),
-                        'description' => __('ig-common::errors.unknown_message'),
-                    ],
-                    $statusCode,
-                );
-            }
+            return $this->errorPage($e, $statusCode);
+        });
+    }
 
+    /**
+     * Flash the error for a transient, retryable failure on a Livewire request
+     * and return a bare response: the frontend reloads the page, which re-runs
+     * the middleware stack (fresh csrf token, auth redirect when needed) and
+     * shows the flashed message via the messages component.
+     */
+    private function flashErrorAndReload(string $message, int $statusCode)
+    {
+        session()->flash('errors', (new ViewErrorBag)->put('default', new MessageBag([$message])));
+
+        return response()->json(['message' => $message], $statusCode);
+    }
+
+    /**
+     * Render the shared styled error page for a given exception/status code.
+     */
+    private function errorPage(Throwable $e, int $statusCode, ?string $descriptionOverride = null)
+    {
+        if (! in_array($statusCode, [401, 402, 403, 404, 419, 429, 500, 503])) {
             return response()->view(
                 'ig-common::layouts.base',
                 [
                     'exception' => $e,
                     'view' => 'layouts.empty',
-                    'title' => "$statusCode " . __('ig-common::errors.' . $statusCode),
-                    'description' => __('ig-common::errors.' . $statusCode . '_message'),
-                    'refresh' => $statusCode === 503 ? 30 : null,
+                    'title' => "$statusCode " . __('ig-common::errors.unknown'),
+                    'description' => $descriptionOverride ?? __('ig-common::errors.unknown_message'),
                 ],
                 $statusCode,
             );
-        });
+        }
+
+        return response()->view(
+            'ig-common::layouts.base',
+            [
+                'exception' => $e,
+                'view' => 'layouts.empty',
+                'title' => "$statusCode " . __('ig-common::errors.' . $statusCode),
+                'description' => $descriptionOverride ?? __('ig-common::errors.' . $statusCode . '_message'),
+                'refresh' => $statusCode === 503 ? 30 : null,
+            ],
+            $statusCode,
+        );
     }
 
     protected function shouldntReport(Throwable $e): bool
