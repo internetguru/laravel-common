@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [5.18.11] - 2026-07-09
+
+### Fixed
+
+- Fix Geolocation service to return currency.
+
 ## [5.18.10] - 2026-07-08
 
 ### Fixed
@@ -1681,6 +1687,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[5.18.11]: https://https://github.com/internetguru/laravel-common/compare/v5.18.10...v5.18.11
 [5.18.10]: https://https://github.com/internetguru/laravel-common/compare/v5.18.9...v5.18.10
 [5.18.9]: https://https://github.com/internetguru/laravel-common/compare/v5.18.8...v5.18.9
 [5.18.8]: https://https://github.com/internetguru/laravel-common/compare/v5.18.7...v5.18.8
