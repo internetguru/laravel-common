@@ -10,6 +10,7 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Mockery;
+use PHPUnit\Framework\Attributes\Group;
 use Tests\TestCase;
 use Torann\GeoIP\Location;
 
@@ -111,6 +112,76 @@ class GeolocationServiceTest extends TestCase
         $this->expectExceptionMessage('GeoIP lookup timed out:');
 
         $this->service->getLocation('8.8.8.8');
+    }
+
+    public function test_get_location_parses_ipapi_response_including_currency()
+    {
+        $ip = '8.8.8.8';
+        $this->app['config']->set('geoip.service', 'ipapi');
+        $this->app['config']->set('geoip.services.ipapi', ['lang' => 'en']);
+
+        Http::fake([
+            "http://ip-api.com/json/{$ip}*" => Http::response([
+                'status' => 'success',
+                'continent' => 'North America',
+                'continentCode' => 'NA',
+                'country' => 'United States',
+                'countryCode' => 'US',
+                'region' => 'VA',
+                'regionName' => 'Virginia',
+                'city' => 'Ashburn',
+                'zip' => '20149',
+                'lat' => 39.03,
+                'lon' => -77.5,
+                'timezone' => 'America/New_York',
+                'currency' => 'USD',
+            ]),
+        ]);
+
+        $location = $this->service->getLocation($ip);
+
+        $this->assertInstanceOf(Location::class, $location);
+        $this->assertEquals('USD', $location->currency);
+        $this->assertEquals('US', $location->iso_code);
+        $this->assertEquals('Ashburn', $location->city);
+        $this->assertEquals('20149', $location->postal_code);
+        $this->assertEquals(39.03, $location->lat);
+        $this->assertEquals(-77.5, $location->lon);
+        $this->assertEquals('America/New_York', $location->timezone);
+
+        Http::assertSent(function ($request) {
+            return str_contains($request->url(), 'currency')
+                && ! str_contains($request->url(), 'fields=49663');
+        });
+    }
+
+    /**
+     * Hits the real ip-api.com service (no HTTP fake) to catch upstream API
+     * changes, e.g. response fields being renamed or dropped.
+     */
+    #[Group('integration')]
+    public function test_get_location_against_real_ipapi_service()
+    {
+        $ip = '8.8.8.8';
+        $this->app['config']->set('geoip.service', 'ipapi');
+        $this->app['config']->set('geoip.services.ipapi', ['lang' => 'en']);
+
+        try {
+            $location = $this->service->getLocation($ip);
+        } catch (GeolocationServiceException $e) {
+            $this->markTestSkipped('Real ip-api.com service unreachable: ' . $e->getMessage());
+        }
+
+        $this->assertInstanceOf(Location::class, $location);
+        $this->assertEquals($ip, $location->ip);
+        $this->assertEquals('US', $location->iso_code);
+        $this->assertNotEmpty($location->country);
+        $this->assertNotEmpty($location->city);
+        $this->assertNotEmpty($location->lat);
+        $this->assertNotEmpty($location->lon);
+        $this->assertNotEmpty($location->timezone);
+        $this->assertNotEmpty($location->currency);
+        $this->assertEquals('USD', $location->currency);
     }
 
     public function test_get_location_restores_time_limit_after_timeout()

@@ -38,7 +38,10 @@ class GeolocationService
             ? ($secure ? 'https' : 'http') . '://pro.ip-api.com/json/'
             : 'http://ip-api.com/json/';
 
-        $query = ['fields' => 49663, 'lang' => $lang];
+        $query = [
+            'fields' => 'status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,currency',
+            'lang' => $lang,
+        ];
 
         if ($key) {
             $query['key'] = $key;
