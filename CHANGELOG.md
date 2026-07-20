@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.18.12] - 2026-07-20
+
+### Fixed
+
+- Fix association history separator"
+
 ## [5.18.11] - 2026-07-09
 
 ### Fixed
@@ -1684,6 +1690,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[5.18.12]: https://https://github.com/internetguru/laravel-common/compare/v5.18.11...v5.18.12
 [5.18.11]: https://https://github.com/internetguru/laravel-common/compare/v5.18.10...v5.18.11
 [5.18.10]: https://https://github.com/internetguru/laravel-common/compare/v5.18.9...v5.18.10
 [5.18.9]: https://https://github.com/internetguru/laravel-common/compare/v5.18.8...v5.18.9
