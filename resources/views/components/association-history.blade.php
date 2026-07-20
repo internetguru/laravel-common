@@ -2,8 +2,7 @@
     <dl class="mb-0">
         @foreach ($groups as $group)
             <dt>
-                <time style="font-family: monospace">{{ $group['time']->toDisplayTimezone()->dateTimeForHumans() }}</time>
-                <span>, </span>
+                <time style="font-family: monospace">{{ $group['time']->toDisplayTimezone()->dateTimeForHumans() }}</time><span>, </span>
                 {{ $group['author_name'] ?? __('ig-common::messages.association_history.guest') }}
             </dt>
             @foreach ($group['entries'] as $history)
