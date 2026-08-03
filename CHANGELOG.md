@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Change association history timestamps to "$date by $name" format.
+- Show the latest time of the association history time frame.
+- Sort association history entries within a time frame ascending.
+
 ## [5.18.14] - 2026-08-03
 
 ### Fixed

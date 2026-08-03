@@ -2,9 +2,13 @@
     <dl class="mb-0">
         @foreach ($groups as $group)
             <dt>
-                <time style="font-family: monospace">{{ $group['time']->toDisplayTimezone()->dateTimeForHumans() }}</time><span>, </span>
+                <time style="font-family: monospace">{{ $group['time']->toDisplayTimezone()->dateTimeForHumans() }}</time>
+                @lang('ig-common::messages.association_history.by')
                 {{ $group['author_name'] ?? __('ig-common::messages.association_history.guest') }}
             </dt>
+            @if ($group['is_creation'])
+                <dd>@lang('ig-common::messages.association_history.created')</dd>
+            @endif
             @foreach ($group['entries'] as $history)
                 <dd>
                     @if ($history->is_complex)
@@ -46,9 +50,6 @@
                     ])
                 </dd>
             @endforeach
-            @if ($group['is_creation'])
-                <dd>@lang('ig-common::messages.association_history.created')</dd>
-            @endif
         @endforeach
     </dl>
 @else
