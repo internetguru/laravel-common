@@ -71,7 +71,7 @@ function initCarbonMacros()
 
     Carbon::macro('dateForHumans', fn () => $this->isoFormat('L'));
 
-    Carbon::macro('dateTimeForHumans', fn () => $this->isoFormat('L LT'));
+    Carbon::macro('dateTimeForHumans', fn () => $this->dateForHumans().' '.$this->timeForHumans());
 
     Carbon::macro('toDisplayTimezone', function () {
         $timezone = session('display_timezone', config('app.timezone'));
@@ -97,7 +97,8 @@ function initCarbonMacros()
     });
 
     Carbon::macro('timeForHumans', function () {
-        return preg_replace(['/:00 /', '/^0/'], '', $this->isoFormat('LT'));
+        // drop a zero minute part before the AM/PM marker ("1:00 PM" -> "1 PM") and a leading zero hour
+        return preg_replace(['/:00(?=\D)/u', '/^0/'], '', $this->isoFormat('LT'));
     });
 
     Carbon::macro('randomWorkTime', function (int $from = 9, int $to = 17) {
