@@ -195,4 +195,11 @@ class Helpers
 
         return true;
     }
+
+    public static function installSeed(): int
+    {
+        $hash = hash('sha256', config('app.key'));
+
+        return hexdec(substr($hash, 0, 8));
+    }
 }
