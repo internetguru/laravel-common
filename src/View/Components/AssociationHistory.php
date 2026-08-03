@@ -50,7 +50,7 @@ class AssociationHistory extends Component
             $matched = false;
             foreach ($groups as &$group) {
                 if ($group['author_id'] === $history->author_id
-                    && abs($group['time']->diffInMinutes($history->created_at)) <= 10
+                    && abs($group['anchor']->diffInMinutes($history->created_at)) <= 10
                 ) {
                     $group['entries'][] = $history;
                     $matched = true;
@@ -62,6 +62,7 @@ class AssociationHistory extends Component
                 $groups[] = [
                     'author_id' => $history->author_id,
                     'author_name' => $history->author?->name,
+                    'anchor' => $history->created_at,
                     'time' => $history->created_at,
                     'entries' => [$history],
                     'is_creation' => false,
@@ -78,7 +79,7 @@ class AssociationHistory extends Component
         $createdMerged = false;
         foreach ($groups as &$group) {
             if ($group['author_id'] === $creatorId
-                && abs($group['time']->diffInMinutes($model->created_at)) <= 10
+                && abs($group['anchor']->diffInMinutes($model->created_at)) <= 10
             ) {
                 $group['is_creation'] = true;
                 $createdMerged = true;
@@ -90,11 +91,24 @@ class AssociationHistory extends Component
             $groups[] = [
                 'author_id' => $creatorId,
                 'author_name' => $creator?->name,
+                'anchor' => $model->created_at,
                 'time' => $model->created_at,
                 'entries' => [],
                 'is_creation' => true,
             ];
         }
+
+        // Order entries within each time frame ascending and label the frame
+        // with its latest timestamp.
+        foreach ($groups as &$group) {
+            $group['entries'] = array_reverse($group['entries']);
+            foreach ($group['entries'] as $history) {
+                if ($history->created_at->greaterThan($group['time'])) {
+                    $group['time'] = $history->created_at;
+                }
+            }
+        }
+        unset($group);
 
         $this->groups = $groups;
     }
