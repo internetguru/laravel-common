@@ -16,6 +16,7 @@ return [
 
     'validation.ulid32' => 'Neplatný formát kódu.',
 
+    'association_history.by' => 'od',
     'association_history.guest' => 'host',
     'association_history.added' => 'Přidání <em>:column</em> <samp>:value</samp>.',
     'association_history.removed' => 'Odebrání <em>:column</em> <samp>:value</samp>.',

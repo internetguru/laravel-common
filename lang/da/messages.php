@@ -16,6 +16,7 @@ return [
 
     'validation.ulid32' => 'Ugyldigt kodeformat.',
 
+    'association_history.by' => 'af',
     'association_history.guest' => 'gæst',
     'association_history.added' => 'Tilføjet <em>:column</em> <samp>:value</samp>.',
     'association_history.removed' => 'Fjernet <em>:column</em> <samp>:value</samp>.',
