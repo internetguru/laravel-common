@@ -41,8 +41,9 @@
         },
         "branch-alias": {
             "dev-main": "5.x-dev",
-            "dev-dev": "5.x-dev",
-            "dev-staging": "5.x-dev"
+            "dev-main-5": "5.x-dev",
+            "dev-staging": "5.x-dev",
+            "dev-dev": "5.x-dev"
         }
     },
     "suggest": {

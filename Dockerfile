@@ -36,6 +36,10 @@ WORKDIR /app
 # Copy the application code into the container
 COPY . /app
 
+# The dev dependency internetguru/laravel-feedback requires this package back,
+# so Composer must know the root version to resolve the cycle on any branch.
+ENV COMPOSER_ROOT_VERSION=5.x-dev
+
 # Install PHP dependencies
 RUN composer install --prefer-dist --no-interaction
 

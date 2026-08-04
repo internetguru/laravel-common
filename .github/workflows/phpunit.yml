@@ -18,6 +18,10 @@ jobs:
           extensions: mbstring, xml, json, bcmath, sqlite3, pdo_sqlite
 
       - name: Install dependencies
+        # laravel-feedback (dev dependency) requires this package back, so Composer
+        # needs the root version to resolve the cycle on any branch name.
+        env:
+          COMPOSER_ROOT_VERSION: 5.x-dev
         run: composer install --no-progress --prefer-dist --no-interaction
 
       - name: Run tests with coverage
