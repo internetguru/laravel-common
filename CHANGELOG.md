@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Add `Footer` blade component rendering the default footer with QR code, copy link, feedback form, complaints form, language switch, copyright and an optional generation time.
+- Add `ShowQr` blade component rendering a QR code of the current (or given) URL in a modal.
+- Add `CopyUrl` blade component copying the current (or given) URL to the clipboard.
+- Add `QrCode` support class rendering inline SVG QR codes.
+- Add default `location` and `occurred_at` feedback field definitions used by the complaints form.
+- Add `generated` translation used by the footer generation time.
+
+### Changed
+
+- Require `bacon/bacon-qr-code`.
+- Suggest `internetguru/laravel-feedback`; the footer renders its forms only when the package is installed.
+
 ## [5.19.0] - 2026-08-03
 
 _Stable release based on [5.19.0-rc.1]._

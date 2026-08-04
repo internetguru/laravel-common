@@ -44,6 +44,22 @@ return [
 
     'print' => 'Vytisknout',
 
+    'generated' => 'Vygenerováno :datetime (:timezone).',
+
+    'close' => 'Zavřít',
+
+    'qr.link' => 'Zobrazit QR kód',
+    'qr.title' => 'Naskenujte adresu stránky',
+
+    'copy_url.link' => 'Kopírovat odkaz',
+    'copy_url.success' => 'Odkaz byl zkopírován do schránky.',
+    'copy_url.error' => 'Odkaz se nepodařilo zkopírovat do schránky.',
+
+    'complaints.link' => 'Připomínky a stížnosti',
+    'complaints.location' => 'Provozovna',
+    'complaints.please_select' => 'Prosím vyberte',
+    'complaints.occurred_at' => 'Datum a čas',
+
     'submit-admin' => 'Odeslat administrátorům',
 
 ];

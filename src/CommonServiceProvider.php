@@ -20,6 +20,7 @@ use InternetGuru\LaravelCommon\Livewire\Messages;
 use InternetGuru\LaravelCommon\Middleware\TimezoneMiddleware;
 use InternetGuru\LaravelCommon\Middleware\VerifyCsrfToken;
 use InternetGuru\LaravelCommon\Rules\Ulid32;
+use InternetGuru\LaravelFeedback\FeedbackServiceProvider;
 use Livewire\Livewire;
 
 class CommonServiceProvider extends ServiceProvider
@@ -51,7 +52,41 @@ class CommonServiceProvider extends ServiceProvider
         $this->registerEvents();
         $this->registerValidationRules();
         $this->registerMacros();
+        $this->registerFeedbackFields();
         $this->ensureQueueIsNotSync();
+    }
+
+    /**
+     * Register the feedback field definitions used by the default footer complaints form.
+     * Skipped without the optional internetguru/laravel-feedback package;
+     * definitions already provided by the application are left untouched.
+     */
+    private function registerFeedbackFields(): void
+    {
+        if (! class_exists(FeedbackServiceProvider::class)) {
+            return;
+        }
+
+        $defaults = [
+            'location' => [
+                'type' => 'select',
+                'validation' => 'string|max:255',
+                'label_translation_key' => 'ig-common::layouts.complaints.location',
+            ],
+            'occurred_at' => [
+                'type' => 'datetime-local',
+                'validation' => 'date',
+                'label_translation_key' => 'ig-common::layouts.complaints.occurred_at',
+            ],
+        ];
+
+        $config = $this->app['config'];
+
+        foreach ($defaults as $name => $definition) {
+            if (! $config->has("ig-feedback.names.$name")) {
+                $config->set("ig-feedback.names.$name", $definition);
+            }
+        }
     }
 
     private function registerMiddleware(): void
