@@ -80,12 +80,6 @@ To run the tests manually, you can use the following command:
 ./test.sh
 ```
 
-The dev dependency `internetguru/laravel-feedback` requires this package back, so Composer needs to know the root version to resolve the cycle. `test.sh` and the CI workflow set it; outside of them, export it before installing:
-
-```sh
-COMPOSER_ROOT_VERSION=5.x-dev composer install
-```
-
 ## E2E Tests
 
 The package ships reusable [Playwright](https://playwright.dev/) test helpers in `tests/e2e/common-tests.js`. Consuming projects can register them into their own test suite with a single call.
