@@ -3,26 +3,18 @@
 namespace InternetGuru\LaravelCommon\View\Components;
 
 use Illuminate\View\Component;
-use InternetGuru\LaravelCommon\Support\Helpers;
+use Illuminate\View\View;
 
 class FooterCopy extends Component
 {
     /**
-     * Create a new component instance.
-     *
-     * @return void
+     * @param  string|null  $icon  Icon class, null for the bundled duotone seedling, empty string for no icon
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(
+        public ?string $icon = null,
+    ) {}
 
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
-     */
-    public function render()
+    public function render(): View
     {
         return view('ig-common::components.footer-copy');
     }

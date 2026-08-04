@@ -30,20 +30,23 @@
         @endif
 
         <ul class="list-inline" data-testid="footer-tools">
-            @if ($qr)
-                <li class="list-inline-item"><x-ig::show-qr /></li>
-            @endif
-            @if ($copy)
-                <li class="list-inline-item"><x-ig::copy-url /></li>
+            @if ($share)
+                <li class="list-inline-item"><x-ig::share-page /></li>
             @endif
             @if ($hasFeedback)
                 @if ($complaintsEmail)
                     <li class="list-inline-item">
-                        <x-ig-feedback::link :form-id="InternetGuru\LaravelCommon\View\Components\Footer::COMPLAINTS_FORM_ID">{{ $complaintsTitle }}</x-ig-feedback::link>
+                        <x-ig-feedback::link
+                            :form-id="InternetGuru\LaravelCommon\View\Components\Footer::COMPLAINTS_FORM_ID"
+                            :class="$complaintsIcon ? 'link-ico' : ''"
+                        >@if ($complaintsIcon)<i class="{{ $complaintsIcon }}"></i>@endif{{ $complaintsTitle }}</x-ig-feedback::link>
                     </li>
                 @endif
                 <li class="list-inline-item">
-                    <x-ig-feedback::link :form-id="InternetGuru\LaravelCommon\View\Components\Footer::FEEDBACK_FORM_ID">{{ $feedbackTitle }}</x-ig-feedback::link>
+                    <x-ig-feedback::link
+                        :form-id="InternetGuru\LaravelCommon\View\Components\Footer::FEEDBACK_FORM_ID"
+                        :class="$feedbackIcon ? 'link-ico' : ''"
+                    >@if ($feedbackIcon)<i class="{{ $feedbackIcon }}"></i>@endif{{ $feedbackTitle }}</x-ig-feedback::link>
                 </li>
             @endif
         </ul>

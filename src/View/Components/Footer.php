@@ -36,8 +36,9 @@ class Footer extends Component
         public ?string $complaintsDescription = null,
         ?array $complaintsFields = null,
         array $complaintsLocations = [],
-        public bool $qr = true,
-        public bool $copy = true,
+        public string $feedbackIcon = '',
+        public string $complaintsIcon = '',
+        public bool $share = true,
         public bool $langSwitch = true,
         public bool $generated = false,
     ) {

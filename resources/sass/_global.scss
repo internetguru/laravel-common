@@ -16,3 +16,27 @@ mark {
 .form-select:focus {
     box-shadow: inset 0 0 0 0.1rem rgba(13, 110, 253, 0.25);
 }
+
+// Link with a leading icon: the icon is taken out of the flow so the link
+// underline (border-bottom) runs under the text only.
+a.link-ico {
+    position: relative;
+    margin-left: 1.6em;
+
+    i,
+    svg {
+        position: absolute;
+        left: -1.6em;
+        top: 50%;
+        transform: translateY(-50%);
+        vertical-align: middle;
+    }
+}
+
+.provider-ico {
+    color: $provider-ico-color;
+
+    .fa-secondary {
+        opacity: 0.4;
+    }
+}
