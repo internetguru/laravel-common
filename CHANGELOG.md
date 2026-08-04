@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.20.0] - 2026-08-04
+
+_Stable release based on [5.20.0-rc.1]._
+
+## [5.20.0-rc.1] - 2026-08-04
+
+### Added
+
+- Add `Footer` blade component rendering the default footer with QR code, copy link, feedback form, complaints form, language switch, copyright and an optional generation time.
+- Add `ShowQr` blade component rendering a QR code of the current (or given) URL in a modal.
+- Add `CopyUrl` blade component copying the current (or given) URL to the clipboard.
+- Add `QrCode` support class rendering inline SVG QR codes.
+- Add default `location` and `occurred_at` feedback field definitions used by the complaints form.
+- Add `generated` translation used by the footer generation time.
+
+### Changed
+
+- Require `bacon/bacon-qr-code`.
+- Suggest `internetguru/laravel-feedback`; the footer renders its forms only when the package is installed.
+
 ## [5.19.0] - 2026-08-03
 
 _Stable release based on [5.19.0-rc.1]._
@@ -1718,6 +1738,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[5.20.0]: https://https://github.com/internetguru/laravel-common/compare/v5.19.0...v5.20.0
+[5.20.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.19.0
 [5.19.0]: https://https://github.com/internetguru/laravel-common/compare/v5.18.14...v5.19.0
 [5.19.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.18.14
 [5.18.14]: https://https://github.com/internetguru/laravel-common/compare/v5.18.13...v5.18.14

@@ -44,6 +44,22 @@ return [
 
     'print' => 'Udskriv',
 
+    'generated' => 'Genereret :datetime (:timezone).',
+
+    'close' => 'Luk',
+
+    'qr.link' => 'Vis QR-kode',
+    'qr.title' => 'Scan sidens adresse',
+
+    'copy_url.link' => 'Kopiér link',
+    'copy_url.success' => 'Linket er kopieret til udklipsholderen.',
+    'copy_url.error' => 'Linket kunne ikke kopieres til udklipsholderen.',
+
+    'complaints.link' => 'Kommentarer og klager',
+    'complaints.location' => 'Afdeling',
+    'complaints.please_select' => 'Vælg venligst',
+    'complaints.occurred_at' => 'Dato og tid',
+
     'submit-admin' => 'Send til administratorer',
 
 ];

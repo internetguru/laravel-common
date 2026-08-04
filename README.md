@@ -34,6 +34,9 @@
   - [Language Switch](#language-switch-blade-component)
   - [Print Button](#print-button-blade-component)
   - [Footer Copy](#footer-copy-blade-component)
+  - [Footer](#footer-blade-component)
+  - [Show QR](#show-qr-blade-component)
+  - [Copy URL](#copy-url-blade-component)
   - [Demo Info](#demo-info-blade-component)
   - [Read-Only Mode Info](#read-only-mode-info-blade-component)
   - [Email Feedback](#email-feedback-blade-component)
@@ -513,6 +516,84 @@ Complete example:
 ```html
 <x-ig::footer-copy />
 ```
+
+### Footer Blade Component
+
+> Renders the default application footer: page QR code, copy link, complaints form link, technical feedback form link, language switch and copyright.
+
+```html
+<x-ig::footer />
+```
+
+Both feedback forms are [laravel-feedback](https://github.com/internetguru/laravel-feedback) Livewire components declared by the footer itself, with the ids `feedback-form` and `complaints-form`. The technical feedback form is rendered whenever that package is installed and goes to the provider address; the complaints form additionally requires `complaints-email` to be set. Without the package the footer silently drops both forms and their links, everything else is rendered as usual.
+
+Anything passed to the slot is rendered at the top of the footer, above the links. The component's own content is wrapped in a single `div`, so `footer > div` can be styled uniformly when the slot passes block elements too.
+
+```html
+<x-ig::footer
+    complaints-email="restaurant@example.com"
+    :complaints-locations="['Restaurant Downtown', 'Restaurant Airport']"
+>
+    <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://www.facebook.com/example">Facebook</a></li>
+    </ul>
+</x-ig::footer>
+```
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `feedback-email` | `ig-common::layouts.provider.email` | Technical feedback recipient. |
+| `feedback-name` | `ig-common::layouts.provider.name` | Technical feedback recipient name. |
+| `feedback-title` | `ig-common::layouts.support.link` | Link text and modal title. |
+| `feedback-subject` | `ig-common::layouts.support.subject` | Email subject. |
+| `feedback-description` | `null` | Modal description, falls back to the feedback package default. |
+| `complaints-email` | `null` | Complaints recipient; the form is omitted when not set. |
+| `complaints-name` | `config('app.name')` | Complaints recipient name. |
+| `complaints-title` | `ig-common::layouts.complaints.link` | Link text and modal title. |
+| `complaints-subject` | app name + title | Email subject. |
+| `complaints-description` | `null` | Modal description. |
+| `complaints-fields` | `location`, `occurred_at`, `message`, `email` | Feedback field definitions, overrides the defaults entirely. |
+| `complaints-locations` | `[]` | Location names rendered as a required select; the field is omitted when empty. |
+| `qr` | `true` | Render the QR code link. |
+| `copy` | `true` | Render the copy link. |
+| `lang-switch` | `true` | Render the language switch. |
+| `generated` | `false` | Render the page generation time in the display timezone. |
+
+The `location` and `occurred_at` field definitions are registered into `ig-feedback.names` when laravel-feedback is installed, unless the application already defines them.
+
+### Show QR Blade Component
+
+> Renders a link that opens a modal with a QR code of the current page URL, so the page can be opened on a phone.
+
+```html
+<x-ig::show-qr />
+<x-ig::show-qr url="https://example.com/menu" title="Scan the menu" :size="320">Menu QR</x-ig::show-qr>
+```
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `url` | current URL | Encoded content. |
+| `title` | `ig-common::layouts.qr.title` | Modal title. |
+| `icon` | none | Optional link icon class, e.g. `fa-solid fa-fw fa-qrcode`. |
+| `size` | `240` | SVG size in pixels. |
+
+The QR code is rendered server-side as an inline SVG, the modal is toggled by Alpine.js.
+
+### Copy URL Blade Component
+
+> Renders a link that copies the current page URL to the clipboard and reports the result as a system message.
+
+```html
+<x-ig::copy-url />
+<x-ig::copy-url url="https://example.com/menu">Copy the menu link</x-ig::copy-url>
+```
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `url` | current URL | Copied value and `href` fallback. |
+| `icon` | none | Optional link icon class, e.g. `fa-solid fa-fw fa-link`. |
+
+Clipboard access requires a secure context (HTTPS or localhost); when it is unavailable the failure is reported as an error message.
 
 ### Demo Info Blade Component
 

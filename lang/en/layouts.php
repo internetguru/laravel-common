@@ -44,6 +44,22 @@ return [
 
     'print' => 'Print',
 
+    'generated' => 'Generated on :datetime (:timezone).',
+
+    'close' => 'Close',
+
+    'qr.link' => 'Show QR code',
+    'qr.title' => 'Scan the page address',
+
+    'copy_url.link' => 'Copy link',
+    'copy_url.success' => 'The link has been copied to the clipboard.',
+    'copy_url.error' => 'The link could not be copied to the clipboard.',
+
+    'complaints.link' => 'Comments and complaints',
+    'complaints.location' => 'Location',
+    'complaints.please_select' => 'Please select',
+    'complaints.occurred_at' => 'Date and time',
+
     'submit-admin' => 'Submit to admins',
 
 ];
