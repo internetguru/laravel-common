@@ -23,19 +23,29 @@
         "torann/geoip": "^3.0",
         "spatie/laravel-ignition": "^2.9",
         "livewire/livewire": "^3.6 || ^4.0",
-        "internetguru/laravel-recaptchav3": "^1.0"
+        "internetguru/laravel-recaptchav3": "^1.0",
+        "bacon/bacon-qr-code": "^3.0"
     },
     "require-dev": {
+        "internetguru/laravel-feedback": "^7.3",
         "laravel/pint": "^1.25",
+        "livewire/livewire": "^3.6 || ^4.0",
         "orchestra/testbench": "^9.5",
-        "phpunit/php-code-coverage": "^11.0",
-        "livewire/livewire": "^3.6 || ^4.0"
+        "phpunit/php-code-coverage": "^11.0"
     },
     "extra": {
         "laravel": {
             "providers": [
                 "InternetGuru\\LaravelCommon\\CommonServiceProvider"
             ]
+        },
+        "branch-alias": {
+            "dev-main": "5.x-dev",
+            "dev-dev": "5.x-dev",
+            "dev-staging": "5.x-dev"
         }
+    },
+    "suggest": {
+        "internetguru/laravel-feedback": "Required by the default footer to render the feedback and complaints forms."
     }
 }

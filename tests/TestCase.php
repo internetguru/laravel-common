@@ -2,7 +2,9 @@
 
 namespace Tests;
 
+use Illuminate\Foundation\Application;
 use InternetGuru\LaravelCommon\CommonServiceProvider;
+use InternetGuru\LaravelFeedback\FeedbackServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
@@ -11,7 +13,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get package providers.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  Application  $app
      * @return array
      */
     protected function getPackageProviders($app)
@@ -19,6 +21,7 @@ abstract class TestCase extends BaseTestCase
         return [
             CommonServiceProvider::class,
             LivewireServiceProvider::class,
+            FeedbackServiceProvider::class,
         ];
     }
 
@@ -47,7 +50,7 @@ abstract class TestCase extends BaseTestCase
         ];
 
         foreach ($dirs as $dir) {
-            if (!is_dir($dir)) {
+            if (! is_dir($dir)) {
                 mkdir($dir, 0777, true);
             }
         }
