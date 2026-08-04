@@ -33,20 +33,23 @@
             @if ($share)
                 <li class="list-inline-item"><x-ig::share-page /></li>
             @endif
+            {{-- Resolved at runtime: the ig-feedback components only exist when the optional package is installed --}}
             @if ($hasFeedback)
                 @if ($complaintsEmail)
                     <li class="list-inline-item">
-                        <x-ig-feedback::link
+                        <x-dynamic-component
+                            component="ig-feedback::link"
                             :form-id="InternetGuru\LaravelCommon\View\Components\Footer::COMPLAINTS_FORM_ID"
                             :class="$complaintsIcon ? 'link-ico' : ''"
-                        >@if ($complaintsIcon)<i class="{{ $complaintsIcon }}"></i>@endif{{ $complaintsTitle }}</x-ig-feedback::link>
+                        >@if ($complaintsIcon)<i class="{{ $complaintsIcon }}"></i>@endif{{ $complaintsTitle }}</x-dynamic-component>
                     </li>
                 @endif
                 <li class="list-inline-item">
-                    <x-ig-feedback::link
+                    <x-dynamic-component
+                        component="ig-feedback::link"
                         :form-id="InternetGuru\LaravelCommon\View\Components\Footer::FEEDBACK_FORM_ID"
                         :class="$feedbackIcon ? 'link-ico' : ''"
-                    >@if ($feedbackIcon)<i class="{{ $feedbackIcon }}"></i>@endif{{ $feedbackTitle }}</x-ig-feedback::link>
+                    >@if ($feedbackIcon)<i class="{{ $feedbackIcon }}"></i>@endif{{ $feedbackTitle }}</x-dynamic-component>
                 </li>
             @endif
         </ul>

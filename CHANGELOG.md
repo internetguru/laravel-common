@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- Fix tests to run without the optional feedback package, removing the dependency cycle.
+
 ## [5.21.1] - 2026-08-04
 
 ### Fixed

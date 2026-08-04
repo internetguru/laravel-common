@@ -2,9 +2,6 @@
 
 namespace Tests\Unit\Components;
 
-use Illuminate\Support\HtmlString;
-use Illuminate\View\ComponentAttributeBag;
-use InternetGuru\LaravelCommon\CommonServiceProvider;
 use InternetGuru\LaravelCommon\View\Components\Footer;
 use Tests\TestCase;
 
@@ -69,27 +66,14 @@ class FooterTest extends TestCase
         $this->assertSame($fields, $footer->complaintsFields);
     }
 
-    public function test_renders_feedback_form_and_tools_without_complaints()
+    public function test_renders_tools_and_copyright()
     {
         $html = $this->blade('<x-ig::footer />');
 
         $html->assertSee('data-testid="footer"', false);
         $html->assertSee('data-testid="share-page"', false);
         $html->assertSee('data-testid="lang-switch"', false);
-        $html->assertSee(__('ig-common::layouts.support.link'));
         $html->assertSee(__('ig-common::layouts.provider.name'));
-        $html->assertDontSee(__('ig-common::layouts.complaints.link'));
-    }
-
-    public function test_renders_complaints_form_when_email_is_given()
-    {
-        $html = $this->blade(
-            '<x-ig::footer :complaints-email="$email" :complaints-locations="$locations" />',
-            ['email' => 'complaints@example.com', 'locations' => ['Restaurant A']]
-        );
-
-        $html->assertSee(__('ig-common::layouts.complaints.link'));
-        $html->assertSee(Footer::COMPLAINTS_FORM_ID, false);
     }
 
     public function test_tools_can_be_disabled()
@@ -100,27 +84,14 @@ class FooterTest extends TestCase
         $html->assertDontSee('data-testid="lang-switch"', false);
     }
 
-    public function test_only_the_share_and_provider_links_have_an_icon()
+    public function test_share_and_provider_links_have_an_icon()
     {
-        $html = $this->blade('<x-ig::footer :complaints-email="$email" />', ['email' => 'complaints@example.com']);
+        $html = $this->blade('<x-ig::footer />');
 
         $html->assertSee('<i class="fa-solid fa-fw fa-share"></i>', false);
         $html->assertSee('provider-ico', false);
         $html->assertSee('class="fa-group"', false);
         $html->assertSee('class="fa-secondary"', false);
-        $html->assertSee(__('ig-common::layouts.complaints.link'));
-        $html->assertSee(__('ig-common::layouts.support.link'));
-    }
-
-    public function test_feedback_link_icons_are_opt_in()
-    {
-        $html = $this->blade(
-            '<x-ig::footer :complaints-email="$email" feedback-icon="fa-solid fa-wrench" complaints-icon="fa-solid fa-comment" />',
-            ['email' => 'complaints@example.com']
-        );
-
-        $html->assertSee('<i class="fa-solid fa-wrench"></i>', false);
-        $html->assertSee('<i class="fa-solid fa-comment"></i>', false);
     }
 
     public function test_slot_content_is_rendered()
@@ -144,42 +115,17 @@ class FooterTest extends TestCase
 
     public function test_feedback_forms_are_omitted_without_the_feedback_package()
     {
-        $footer = new Footer(complaintsEmail: 'complaints@example.com');
+        $html = $this->blade('<x-ig::footer :complaints-email="$email" />', ['email' => 'complaints@example.com']);
 
-        $data = array_merge($footer->data(), [
-            'hasFeedback' => false,
-            'slot' => new HtmlString(''),
-            'attributes' => new ComponentAttributeBag,
-        ]);
-
-        $html = view('ig-common::components.footer', $data)->render();
-
-        $this->assertStringContainsString('data-testid="footer"', $html);
-        $this->assertStringContainsString('data-testid="share-page"', $html);
-        $this->assertStringNotContainsString('ig-feedback', $html);
-        $this->assertStringNotContainsString(__('ig-common::layouts.complaints.link'), $html);
-        $this->assertStringNotContainsString(__('ig-common::layouts.support.link'), $html);
+        $this->assertFalse((new Footer)->hasFeedback);
+        $html->assertDontSee('ig-feedback', false);
+        $html->assertDontSee(__('ig-common::layouts.complaints.link'));
+        $html->assertDontSee(__('ig-common::layouts.support.link'));
     }
 
-    public function test_feedback_package_is_detected_when_installed()
+    public function test_feedback_field_definitions_are_skipped_without_the_feedback_package()
     {
-        $this->assertTrue((new Footer)->hasFeedback);
-    }
-
-    public function test_feedback_field_definitions_are_registered()
-    {
-        $this->assertSame('select', config('ig-feedback.names.location.type'));
-        $this->assertSame('datetime-local', config('ig-feedback.names.occurred_at.type'));
-    }
-
-    public function test_application_feedback_field_definitions_are_not_overridden()
-    {
-        $this->app['config']->set('ig-feedback.names.location', ['type' => 'text']);
-
-        $provider = new CommonServiceProvider($this->app);
-        $method = new \ReflectionMethod($provider, 'registerFeedbackFields');
-        $method->invoke($provider);
-
-        $this->assertSame(['type' => 'text'], config('ig-feedback.names.location'));
+        $this->assertNull(config('ig-feedback.names.location'));
+        $this->assertNull(config('ig-feedback.names.occurred_at'));
     }
 }
