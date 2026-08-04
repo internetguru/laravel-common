@@ -4,7 +4,6 @@ namespace Tests;
 
 use Illuminate\Foundation\Application;
 use InternetGuru\LaravelCommon\CommonServiceProvider;
-use InternetGuru\LaravelFeedback\FeedbackServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
@@ -21,7 +20,6 @@ abstract class TestCase extends BaseTestCase
         return [
             CommonServiceProvider::class,
             LivewireServiceProvider::class,
-            FeedbackServiceProvider::class,
         ];
     }
 
