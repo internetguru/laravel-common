@@ -13,14 +13,6 @@ a {
         border-bottom: none;
     }
 
-    &.link-ico {
-        border-bottom: none;
-
-        svg {
-            vertical-align: middle;
-        }
-    }
-
     &.disabled {
         color: rgba(var(--link-color), 0.5);
     }

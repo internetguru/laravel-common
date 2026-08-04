@@ -11,7 +11,8 @@ class CopyUrl extends Component
 
     public function __construct(
         ?string $url = null,
-        public string $icon = '',
+        public string $icon = 'fa-solid fa-fw fa-clipboard',
+        public string $copiedIcon = 'fa-solid fa-fw fa-check',
     ) {
         $this->url = $url ?? url()->full();
     }

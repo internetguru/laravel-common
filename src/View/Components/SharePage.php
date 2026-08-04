@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 use Illuminate\View\View;
 use InternetGuru\LaravelCommon\Support\QrCode;
 
-class ShowQr extends Component
+class SharePage extends Component
 {
     public string $url;
 
@@ -15,16 +15,16 @@ class ShowQr extends Component
     public function __construct(
         ?string $url = null,
         public ?string $title = null,
-        public string $icon = '',
+        public string $icon = 'fa-solid fa-fw fa-share',
         int $size = 240,
     ) {
         $this->url = $url ?? url()->full();
-        $this->title = $title ?? __('ig-common::layouts.qr.title');
+        $this->title = $title ?? __('ig-common::layouts.share.title');
         $this->svg = QrCode::svg($this->url, $size);
     }
 
     public function render(): View
     {
-        return view('ig-common::components.show-qr');
+        return view('ig-common::components.share-page');
     }
 }

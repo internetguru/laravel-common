@@ -1,10 +1,10 @@
-<span x-data="{ open: false }" data-testid="show-qr">
+<span x-data="{ open: false }" data-testid="share-page">
     <a
         href="javascript:void(0)"
-        data-testid="show-qr-link"
+        data-testid="share-page-link"
         x-on:click.prevent="open = true"
-        {{ $attributes }}
-    >@if ($icon)<i class="{{ $icon }}"></i> @endif{{ $slot->isNotEmpty() ? $slot : __('ig-common::layouts.qr.link') }}</a>
+        {{ $attributes->merge(['class' => $icon ? 'link-ico' : '']) }}
+    >@if ($icon)<i class="{{ $icon }}"></i>@endif{{ $slot->isNotEmpty() ? $slot : __('ig-common::layouts.share.link') }}</a>
 
     <template x-teleport="body">
         <div x-show="open" x-cloak>
@@ -14,7 +14,7 @@
                 aria-modal="true"
                 role="dialog"
                 style="display: block;"
-                data-testid="show-qr-modal"
+                data-testid="share-page-modal"
                 x-on:keydown.escape.window="open = false"
                 x-on:click.self="open = false"
             >
@@ -22,7 +22,7 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="modal-title">{{ $title }}</h5>
+                                <h5 class="modal-title">@if ($icon)<i class="{{ $icon }}"></i> @endif{{ $title }}</h5>
                                 <button
                                     type="button"
                                     class="btn-close"
@@ -32,7 +32,17 @@
                             </div>
                             <div class="text-center">
                                 {!! $svg !!}
-                                <p class="mb-0 text-break"><small>{{ $url }}</small></p>
+                            </div>
+                            <div class="input-group mt-4">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    data-testid="share-page-url"
+                                    readonly
+                                    value="{{ $url }}"
+                                    x-on:click="$event.target.select()"
+                                >
+                                <x-ig::copy-url :url="$url" class="btn btn-primary text-nowrap" />
                             </div>
                         </div>
                     </div>
