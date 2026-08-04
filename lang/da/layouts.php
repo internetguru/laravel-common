@@ -48,11 +48,10 @@ return [
 
     'close' => 'Luk',
 
-    'qr.link' => 'Vis QR-kode',
-    'qr.title' => 'Scan sidens adresse',
+    'share.link' => 'Del siden',
+    'share.title' => 'Del siden',
 
-    'copy_url.link' => 'Kopiér link',
-    'copy_url.success' => 'Linket er kopieret til udklipsholderen.',
+    'copy_url.link' => 'Kopiér',
     'copy_url.error' => 'Linket kunne ikke kopieres til udklipsholderen.',
 
     'complaints.link' => 'Kommentarer og klager',

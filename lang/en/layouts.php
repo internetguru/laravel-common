@@ -48,11 +48,10 @@ return [
 
     'close' => 'Close',
 
-    'qr.link' => 'Show QR code',
-    'qr.title' => 'Scan the page address',
+    'share.link' => 'Share page',
+    'share.title' => 'Share page',
 
-    'copy_url.link' => 'Copy link',
-    'copy_url.success' => 'The link has been copied to the clipboard.',
+    'copy_url.link' => 'Copy',
     'copy_url.error' => 'The link could not be copied to the clipboard.',
 
     'complaints.link' => 'Comments and complaints',

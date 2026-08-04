@@ -35,7 +35,7 @@
   - [Print Button](#print-button-blade-component)
   - [Footer Copy](#footer-copy-blade-component)
   - [Footer](#footer-blade-component)
-  - [Show QR](#show-qr-blade-component)
+  - [Share Page](#share-page-blade-component)
   - [Copy URL](#copy-url-blade-component)
   - [Demo Info](#demo-info-blade-component)
   - [Read-Only Mode Info](#read-only-mode-info-blade-component)
@@ -515,7 +515,13 @@ Complete example:
 
 ```html
 <x-ig::footer-copy />
+<x-ig::footer-copy icon="" />
+<x-ig::footer-copy icon="fa-solid fa-fw fa-leaf" />
 ```
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `icon` | `null` | `null` renders the bundled duotone seedling SVG, an empty string omits the icon, any other value is used as an icon class. The icon is coloured by the `provider-ico` class (`$provider-ico-color`). |
 
 ### Footer Blade Component
 
@@ -554,34 +560,35 @@ Anything passed to the slot is rendered at the top of the footer, above the link
 | `complaints-description` | `null` | Modal description. |
 | `complaints-fields` | `location`, `occurred_at`, `message`, `email` | Feedback field definitions, overrides the defaults entirely. |
 | `complaints-locations` | `[]` | Location names rendered as a required select; the field is omitted when empty. |
-| `qr` | `true` | Render the QR code link. |
-| `copy` | `true` | Render the copy link. |
+| `feedback-icon` | none | Optional technical feedback link icon class. |
+| `complaints-icon` | none | Optional complaints link icon class. |
+| `share` | `true` | Render the share page link. |
 | `lang-switch` | `true` | Render the language switch. |
 | `generated` | `false` | Render the page generation time in the display timezone. |
 
 The `location` and `occurred_at` field definitions are registered into `ig-feedback.names` when laravel-feedback is installed, unless the application already defines them.
 
-### Show QR Blade Component
+### Share Page Blade Component
 
-> Renders a link that opens a modal with a QR code of the current page URL, so the page can be opened on a phone.
+> Renders a link that opens a modal with a QR code of the current page URL and the URL itself in a read-only field, so the page can be opened on a phone or passed on.
 
 ```html
-<x-ig::show-qr />
-<x-ig::show-qr url="https://example.com/menu" title="Scan the menu" :size="320">Menu QR</x-ig::show-qr>
+<x-ig::share-page />
+<x-ig::share-page url="https://example.com/menu" title="Share the menu" :size="320">Menu QR</x-ig::share-page>
 ```
 
 | Prop | Default | Description |
 | --- | --- | --- |
-| `url` | current URL | Encoded content. |
-| `title` | `ig-common::layouts.qr.title` | Modal title. |
-| `icon` | none | Optional link icon class, e.g. `fa-solid fa-fw fa-qrcode`. |
+| `url` | current URL | Encoded and shared content. |
+| `title` | `ig-common::layouts.share.title` | Modal title. |
+| `icon` | `fa-solid fa-fw fa-share` | Link icon class, pass an empty string to omit. |
 | `size` | `240` | SVG size in pixels. |
 
-The QR code is rendered server-side as an inline SVG, the modal is toggled by Alpine.js.
+Links with an icon get the `link-ico` class, which positions the icon outside the link box so the link underline runs under the text only. The QR code is rendered server-side as an inline SVG, the modal is toggled by Alpine.js. Clicking the URL field selects its content, and the [copy URL](#copy-url-blade-component) button next to it copies the URL to the clipboard.
 
 ### Copy URL Blade Component
 
-> Renders a link that copies the current page URL to the clipboard and reports the result as a system message.
+> Renders a link that copies the current page URL to the clipboard, confirming with a check icon for two seconds.
 
 ```html
 <x-ig::copy-url />
@@ -591,7 +598,8 @@ The QR code is rendered server-side as an inline SVG, the modal is toggled by Al
 | Prop | Default | Description |
 | --- | --- | --- |
 | `url` | current URL | Copied value and `href` fallback. |
-| `icon` | none | Optional link icon class, e.g. `fa-solid fa-fw fa-link`. |
+| `icon` | `fa-solid fa-fw fa-clipboard` | Idle icon class, pass an empty string to omit both icons. |
+| `copied-icon` | `fa-solid fa-fw fa-check` | Icon shown for two seconds after copying. |
 
 Clipboard access requires a secure context (HTTPS or localhost); when it is unavailable the failure is reported as an error message.
 

@@ -74,8 +74,7 @@ class FooterTest extends TestCase
         $html = $this->blade('<x-ig::footer />');
 
         $html->assertSee('data-testid="footer"', false);
-        $html->assertSee('data-testid="show-qr"', false);
-        $html->assertSee('data-testid="copy-url"', false);
+        $html->assertSee('data-testid="share-page"', false);
         $html->assertSee('data-testid="lang-switch"', false);
         $html->assertSee(__('ig-common::layouts.support.link'));
         $html->assertSee(__('ig-common::layouts.provider.name'));
@@ -95,11 +94,33 @@ class FooterTest extends TestCase
 
     public function test_tools_can_be_disabled()
     {
-        $html = $this->blade('<x-ig::footer :qr="false" :copy="false" :lang-switch="false" />');
+        $html = $this->blade('<x-ig::footer :share="false" :lang-switch="false" />');
 
-        $html->assertDontSee('data-testid="show-qr"', false);
-        $html->assertDontSee('data-testid="copy-url"', false);
+        $html->assertDontSee('data-testid="share-page"', false);
         $html->assertDontSee('data-testid="lang-switch"', false);
+    }
+
+    public function test_only_the_share_and_provider_links_have_an_icon()
+    {
+        $html = $this->blade('<x-ig::footer :complaints-email="$email" />', ['email' => 'complaints@example.com']);
+
+        $html->assertSee('<i class="fa-solid fa-fw fa-share"></i>', false);
+        $html->assertSee('provider-ico', false);
+        $html->assertSee('class="fa-group"', false);
+        $html->assertSee('class="fa-secondary"', false);
+        $html->assertSee(__('ig-common::layouts.complaints.link'));
+        $html->assertSee(__('ig-common::layouts.support.link'));
+    }
+
+    public function test_feedback_link_icons_are_opt_in()
+    {
+        $html = $this->blade(
+            '<x-ig::footer :complaints-email="$email" feedback-icon="fa-solid fa-wrench" complaints-icon="fa-solid fa-comment" />',
+            ['email' => 'complaints@example.com']
+        );
+
+        $html->assertSee('<i class="fa-solid fa-wrench"></i>', false);
+        $html->assertSee('<i class="fa-solid fa-comment"></i>', false);
     }
 
     public function test_slot_content_is_rendered()
@@ -134,8 +155,7 @@ class FooterTest extends TestCase
         $html = view('ig-common::components.footer', $data)->render();
 
         $this->assertStringContainsString('data-testid="footer"', $html);
-        $this->assertStringContainsString('data-testid="show-qr"', $html);
-        $this->assertStringContainsString('data-testid="copy-url"', $html);
+        $this->assertStringContainsString('data-testid="share-page"', $html);
         $this->assertStringNotContainsString('ig-feedback', $html);
         $this->assertStringNotContainsString(__('ig-common::layouts.complaints.link'), $html);
         $this->assertStringNotContainsString(__('ig-common::layouts.support.link'), $html);
