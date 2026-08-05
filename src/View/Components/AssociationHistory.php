@@ -5,6 +5,7 @@ namespace InternetGuru\LaravelCommon\View\Components;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\View\Component;
+use InternetGuru\LaravelCommon\Models\AssociationHistory as AssociationHistoryModel;
 
 class AssociationHistory extends Component
 {
@@ -12,9 +13,12 @@ class AssociationHistory extends Component
 
     public function __construct(Model $model, int $limit = 10)
     {
+        // Newest first; the key breaks ties between entries written within the
+        // same second (a single update writes all its entries at once).
         $histories = $model->associationHistories()
             ->with('author')
             ->latest()
+            ->latest((new AssociationHistoryModel)->getQualifiedKeyName())
             ->limit($limit)
             ->get();
 
