@@ -81,6 +81,41 @@ class AssociationHistoryTest extends TestCase
         );
     }
 
+    public function test_entries_written_within_the_same_second_keep_their_insertion_order(): void
+    {
+        $model = AssociationHistoryTestModel::create([
+            'name' => null,
+            'created_at' => '2026-08-03 06:00:00',
+            'updated_at' => '2026-08-03 06:00:00',
+        ]);
+
+        // Two updates in a row ("added", then "removed"), all entries stamped
+        // with the very same second.
+        $previous = [null, 'added'];
+        foreach ($previous as $prevValue) {
+            $history = $model->associationHistories()->create([
+                'column_name' => 'name',
+                'column_prev_value' => $prevValue,
+                'author_id' => null,
+            ]);
+            $history->forceFill([
+                'created_at' => '2026-08-03 07:27:00',
+                'updated_at' => '2026-08-03 07:27:00',
+            ])->save();
+        }
+
+        $component = new AssociationHistory($model->fresh());
+
+        $group = $component->groups[0];
+        $this->assertSame(
+            [[null, 'added'], ['added', '']],
+            array_map(
+                fn ($history) => [$history->column_prev_value, $history->new_value],
+                $group['entries'],
+            ),
+        );
+    }
+
     public function test_creation_only_group_uses_model_created_at(): void
     {
         $model = AssociationHistoryTestModel::create([
