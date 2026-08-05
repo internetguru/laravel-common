@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Footer prop `feedback-fields`, defaulting to message, attachments and email, so the technical feedback form accepts screenshots.
+
 ## [5.21.3] - 2026-08-05
 
 ### Fixed
