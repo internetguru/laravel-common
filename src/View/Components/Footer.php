@@ -12,6 +12,8 @@ class Footer extends Component
 
     public const COMPLAINTS_FORM_ID = 'complaints-form';
 
+    public array $feedbackFields;
+
     public array $complaintsFields;
 
     /**
@@ -20,7 +22,8 @@ class Footer extends Component
     public bool $hasFeedback;
 
     /**
-     * @param  array<int, array<string, mixed>>|null  $complaintsFields  Feedback field definitions, defaults to location, occurred_at, message and email
+     * @param  array<int, array<string, mixed>>|null  $feedbackFields  Technical feedback field definitions, defaults to message, attachments and email
+     * @param  array<int, array<string, mixed>>|null  $complaintsFields  Complaints field definitions, defaults to location, occurred_at, message and email
      * @param  array<int, string>  $complaintsLocations  Location names rendered as a required select, omitted when empty
      */
     public function __construct(
@@ -29,6 +32,7 @@ class Footer extends Component
         public ?string $feedbackTitle = null,
         public ?string $feedbackSubject = null,
         public ?string $feedbackDescription = null,
+        ?array $feedbackFields = null,
         public ?string $complaintsEmail = null,
         public ?string $complaintsName = null,
         public ?string $complaintsTitle = null,
@@ -53,7 +57,29 @@ class Footer extends Component
         $this->complaintsTitle = $complaintsTitle ?? __('ig-common::layouts.complaints.link');
         $this->complaintsSubject = $complaintsSubject ?? config('app.name') . ' ' . __('ig-common::layouts.complaints.link');
 
+        $this->feedbackFields = $feedbackFields ?? $this->defaultFeedbackFields();
         $this->complaintsFields = $complaintsFields ?? $this->defaultComplaintsFields($complaintsLocations);
+    }
+
+    /**
+     * Technical feedback lets users attach screenshots of what went wrong.
+     *
+     * The translation keys belong to the optional feedback package, so the defaults
+     * are only built when it is installed.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    protected function defaultFeedbackFields(): array
+    {
+        if (! $this->hasFeedback) {
+            return [];
+        }
+
+        return [
+            ['name' => 'message', 'required' => true],
+            ['name' => 'attachments'],
+            ['name' => 'email', 'label' => __('ig-feedback::fields.email_optional')],
+        ];
     }
 
     /**
