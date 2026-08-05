@@ -28,6 +28,23 @@ class FooterTest extends TestCase
         $this->assertNull($footer->complaintsEmail);
     }
 
+    public function test_default_feedback_fields_are_empty_without_the_feedback_package()
+    {
+        $footer = new Footer;
+
+        $this->assertFalse($footer->hasFeedback);
+        $this->assertSame([], $footer->feedbackFields);
+    }
+
+    public function test_explicit_feedback_fields_are_used_as_is()
+    {
+        $fields = [['name' => 'message', 'required' => true], ['name' => 'attachments']];
+
+        $footer = new Footer(feedbackFields: $fields);
+
+        $this->assertSame($fields, $footer->feedbackFields);
+    }
+
     public function test_default_complaints_fields_omit_location_without_locations()
     {
         $footer = new Footer(complaintsEmail: 'complaints@example.com');

@@ -553,6 +553,7 @@ Anything passed to the slot is rendered at the top of the footer, above the link
 | `feedback-title` | `ig-common::layouts.support.link` | Link text and modal title. |
 | `feedback-subject` | `ig-common::layouts.support.subject` | Email subject. |
 | `feedback-description` | `null` | Modal description, falls back to the feedback package default. |
+| `feedback-fields` | `message`, `attachments`, `email` | Technical feedback field definitions, overrides the defaults entirely. |
 | `complaints-email` | `null` | Complaints recipient; the form is omitted when not set. |
 | `complaints-name` | `config('app.name')` | Complaints recipient name. |
 | `complaints-title` | `ig-common::layouts.complaints.link` | Link text and modal title. |
@@ -567,6 +568,8 @@ Anything passed to the slot is rendered at the top of the footer, above the link
 | `generated` | `false` | Render the page generation time in the display timezone. |
 
 The `location` and `occurred_at` field definitions are registered into `ig-feedback.names` when laravel-feedback is installed, unless the application already defines them.
+
+The technical feedback form declares an optional `attachments` field, so users can attach screenshots of what went wrong (up to 3 images or PDFs, 5 MB each). Limits and accepted types are configurable under `ig-feedback.names.attachments`, and `feedback-fields` replaces the field set altogether.
 
 ### Share Page Blade Component
 

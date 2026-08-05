@@ -18,6 +18,7 @@
         :subject="$feedbackSubject"
         :title="$feedbackTitle"
         :description="$feedbackDescription"
+        :fields="$feedbackFields"
     />
 @endif
 
