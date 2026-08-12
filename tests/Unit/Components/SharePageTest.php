@@ -34,8 +34,17 @@ class SharePageTest extends TestCase
         $html->assertSee(__('ig-common::layouts.share.link'));
         $html->assertSee('<svg', false);
         $html->assertSee('data-testid="share-page-url"', false);
-        $html->assertSee('value="https://example.com/page"', false);
-        $html->assertSee('$event.target.select()', false);
+        $html->assertSee('>https://example.com/page</div>', false);
+    }
+
+    public function test_modal_is_opened_with_plain_javascript()
+    {
+        $html = $this->blade('<x-ig::share-page url="https://example.com/page" />');
+
+        $html->assertSee('window.igModal.open(', false);
+        $html->assertSee('data-testid="ig-modal-script"', false);
+        $html->assertDontSee('x-teleport', false);
+        $html->assertDontSee('x-show="open"', false);
     }
 
     public function test_modal_contains_the_copy_link()
@@ -43,27 +52,25 @@ class SharePageTest extends TestCase
         $html = $this->blade('<x-ig::share-page url="https://example.com/page" />');
 
         $html->assertSee('data-testid="copy-url"', false);
+        $html->assertSee('fa-copy', false);
         $html->assertSee(__('ig-common::layouts.copy_url.link'));
     }
 
-    public function test_icon_is_rendered_in_the_link_and_the_modal_title()
+    public function test_icon_is_rendered_in_the_link()
     {
         $html = $this->blade('<x-ig::share-page />');
 
         $html->assertSee('class="link-ico"', false);
-        $html->assertSee('<i class="fa-solid fa-fw fa-share"></i>', false);
-        $html->assertSee(
-            '<h5 class="modal-title"><i class="fa-solid fa-fw fa-share"></i> ' . __('ig-common::layouts.share.title') . '</h5>',
-            false
-        );
+        $html->assertSee('<i class="fa-regular fa-fw fa-share-from-square"></i>', false);
+        $html->assertSee('class="modal-title"', false);
     }
 
     public function test_link_icon_can_be_omitted()
     {
         $html = $this->blade('<x-ig::share-page icon="" />');
 
-        $html->assertDontSee('link-ico', false);
-        $html->assertDontSee('fa-share', false);
+        $html->assertSee('data-testid="share-page-link"', false);
+        $html->assertDontSee('fa-share-from-square', false);
     }
 
     public function test_slot_overrides_the_link_text()

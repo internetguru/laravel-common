@@ -28,7 +28,7 @@ class CopyUrlTest extends TestCase
     {
         $html = $this->blade('<x-ig::copy-url />');
 
-        $html->assertSee('fa-clipboard" x-show="! copied"', false);
+        $html->assertSee('fa-copy" x-show="! copied"', false);
         $html->assertSee('fa-check" x-show="copied"', false);
     }
 

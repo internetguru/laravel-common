@@ -35,6 +35,7 @@
   - [Print Button](#print-button-blade-component)
   - [Footer Copy](#footer-copy-blade-component)
   - [Footer](#footer-blade-component)
+  - [Modal](#modal-blade-component)
   - [Share Page](#share-page-blade-component)
   - [Copy URL](#copy-url-blade-component)
   - [Card](#card-blade-component)
@@ -573,9 +574,29 @@ The `location` and `occurred_at` field definitions are registered into `ig-feedb
 
 The technical feedback form declares an optional `attachments` field, so users can attach screenshots of what went wrong (up to 3 images or PDFs, 5 MB each). Limits and accepted types are configurable under `ig-feedback.names.attachments`, and `feedback-fields` replaces the field set altogether.
 
+### Modal Blade Component
+
+> Renders a Bootstrap modal whose markup is on the page from the start and only hidden, so it can be shown without a server round trip.
+
+```blade
+<x-ig::modal id="my-modal" title="My title">Body</x-ig::modal>
+<a href="javascript:void(0)" onclick="window.igModal.open('my-modal')">Open</a>
+```
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `id` | hash of the title | Wrapper id, passed to `window.igModal` to open and close it. |
+| `title` | `null` | Modal title, next to the close button. |
+| `open` | `false` | Render it visible right away. |
+| `centered` | `false` | Vertically centre the dialog. |
+| `hash` | `null` | URL fragment opening the modal on page load; the fragment then follows it. |
+| `wire-open` | `null` | Livewire property mirroring the open state, kept in sync so a re-render does not close the modal. |
+
+Additional attributes are merged onto the wrapper. The wrapper carries the `ig-modal` class and is hidden with `d-none`; `window.igModal.open(id)`, `close(id)` and `closeAll()` toggle it, the escape key and a click on the backdrop close it. Every modal registers itself and is watched for class changes, so a Livewire re-render that opens or closes it is handled the same way as a click; opening and closing emit the bubbling `ig-modal-opened` and `ig-modal-closed` events. The helper is a small inline script, free of Alpine.js and Livewire, so the modal responds to the first click without waiting for a bundle to load.
+
 ### Share Page Blade Component
 
-> Renders a link that opens a modal with a QR code of the current page URL and the URL itself in a read-only field, so the page can be opened on a phone or passed on.
+> Renders a link that opens a modal with a QR code of the current page URL, a copy button and the full URL below it, so the page can be opened on a phone or passed on.
 
 ```html
 <x-ig::share-page />
@@ -589,7 +610,7 @@ The technical feedback form declares an optional `attachments` field, so users c
 | `icon` | `fa-solid fa-fw fa-share` | Link icon class, pass an empty string to omit. |
 | `size` | `240` | SVG size in pixels. |
 
-Links with an icon get the `link-ico` class, which positions the icon outside the link box so the link underline runs under the text only. The QR code is rendered server-side as an inline SVG, the modal is toggled by Alpine.js. Clicking the URL field selects its content, and the [copy URL](#copy-url-blade-component) button next to it copies the URL to the clipboard.
+Links with an icon get the `link-ico` class, which positions the icon outside the link box so the link underline runs under the text only. The QR code is rendered server-side as an inline SVG, and the modal is the [modal component](#modal-blade-component), so it opens on the first click without waiting for a bundle to load. The [copy URL](#copy-url-blade-component) button copies the URL to the clipboard, and the URL below it wraps over as many lines as it needs.
 
 ### Copy URL Blade Component
 
@@ -603,7 +624,7 @@ Links with an icon get the `link-ico` class, which positions the icon outside th
 | Prop | Default | Description |
 | --- | --- | --- |
 | `url` | current URL | Copied value and `href` fallback. |
-| `icon` | `fa-solid fa-fw fa-clipboard` | Idle icon class, pass an empty string to omit both icons. |
+| `icon` | `fa-regular fa-fw fa-copy` | Idle icon class, pass an empty string to omit both icons. |
 | `copied-icon` | `fa-solid fa-fw fa-check` | Icon shown for two seconds after copying. |
 
 Clipboard access requires a secure context (HTTPS or localhost); when it is unavailable the failure is reported as an error message.
