@@ -1,0 +1,251 @@
+/// The gap between cards, and the room the row keeps under itself.
+$card-row-gap: $spacer !default;
+$card-row-margin-bottom: $spacer * 3 !default;
+
+/// How far a card's shadow is allowed to reach past the card. A scrolling
+/// track clips on both axes, so this is padded out of the track and taken
+/// straight back off as margin; too little and the shadows are sliced off.
+/// Enough for the default `$box-shadow`, which falls a full spacer below.
+$card-row-bleed: $spacer !default;
+
+/// The width a card settles at when the row is not stretching it.
+$card-row-width: 26rem !default;
+$card-row-width-narrow: 18rem !default;
+$card-row-width-wide: 32rem !default;
+
+/// The width a card takes in the carousel, where it is never stretched.
+$card-row-carousel-width: 22rem !default;
+
+/// The floor a card in the carousel keeps, so sparse cards do not collapse
+/// next to text-heavy ones.
+$card-row-min-height: 14rem !default;
+$card-row-min-height-narrow: 10rem !default;
+
+/// The round paging buttons under the carousel.
+$card-row-btn-size: 2.5rem !default;
+$card-row-btn-color: $gray-700 !default;
+$card-row-btn-bg: $gray-200 !default;
+$card-row-btn-bg-hover: $gray-300 !default;
+
+/// Lays the cards out as a grid of at most $columns columns, each at least $min
+/// wide, so they share out the whole line. The column minimum never drops below
+/// an even share of the row, which caps the count; the outer min() lets a lone
+/// column collapse to the full width.
+@mixin card-row-grid($columns, $min) {
+    $share: calc((100% - #{$card-row-gap * ($columns - 1)}) / #{$columns});
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, max(#{$min}, #{$share})), 1fr));
+
+    > .card {
+        width: auto;
+    }
+}
+
+/// Holds each card at $width instead of stretching it, leaving the rest of the
+/// row for `justify-content`. auto-fit collapses the columns no card reached.
+@mixin card-row-grid-fixed($width) {
+    grid-template-columns: repeat(auto-fit, minmax(0, $width));
+}
+
+.card-row {
+    position: relative;
+    margin: 0 0 $card-row-margin-bottom 0;
+}
+
+/// When the carousel holds more cards than fit, a soft shadow falls across
+/// whichever end still has more beyond it, so the row reads as a slot the cards
+/// slide behind rather than a strip that is simply clipped.
+///
+/// Disabled for now; the JS still tracks the ends for the nav buttons and sets
+/// --card-row-shadow-height, so re-enabling is just uncommenting this block.
+// .card-row:not(.card-row-grid) {
+//
+//     &::before,
+//     &::after {
+//         content: '';
+//         position: absolute;
+//         top: 0.5em;
+//
+//         // Measured in JS, since cards stretch to a shared but content-driven
+//         // height, so the shadow never falls on the nav row or the empty page.
+//         height: var(--card-row-shadow-height, 100%);
+//         width: 2rem;
+//         pointer-events: none;
+//
+//         // Multiply keeps it reading as a shadow rather than a flat grey film.
+//         mix-blend-mode: multiply;
+//         opacity: 0;
+//         z-index: 1;
+//     }
+//
+//     &::before {
+//         left: -0.5em;
+//         background: linear-gradient(to right, rgba($black, .11), rgba($black, .03) 45%, rgba($black, 0));
+//     }
+//
+//     &::after {
+//         right: -0.5em;
+//         background: linear-gradient(to left, rgba($black, .11), rgba($black, .03) 45%, rgba($black, 0));
+//     }
+//
+//     &.card-row-shadow-start::before {
+//         opacity: 1;
+//     }
+//
+//     &.card-row-shadow-end::after {
+//         opacity: 1;
+//     }
+// }
+
+.card-row-track {
+    display: flex;
+    gap: $card-row-gap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+
+    // A track that scrolls sideways clips what overflows it downwards too, so
+    // the shadows are given room inside it and the room is taken back off the
+    // layout; the scroll padding keeps snapping aligned with that inset.
+    padding: $card-row-bleed;
+    padding-bottom: $card-row-bleed * 2;
+    margin: -$card-row-bleed;
+    scroll-padding-inline: $card-row-bleed;
+
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid $link-color;
+        outline-offset: 2px;
+    }
+
+    > .card {
+        flex: 0 0 auto;
+        width: min($card-row-carousel-width, 78vw);
+        max-width: none;
+        scroll-snap-align: start;
+
+        // Keeps sparse cards from collapsing next to text-heavy ones.
+        min-height: $card-row-min-height;
+    }
+}
+
+/// A carousel of a couple of cards reads better centred than pinned left.
+/// `safe` drops the centring once the cards overflow, so none ends up out of
+/// reach past the start of the scroll.
+.card-row-centered:not(.card-row-grid) .card-row-track {
+    justify-content: center;
+    justify-content: safe center;
+
+    > .card {
+        width: min($card-row-width, 88vw);
+    }
+
+    // Wide enough that a couple of cards cannot overflow, so the leftover room
+    // can be shared out around them rather than only kept off their edges.
+    @include media-4 {
+        justify-content: space-evenly;
+    }
+}
+
+// Without the carousel the cards flow onto as many lines as they need.
+.card-row-grid {
+
+    .card-row-track {
+        @include card-row-grid($columns: 3, $min: 20rem);
+
+        overflow: visible;
+        scroll-snap-type: none;
+    }
+
+    // Narrower cards, four to a line at most.
+    &.card-row-narrow .card-row-track {
+        @include card-row-grid($columns: 4, $min: 14rem);
+
+        // Short entries would otherwise sit in a lot of empty space.
+        > .card {
+            min-height: $card-row-min-height-narrow;
+        }
+    }
+
+    // Wider cards, for lines of only a couple of content-heavy ones.
+    &.card-row-wide .card-row-track {
+        @include card-row-grid($columns: 2, $min: 24rem);
+    }
+
+    // A centred row holds its cards at their own width and shares out what is
+    // left evenly around them, rather than stretching them to fill the line.
+    &.card-row-centered {
+
+        .card-row-track {
+            @include card-row-grid-fixed($card-row-width);
+
+            justify-content: space-evenly;
+        }
+
+        &.card-row-narrow .card-row-track {
+            @include card-row-grid-fixed($card-row-width-narrow);
+        }
+
+        &.card-row-wide .card-row-track {
+            @include card-row-grid-fixed($card-row-width-wide);
+        }
+    }
+}
+
+// The palette repeats every eight cards.
+.card-row-tinted .card-row-track {
+
+    @for $index from 1 through 8 {
+
+        > .card:nth-child(8n + #{$index}) {
+            background-image: linear-gradient(to bottom, var(--card-tint-#{$index}), $white 75%);
+        }
+    }
+}
+
+.card-row-nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacer * .5;
+    margin-top: $spacer;
+}
+
+.card-row-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: $card-row-btn-size;
+    height: $card-row-btn-size;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    color: $card-row-btn-color;
+    background-color: $card-row-btn-bg;
+    transition: background-color .2s ease, color .2s ease, opacity .2s ease;
+
+    &:hover:not(:disabled) {
+        background-color: $card-row-btn-bg-hover;
+        color: $black;
+    }
+
+    &:disabled {
+        opacity: .35;
+        cursor: default;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .card-row-track {
+        scroll-behavior: auto;
+    }
+
+    .card-row-btn {
+        transition: none;
+    }
+}

@@ -54,6 +54,12 @@ return [
     'copy_url.link' => 'Kopírovat',
     'copy_url.error' => 'Odkaz se nepodařilo zkopírovat do schránky.',
 
+    'card.open' => 'Otevřít',
+
+    'card_row.label' => 'Karty',
+    'card_row.previous' => 'Předchozí',
+    'card_row.next' => 'Další',
+
     'complaints.link' => 'Připomínky a stížnosti',
     'complaints.location' => 'Provozovna',
     'complaints.please_select' => 'Prosím vyberte',

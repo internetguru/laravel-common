@@ -3,6 +3,11 @@ main {
     position: relative;
 }
 
+/// Keeps what Alpine.js is about to show hidden until it takes over.
+[x-cloak] {
+    display: none !important;
+}
+
 dd {
     margin-left: $spacer;
 }

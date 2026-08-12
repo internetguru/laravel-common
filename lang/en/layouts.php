@@ -54,6 +54,12 @@ return [
     'copy_url.link' => 'Copy',
     'copy_url.error' => 'The link could not be copied to the clipboard.',
 
+    'card.open' => 'Open',
+
+    'card_row.label' => 'Cards',
+    'card_row.previous' => 'Previous',
+    'card_row.next' => 'Next',
+
     'complaints.link' => 'Comments and complaints',
     'complaints.location' => 'Location',
     'complaints.please_select' => 'Please select',

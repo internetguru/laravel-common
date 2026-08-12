@@ -54,6 +54,12 @@ return [
     'copy_url.link' => 'Kopiér',
     'copy_url.error' => 'Linket kunne ikke kopieres til udklipsholderen.',
 
+    'card.open' => 'Åbn',
+
+    'card_row.label' => 'Kort',
+    'card_row.previous' => 'Forrige',
+    'card_row.next' => 'Næste',
+
     'complaints.link' => 'Kommentarer og klager',
     'complaints.location' => 'Afdeling',
     'complaints.please_select' => 'Vælg venligst',
