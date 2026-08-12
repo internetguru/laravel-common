@@ -1,16 +1,12 @@
-@php
-    $modalId = 'share-page-' . substr(md5($url . $title), 0, 12);
-@endphp
-
 <span data-testid="share-page">
     <a
         href="javascript:void(0)"
         data-testid="share-page-link"
-        onclick="window.igModal.open('{{ $modalId }}'); return false;"
+        onclick="window.igModal.open('{{ $id }}'); return false;"
         {{ $attributes->merge(['class' => $icon ? 'link-ico' : '']) }}
     >@if ($icon)<i class="{{ $icon }}"></i>@endif{{ $slot->isNotEmpty() ? $slot : __('ig-common::layouts.share.link') }}</a>
 
-    <x-ig::modal :id="$modalId" :title="$title" centered data-testid="share-page-modal">
+    <x-ig::modal :id="$id" :title="$title" :hash="$id" centered data-testid="share-page-modal">
         <div class="text-center">
             {!! $svg !!}
         </div>
