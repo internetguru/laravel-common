@@ -26,7 +26,15 @@ class Modal extends Component
         public ?string $hash = null,
         public ?string $wireOpen = null,
     ) {
-        $this->id = $id ?? 'modal-' . Str::substr(md5((string) $title), 0, 12);
+        $this->id = $id ?? self::idFor($title);
+    }
+
+    /**
+     * Readable id derived from the title, so the modal can be linked to.
+     */
+    public static function idFor(?string $title): string
+    {
+        return Str::slug((string) $title) ?: 'modal';
     }
 
     public function render(): View

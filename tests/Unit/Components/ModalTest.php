@@ -7,11 +7,10 @@ use Tests\TestCase;
 
 class ModalTest extends TestCase
 {
-    public function test_the_id_defaults_to_a_hash_of_the_title()
+    public function test_the_id_defaults_to_a_slug_of_the_title()
     {
-        $component = new Modal(title: 'Share page');
-
-        $this->assertSame('modal-' . substr(md5('Share page'), 0, 12), $component->id);
+        $this->assertSame('share-page', (new Modal(title: 'Share page'))->id);
+        $this->assertSame('modal', (new Modal)->id);
     }
 
     public function test_renders_hidden_with_the_slot_and_the_open_script()

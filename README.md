@@ -585,7 +585,7 @@ The technical feedback form declares an optional `attachments` field, so users c
 
 | Prop | Default | Description |
 | --- | --- | --- |
-| `id` | hash of the title | Wrapper id, passed to `window.igModal` to open and close it. |
+| `id` | slug of the title | Wrapper id, passed to `window.igModal` to open and close it. |
 | `title` | `null` | Modal title, next to the close button. |
 | `open` | `false` | Render it visible right away. |
 | `centered` | `false` | Vertically centre the dialog. |
@@ -607,10 +607,11 @@ Additional attributes are merged onto the wrapper. The wrapper carries the `ig-m
 | --- | --- | --- |
 | `url` | current URL | Encoded and shared content. |
 | `title` | `ig-common::layouts.share.title` | Modal title. |
-| `icon` | `fa-solid fa-fw fa-share` | Link icon class, pass an empty string to omit. |
+| `icon` | `fa-regular fa-fw fa-share-from-square` | Link icon class, pass an empty string to omit. |
 | `size` | `240` | SVG size in pixels. |
+| `id` | slug of the title | Modal id, also the URL fragment opening it. |
 
-Links with an icon get the `link-ico` class, which positions the icon outside the link box so the link underline runs under the text only. The QR code is rendered server-side as an inline SVG, and the modal is the [modal component](#modal-blade-component), so it opens on the first click without waiting for a bundle to load. The [copy URL](#copy-url-blade-component) button copies the URL to the clipboard, and the URL below it wraps over as many lines as it needs.
+Links with an icon get the `link-ico` class, which positions the icon outside the link box so the link underline runs under the text only. The QR code is rendered server-side as an inline SVG, and the modal is the [modal component](#modal-blade-component), so it opens on the first click without waiting for a bundle to load, and linking to `#share-page` opens it on page load. The [copy URL](#copy-url-blade-component) button copies the URL to the clipboard, and the URL below it wraps over as many lines as it needs.
 
 ### Copy URL Blade Component
 

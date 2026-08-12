@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Components;
 
+use Illuminate\Support\Str;
 use InternetGuru\LaravelCommon\Support\QrCode;
 use InternetGuru\LaravelCommon\View\Components\SharePage;
 use Tests\TestCase;
@@ -13,6 +14,7 @@ class SharePageTest extends TestCase
         $component = new SharePage;
 
         $this->assertSame(url()->full(), $component->url);
+        $this->assertSame(Str::slug(__('ig-common::layouts.share.title')), $component->id);
         $this->assertSame(__('ig-common::layouts.share.title'), $component->title);
         $this->assertStringStartsWith('<svg', $component->svg);
     }
@@ -23,6 +25,12 @@ class SharePageTest extends TestCase
 
         $this->assertSame('https://example.com/page', $component->url);
         $this->assertSame('Custom title', $component->title);
+        $this->assertSame('custom-title', $component->id);
+    }
+
+    public function test_the_id_can_be_given()
+    {
+        $this->assertSame('menu-qr', (new SharePage(id: 'menu-qr'))->id);
     }
 
     public function test_renders_link_and_modal_with_qr_code_and_url_field()
@@ -37,11 +45,13 @@ class SharePageTest extends TestCase
         $html->assertSee('>https://example.com/page</div>', false);
     }
 
-    public function test_modal_is_opened_with_plain_javascript()
+    public function test_modal_is_opened_with_plain_javascript_and_can_be_linked_to()
     {
-        $html = $this->blade('<x-ig::share-page url="https://example.com/page" />');
+        $html = $this->blade('<x-ig::share-page url="https://example.com/page" title="Share page" />');
 
-        $html->assertSee('window.igModal.open(', false);
+        $html->assertSee('window.igModal.open(\'share-page\')', false);
+        $html->assertSee('id="share-page"', false);
+        $html->assertSee('share-page', false);
         $html->assertSee('data-testid="ig-modal-script"', false);
         $html->assertDontSee('x-teleport', false);
         $html->assertDontSee('x-show="open"', false);

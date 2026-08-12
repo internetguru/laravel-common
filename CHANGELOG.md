@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Share page `id` prop, defaulting to a slug of the title, which is also the URL fragment opening the modal.
+
 ## [5.24.0] - 2026-08-12
 
 _Stable release based on [5.24.0-rc.1]._
@@ -1816,6 +1822,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
 [5.24.0]: https://https://github.com/internetguru/laravel-common/compare/v5.23.0...v5.24.0
 [5.24.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.23.0
 [5.23.0]: https://https://github.com/internetguru/laravel-common/compare/v5.22.0...v5.23.0
