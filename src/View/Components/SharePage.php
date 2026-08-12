@@ -15,7 +15,7 @@ class SharePage extends Component
     public function __construct(
         ?string $url = null,
         public ?string $title = null,
-        public string $icon = 'fa-solid fa-fw fa-share',
+        public string $icon = 'fa-regular fa-fw fa-share-from-square',
         int $size = 240,
     ) {
         $this->url = $url ?? url()->full();
