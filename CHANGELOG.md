@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Share page `id` prop, defaulting to a slug of the title, which is also the URL fragment opening the modal.
+
 ## [5.24.0] - 2026-08-12
 
 _Stable release based on [5.24.0-rc.1]._
