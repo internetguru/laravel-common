@@ -1,4 +1,28 @@
+/// Rounding of the chips sitting on a card.
+$card-badge-radius: 1.25rem !default;
+
+/// A card's own padding, which a full-bleed image reaches back over. Held at
+/// the same size on every screen: the card carries no background of its own on
+/// a phone, so this is the only gap between its text and the edge of the
+/// screen, where it is needed most.
+$card-inset-x: $card-spacer-x * 2 !default;
+$card-inset-y: $card-spacer-y * 2 !default;
+
+/// The round button in the corner of a linked card.
+$card-action-size: 2.5rem !default;
+$card-action-color: $white !default;
+$card-action-bg: $link-color !default;
+$card-action-bg-hover: shade-color($link-color, 25%) !default;
+
+/// The surface a `gray` card sits on.
+$card-gray-bg: $gray-100 !default;
+
+/// The dot colour per badge kind, keyed by the `badge-type` prop; a kind with
+/// no entry here keeps the chip's own colour.
+$card-badge-dots: () !default;
+
 .card {
+    position: relative;
     border: 0;
     padding: $card-spacer-y $card-spacer-x;
     width: 100%;
@@ -8,5 +32,190 @@
         box-shadow: $box-shadow;
         background-color: $card-bg;
         padding: $card-spacer-y * 2 $card-spacer-x * 2;
+    }
+
+    h3,
+    h4 {
+        line-height: 1.4;
+    }
+
+    p {
+        line-height: 1.55;
+        margin: $spacer * .5 0 0 0;
+    }
+
+    .lead {
+        margin: 0;
+    }
+
+    // A full-bleed image keeps its own edge; the button moves onto it instead.
+    *:not(.card-image):has(+ .card-action) {
+        margin-bottom: .5em;
+    }
+
+    // Pushed to the bottom so buttons line up across cards of unequal height.
+    .actions {
+        margin: auto 0 0 auto;
+        padding-top: $spacer;
+    }
+}
+
+/// The chips above the heading, wrapping onto as many lines as they need.
+.badge-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-self: self-start;
+    gap: $spacer * .5;
+    margin-bottom: $spacer;
+}
+
+/// A soft chip reading well on any card tint; the kind of item is carried by a
+/// small coloured dot rather than a filled background. Badges carry longer
+/// labels, so they wrap between words inside the chip instead of overflowing a
+/// narrow screen.
+.card .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .5em;
+    max-width: 100%;
+    padding: .4em .85em;
+    font-weight: $font-weight-light;
+    line-height: 1.4;
+    text-align: left;
+    white-space: normal;
+    color: $gray-700;
+    background-color: rgba($white, .75);
+    border: 1px solid rgba($black, .07);
+    border-radius: $card-badge-radius;
+
+    &::before {
+        content: '';
+        flex: 0 0 auto;
+        width: .45em;
+        height: .45em;
+        border-radius: 50%;
+        background-color: currentcolor;
+    }
+}
+
+@each $name, $color in $card-badge-dots {
+
+    .card .badge-#{$name}::before {
+        background-color: $color;
+    }
+}
+
+/// A card on a plain grey surface: a short list of what it holds rather than a
+/// piece of writing, so its contents are centred.
+.card-gray {
+    text-align: center;
+    background-color: $card-gray-bg;
+    background-image: none;
+
+    .badge-wrapper {
+        align-self: center;
+        justify-content: center;
+    }
+
+    .lead,
+    p {
+        margin-inline: auto;
+    }
+
+    /// Takes the free space, so whatever follows it keeps the foot of the card
+    /// however tall the cards standing next to it are.
+    .lead {
+        flex-grow: 1;
+    }
+}
+
+/// A card whose whole surface follows the link behind its corner button. The
+/// overlay is trimmed back to the card, so the card has to clip it.
+.card-linked {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: $spacer * 4;
+
+    // Nested links stay clickable above the overlay.
+    a:not(.card-action) {
+        position: relative;
+        z-index: 1;
+    }
+
+    &:hover {
+        outline: thin solid rgba($black, .05);
+
+        .card-action {
+            background-color: $card-action-bg-hover;
+        }
+    }
+}
+
+.card-action {
+    position: absolute;
+    bottom: $spacer;
+    right: $spacer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: $card-action-size;
+    height: $card-action-size;
+    margin: auto 0 0 auto;
+    border: none;
+    border-radius: 50%;
+    color: $card-action-color !important;
+    background-color: $card-action-bg;
+    text-decoration: none;
+    transition: background-color .2s ease;
+
+    /// The overlay making the whole card clickable. The button is positioned,
+    /// so the overlay resolves against the button rather than the card: it is
+    /// blown up well past any card instead, and the card's `overflow: hidden`
+    /// trims it back to the card's own surface.
+    &::after {
+        content: '';
+        position: absolute;
+        inset: -100vmax;
+    }
+
+    &:hover,
+    &:focus-visible {
+        color: $card-action-color;
+    }
+}
+
+/// A card's contents as a picture. It reaches past the card's padding on every
+/// free side, so it meets the card's borders rather than floating inside them,
+/// which the card has to trim back to its own rounding.
+.card:has(.card-image) {
+    overflow: hidden;
+}
+
+.card-image {
+    display: block;
+    width: calc(100% + #{$card-inset-x * 2});
+    height: auto;
+
+    // Pushed to the bottom, but never up against the text above it.
+    margin: auto (-$card-inset-x) (-$card-inset-y);
+    padding-top: $spacer;
+}
+
+/// A card's contents as a list rather than as prose.
+.card-list {
+    margin: $spacer * .5 0 0 0;
+    padding-left: 1.25em;
+
+    li {
+        margin-bottom: $spacer * .25;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .card,
+    .card-action {
+        transition: none;
     }
 }
