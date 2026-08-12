@@ -105,7 +105,7 @@ class FooterTest extends TestCase
     {
         $html = $this->blade('<x-ig::footer />');
 
-        $html->assertSee('<i class="fa-solid fa-fw fa-share"></i>', false);
+        $html->assertSee('<i class="fa-regular fa-fw fa-share-from-square"></i>', false);
         $html->assertSee('provider-ico', false);
         $html->assertSee('class="fa-group"', false);
         $html->assertSee('class="fa-secondary"', false);

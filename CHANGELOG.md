@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `x-ig::modal` Blade component, rendered hidden and toggled by the framework-free `window.igModal` helper, with optional URL hash deep linking and Livewire state sync.
+
+### Changed
+
+- Share page modal is rendered by `x-ig::modal`, so it opens on the first click instead of waiting for Alpine.js.
+- Share page modal shows the copy button and the full URL on their own lines.
+- Copy URL default icon is `fa-regular fa-copy`, share page icon is `fa-regular fa-share-from-square`.
+
 ## [5.23.0] - 2026-08-12
 
 _Stable release based on [5.23.0-rc.1]._
