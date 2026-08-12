@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `x-ig::card` and `x-ig::card-row` Blade components, with the `ig::common/card-row` stylesheet and the `cardRow` Alpine.js component.
+- Card component styles in `ig::common/card`: badges, the linked card overlay, the grey card, `card-image` and `card-list`.
+- Global `[x-cloak]` rule in `ig::common/global`, which the Alpine.js driven components rely on.
+- Card prop `level`, setting the heading level of the title.
+- Card row variables `$card-row-gap`, `$card-row-margin-bottom`, `$card-row-bleed`.
+
 ## [5.22.0] - 2026-08-05
 
 _Stable release based on [5.22.0-rc.1]._

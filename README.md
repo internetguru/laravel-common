@@ -37,6 +37,8 @@
   - [Footer](#footer-blade-component)
   - [Share Page](#share-page-blade-component)
   - [Copy URL](#copy-url-blade-component)
+  - [Card](#card-blade-component)
+  - [Card Row](#card-row-blade-component)
   - [Demo Info](#demo-info-blade-component)
   - [Read-Only Mode Info](#read-only-mode-info-blade-component)
   - [Email Feedback](#email-feedback-blade-component)
@@ -605,6 +607,79 @@ Links with an icon get the `link-ico` class, which positions the icon outside th
 | `copied-icon` | `fa-solid fa-fw fa-check` | Icon shown for two seconds after copying. |
 
 Clipboard access requires a secure context (HTTPS or localhost); when it is unavailable the failure is reported as an error message.
+
+### Card Blade Component
+
+> Renders a card: an optional row of chips, a heading, a subtitle and free content, optionally turning its whole surface into a link.
+
+```html
+<x-ig::card title="Reduced balls and dual graphs" subtitle="Prague, 2026">
+    <p>Content of the card.</p>
+</x-ig::card>
+
+<x-ig::card
+    title="Higher-dimensional chordality"
+    badge="Preprint"
+    badge-type="preprint"
+    link="https://example.com/paper"
+    link-label="Read the paper"
+/>
+
+<x-ig::card title="What we do" gray />
+```
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `title` | – | Card heading. |
+| `level` | `4` | Heading level of the title, so a card keeps the outline of the page it sits on. |
+| `subtitle` | – | A line of context below the heading, rendered as `p.lead`. |
+| `badge` | – | Text of the chip above the heading, or an array of several. |
+| `badge-type` | – | Kind of chip, added as the `badge-{type}` class, which colours its dot. |
+| `link` | – | Makes the whole card follow this link. |
+| `link-label` | `ig-common::layouts.card.open` | Accessible name of the link, since the button itself is only an icon. |
+| `icon` | `fa-solid fa-arrow-up-right-from-square` | Icon of the corner link button. |
+| `gray` | `false` | Puts the card on a grey surface, with its heading and content centred. |
+
+Styles come from `ig::common/card`. The dot colour per badge kind is taken from the `$card-badge-dots` map, keyed by `badge-type`, which is empty by default:
+
+```scss
+$card-badge-dots: (
+    preprint: $orange,
+    article: $green,
+    thesis: $indigo,
+);
+
+@import 'ig::common/card';
+```
+
+Two content classes are styled for use inside the slot: `card-image` for a full-bleed picture reaching over the card's padding, and `card-list` for a list of what the card holds. An `actions` element is pushed to the foot of the card, so buttons line up across cards of unequal height.
+
+### Card Row Blade Component
+
+> Groups cards into a sideways scrolling carousel with paging arrows, or into a grid wrapping onto as many lines as needed.
+
+```html
+<x-ig::card-row label="Publications">
+    <x-ig::card title="First" />
+    <x-ig::card title="Second" />
+</x-ig::card-row>
+
+<x-ig::card-row label="Research directions" layout="grid" size="narrow" tinted centered>
+    <x-ig::card title="First" />
+</x-ig::card-row>
+```
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `label` | `ig-common::layouts.card_row.label` | Accessible name of the group of cards. |
+| `layout` | `carousel` | `carousel` scrolls sideways with arrows, `grid` wraps onto as many lines as needed. |
+| `size` | – | In the grid layout, `narrow` fits four cards to a line and `wide` two; omit for three. |
+| `tinted` | `false` | Tints each card with a colour derived from the label. |
+| `centered` | `false` | Centres the cards instead of pinning them to the left edge. |
+
+Styles come from `ig::common/card-row`; the carousel needs the `cardRow` Alpine.js component, which `ig::common-js` registers. The row's gap, the widths its cards settle at and the look of the paging buttons are set by the `$card-row-*` variables, which have to be given before the stylesheet is imported. A carousel scrolls sideways, so its track clips downwards too — `$card-row-bleed` is the room the cards' shadows get inside it, and a card with a deeper shadow than the default needs it raised.
+
+The tints are derived from the label, so a row keeps the same palette across requests while different rows get different colours. The palette repeats every eight cards, and neighbouring cards - including the wrap from the eighth back to the first - always sit about 135 degrees apart on the colour wheel.
 
 ### Demo Info Blade Component
 
