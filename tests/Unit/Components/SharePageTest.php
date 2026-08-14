@@ -99,4 +99,18 @@ class SharePageTest extends TestCase
         $this->assertStringNotContainsString('<?xml', $svg);
         $this->assertStringContainsString('</svg>', $svg);
     }
+
+    public function test_svg_truncates_oversized_content()
+    {
+        $svg = QrCode::svg('https://example.com/?q='.str_repeat('a', 5000));
+
+        $this->assertStringStartsWith('<svg', $svg);
+    }
+
+    public function test_component_renders_with_an_oversized_url()
+    {
+        $component = new SharePage(url: 'https://example.com/?q='.str_repeat('a', 5000));
+
+        $this->assertStringStartsWith('<svg', $component->svg);
+    }
 }
