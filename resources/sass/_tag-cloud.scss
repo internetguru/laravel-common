@@ -1,0 +1,102 @@
+/// The room the cloud keeps around itself. A cloud sitting on a card is often
+/// given a negative inline margin, so it reaches past the card's padding and
+/// reads as its own shape rather than as a block of text.
+$tag-cloud-margin: $spacer * 3 0 0 !default;
+
+/// The gap between chips in the default cloud.
+$tag-cloud-gap: $spacer * .5 !default;
+
+/// A chip: soft enough to read on any card tint, with the tag's own hue
+/// carried by a small dot rather than by a filled background.
+$tag-radius: 1.25rem !default;
+$tag-color: $gray-700 !default;
+$tag-bg: rgba($white, .75) !default;
+$tag-border-color: rgba($black, .07) !default;
+$tag-dot-color: hsl(var(--tag-hue) 62% 45%) !default;
+
+/// The gap in the typographic cloud, which also carries the scale its sizes
+/// are set at; `zoom` would do the same for the whole cloud, but it also
+/// scales the widths the layout script measures, which mobile browsers report
+/// inconsistently.
+$tag-cloud-typography-gap: 0 ($spacer * .4) !default;
+$tag-cloud-typography-color: hsl(var(--tag-hue) 58% 60%) !default;
+$tag-cloud-typography-weight: $font-weight-semibold !default;
+
+/// A list of tags as chips, wrapping onto as many lines as they need.
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $tag-cloud-gap;
+    list-style: none;
+    padding: 0;
+    margin: $tag-cloud-margin;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: .5em;
+    padding: .4em .85em;
+    font-weight: $font-weight-light;
+    line-height: 1.4;
+    text-align: left;
+    color: $tag-color;
+    background-color: $tag-bg;
+    border: 1px solid $tag-border-color;
+    border-radius: $tag-radius;
+
+    // A tag always reads on one line; its label never wraps or splits.
+    white-space: nowrap;
+
+    &::before {
+        content: '';
+        flex: 0 0 auto;
+        width: .45em;
+        height: .45em;
+        border-radius: 50%;
+        background-color: $tag-dot-color;
+    }
+}
+
+/// The conventional word cloud: no chips, just the terms, each in its own
+/// colour and at a size standing in for its weight, packed into one shape.
+.tag-cloud-typography {
+    align-items: baseline;
+    gap: $tag-cloud-typography-gap;
+
+    // Sizes are measured in the browser; without a script the fallback shows.
+    @media (scripting: enabled) {
+
+        &:not([data-laid-out]) {
+            visibility: hidden;
+        }
+    }
+
+    .tag {
+        display: inline;
+        padding: 0;
+        border: 0;
+        background: none;
+        font-size: var(--tag-size);
+        font-weight: $tag-cloud-typography-weight;
+        line-height: .95;
+        color: $tag-cloud-typography-color;
+        vertical-align: middle;
+
+        // Set per tag by the layout script; a transform, so the scatter costs
+        // no space and the lines stay as tightly packed as measured.
+        transform: translateY(var(--tag-shift, 0));
+
+        &::before {
+            content: none;
+        }
+    }
+
+    // Breaks the row where the script measured the line to end.
+    .tag-break {
+        flex: 0 0 100%;
+        height: 0;
+        margin: 0;
+    }
+}

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Tag cloud Blade component, showing a list of terms as coloured chips or as a typographic word cloud fitted to the width it has.
+
 ## [5.25.1] - 2026-08-14
 
 ### Fixed
