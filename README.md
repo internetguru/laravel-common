@@ -40,6 +40,7 @@
   - [Copy URL](#copy-url-blade-component)
   - [Card](#card-blade-component)
   - [Card Row](#card-row-blade-component)
+  - [Tag Cloud](#tag-cloud-blade-component)
   - [Demo Info](#demo-info-blade-component)
   - [Read-Only Mode Info](#read-only-mode-info-blade-component)
   - [Email Feedback](#email-feedback-blade-component)
@@ -702,6 +703,27 @@ Two content classes are styled for use inside the slot: `card-image` for a full-
 Styles come from `ig::common/card-row`; the carousel needs the `cardRow` Alpine.js component, which `ig::common-js` registers. The row's gap, the widths its cards settle at and the look of the paging buttons are set by the `$card-row-*` variables, which have to be given before the stylesheet is imported. A carousel scrolls sideways, so its track clips downwards too — `$card-row-bleed` is the room the cards' shadows get inside it, and a card with a deeper shadow than the default needs it raised.
 
 The tints are derived from the label, so a row keeps the same palette across requests while different rows get different colours. The palette repeats every eight cards, and neighbouring cards - including the wrap from the eighth back to the first - always sit about 135 degrees apart on the colour wheel.
+
+### Tag Cloud Blade Component
+
+> Shows a list of terms as coloured chips, or as a typographic word cloud whose lines are fitted to the width they have.
+
+```html
+<x-ig::tag-cloud :tags="['Research', 'Teaching', 'Awards']" />
+
+<x-ig::tag-cloud typography tags="Research, Teaching, Awards" />
+```
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `tags` | `[]` | The terms to show, as a list of strings or a comma separated string. |
+| `typography` | `false` | Draws the terms as plain coloured words of varying size, not as chips. |
+
+Hues are spread by the golden angle, so neighbouring tags never land on a similar colour however many there are.
+
+Styles come from `ig::common/tag-cloud`; the look of the chips and of the word cloud is set by the `$tag-*` and `$tag-cloud-*` variables, which have to be given before the stylesheet is imported. A cloud sitting on a card is usually given a negative inline margin through `$tag-cloud-margin`, so it reaches past the card's padding and reads as its own shape rather than as a block of text.
+
+The typographic cloud needs the `tagCloud` Alpine.js component, which `ig::common-js` registers: its sizes are measured in the browser, since every line is packed and then scaled to fill the width of the cloud exactly. The cloud stays hidden until it has been measured, so the fallback sizes rendered server-side never show; without JavaScript those sizes are what is shown.
 
 ### Demo Info Blade Component
 

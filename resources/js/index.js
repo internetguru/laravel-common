@@ -2,6 +2,7 @@ import initEditable from './editable';
 import print from './print';
 import clearable from './clearable';
 import cardRow from './card-row';
+import tagCloud from './tag-cloud';
 import registerLivewireErrorHandling from './livewire-error-handling';
 
 // Set up for Alpine.js
@@ -10,8 +11,9 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('print', print);
     Alpine.data('clearable', clearable);
     Alpine.data('cardRow', cardRow);
+    Alpine.data('tagCloud', tagCloud);
 });
 
 registerLivewireErrorHandling();
 
-export { initEditable, print, clearable, cardRow };
+export { initEditable, print, clearable, cardRow, tagCloud };
