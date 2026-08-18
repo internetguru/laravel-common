@@ -3,6 +3,7 @@
 namespace Tests\Unit\Components;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use InternetGuru\LaravelCommon\Traits\AssociationHistory as AssociationHistoryTrait;
@@ -17,7 +18,26 @@ class AssociationHistoryTestModel extends Model
 
     protected $guarded = [];
 
-    public array $associationHistoryTracked = ['name'];
+    public array $associationHistoryTracked = ['name', 'owner_id', 'created_by'];
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(AssociationHistoryTestUser::class, 'owner_id');
+    }
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(AssociationHistoryTestUser::class, 'created_by');
+    }
+}
+
+class AssociationHistoryTestUser extends Model
+{
+    protected $table = 'users';
+
+    protected $guarded = [];
+
+    public $timestamps = false;
 }
 
 class AssociationHistoryTest extends TestCase
@@ -34,6 +54,7 @@ class AssociationHistoryTest extends TestCase
         Schema::create('association_history_models', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->foreignId('owner_id')->nullable();
             $table->foreignId('created_by')->nullable();
             $table->timestamps();
         });
@@ -129,5 +150,61 @@ class AssociationHistoryTest extends TestCase
         $this->assertCount(1, $component->groups);
         $this->assertTrue($component->groups[0]['is_creation']);
         $this->assertSame('2026-08-03 06:00:00', $component->groups[0]['time']->toDateTimeString());
+    }
+
+    public function test_foreign_key_values_are_shown_as_related_model_labels(): void
+    {
+        AssociationHistoryTestUser::create(['id' => 4, 'name' => 'Oda O\'Kon']);
+        AssociationHistoryTestUser::create(['id' => 8, 'name' => 'Shany Runolfsdottir']);
+
+        $model = AssociationHistoryTestModel::create([
+            'name' => 'reservation',
+            'owner_id' => 8,
+            'created_by' => 4,
+            'created_at' => '2026-08-03 06:00:00',
+            'updated_at' => '2026-08-03 06:00:00',
+        ]);
+
+        $history = $model->associationHistories()->create([
+            'column_name' => 'owner_id',
+            'column_prev_value' => '4',
+            'author_id' => null,
+        ]);
+        $history->forceFill([
+            'created_at' => '2026-08-03 07:00:00',
+            'updated_at' => '2026-08-03 07:00:00',
+        ])->save();
+
+        $component = new AssociationHistory($model->fresh());
+
+        $entry = $component->groups[0]['entries'][0];
+        $this->assertSame('Oda O\'Kon', $entry->column_prev_value_translated);
+        $this->assertSame('Shany Runolfsdottir', $entry->new_value_translated);
+    }
+
+    public function test_unresolvable_foreign_key_values_fall_back_to_the_raw_value(): void
+    {
+        $model = AssociationHistoryTestModel::create([
+            'name' => 'reservation',
+            'owner_id' => 99,
+            'created_at' => '2026-08-03 06:00:00',
+            'updated_at' => '2026-08-03 06:00:00',
+        ]);
+
+        $history = $model->associationHistories()->create([
+            'column_name' => 'owner_id',
+            'column_prev_value' => '98',
+            'author_id' => null,
+        ]);
+        $history->forceFill([
+            'created_at' => '2026-08-03 07:00:00',
+            'updated_at' => '2026-08-03 07:00:00',
+        ])->save();
+
+        $component = new AssociationHistory($model->fresh());
+
+        $entry = $component->groups[0]['entries'][0];
+        $this->assertSame('98', $entry->column_prev_value_translated);
+        $this->assertSame('99', $entry->new_value_translated);
     }
 }
