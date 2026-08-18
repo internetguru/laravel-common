@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Association history shows related object labels instead of raw foreign key ids.
+
 ## [5.26.0] - 2026-08-14
 
 _Stable release based on [5.26.0-rc.1]._
