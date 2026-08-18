@@ -86,7 +86,7 @@ class AssociationHistory extends Component
 
         // Merge or append "created" entry
         $createdByField = $model->associationHistoryCreatedBy ?? 'created_by';
-        $creatorId = $model->getAttribute($createdByField);
+        $creatorId = $this->creatorId($model, $createdByField);
         $creator = $creatorId
             ? app(config('auth.providers.users.model'))->find($creatorId)
             : null;
@@ -125,6 +125,31 @@ class AssociationHistory extends Component
         unset($group);
 
         $this->groups = $groups;
+    }
+
+    /**
+     * The value the created-by column held when the model was created: the
+     * previous value of its oldest history entry, or the current value when the
+     * column was never changed.
+     */
+    private function creatorId(Model $model, string $createdByField): mixed
+    {
+        $oldest = $model->associationHistories()
+            ->where('column_name', $createdByField)
+            ->oldest()
+            ->oldest((new AssociationHistoryModel)->getQualifiedKeyName())
+            ->first();
+
+        if ($oldest === null) {
+            return $model->getAttribute($createdByField);
+        }
+
+        $value = $oldest->column_prev_value;
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        return is_numeric($value) ? (int) $value : $value;
     }
 
     public function render()

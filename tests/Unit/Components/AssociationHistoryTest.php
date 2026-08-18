@@ -182,6 +182,36 @@ class AssociationHistoryTest extends TestCase
         $this->assertSame('Shany Runolfsdottir', $entry->new_value_translated);
     }
 
+    public function test_creation_author_comes_from_history_when_the_created_by_column_changed(): void
+    {
+        AssociationHistoryTestUser::create(['id' => 4, 'name' => 'Oda O\'Kon']);
+        AssociationHistoryTestUser::create(['id' => 8, 'name' => 'Shany Runolfsdottir']);
+
+        // Created by user 4, later reassigned to user 8.
+        $model = AssociationHistoryTestModel::create([
+            'name' => 'reservation',
+            'created_by' => 8,
+            'created_at' => '2026-08-03 06:00:00',
+            'updated_at' => '2026-08-03 06:00:00',
+        ]);
+
+        $history = $model->associationHistories()->create([
+            'column_name' => 'created_by',
+            'column_prev_value' => '4',
+            'author_id' => null,
+        ]);
+        $history->forceFill([
+            'created_at' => '2026-08-03 09:00:00',
+            'updated_at' => '2026-08-03 09:00:00',
+        ])->save();
+
+        $component = new AssociationHistory($model->fresh());
+
+        $creationGroup = collect($component->groups)->firstWhere('is_creation', true);
+        $this->assertSame(4, $creationGroup['author_id']);
+        $this->assertSame('Oda O\'Kon', $creationGroup['author_name']);
+    }
+
     public function test_unresolvable_foreign_key_values_fall_back_to_the_raw_value(): void
     {
         $model = AssociationHistoryTestModel::create([
