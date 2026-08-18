@@ -25,5 +25,11 @@ return [
         // missing keys fall back to the raw column name.
         // Example: App\Models\Reservation::class => 'reservation.history.column',
         'columns' => [],
+
+        // Optional relation overrides for foreign key columns whose belongs-to
+        // relation is not named after the column. Values are resolved to the
+        // related model's label (display_name, name, title, label or code).
+        // Example: App\Models\Reservation::class => ['owner_id' => 'user'],
+        'relations' => [],
     ],
 ];

@@ -3,13 +3,23 @@
 namespace InternetGuru\LaravelCommon\View\Components;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use InternetGuru\LaravelCommon\Models\AssociationHistory as AssociationHistoryModel;
 
 class AssociationHistory extends Component
 {
     public $groups;
+
+    /**
+     * Resolved foreign key labels, keyed by "{column}:{value}".
+     *
+     * @var array<string, ?string>
+     */
+    private array $resolvedLabels = [];
 
     public function __construct(Model $model, int $limit = 10)
     {
@@ -40,8 +50,8 @@ class AssociationHistory extends Component
             $history->is_complex = is_array(json_decode($history->column_prev_value ?? '', true))
                 || is_array(json_decode($history->new_value ?? '', true));
             $history->is_checkbox = ($casts[$field] ?? null) === 'boolean';
-            $history->column_prev_value_translated = $this->translateValue($columnPrefix, $field, $history->column_prev_value);
-            $history->new_value_translated = $this->translateValue($columnPrefix, $field, $history->new_value);
+            $history->column_prev_value_translated = $this->displayValue($model, $columnPrefix, $field, $history->column_prev_value);
+            $history->new_value_translated = $this->displayValue($model, $columnPrefix, $field, $history->new_value);
             $history->translated_column = $columnPrefix
                 ? __("{$columnPrefix}.{$field}")
                 : $field;
@@ -120,6 +130,106 @@ class AssociationHistory extends Component
     public function render()
     {
         return view('ig-common::components.association-history');
+    }
+
+    /**
+     * Resolve a stored value into its human readable form: a related model's
+     * label for foreign keys, a translated value otherwise.
+     */
+    private function displayValue(Model $model, ?string $columnPrefix, string $field, ?string $value): ?string
+    {
+        return $this->resolveRelatedLabel($model, $field, $value)
+            ?? $this->translateValue($columnPrefix, $field, $value);
+    }
+
+    /**
+     * Resolve a foreign key value to the related model's label by looking up a
+     * belongs-to relation named after the column ("user_id" => "user",
+     * "created_by" => "createdBy"). Returns null when no relation matches or the
+     * related record is gone, so the caller can fall back to the raw value.
+     */
+    private function resolveRelatedLabel(Model $model, string $field, ?string $value): ?string
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        $cacheKey = "{$field}:{$value}";
+        if (array_key_exists($cacheKey, $this->resolvedLabels)) {
+            return $this->resolvedLabels[$cacheKey];
+        }
+
+        $this->resolvedLabels[$cacheKey] = null;
+
+        foreach ($this->relationCandidates($model, $field) as $candidate) {
+            if (! method_exists($model, $candidate)) {
+                continue;
+            }
+
+            try {
+                $relation = $model->{$candidate}();
+            } catch (\Throwable) {
+                continue;
+            }
+
+            if (! $relation instanceof BelongsTo || $relation->getForeignKeyName() !== $field) {
+                continue;
+            }
+
+            $query = $relation->getRelated()->newQuery();
+            if (in_array(SoftDeletes::class, class_uses_recursive($relation->getRelated()), true)) {
+                $query->withTrashed();
+            }
+
+            $related = $query->where($relation->getOwnerKeyName(), $value)->first();
+            if ($related !== null) {
+                $this->resolvedLabels[$cacheKey] = $this->modelLabel($related);
+            }
+
+            break;
+        }
+
+        return $this->resolvedLabels[$cacheKey];
+    }
+
+    /**
+     * Relation method names worth trying for a given column.
+     *
+     * @return array<int, string>
+     */
+    private function relationCandidates(Model $model, string $field): array
+    {
+        $candidates = [];
+        if (str_ends_with($field, '_id')) {
+            $candidates[] = Str::camel(Str::beforeLast($field, '_id'));
+        }
+        $candidates[] = Str::camel($field);
+
+        $configured = config('ig-common.association_history.relations.' . get_class($model) . '.' . $field);
+        if ($configured) {
+            array_unshift($candidates, $configured);
+        }
+
+        return array_values(array_unique($candidates));
+    }
+
+    /**
+     * Human readable label of a related model.
+     */
+    private function modelLabel(Model $related): string
+    {
+        if (method_exists($related, 'associationHistoryLabel')) {
+            return (string) $related->associationHistoryLabel();
+        }
+
+        foreach (['display_name', 'name', 'title', 'label', 'code'] as $attribute) {
+            $value = $related->getAttribute($attribute);
+            if (is_scalar($value) && (string) $value !== '') {
+                return (string) $value;
+            }
+        }
+
+        return (string) $related->getKey();
     }
 
     /**
