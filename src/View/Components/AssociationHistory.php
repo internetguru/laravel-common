@@ -2,6 +2,7 @@
 
 namespace InternetGuru\LaravelCommon\View\Components;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -50,13 +51,20 @@ class AssociationHistory extends Component
             $history->is_complex = is_array(json_decode($history->column_prev_value ?? '', true))
                 || is_array(json_decode($history->new_value ?? '', true));
             $history->is_checkbox = ($casts[$field] ?? null) === 'boolean';
-            $history->column_prev_value_translated = $this->displayValue($model, $columnPrefix, $field, $history->column_prev_value);
-            $history->new_value_translated = $this->displayValue($model, $columnPrefix, $field, $history->new_value);
+            $cast = $casts[$field] ?? null;
+            $history->column_prev_value_translated = $this->displayValue($model, $columnPrefix, $field, $history->column_prev_value, $cast);
+            $history->new_value_translated = $this->displayValue($model, $columnPrefix, $field, $history->new_value, $cast);
             $history->translated_column = $columnPrefix
                 ? __("{$columnPrefix}.{$field}")
                 : $field;
             $currentValues[$field] = $history->column_prev_value ?? '';
         }
+
+        // Entries whose value was empty before and after say nothing to the reader.
+        $histories = $histories->reject(
+            fn ($history) => ($history->column_prev_value === null || $history->column_prev_value === '')
+                && ($history->new_value === null || $history->new_value === '')
+        );
 
         // Group by author + 10-minute time window
         $groups = [];
@@ -161,10 +169,39 @@ class AssociationHistory extends Component
      * Resolve a stored value into its human readable form: a related model's
      * label for foreign keys, a translated value otherwise.
      */
-    private function displayValue(Model $model, ?string $columnPrefix, string $field, ?string $value): ?string
+    private function displayValue(Model $model, ?string $columnPrefix, string $field, ?string $value, ?string $cast = null): ?string
     {
-        return $this->resolveRelatedLabel($model, $field, $value)
+        return $this->formatDateValue($cast, $value)
+            ?? $this->resolveRelatedLabel($model, $field, $value)
             ?? $this->translateValue($columnPrefix, $field, $value);
+    }
+
+    /**
+     * Format a date or datetime column in the current locale, without seconds.
+     * Returns null when the column is not a date, so the caller can fall back to
+     * the other resolution strategies.
+     */
+    private function formatDateValue(?string $cast, ?string $value): ?string
+    {
+        if ($cast === null || $value === null || $value === '') {
+            return null;
+        }
+
+        $type = Str::before($cast, ':');
+        $withTime = in_array($type, ['datetime', 'immutable_datetime', 'timestamp'], true);
+        if (! $withTime && ! in_array($type, ['date', 'immutable_date'], true)) {
+            return null;
+        }
+
+        try {
+            $date = Carbon::parse($value);
+        } catch (\Throwable) {
+            return null;
+        }
+
+        return $withTime
+            ? $date->toDisplayTimezone()->dateTimeForHumans()
+            : $date->dateForHumans();
     }
 
     /**

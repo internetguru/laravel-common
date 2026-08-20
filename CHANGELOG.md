@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Format association history date time to be human readable.
+
 ## [5.27.1] - 2026-08-18
 
 ### Fixed
