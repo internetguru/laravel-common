@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Format association history date time to be human readable.
+- Reject malformed Livewire payloads at the point of entry, so scanner traffic no longer fails deep in the render pass with an endless variety of messages.
+- Collapse repeats of the same log record into one entry per time window, on every configured channel, for the levels listed in `ig-common.log_deduplication.levels`, `error` and `debug` by default.
+
+### Changed
+
+- Recognise malformed Livewire payloads by exception class and origin instead of message text, and log them at debug instead of error.
+
+### Removed
+
+- Remove Livewire 3 support; requires Livewire 4.
+
 ## [5.27.1] - 2026-08-18
 
 ### Fixed
@@ -1858,6 +1874,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
 [5.27.1]: https://https://github.com/internetguru/laravel-common/compare/v5.27.0...v5.27.1
 [5.27.0]: https://https://github.com/internetguru/laravel-common/compare/v5.26.0...v5.27.0
 [5.27.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v5.26.0

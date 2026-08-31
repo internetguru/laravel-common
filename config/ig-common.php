@@ -19,6 +19,19 @@ return [
         'horizon',
     ],
 
+    // Collapse repeats of the same log record into one entry per window, so a
+    // single fault - a scanner working through a component, a failing
+    // dependency - cannot bury the rest of the log. Applied to every configured
+    // channel.
+    'log_deduplication' => [
+        'enabled' => env('IG_LOG_DEDUPLICATION', true),
+        // Levels to collapse, matched exactly and comma separated. A level that
+        // is not listed is never collapsed, so 'error' does not cover
+        // 'critical' and above.
+        'levels' => explode(',', env('IG_LOG_DEDUPLICATION_LEVELS', 'error,debug')),
+        'seconds' => env('IG_LOG_DEDUPLICATION_SECONDS', 60),
+    ],
+
     'association_history' => [
         // Map model FQN to a translation key prefix used to label its history columns.
         // Column names are resolved as "{prefix}.{column_name}" via the translator;
