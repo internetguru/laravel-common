@@ -18,7 +18,9 @@ class AssociationHistoryTestModel extends Model
 
     protected $guarded = [];
 
-    public array $associationHistoryTracked = ['name', 'owner_id', 'created_by'];
+    public array $associationHistoryTracked = ['name', 'owner_id', 'created_by', 'starts_at'];
+
+    protected $casts = ['starts_at' => 'datetime'];
 
     public function owner(): BelongsTo
     {
@@ -56,6 +58,7 @@ class AssociationHistoryTest extends TestCase
             $table->string('name')->nullable();
             $table->foreignId('owner_id')->nullable();
             $table->foreignId('created_by')->nullable();
+            $table->dateTime('starts_at')->nullable();
             $table->timestamps();
         });
 
@@ -210,6 +213,62 @@ class AssociationHistoryTest extends TestCase
         $creationGroup = collect($component->groups)->firstWhere('is_creation', true);
         $this->assertSame(4, $creationGroup['author_id']);
         $this->assertSame('Oda O\'Kon', $creationGroup['author_name']);
+    }
+
+    public function test_datetime_values_are_shown_localized_without_seconds(): void
+    {
+        $model = AssociationHistoryTestModel::create([
+            'name' => 'reservation',
+            'starts_at' => '2026-08-03 14:30:00',
+            'created_at' => '2026-08-03 06:00:00',
+            'updated_at' => '2026-08-03 06:00:00',
+        ]);
+
+        $history = $model->associationHistories()->create([
+            'column_name' => 'starts_at',
+            'column_prev_value' => '2026-08-03 09:05:00',
+            'author_id' => null,
+        ]);
+        $history->forceFill([
+            'created_at' => '2026-08-03 07:00:00',
+            'updated_at' => '2026-08-03 07:00:00',
+        ])->save();
+
+        $component = new AssociationHistory($model->fresh());
+
+        $entry = $component->groups[0]['entries'][0];
+        $this->assertSame('08/03/2026 9:05 AM', $entry->column_prev_value_translated);
+        $this->assertSame('08/03/2026 2:30 PM', $entry->new_value_translated);
+    }
+
+    public function test_entries_that_were_empty_before_and_after_are_hidden(): void
+    {
+        $model = AssociationHistoryTestModel::create([
+            'name' => null,
+            'owner_id' => 7,
+            'created_at' => '2026-08-03 06:00:00',
+            'updated_at' => '2026-08-03 06:00:00',
+        ]);
+
+        // A no-op entry for "name" (empty before, still empty now) next to a real
+        // change of "owner_id".
+        foreach ([['name', null], ['owner_id', '4']] as [$column, $prevValue]) {
+            $history = $model->associationHistories()->create([
+                'column_name' => $column,
+                'column_prev_value' => $prevValue,
+                'author_id' => null,
+            ]);
+            $history->forceFill([
+                'created_at' => '2026-08-03 07:00:00',
+                'updated_at' => '2026-08-03 07:00:00',
+            ])->save();
+        }
+
+        $component = new AssociationHistory($model->fresh());
+
+        $entries = $component->groups[0]['entries'];
+        $this->assertCount(1, $entries);
+        $this->assertSame('owner_id', $entries[0]->column_name);
     }
 
     public function test_unresolvable_foreign_key_values_fall_back_to_the_raw_value(): void

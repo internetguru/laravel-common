@@ -3,15 +3,61 @@
 namespace InternetGuru\LaravelCommon\Exceptions;
 
 use GuzzleHttp\Exception\ConnectException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Client\ConnectionException as HttpClientConnectionException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
+use Illuminate\Validation\ValidationException;
+use Livewire\Exceptions\ComponentNotFoundException;
+use Livewire\Exceptions\LivewireReleaseTokenMismatchException;
+use Livewire\Exceptions\MaxNestingDepthExceededException;
+use Livewire\Exceptions\MethodNotFoundException;
+use Livewire\Exceptions\PayloadTooLargeException;
+use Livewire\Exceptions\PublicPropertyNotFoundException;
+use Livewire\Exceptions\TooManyCallsException;
+use Livewire\Exceptions\TooManyComponentsException;
+use Livewire\Features\SupportComputed\CannotCallComputedDirectlyException;
+use Livewire\Features\SupportFileUploads\MissingFileUploadsTraitException;
+use Livewire\Features\SupportLifecycleHooks\DirectlyCallingLifecycleHooksNotAllowedException;
+use Livewire\Features\SupportLockedProperties\CannotUpdateLockedPropertyException;
+use Livewire\Features\SupportReactiveProps\CannotMutateReactivePropException;
+use Livewire\Mechanisms\HandleComponents\CorruptComponentPayloadException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    /**
+     * Livewire's own vocabulary for "the client sent something structurally
+     * invalid". None of these can be produced by a browser driving the UI, so
+     * on a live site they are scanner traffic rather than application bugs.
+     *
+     * Livewire's developer-facing exceptions (missing validation rules, missing
+     * layout, multiple root elements) are deliberately absent: those are real
+     * bugs and must keep reporting.
+     *
+     * @var array<int, class-string>
+     */
+    private const MALFORMED_PAYLOAD_EXCEPTIONS = [
+        BotPayloadException::class,
+        CannotCallComputedDirectlyException::class,
+        CannotMutateReactivePropException::class,
+        CannotUpdateLockedPropertyException::class,
+        ComponentNotFoundException::class,
+        CorruptComponentPayloadException::class,
+        DirectlyCallingLifecycleHooksNotAllowedException::class,
+        LivewireReleaseTokenMismatchException::class,
+        MaxNestingDepthExceededException::class,
+        MethodNotFoundException::class,
+        MissingFileUploadsTraitException::class,
+        PayloadTooLargeException::class,
+        PublicPropertyNotFoundException::class,
+        TooManyCallsException::class,
+        TooManyComponentsException::class,
+    ];
+
     protected $dontReport = [
         DbReadOnlyException::class,
     ];
@@ -21,12 +67,12 @@ class Handler extends ExceptionHandler
         $this->renderable(function (Throwable $e, $request) {
 
             // handle AuthenticationException
-            if ($e instanceof \Illuminate\Auth\AuthenticationException) {
+            if ($e instanceof AuthenticationException) {
                 return;
             }
 
             // handle ValidationException
-            if ($e instanceof \Illuminate\Validation\ValidationException) {
+            if ($e instanceof ValidationException) {
                 return;
             }
 
@@ -151,67 +197,55 @@ class Handler extends ExceptionHandler
         );
     }
 
-    protected function shouldntReport(Throwable $e): bool
+    /**
+     * Keep malformed Livewire payloads out of the error channel.
+     *
+     * They are logged at debug rather than dropped, so a false positive - or a
+     * genuine Livewire bug that happens to look like one - stays diagnosable
+     * without paging anyone.
+     */
+    public function report(Throwable $e): void
     {
-        if ($this->isSuppressedLivewireBotException($e)) {
-            return true;
+        if ($this->isMalformedLivewirePayload($e)) {
+            Log::debug('Discarded malformed Livewire payload: ' . $e->getMessage(), [
+                'exception' => $e::class,
+                'origin' => $e->getFile() . ':' . $e->getLine(),
+                'ip' => request()->ip(),
+            ]);
+
+            return;
         }
 
-        return parent::shouldntReport($e);
+        parent::report($e);
     }
 
-    private function isSuppressedLivewireBotException(Throwable $e): bool
+    /**
+     * Classify an exception by where it came from rather than by its message.
+     *
+     * Matching messages never converges: one injected value reaches a different
+     * downstream function on every request, so each fuzzing round mints a new
+     * string. These two rules are closed sets instead.
+     */
+    private function isMalformedLivewirePayload(Throwable $e): bool
     {
-        $class = \get_class($e);
-
-        // Bots attempting to tamper with locked Livewire properties
-        if ($class === 'Livewire\\Features\\SupportLockedProperties\\CannotUpdateLockedPropertyException') {
-            return true;
-        }
-
-        // Bots sending file upload requests to components without WithFileUploads trait
-        if ($class === 'Livewire\\Features\\SupportFileUploads\\MissingFileUploadsTraitException') {
-            return true;
-        }
-
-        if ($e instanceof \TypeError) {
-            // Bots sending malformed Livewire upload data (non-object where object expected)
-            if (str_contains($e->getMessage(), 'method_exists(): Argument #1 ($object_or_class) must be of type object|string, int given')) {
-                return true;
-            }
-
-            // Bots injecting array payloads into typed Livewire component properties
-            if (str_contains($e->getMessage(), 'Cannot assign array to property')) {
+        foreach (self::MALFORMED_PAYLOAD_EXCEPTIONS as $class) {
+            if ($e instanceof $class) {
                 return true;
             }
         }
 
-        // View errors triggered by malformed Livewire upload data
-        if ($class === 'Spatie\\LaravelIgnition\\Exceptions\\ViewException' && str_contains($e->getMessage(), 'Trying to access array offset on int')) {
+        // Livewire processes the client payload - expanding form-object updates,
+        // resolving synthesizers, hydrating properties - before any application
+        // code runs. A raw PHP Error raised in there is the payload being
+        // malformed, not a bug in this application: our own bugs surface in
+        // app/ and resources/views/, which RejectMalformedPayload shields by
+        // refusing the bad value at the point of entry.
+        if ($e instanceof \Error && str_contains($e->getFile(), '/livewire/livewire/src/')) {
             return true;
         }
 
-        // Bots sending malformed Livewire upload data that can't be re-serialized for the session
-        if (str_contains($e->getMessage(), "Serialization of 'Illuminate\\Http\\UploadedFile' is not allowed")) {
-            return true;
-        }
-
-        // Bots requesting non-existent Livewire components
-        if ($class === 'Livewire\\Exceptions\\ComponentNotFoundException') {
-            return true;
-        }
-
-        // Bots tampering with Livewire component payloads
-        if ($class === 'Livewire\\Mechanisms\\HandleComponents\\CorruptComponentPayloadException') {
-            return true;
-        }
-
-        // Also check the cause in case Livewire wraps the exception
-        if ($e->getPrevious() !== null) {
-            return $this->isSuppressedLivewireBotException($e->getPrevious());
-        }
-
-        return false;
+        // Livewire and Ignition both wrap the original cause.
+        return $e->getPrevious() !== null && $this->isMalformedLivewirePayload($e->getPrevious());
     }
 
     private function back()
