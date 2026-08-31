@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Format association history date time to be human readable.
+- Reject malformed Livewire payloads at the point of entry, so scanner traffic no longer fails deep in the render pass with an endless variety of messages.
+- Collapse repeats of the same log record into one entry per time window, on every configured channel, for the levels listed in `ig-common.log_deduplication.levels`, `error` and `debug` by default.
+
+### Changed
+
+- Recognise malformed Livewire payloads by exception class and origin instead of message text, and log them at debug instead of error.
+
+### Removed
+
+- Remove Livewire 3 support; requires Livewire 4.
 
 ## [5.27.1] - 2026-08-18
 
