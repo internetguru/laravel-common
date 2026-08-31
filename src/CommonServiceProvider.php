@@ -17,6 +17,7 @@ use InternetGuru\LaravelCommon\Http\Middleware\PreventDuplicateSubmissions;
 use InternetGuru\LaravelCommon\Http\Middleware\SetPrevPage;
 use InternetGuru\LaravelCommon\Listeners\LogSentNotification;
 use InternetGuru\LaravelCommon\Livewire\Messages;
+use InternetGuru\LaravelCommon\Livewire\RejectMalformedPayload;
 use InternetGuru\LaravelCommon\Middleware\TimezoneMiddleware;
 use InternetGuru\LaravelCommon\Middleware\VerifyCsrfToken;
 use InternetGuru\LaravelCommon\Rules\Ulid32;
@@ -40,6 +41,12 @@ class CommonServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/ig-common.php', 'ig-common');
 
         $this->app->extend(ExceptionHandler::class, fn ($handler, $app) => new Handler($app));
+
+        // Livewire attaches listeners for every registered component hook in
+        // ComponentHookRegistry::boot(), so a hook registered after Livewire's
+        // provider has booted is silently ignored. Booting callbacks run before
+        // any provider boots, which makes this independent of discovery order.
+        $this->app->booting(fn () => Livewire::componentHook(RejectMalformedPayload::class));
     }
 
     public function boot(): void
