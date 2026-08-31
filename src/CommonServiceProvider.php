@@ -18,6 +18,7 @@ use InternetGuru\LaravelCommon\Http\Middleware\SetPrevPage;
 use InternetGuru\LaravelCommon\Listeners\LogSentNotification;
 use InternetGuru\LaravelCommon\Livewire\Messages;
 use InternetGuru\LaravelCommon\Livewire\RejectMalformedPayload;
+use InternetGuru\LaravelCommon\Logging\DeduplicateRepeatedRecords;
 use InternetGuru\LaravelCommon\Middleware\TimezoneMiddleware;
 use InternetGuru\LaravelCommon\Middleware\VerifyCsrfToken;
 use InternetGuru\LaravelCommon\Rules\Ulid32;
@@ -42,6 +43,8 @@ class CommonServiceProvider extends ServiceProvider
 
         $this->app->extend(ExceptionHandler::class, fn ($handler, $app) => new Handler($app));
 
+        $this->registerLogDeduplication();
+
         // Livewire attaches listeners for every registered component hook in
         // ComponentHookRegistry::boot(), so a hook registered after Livewire's
         // provider has booted is silently ignored. Booting callbacks run before
@@ -61,6 +64,34 @@ class CommonServiceProvider extends ServiceProvider
         $this->registerMacros();
         $this->registerFeedbackFields();
         $this->ensureQueueIsNotSync();
+    }
+
+    /**
+     * Tap every configured log channel so repeats of the same record collapse
+     * into one entry per window.
+     *
+     * Done in register(), before anything can resolve a channel: LogManager
+     * memoises each channel the first time it is asked for, and reads its taps
+     * only at that moment.
+     */
+    private function registerLogDeduplication(): void
+    {
+        $config = $this->app['config'];
+
+        if (! $config->get('ig-common.log_deduplication.enabled')) {
+            return;
+        }
+
+        foreach ($config->get('logging.channels', []) as $name => $channel) {
+            $taps = $channel['tap'] ?? [];
+
+            if (in_array(DeduplicateRepeatedRecords::class, $taps, true)) {
+                continue;
+            }
+
+            $taps[] = DeduplicateRepeatedRecords::class;
+            $config->set("logging.channels.$name.tap", $taps);
+        }
     }
 
     /**
