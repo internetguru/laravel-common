@@ -32,28 +32,96 @@ class RejectMalformedPayload extends ComponentHook
     ];
 
     /**
-     * Reject an update that swaps a property between array and scalar.
+     * Reject an update that swaps a value between array and scalar.
      *
      * The snapshot is checksum-verified and fully hydrated before any update is
      * applied, so the property's current value is a trustworthy baseline for the
-     * shape it is meant to hold. Nulls and objects are left alone: null carries
-     * no shape, and objects (models, collections, uploaded files) are hydrated
-     * by synthesizers that already validate them.
+     * shape it is meant to hold.
      *
      * Arguments are untyped because a numeric update path arrives as an int.
      */
     public function update(mixed $propertyName, mixed $fullPath, mixed $newValue): void
     {
         $path = (string) (is_scalar($fullPath) ? $fullPath : '?');
-        $current = data_get($this->getProperties(), $path);
 
-        if (is_array($current) && is_scalar($newValue)) {
-            throw new BotPayloadException("[$path] holds an array, received " . gettype($newValue));
+        $this->assertShapeMatches(data_get($this->getProperties(), $path), $newValue, $path);
+    }
+
+    /**
+     * Reject a value whose shape contradicts the property's current value, at
+     * any depth.
+     *
+     * Checking only the top level lets the swap through one level down - an
+     * array of field definitions arriving as `[1]` still passes for an array,
+     * and fails later in the view that iterates it. Every position the current
+     * value describes is compared, so the whole payload is refused up front.
+     *
+     * Positions the current value says nothing about are left alone: a key it
+     * does not hold has no baseline to contradict, a null carries no shape, and
+     * objects (models, collections, uploaded files) are hydrated by
+     * synthesizers that already validate them. The one exception is an appended
+     * element of a uniform list - one whose elements are all arrays, or all
+     * scalars - where the elements it already holds are that baseline. Keys of a
+     * map are named rather than positional, so its values describe only
+     * themselves.
+     */
+    private function assertShapeMatches(mixed $current, mixed $new, string $path): void
+    {
+        if (is_array($current) && is_scalar($new)) {
+            throw new BotPayloadException("[$path] holds an array, received " . gettype($new));
         }
 
-        if (is_scalar($current) && is_array($newValue)) {
+        if (is_scalar($current) && is_array($new)) {
             throw new BotPayloadException("[$path] holds a " . gettype($current) . ', received array');
         }
+
+        if (! is_array($current) || ! is_array($new)) {
+            return;
+        }
+
+        $elementShape = array_is_list($current) ? $this->uniformElementShape($current) : null;
+
+        foreach ($new as $key => $value) {
+            if (array_key_exists($key, $current)) {
+                $this->assertShapeMatches($current[$key], $value, "$path.$key");
+
+                continue;
+            }
+
+            $shape = $this->shapeOf($value);
+
+            if ($elementShape !== null && $shape !== null && $shape !== $elementShape) {
+                throw new BotPayloadException("[$path] is a list of {$elementShape}s, received $shape at [$key]");
+            }
+        }
+    }
+
+    /**
+     * The shape shared by every element of a non-empty list, or null when they
+     * differ - a mixed list describes no shape for an element appended to it.
+     */
+    private function uniformElementShape(array $values): ?string
+    {
+        if ($values === []) {
+            return null;
+        }
+
+        $shapes = array_map(fn (mixed $value): ?string => $this->shapeOf($value), $values);
+
+        return count(array_unique($shapes, SORT_REGULAR)) === 1 ? reset($shapes) : null;
+    }
+
+    /**
+     * The only distinction worth defending: a value that indexes versus one that
+     * does not. Nulls and objects carry no shape.
+     */
+    private function shapeOf(mixed $value): ?string
+    {
+        return match (true) {
+            is_array($value) => 'array',
+            is_scalar($value) => 'scalar',
+            default => null,
+        };
     }
 
     /**
