@@ -29,6 +29,25 @@ class RejectMalformedPayloadTest extends TestCase
         Livewire::test(PayloadComponent::class)->set('availableHours.0', ['nested'])->assertStatus(419);
     }
 
+    public function test_element_of_an_array_update_rejects_a_type_swap()
+    {
+        Livewire::test(PayloadComponent::class)->set('fields', [1])->assertStatus(419);
+    }
+
+    public function test_deeply_nested_element_of_an_array_update_rejects_a_type_swap()
+    {
+        Livewire::test(PayloadComponent::class)
+            ->set('fields', [['name' => ['message']]])
+            ->assertStatus(419);
+    }
+
+    public function test_appended_element_is_checked_against_the_shape_the_others_share()
+    {
+        Livewire::test(PayloadComponent::class)
+            ->set('fields', [['name' => 'message'], ['name' => 'email'], 1])
+            ->assertStatus(419);
+    }
+
     public function test_scalar_to_scalar_update_is_allowed()
     {
         Livewire::test(PayloadComponent::class)
@@ -55,6 +74,27 @@ class RejectMalformedPayloadTest extends TestCase
         Livewire::test(PayloadComponent::class)
             ->set('availableHours.0', 19)
             ->assertSet('availableHours.0', 19);
+    }
+
+    public function test_array_of_arrays_update_is_allowed_when_every_element_matches()
+    {
+        Livewire::test(PayloadComponent::class)
+            ->set('fields', [['name' => 'message'], ['name' => 'email'], ['name' => 'fullname']])
+            ->assertSet('fields.2.name', 'fullname');
+    }
+
+    public function test_appended_element_of_a_mixed_array_has_no_shape_to_match()
+    {
+        Livewire::test(PayloadComponent::class)
+            ->set('formData', ['', [], 'text'])
+            ->assertSet('formData.2', 'text');
+    }
+
+    public function test_key_the_current_value_does_not_hold_is_allowed()
+    {
+        Livewire::test(PayloadComponent::class)
+            ->set('fields', [['name' => 'message', 'label' => ['a', 'b']]])
+            ->assertSet('fields.0.label', ['a', 'b']);
     }
 
     public function test_start_upload_rejects_a_non_array_file_info()
@@ -98,6 +138,10 @@ class PayloadComponent extends Component
     public $monthNames = ['January', 'February'];
 
     public $availableHours = [18, 20];
+
+    public $fields = [['name' => 'message'], ['name' => 'email']];
+
+    public $formData = ['', []];
 
     public function bump(): void
     {
