@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Check a malformed Livewire payload at every depth of the incoming value instead of only its top level, so a nested type swap is refused at the point of entry too.
+
 ## [6.0.0] - 2026-08-31
 
 _Stable release based on [6.0.0-rc.1]._
