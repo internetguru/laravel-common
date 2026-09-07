@@ -595,6 +595,8 @@ The technical feedback form declares an optional `attachments` field, so users c
 
 Additional attributes are merged onto the wrapper. The wrapper carries the `ig-modal` class and is hidden with `d-none`; `window.igModal.open(id)`, `close(id)` and `closeAll()` toggle it, the escape key and a click on the backdrop close it. Every modal registers itself and is watched for class changes, so a Livewire re-render that opens or closes it is handled the same way as a click; opening and closing emit the bubbling `ig-modal-opened` and `ig-modal-closed` events. The helper is a small inline script, free of Alpine.js and Livewire, so the modal responds to the first click without waiting for a bundle to load.
 
+An open modal follows the **visual** viewport. iOS positions `fixed` elements against the layout viewport, so once the page is zoomed — a pinch, or Safari zooming in on a focused field — a plain Bootstrap modal covers only part of what the reader can see and sits shifted up the screen. `window.igModal.syncViewport()` writes the visible area into the `--ig-modal-top`, `--ig-modal-left`, `--ig-modal-width` and `--ig-modal-height` custom properties, which the dialog and the backdrop are sized and placed by; it runs whenever a modal opens or closes and on every `visualViewport` resize and scroll. Browsers without `visualViewport` leave the properties unset and fall back to the Bootstrap defaults.
+
 ### Share Page Blade Component
 
 > Renders a link that opens a modal with a QR code of the current page URL, a copy button and the full URL below it, so the page can be opened on a phone or passed on.
