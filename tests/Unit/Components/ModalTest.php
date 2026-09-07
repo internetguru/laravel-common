@@ -41,6 +41,20 @@ class ModalTest extends TestCase
         $html->assertSee('modal-dialog modal-dialog-centered', false);
     }
 
+    public function test_it_pins_the_open_modal_to_the_visible_area()
+    {
+        $html = $this->blade('<x-ig::modal id="my-modal" />');
+
+        // iOS puts `fixed` elements on the layout viewport, which a zoom moves out from
+        // under the reader; the dialog and the backdrop follow the visual viewport instead
+        $html->assertSee('data-testid="ig-modal-style"', false);
+        $html->assertSee('.ig-modal .modal-backdrop', false);
+        $html->assertSee('var(--ig-modal-height, 100vh)', false);
+        $html->assertSee('window.visualViewport', false);
+        $html->assertSee("addEventListener('resize', syncViewport)", false);
+        $html->assertSee("addEventListener('scroll', syncViewport)", false);
+    }
+
     public function test_it_registers_itself_without_options()
     {
         $html = $this->blade('<x-ig::modal id="my-modal" />');
