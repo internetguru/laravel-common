@@ -9,6 +9,24 @@
         the mirrored Livewire property and the bubbling `ig-modal-opened` / `ig-modal-closed`
         events all follow the wrapper.
     --}}
+    {{--
+        iOS positions `fixed` elements against the layout viewport, so as soon as the
+        visual viewport is zoomed or shifted — a pinch, or Safari zooming in on a focused
+        field — the dialog and its backdrop cover only part of what the reader can see and
+        look shifted up the screen. These custom properties, kept in sync below, pin both
+        to the visible area instead. Without `visualViewport` they stay unset and the
+        Bootstrap defaults apply.
+    --}}
+    <style data-testid="ig-modal-style">
+        .ig-modal .modal,
+        .ig-modal .modal-backdrop {
+            top: var(--ig-modal-top, 0);
+            left: var(--ig-modal-left, 0);
+            width: var(--ig-modal-width, 100vw);
+            height: var(--ig-modal-height, 100vh);
+        }
+    </style>
+
     <script data-testid="ig-modal-script">
         window.igModal = {
             open(id) {
@@ -24,6 +42,28 @@
                 const modal = document.getElementById(id);
 
                 return !! modal && ! modal.classList.contains('d-none');
+            },
+            // Pin the open modal to the visible area rather than to the layout viewport,
+            // which is where `position: fixed` puts it once the page is zoomed.
+            syncViewport() {
+                const root = document.documentElement;
+                const viewport = window.visualViewport;
+                const offsets = viewport && document.querySelector('.ig-modal:not(.d-none)')
+                    ? {
+                        '--ig-modal-top': viewport.offsetTop + 'px',
+                        '--ig-modal-left': viewport.offsetLeft + 'px',
+                        '--ig-modal-width': viewport.width + 'px',
+                        '--ig-modal-height': viewport.height + 'px',
+                    }
+                    : null;
+
+                ['--ig-modal-top', '--ig-modal-left', '--ig-modal-width', '--ig-modal-height'].forEach((name) => {
+                    if (offsets) {
+                        root.style.setProperty(name, offsets[name]);
+                    } else {
+                        root.style.removeProperty(name);
+                    }
+                });
             },
             whenLivewireReady(callback) {
                 if (window.Livewire) {
@@ -49,6 +89,7 @@
                     }
                     open = ! open;
                     document.body.classList.toggle('modal-open', !! document.querySelector('.ig-modal:not(.d-none)'));
+                    this.syncViewport();
 
                     if (options.hash) {
                         if (open) {
@@ -77,6 +118,11 @@
                 if (options.hash && window.location.hash === '#' + options.hash) {
                     this.open(id);
                 }
+
+                // A modal rendered open never passes through the observer above
+                if (open) {
+                    this.syncViewport();
+                }
             },
         };
 
@@ -85,5 +131,11 @@
                 window.igModal.closeAll();
             }
         });
+
+        if (window.visualViewport) {
+            const syncViewport = () => window.igModal.syncViewport();
+            window.visualViewport.addEventListener('resize', syncViewport);
+            window.visualViewport.addEventListener('scroll', syncViewport);
+        }
     </script>
 @endonce
