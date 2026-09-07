@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [6.1.1] - 2026-09-07
+
+### Changed
+
+- Spell out the e-mail footer reference label ~ "Reference number XY" / "Referenční číslo XY" instead of the abbreviated "Reference no. XY".
+
 ## [6.1.0] - 2026-09-02
 
 _Stable release based on [6.1.0-rc.1]._
@@ -1888,6 +1894,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[6.1.1]: https://https://github.com/internetguru/laravel-common/compare/v6.1.0...v6.1.1
 [6.1.0]: https://https://github.com/internetguru/laravel-common/compare/v6.0.0...v6.1.0
 [6.1.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v6.0.0
 [6.0.0]: https://https://github.com/internetguru/laravel-common/compare/v5.27.1...v6.0.0
