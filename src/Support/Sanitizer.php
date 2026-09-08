@@ -25,6 +25,21 @@ use Transliterator;
 class Sanitizer
 {
     /**
+     * The built-in operation names.
+     *
+     * These are reserved: inside a pipeline they always mean the operation,
+     * never a pipeline that happens to share the name. Without that rule the
+     * shipped `digits` pipeline - ['base', 'digits'] - reads its own second
+     * entry as a reference to itself.
+     *
+     * @var array<int, string>
+     */
+    private const OPERATIONS = [
+        'trim', 'strip_invisible', 'normalize_newlines', 'collapse_spaces', 'squish',
+        'lower', 'upper', 'ascii', 'digits', 'keep', 'strip', 'normalize_list', 'max', 'nullify',
+    ];
+
+    /**
      * Keys already reported as unmapped during this request, so one validate()
      * call over a component's whole property set does not repeat itself.
      *
@@ -331,7 +346,7 @@ class Sanitizer
             $operations = [];
 
             foreach ((array) $pipelines[$name] as $operation) {
-                if (is_string($operation) && array_key_exists($operation, $pipelines)) {
+                if (is_string($operation) && $this->isPipelineReference($operation, $pipelines)) {
                     array_push($operations, ...$this->expand($operation));
 
                     continue;
@@ -344,6 +359,20 @@ class Sanitizer
         } finally {
             array_pop($this->expanding);
         }
+    }
+
+    /**
+     * Whether a token inside a pipeline names another pipeline rather than an
+     * operation. Operation names win, so a pipeline may safely carry the name
+     * of the operation it is built around.
+     *
+     * @param  array<string, mixed>  $pipelines
+     */
+    private function isPipelineReference(string $operation, array $pipelines): bool
+    {
+        $name = explode(':', $operation, 2)[0];
+
+        return ! in_array($name, self::OPERATIONS, true) && array_key_exists($operation, $pipelines);
     }
 
     /**

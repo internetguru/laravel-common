@@ -256,6 +256,37 @@ class SanitizerTest extends TestCase
         $this->assertSame('A B', $result['whatever']);
     }
 
+    public function test_a_pipeline_may_carry_the_name_of_the_operation_it_is_built_around()
+    {
+        // The shipped 'digits' pipeline is ['base', 'digits']: its second entry
+        // is the operation, not a reference back to itself.
+        $result = $this->sanitize(['pin' => ' 12 34 ']);
+
+        $this->assertSame('1234', $result['pin']);
+    }
+
+    public function test_every_shipped_pipeline_resolves()
+    {
+        foreach (array_keys(config('ig-common.sanitize.pipelines')) as $pipeline) {
+            $result = $this->sanitize(['probe' => ' a b '], [], ['probe' => $pipeline]);
+
+            $this->assertIsString($result['probe'], "pipeline [$pipeline] did not resolve");
+        }
+    }
+
+    public function test_every_shipped_type_names_a_pipeline_that_exists()
+    {
+        $pipelines = config('ig-common.sanitize.pipelines');
+
+        foreach (config('ig-common.sanitize.types') as $type => $pipeline) {
+            $this->assertArrayHasKey(
+                $pipeline,
+                $pipelines,
+                "type [$type] names pipeline [$pipeline], which is not defined"
+            );
+        }
+    }
+
     public function test_a_pipeline_cycle_throws_naming_the_cycle()
     {
         config([
