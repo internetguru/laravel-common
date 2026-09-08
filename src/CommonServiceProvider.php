@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Validator as ValidatorInstance;
 use InternetGuru\LaravelCommon\Exceptions\Handler;
 use InternetGuru\LaravelCommon\Http\Middleware\CheckPostItemNames;
 use InternetGuru\LaravelCommon\Http\Middleware\InjectMetaRobots;
@@ -22,7 +23,10 @@ use InternetGuru\LaravelCommon\Logging\DeduplicateRepeatedRecords;
 use InternetGuru\LaravelCommon\Middleware\TimezoneMiddleware;
 use InternetGuru\LaravelCommon\Middleware\VerifyCsrfToken;
 use InternetGuru\LaravelCommon\Rules\Ulid32;
+use InternetGuru\LaravelCommon\Support\Sanitizer;
 use InternetGuru\LaravelFeedback\FeedbackServiceProvider;
+use Livewire\Attributes\Locked;
+use Livewire\Component;
 use Livewire\Livewire;
 
 class CommonServiceProvider extends ServiceProvider
@@ -45,6 +49,11 @@ class CommonServiceProvider extends ServiceProvider
 
         $this->registerLogDeduplication();
 
+        // Scoped, not singleton: the sanitizer remembers which keys it has
+        // already reported this request, and scoped bindings are flushed
+        // between requests under Octane.
+        $this->app->scoped(Sanitizer::class);
+
         // Livewire attaches listeners for every registered component hook in
         // ComponentHookRegistry::boot(), so a hook registered after Livewire's
         // provider has booted is silently ignored. Booting callbacks run before
@@ -61,6 +70,7 @@ class CommonServiceProvider extends ServiceProvider
         $this->registerPublishing();
         $this->registerEvents();
         $this->registerValidationRules();
+        $this->registerSanitizer();
         $this->registerMacros();
         $this->registerFeedbackFields();
         $this->ensureQueueIsNotSync();
@@ -182,8 +192,102 @@ class CommonServiceProvider extends ServiceProvider
         Validator::extend('ulid32', fn ($a, $v) => Ulid32::isValid($v), __('ig-common::messages.validation.ulid32'));
     }
 
+    /**
+     * Normalize every value on its way into a validator.
+     *
+     * Both $request->validate() and a Livewire component's $this->validate()
+     * reach Illuminate\Validation\Factory::resolve(), which hands construction
+     * to this closure - so one registration covers HTTP, Livewire and bare
+     * validator() calls alike, with no per-call-site opt-in.
+     */
+    private function registerSanitizer(): void
+    {
+        Validator::resolver(function ($translator, $data, $rules, $messages, $attributes) {
+            $component = Livewire::current();
+            $component = $component instanceof Component ? $component : null;
+
+            $changes = app(Sanitizer::class)->changes(
+                $data,
+                $rules,
+                [],
+                $component ? $this->lockedProperties($component) : []
+            );
+
+            // Before $data is updated, while it still holds what the component
+            // was given: writeBackToComponent() compares against it.
+            $this->writeBackToComponent($component, $changes, $data);
+
+            $sanitizer = app(Sanitizer::class);
+
+            foreach ($changes as $change) {
+                $sanitizer->pathSet($data, $change['path'], $change['value']);
+            }
+
+            return new ValidatorInstance($translator, $data, $rules, $messages, $attributes);
+        });
+    }
+
+    /**
+     * Carry the sanitized values back onto the Livewire component being
+     * validated.
+     *
+     * A component reads $this->email after validating, not the array validate()
+     * returns, so without this the normalized value would be thrown away. Only
+     * paths the component actually holds, still carrying the value that was
+     * sanitized, are written - a validator run on some unrelated array inside a
+     * component must not touch its properties.
+     *
+     * @param  array<int, array{path: array<int, string>, key: string, value: mixed}>  $changes
+     * @param  array<string, mixed>  $original
+     */
+    private function writeBackToComponent(?Component $component, array $changes, array $original): void
+    {
+        if ($changes === [] || $component === null) {
+            return;
+        }
+
+        $sanitizer = app(Sanitizer::class);
+        $properties = $component->all();
+        $missing = new \stdClass;
+
+        foreach ($changes as $change) {
+            $held = $sanitizer->pathGet($properties, $change['path'], $missing);
+
+            if ($held === $missing || $held !== $sanitizer->pathGet($original, $change['path'])) {
+                continue;
+            }
+
+            $sanitizer->pathSet($component, $change['path'], $change['value']);
+        }
+    }
+
+    /**
+     * The component's locked property names.
+     *
+     * A #[Locked] property cannot be written by the client, so it holds what
+     * the server put there - configuration, not input. Sanitizing it would
+     * rewrite the application's own values, and reporting it would bury the
+     * fields that really do come from a form: laravel-model-browser alone
+     * carries sixteen of them against four writable ones.
+     *
+     * @return array<int, string>
+     */
+    private function lockedProperties(Component $component): array
+    {
+        $locked = [];
+
+        foreach ((new \ReflectionObject($component))->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
+            if ($property->getAttributes(Locked::class) !== []) {
+                $locked[] = $property->getName();
+            }
+        }
+
+        return $locked;
+    }
+
     private function registerMacros(): void
     {
+        initRequestMacros();
         initStringMacros();
         initNumberMacros();
         initCarbonMacros();

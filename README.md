@@ -25,6 +25,7 @@
   - [SetPrevPage](#setprevpage-middleware)
   - [TimezoneMiddleware](#timezonemiddleware)
   - [VerifyCsrfToken](#verifycsrftoken)
+- [Sanitization](#sanitization)
 - [Helper Methods](#helper-methods)
 - [Helper Macros](#helper-macros)
 - [Blade Components](#blade-components)
@@ -286,6 +287,174 @@ Uses the [GeolocationService](#geolocationservice) to resolve the IP address. Fa
 > Extends Laravel's CSRF verification with HMAC-based request signature verification. Requests containing a valid `X-Signature` and `X-Timestamp` header pair bypass CSRF checks. Livewire routes are also excluded by default.
 
 The signature is validated using the app key with a 60-second freshness window.
+
+## Sanitization
+
+> Normalizes input before it is validated, driven by what a value is rather than by where it was submitted from. One registration covers controllers, Livewire components and bare `validator()` calls - no per-call-site opt-in, and no Form Requests required.
+
+Both `$request->validate()` and a Livewire component's `$this->validate()` reach `Illuminate\Validation\Factory::resolve()`, and the `CommonServiceProvider` claims its resolver. Everything below follows from that single hook.
+
+```php
+// Controller - the e-mail is normalized in the validated array *and* in the request
+$validated = $request->validate(['email' => 'required|email']);
+$validated['email'];        // "foo@example.com"
+$request->input('email');   // "foo@example.com"
+```
+
+```php
+// Livewire - the property itself is rewritten, which is what the component reads next
+public string $email = '  Fóo@Example.COM  ';
+
+$this->validate(['email' => 'required|email']);
+
+$this->email;               // "foo@example.com"
+```
+
+### How a value is typed
+
+Configuration lives in `config/ig-common.php` under `sanitize`, in two maps:
+
+- **`pipelines`** names sequences of operations. A bare pipeline name used inside another pipeline expands in place, so `base` composes into the rest.
+- **`types`** says what a value is. A key is either a **field name** (exact or a glob such as `*_email`) or a **validation rule name / rule class FQN** (`numeric`, `Ulid32::class`). Its value is always a pipeline name.
+
+Resolution order for each string value, first match wins:
+
+1. `sanitize.except` - untouched, and never reported
+2. a map passed at the call site, or declared earlier in the request by the [`SanitizesInput`](#sanitizesinput-trait) trait
+3. `types` matched as a **field name**
+4. `types` matched as a **validation rule**
+5. nothing matched - see [Unmapped input](#unmapped-input)
+
+Field names are matched segment by segment, from the deepest outwards, so the innermost name that means something wins: `items.3.to_email` is typed by `to_email`, while `recipients.jan@example.com` falls back to `recipients` because its own key is an address rather than a name. Each segment is normalized with `Str::snake()` and lowercased, so one entry covers the camelCase spelling Livewire properties use and the snake_case one request fields use: `toEmail`, `to_email` and `items.0.to_email` all match `*_email`.
+
+Names are matched before rules because a name is usually more specific - `last_name` and `note` are both `string|max:255`, and only the name separates a person's name from free text.
+
+### What is never touched
+
+- **`sanitize.except`** - matched on the whole path or on any segment, so `password` also covers `user.password`. It ships with the password fields plus `_token`, `_method`, `_previous` and `g-recaptcha-response`: machine-generated values that carry a signature or address the framework itself, where normalizing can only break them.
+- **`#[Locked]` Livewire properties** - a locked property cannot be written by the client, so it holds what the server put there. Sanitizing it would rewrite the application's own configuration, and reporting it would bury the fields that really do come from a form. `laravel-model-browser` alone carries sixteen locked properties against four writable ones.
+- **Anything that is not a string** - arrays are walked into, and everything else passes through.
+
+### Operations
+
+| Operation | Effect |
+| --- | --- |
+| `trim` | `Str::trim()` - unicode-aware, unlike `trim()`. |
+| `strip_invisible` | Drops C0/C1 control characters (keeping tab and newline), zero-width characters, the BOM, the soft hyphen, and the `U+202A`-`U+202E` bidi overrides used for display spoofing. |
+| `normalize_newlines` | `CRLF`/`CR` to `LF`, and runs of blank lines to one. |
+| `collapse_spaces` | Runs of *horizontal* whitespace to one space, and horizontal whitespace next to a newline dropped. Line breaks survive. |
+| `squish` | `Str::squish()` - collapses *all* whitespace including newlines, then trims. For values known to be single-line. |
+| `lower` / `upper` | `Str::lower()` / `Str::upper()`. |
+| `ascii` | Folds to ASCII with ICU's `Any-Latin; Latin-ASCII` when the `intl` extension is available, falling back to `Str::ascii()`. |
+| `digits` | Keeps `0-9`. |
+| `keep:<class>` / `strip:<class>` | Whitelist / blacklist by character class; the text after `:` is spliced into `/[…]/u`. A slash in the class does not need escaping. |
+| `normalize_list` | Comma-separated value to one space after each comma, empty entries dropped. |
+| `max:<n>` | Hard cut at `<n>` characters. |
+| `nullify` | Empty string to `null` - the `ConvertEmptyStringsToNull` equivalent Livewire never gets. |
+
+Anything else in a pipeline is treated as a callable or an invokable class resolved from the container, which is how an app adds behaviour without registering anything.
+
+Two rules the built-in pipelines follow, worth keeping when adding your own:
+
+- **Normalize, do not strip character sets.** Stripping characters can turn invalid input into valid input and quietly defeat the rule that follows. `strip:\s`, `lower`/`upper` and `ascii` are safe under that test; `keep:` is not, so only `ulid32` and `subdomain` use it - values transcribed by hand, where dropping what the user typed around them is the point.
+- **Collapse horizontal whitespace, not line breaks.** `base` deliberately leaves newlines alone so a textarea keeps its paragraphs. Pipelines for values known to be single-line add `squish` themselves.
+
+### Adding your own type
+
+```php
+// config/ig-common.php
+'sanitize' => [
+    'pipelines' => [
+        'account_number' => ['base', 'strip:\s', 'upper'],
+        'tel' => ['base', App\Sanitizers\PhoneNumber::class],
+    ],
+
+    'types' => [
+        'account_number' => 'account_number',
+        '*_account' => 'account_number',
+        'mobile' => 'tel',
+    ],
+],
+```
+
+### Unmapped input
+
+There is no silent fallback: a string that resolves to no pipeline is reported rather than passed through, because a fallback nobody sees is a coverage gap nobody fixes.
+
+- **While debugging** (`APP_DEBUG=true`), an `UnmappedInputException` is thrown naming the field and the ways to declare it.
+- **Otherwise**, the `strict` pipeline runs and the key is logged once per request, so the request still succeeds and the gap stays findable.
+
+Set `IG_SANITIZE_STRICT=false` to warn instead of throwing - useful for a staged rollout on an application that has not declared its fields yet. `IG_SANITIZE=false` disables sanitization entirely.
+
+### Request Macros
+
+| Macro | Description |
+| --- | --- |
+| `$request->sanitizedData($rules = [], $map = [])` | Returns the sanitized input array without validating and without modifying the request. For a controller that reads `$request->input()` rather than the validated array. |
+| `$request->sanitize($rules = [], $map = [])` | Merges the sanitized values into the request in place. |
+
+`Request::validate()` and `Request::validateWithBag()` are also overridden to sanitize first, so the request itself carries the normalized values after validating.
+
+### `SanitizesInput` Trait
+
+> Lets a Livewire component name the pipeline for properties whose type cannot be read from the configuration.
+
+Most properties need nothing - the resolver types them by name or by their validation rules. A dynamic form is the exception: when properties are built as `formData.0 … formData.N`, the name carries no meaning and the rules are generic, so only the component knows what each field holds.
+
+Declare the types in `sanitizeTypes()` and read the result of `validate()`:
+
+```php
+use InternetGuru\LaravelCommon\Traits\SanitizesInput;
+
+class Feedback extends Component
+{
+    use SanitizesInput;
+
+    public array $formData = [];
+
+    protected function sanitizeTypes(): array
+    {
+        return [
+            'formData.0' => 'email',
+            'formData.1' => 'text',
+        ];
+    }
+
+    public function send(): void
+    {
+        $data = $this->validate($rules);
+
+        $data['formData'][0];   // "foo@example.com"
+        $this->formData[0];     // "  Fóo@Example.COM  " - as it was typed
+    }
+}
+```
+
+The trait hooks Livewire's own `prepareForValidation()`, so the cleaning happens on the way into both `validate()` and `validateOnly()` with nothing to call. The declaration also reaches the validator resolver for the rest of the request, so a property typed this way is not then reported as unmapped.
+
+**The properties themselves are left alone**, which is why the component reads what `validate()` returned. Rewriting a field mid-edit - when validation has just failed on some *other* field - is a surprise nobody asked for, and the person keeps seeing what they typed. A component that would rather have the cleaned value on the property can leave `sanitizeTypes()` empty and let the resolver write it back instead, which is what happens for every property the configuration can already type.
+
+Both methods are `protected` on purpose: Livewire exposes a component's public methods to the client, and these decide what gets written where.
+
+A package or an application can declare types for its own fields from a service provider, which is how `laravel-user`, `laravel-feedback` and `laravel-model-browser` cover theirs:
+
+```php
+$types = $this->app['config']->get('ig-common.sanitize.types');
+
+if (is_array($types)) {
+    $this->app['config']->set('ig-common.sanitize.types', [
+        'register' => 'flag',
+        'remember' => 'flag',
+        ...$types,   // entries the application already set win
+    ]);
+}
+```
+
+### Notes
+
+- **`Validator::resolver()` holds one closure.** An application that registers its own resolver after this package boots silently replaces this one and disables sanitization.
+- **`Request::validate()` mirrors framework internals.** The override copies the body Laravel registers in `FoundationServiceProvider::registerRequestValidation()`, including its Precognition handling, because there is no public accessor for an existing macro. Keep it in sync when upgrading the framework.
+- **Lowercasing e-mail changes lookups.** On a database with a case-sensitive collation, a user stored as `Foo@Example.com` will no longer be found by a login form that now sends `foo@example.com`. Normalize existing rows before enabling this on an application with such data.
 
 ## Helper Methods
 
