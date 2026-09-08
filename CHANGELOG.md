@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Clean up input before it is validated, based on what each value is. An e-mail is trimmed, folded to ASCII and lowercased; a phone number loses its separators; free text keeps its line breaks. Types are configured under `ig-common.sanitize`, and one registration covers controllers, Livewire components and plain `validator()` calls alike.
+- Add `$request->sanitizedData()` and `$request->sanitize()`, for controllers that read `$request->input()` rather than the array `validate()` returns.
+- Add the `SanitizesInput` trait, so a Livewire component can name the type of a property the configuration cannot describe — a dynamic form whose fields are `formData.0`, `formData.1`, and so on. The cleaned values come back from `validate()`; the form keeps showing what the person typed.
+- Skip `#[Locked]` Livewire properties. They hold what the server put there, not what anyone typed.
+
+### Changed
+
+- **Breaking.** Input that matches no configured type is now reported instead of being quietly passed through: an exception while `APP_DEBUG` is on, otherwise a conservative clean-up and one log line. Each application needs to declare its own field names on upgrade. Set `IG_SANITIZE_STRICT=false` to log instead of throwing while you work through them, or `IG_SANITIZE=false` to turn the whole thing off.
+
 ## [6.1.2] - 2026-09-07
 
 ### Fixed
@@ -1900,6 +1913,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
 [6.1.2]: https://https://github.com/internetguru/laravel-common/compare/v6.1.1...v6.1.2
 [6.1.1]: https://https://github.com/internetguru/laravel-common/compare/v6.1.0...v6.1.1
 [6.1.0]: https://https://github.com/internetguru/laravel-common/compare/v6.0.0...v6.1.0
