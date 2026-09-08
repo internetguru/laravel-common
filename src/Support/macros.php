@@ -1,8 +1,77 @@
 <?php
 
 use Carbon\Carbon;
+use Carbon\Translator;
+use Illuminate\Foundation\Precognition;
+use Illuminate\Http\Request;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use InternetGuru\LaravelCommon\Support\Sanitizer;
+
+function initRequestMacros()
+{
+    // The sanitized input, without validating anything. For a controller that
+    // reads $request->input() rather than the array validate() returns.
+    Request::macro('sanitizedData', function (array $rules = [], array $map = []): array {
+        return app(Sanitizer::class)->sanitize($this->all(), $rules, $map);
+    });
+
+    // Merge the sanitized values back into the request, so everything reading
+    // the request afterwards sees them.
+    Request::macro('sanitize', function (array $rules = [], array $map = []) {
+        $sanitizer = app(Sanitizer::class);
+        $data = $this->all();
+        $changes = $sanitizer->changes($data, $rules, $map);
+
+        if ($changes === []) {
+            return $this;
+        }
+
+        $sanitized = $sanitizer->sanitize($data, $rules, $map);
+
+        // A change is keyed by dotted path, which merge() would take literally.
+        // Merging the whole top-level branch of each change keeps the nesting
+        // and still leaves untouched branches alone.
+        $branches = array_unique(array_map(
+            static fn (array $change): string => $change['path'][0],
+            $changes
+        ));
+
+        return $this->merge(array_intersect_key($sanitized, array_flip($branches)));
+    });
+
+    // Sanitize before validating, so both the validated array and the request
+    // itself carry normalized values.
+    //
+    // Overrides the macro Laravel registers in
+    // Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation();
+    // the body below is that method's, with the sanitize() call added. There is
+    // no public accessor for an existing macro, so it is copied rather than
+    // wrapped - keep it in sync when upgrading the framework.
+    Request::macro('validate', function (array $rules, ...$params) {
+        $this->sanitize($rules);
+
+        return tap(validator($this->all(), $rules, ...$params), function ($validator) {
+            if ($this->isPrecognitive()) {
+                $validator->after(Precognition::afterValidationHook($this))
+                    ->setRules(
+                        $this->filterPrecognitiveRules($validator->getRulesWithoutPlaceholders())
+                    );
+            }
+        })->validate();
+    });
+
+    Request::macro('validateWithBag', function (string $errorBag, array $rules, ...$params) {
+        try {
+            return $this->validate($rules, ...$params);
+        } catch (ValidationException $e) {
+            $e->errorBag = $errorBag;
+
+            throw $e;
+        }
+    });
+}
 
 function initStringMacros()
 {
@@ -65,13 +134,13 @@ function initNumberMacros()
 function initCarbonMacros()
 {
     // Override English "X from now" to "in X" to match other locales
-    \Carbon\Translator::get('en')->setTranslations([
+    Translator::get('en')->setTranslations([
         'from_now' => 'in :time',
     ]);
 
     Carbon::macro('dateForHumans', fn () => $this->isoFormat('L'));
 
-    Carbon::macro('dateTimeForHumans', fn () => $this->dateForHumans().' '.$this->timeForHumans());
+    Carbon::macro('dateTimeForHumans', fn () => $this->dateForHumans() . ' ' . $this->timeForHumans());
 
     Carbon::macro('toDisplayTimezone', function () {
         $timezone = session('display_timezone', config('app.timezone'));
