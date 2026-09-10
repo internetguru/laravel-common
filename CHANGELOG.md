@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [7.1.0] - 2026-09-10
+
+_Stable release based on [7.1.0-rc.1]._
+
+## [7.1.0-rc.1] - 2026-09-10
+
+### Added
+
+- Let an application name its reference number: `setRefNumber()` takes a label, and both the subject and the footer follow it.
+- Give `<x-ig::input>` an `id` prop, so several copies of one form can share a page without colliding.
+- Enter submits a dialog, which the browser never does on its own when the dialog is rendered outside its form.
+
+### Changed
+
+- Append the reference number to a subject as "No. ABC12" rather than "(Ref ABC12)".
+
 ## [7.0.1] - 2026-09-08
 
 ### Fixed
@@ -1923,6 +1939,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[7.1.0]: https://https://github.com/internetguru/laravel-common/compare/v7.0.1...v7.1.0
+[7.1.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v7.0.1
 [7.0.1]: https://https://github.com/internetguru/laravel-common/compare/v7.0.0...v7.0.1
 [7.0.0]: https://https://github.com/internetguru/laravel-common/compare/v6.1.2...v7.0.0
 [7.0.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v6.1.2

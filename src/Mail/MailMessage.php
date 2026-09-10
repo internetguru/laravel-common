@@ -11,6 +11,15 @@ class MailMessage extends BaseMailMessage
 
     protected string $refNumber;
 
+    /**
+     * What the reference number is called, in the subject and in the footer.
+     *
+     * An application that already has a name for the number it passes in - an order number,
+     * an invoice number - says so here, and both places follow. Left unset, the generic
+     * wording applies.
+     */
+    protected ?string $refLabel = null;
+
     protected bool $includeRefNumber = true;
 
     /**
@@ -41,9 +50,10 @@ class MailMessage extends BaseMailMessage
         $this->refNumber = Str::ref(5);
     }
 
-    public function setRefNumber(string $refNumber)
+    public function setRefNumber(string $refNumber, ?string $refLabel = null)
     {
         $this->refNumber = $refNumber;
+        $this->refLabel = $refLabel;
 
         return $this;
     }
@@ -58,8 +68,10 @@ class MailMessage extends BaseMailMessage
     public function subject($subject)
     {
         if ($this->includeRefNumber) {
-            $ref = strtoupper($this->refNumber);
-            $this->subject = "$subject (Ref {$ref})";
+            $this->subject = __('ig-common::layouts.email.subject-reference', [
+                'subject' => $subject,
+                'ref' => strtoupper($this->refNumber),
+            ]);
         } else {
             $this->subject = $subject;
         }
@@ -70,6 +82,7 @@ class MailMessage extends BaseMailMessage
     public function view($view, array $data = [])
     {
         $this->extraMailData['refNumber'] = $this->includeRefNumber ? strtoupper($this->refNumber) : null;
+        $this->extraMailData['refLabel'] = $this->refLabel ?? __('ig-common::layouts.email.reference-label');
 
         return parent::view($view, array_merge($data, $this->extraMailData));
     }

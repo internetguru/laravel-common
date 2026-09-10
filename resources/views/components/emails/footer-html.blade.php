@@ -10,7 +10,7 @@
 <hr />
 <p>
     @if ($refNumber)
-        @lang('ig-common::layouts.email.reference', ['ref' => '<code>' . $refNumber . '</code>'])<br />
+        @lang('ig-common::layouts.email.reference', ['label' => $refLabel, 'ref' => '<code>' . $refNumber . '</code>'])<br />
     @endif
     @if ($noreplyMessage)
         {{ $noreplyMessage }}<br />
