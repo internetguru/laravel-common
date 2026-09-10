@@ -38,7 +38,8 @@ return [
 
     'email.reference' => ':label :ref',
     'email.reference-label' => 'Referencenummer',
-    'email.subject-reference' => ':subject nr. :ref',
+    'email.subject-reference' => ':subject (Ref :ref)',
+    'email.subject-reference-named' => ':subject nr. :ref',
     'email.generated-at' => 'Genereret på :url',
     'email.generator' => 'Generator: :generator',
     'email.requested-from' => 'Sendt fra :ip (:timezone)',

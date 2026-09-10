@@ -38,7 +38,8 @@ return [
 
     'email.reference' => ':label :ref',
     'email.reference-label' => 'Reference number',
-    'email.subject-reference' => ':subject No. :ref',
+    'email.subject-reference' => ':subject (Ref :ref)',
+    'email.subject-reference-named' => ':subject No. :ref',
     'email.generated-at' => 'Generated at :url',
     'email.generator' => 'Generator: :generator',
     'email.requested-from' => 'Sent from :ip (:timezone)',

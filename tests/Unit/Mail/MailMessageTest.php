@@ -12,7 +12,7 @@ class MailMessageTest extends TestCase
         $message = new MailMessage();
         $message->subject('Hello');
 
-        $this->assertMatchesRegularExpression('/^Hello No\. [A-Z0-9]{5}$/', $message->subject);
+        $this->assertMatchesRegularExpression('/^Hello \(Ref [A-Z0-9]{5}\)$/', $message->subject);
     }
 
     public function test_without_ref_number_suppresses_ref_from_subject()
@@ -28,7 +28,15 @@ class MailMessageTest extends TestCase
         $message = new MailMessage();
         $message->setRefNumber('abc12')->subject('Hello');
 
-        $this->assertEquals('Hello No. ABC12', $message->subject);
+        $this->assertEquals('Hello (Ref ABC12)', $message->subject);
+    }
+
+    public function test_a_named_ref_number_is_spelled_out_in_the_subject()
+    {
+        $message = new MailMessage();
+        $message->setRefNumber('abc12', 'Order number')->subject('New order');
+
+        $this->assertEquals('New order No. ABC12', $message->subject);
     }
 
     public function test_view_defaults_the_ref_label_to_the_generic_wording()
