@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Let an application name its reference number: `setRefNumber()` takes a label, and both the subject and the footer follow it.
+- Give `<x-ig::input>` an `id` prop, so several copies of one form can share a page without colliding.
+- Enter submits a dialog, which the browser never does on its own when the dialog is rendered outside its form.
+
+### Changed
+
+- Append the reference number to a subject as "No. ABC12" rather than "(Ref ABC12)".
+
 ## [7.0.1] - 2026-09-08
 
 ### Fixed
