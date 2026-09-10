@@ -68,7 +68,14 @@ class MailMessage extends BaseMailMessage
     public function subject($subject)
     {
         if ($this->includeRefNumber) {
-            $this->subject = __('ig-common::layouts.email.subject-reference', [
+            // A number the application has named is one the reader is expected to quote back
+            // - an order number, an invoice number - so the subject says it plainly. An
+            // unnamed one is only ours to match a mail against, and stays an aside.
+            $key = $this->refLabel === null
+                ? 'ig-common::layouts.email.subject-reference'
+                : 'ig-common::layouts.email.subject-reference-named';
+
+            $this->subject = __($key, [
                 'subject' => $subject,
                 'ref' => strtoupper($this->refNumber),
             ]);

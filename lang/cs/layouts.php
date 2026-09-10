@@ -38,7 +38,8 @@ return [
 
     'email.reference' => ':label :ref',
     'email.reference-label' => 'Referenční číslo',
-    'email.subject-reference' => ':subject č. :ref',
+    'email.subject-reference' => ':subject (Ref :ref)',
+    'email.subject-reference-named' => ':subject č. :ref',
     'email.generated-at' => 'Vygenerováno na :url',
     'email.generator' => 'Generátor: :generator',
     'email.requested-from' => 'Odesláno z :ip (:timezone)',
