@@ -132,6 +132,33 @@
             }
         });
 
+        // A dialog is rendered wherever it fits the page, which is often outside the form it
+        // belongs to - and there the browser never offers implicit submission, so Enter in a
+        // field does nothing. Send it to the dialog's own submit button instead.
+        //
+        // A dialog that sits inside its form is left to the browser: nothing is prevented
+        // here unless a button was actually found, so native submission still applies.
+        document.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter' || event.defaultPrevented || event.isComposing) {
+                return;
+            }
+            const field = event.target;
+            // Enter belongs to the control itself on these: a newline, a press, a choice.
+            if (! (field instanceof HTMLInputElement) || ['checkbox', 'radio', 'button', 'submit', 'reset'].includes(field.type)) {
+                return;
+            }
+            const modal = field.closest('.ig-modal');
+            if (! modal || modal.classList.contains('d-none')) {
+                return;
+            }
+            const submit = modal.querySelector('button[type="submit"]:not([disabled]), input[type="submit"]:not([disabled])');
+            if (! submit) {
+                return;
+            }
+            event.preventDefault();
+            submit.click();
+        });
+
         if (window.visualViewport) {
             const syncViewport = () => window.igModal.syncViewport();
             window.visualViewport.addEventListener('resize', syncViewport);

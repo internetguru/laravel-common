@@ -36,7 +36,9 @@ return [
     'provider.name' => 'Internet Guru',
     'provider.www' => 'www.internetguru.cz',
 
-    'email.reference' => 'Referenční číslo :ref',
+    'email.reference' => ':label :ref',
+    'email.reference-label' => 'Referenční číslo',
+    'email.subject-reference' => ':subject č. :ref',
     'email.generated-at' => 'Vygenerováno na :url',
     'email.generator' => 'Generátor: :generator',
     'email.requested-from' => 'Odesláno z :ip (:timezone)',

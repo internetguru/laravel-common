@@ -1,7 +1,7 @@
 --
 @if ($refNumber)
 
-@lang('ig-common::layouts.email.reference', ['ref' => $refNumber])
+@lang('ig-common::layouts.email.reference', ['label' => $refLabel, 'ref' => $refNumber])
 @endif
 @if ($noreplyMessage)
 

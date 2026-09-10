@@ -36,7 +36,9 @@ return [
     'provider.name' => 'Internet Guru',
     'provider.www' => 'www.internetguru.io',
 
-    'email.reference' => 'Reference number :ref',
+    'email.reference' => ':label :ref',
+    'email.reference-label' => 'Reference number',
+    'email.subject-reference' => ':subject No. :ref',
     'email.generated-at' => 'Generated at :url',
     'email.generator' => 'Generator: :generator',
     'email.requested-from' => 'Sent from :ip (:timezone)',

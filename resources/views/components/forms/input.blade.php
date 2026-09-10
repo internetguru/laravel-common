@@ -1,6 +1,7 @@
 @props([
     'type' => 'text',
     'name',
+    'id' => null,
     'value',
     'options' => [],
     'useoptionkeys' => false,
@@ -11,17 +12,24 @@
     'showError' => true,
 ])
 
+@php
+    // Several copies of the same form can share a page - one per row, one per dialog - and
+    // only the element id has to tell them apart. It follows the field name unless the
+    // caller has something more specific to say.
+    $id = $id ?? $name;
+@endphp
+
 <div
     @class(["mt-3", "form-floating" => $type !== "checkbox"])
     @if($clearable) x-data="clearable" @endif
 >
     @if ($type === 'textarea')
         <textarea
-            id="{{ $name }}"
+            id="{{ $id }}"
             name="{{ $name }}"
             placeholder="{{ $slot }}"
             style="min-height: {{ $rows }}rem; max-height: {{ $rows * 3 }}rem; overflow-y: auto;"
-            data-testid="input-{{ $name }}"
+            data-testid="input-{{ $id }}"
             @if ($disabled) disabled @endif
             x-data
             x-init="$el.style.height = 'auto'; $el.style.height = $el.scrollHeight + 'px'"
@@ -30,10 +38,10 @@
         >{{ old($name) ?? $value ?? '' }}</textarea>
     @elseif ($type === 'select')
         <select
-            id="{{ $name }}"
+            id="{{ $id }}"
             name="{{ $name }}"
             placeholder="{{ $slot }}"
-            data-testid="input-{{ $name }}"
+            data-testid="input-{{ $id }}"
             @if ($disabled) disabled @endif
             {{ $attributes->merge(['class' => 'form-control' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
         >
@@ -50,9 +58,9 @@
     @elseif ($type == 'checkbox')
         <label><input
             type="{{ $type }}"
-            id="{{ $name }}"
+            id="{{ $id }}"
             name="{{ $name }}"
-            data-testid="input-{{ $name }}"
+            data-testid="input-{{ $id }}"
             @if (old($name) ?? $checked) checked @endif
             @if ($disabled) disabled @endif
             {{ $attributes->merge(['class' => 'form-check-input me-2' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
@@ -67,10 +75,10 @@
         @endphp
         <input
             type="{{ $type }}"
-            id="{{ $name }}"
+            id="{{ $id }}"
             name="{{ $name }}"
             placeholder="{{ $slot }}"
-            data-testid="input-{{ $name }}"
+            data-testid="input-{{ $id }}"
             @if ($type !== 'password') value="{{ old($name) ?? $value ?? '' }}" @endif
             @if ($disabled) disabled @endif
             {{ $attributes->merge(['autocomplete' => $autocomplete, 'class' => 'form-control' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
@@ -78,11 +86,11 @@
     @endif
     @if ($type !== 'hidden')
         @if ($type !== 'checkbox')
-            <label for="{{ $name }}">{{ $slot }}@if($type == 'select')<span>▼</span>@endif</label>
+            <label for="{{ $id }}">{{ $slot }}@if($type == 'select')<span>▼</span>@endif</label>
         @endif
         @if ($showError)
             @error($name)
-                <span class="invalid-feedback" role="alert" data-testid="input-error-{{ $name }}">
+                <span class="invalid-feedback" role="alert" data-testid="input-error-{{ $id }}">
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror

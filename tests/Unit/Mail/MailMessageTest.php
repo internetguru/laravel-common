@@ -12,7 +12,7 @@ class MailMessageTest extends TestCase
         $message = new MailMessage();
         $message->subject('Hello');
 
-        $this->assertMatchesRegularExpression('/^Hello \(Ref [A-Z0-9]{5}\)$/', $message->subject);
+        $this->assertMatchesRegularExpression('/^Hello No\. [A-Z0-9]{5}$/', $message->subject);
     }
 
     public function test_without_ref_number_suppresses_ref_from_subject()
@@ -28,7 +28,24 @@ class MailMessageTest extends TestCase
         $message = new MailMessage();
         $message->setRefNumber('abc12')->subject('Hello');
 
-        $this->assertEquals('Hello (Ref ABC12)', $message->subject);
+        $this->assertEquals('Hello No. ABC12', $message->subject);
+    }
+
+    public function test_view_defaults_the_ref_label_to_the_generic_wording()
+    {
+        $message = new MailMessage();
+        $message->setRefNumber('abc12')->view('view');
+
+        $this->assertEquals(__('ig-common::layouts.email.reference-label'), $message->viewData['refLabel']);
+    }
+
+    public function test_set_ref_number_names_the_reference_for_the_footer()
+    {
+        $message = new MailMessage();
+        $message->setRefNumber('abc12', 'Order number')->view('view');
+
+        $this->assertEquals('Order number', $message->viewData['refLabel']);
+        $this->assertEquals('ABC12', $message->viewData['refNumber']);
     }
 
     public function test_to_single_address_without_name()
