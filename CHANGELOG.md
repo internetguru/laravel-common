@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [7.2.1] - 2026-09-14
+
+### Fixed
+
+- Put the footer years back and translate the enquiry into Danish.
+- Show the years in the footer again, as "2022–2026 by Internet Guru – All rights reserved." The © sign stays off; the years were what went missing.
+- Offer the enquiry form in Danish. The 7.2.0 footer enquiry reached Danish sites untranslated, as an empty title and an empty link.
+
 ## [7.2.0] - 2026-09-14
 
 _Stable release based on [7.2.0-rc.1]._
@@ -1964,6 +1972,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[7.2.1]: https://https://github.com/internetguru/laravel-common/compare/v7.2.0...v7.2.1
 [7.2.0]: https://https://github.com/internetguru/laravel-common/compare/v7.1.1...v7.2.0
 [7.2.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v7.1.1
 [7.1.1]: https://https://github.com/internetguru/laravel-common/compare/v7.1.0...v7.1.1

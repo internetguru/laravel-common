@@ -31,7 +31,7 @@ return [
     'just_now' => 'lige nu',
     'in_year' => 'om 1 år',
 
-    'provider' => '© 2022–:year af :link – Alle rettigheder forbeholdes.',
+    'provider' => '2022–:year af :link – Alle rettigheder forbeholdes.',
     'provider.email' => 'info@internetguru.io',
     'provider.name' => 'Internet Guru',
     'provider.www' => 'www.internetguru.io',
@@ -62,6 +62,11 @@ return [
     'card_row.label' => 'Kort',
     'card_row.previous' => 'Forrige',
     'card_row.next' => 'Næste',
+
+    'inquiry.link' => 'Vil du have en hjemmeside som denne?',
+    'inquiry.title' => 'Kan du lide denne hjemmeside? Få din egen.',
+    'inquiry.description' => 'Fortæl os lidt om dig, så vender vi tilbage med de næste skridt.',
+    'inquiry.subject' => 'Forespørgsel om hjemmeside',
 
     'complaints.link' => 'Kommentarer og klager',
     'complaints.location' => 'Afdeling',

@@ -31,7 +31,7 @@ return [
     'just_now' => 'právě teď',
     'in_year' => 'za 1 rok',
 
-    'provider' => ':link – Všechna práva vyhrazena.',
+    'provider' => '2022–:year :link – Všechna práva vyhrazena.',
     'provider.email' => 'info@internetguru.io',
     'provider.name' => 'Internet Guru',
     'provider.www' => 'www.internetguru.cz',

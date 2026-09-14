@@ -93,12 +93,12 @@ class FooterTest extends TestCase
         $html->assertSee(__('ig-common::layouts.provider.name'));
     }
 
-    public function test_the_copyright_line_carries_no_copyright_notice()
+    public function test_the_copyright_line_carries_the_years_without_a_copyright_sign()
     {
         $html = $this->blade('<x-ig::footer />');
 
+        $html->assertSee('2022–' . date('Y'), false);
         $html->assertDontSee('©', false);
-        $html->assertDontSee('2022', false);
         $html->assertSee(__('ig-common::layouts.provider.name'));
     }
 
