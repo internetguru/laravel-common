@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Middleware;
 
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use InternetGuru\LaravelCommon\Http\Middleware\PreventDuplicateSubmissions;
@@ -40,11 +41,35 @@ class PreventDuplicateSubmissionsTest extends TestCase
         $request = Request::create('/contact', 'POST', ['name' => 'Jane']);
 
         $first = $this->handle($request);
+        $this->travel(5)->seconds();
         $second = $this->handle($request);
 
         $this->assertEquals('OK', $first->getContent());
         $this->assertTrue($second->isRedirect());
         $this->assertArrayHasKey('error', $second->getSession()->get('errors')->getBag('default')->toArray());
+    }
+
+    public function test_drops_a_double_click_without_an_error()
+    {
+        $request = Request::create('/contact', 'POST', ['name' => 'Jane']);
+
+        $this->handle($request);
+        $second = $this->handle($request);
+
+        $this->assertTrue($second->isRedirect());
+        $this->assertNull($second->getSession()->get('errors'));
+    }
+
+    public function test_lets_someone_signed_in_repeat_a_submission_sooner_than_a_guest()
+    {
+        $request = Request::create('/contact', 'POST', ['name' => 'Jane']);
+        $this->be(new class extends User {});
+
+        $this->handle($request);
+        $this->travel(15)->seconds();
+
+        // Past the ten seconds someone signed in gets, well inside the minute a guest gets.
+        $this->assertEquals('OK', $this->handle($request)->getContent());
     }
 
     public function test_never_blocks_livewire_requests_even_with_an_identical_payload()

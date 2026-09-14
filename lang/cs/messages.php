@@ -3,7 +3,7 @@
 return [
 
     'inbox' => 'Schránka',
-    'duplicate_submission' => 'Tento formulář byl již před chvilkou odeslán.',
+    'duplicate_submission' => 'Mezi opakovaným odesláním formuláře prosím chvíli počkejte.',
     'demo.warning' => '**Režim demo**: Veškeré informace jsou pouze ilustrativní a mohou se kdykoliv změnit či resetovat.',
 
     'translated' => 'Přeloženo',

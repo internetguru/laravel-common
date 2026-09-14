@@ -21,6 +21,18 @@ return [
         'horizon',
     ],
 
+    // Refuse an identical POST that arrives again too soon. Three windows, in
+    // seconds: a repeat inside 'double_click' is the browser, not the person,
+    // and is dropped without an error; after that the submission is refused
+    // with one, for as long as 'guest' or 'authenticated' says. Someone signed
+    // in repeats identical actions as a matter of course, so their window is
+    // the shorter of the two.
+    'duplicate_submissions' => [
+        'double_click' => env('IG_DUPLICATE_SUBMISSIONS_DOUBLE_CLICK', 3),
+        'authenticated' => env('IG_DUPLICATE_SUBMISSIONS_AUTHENTICATED', 10),
+        'guest' => env('IG_DUPLICATE_SUBMISSIONS_GUEST', 60),
+    ],
+
     // Collapse repeats of the same log record into one entry per window, so a
     // single fault - a scanner working through a component, a failing
     // dependency - cannot bury the rest of the log. Applied to every configured

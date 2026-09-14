@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- A form sent twice in quick succession is dropped without a word: a double click is the browser repeating itself, not someone asking twice.
+- Someone signed in may repeat the same submission after ten seconds rather than a minute; staff enter the same amount from the same till as a matter of course. Both windows, and the one a double click falls inside, are configurable under `ig-common.duplicate_submissions`.
+- A submission refused as a repeat now reads "Please wait between form resubmissions."
+
 ## [7.3.0] - 2026-09-14
 
 _Stable release based on [7.3.0-rc.1]._
