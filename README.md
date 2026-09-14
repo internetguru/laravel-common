@@ -42,6 +42,7 @@
   - [Card](#card-blade-component)
   - [Card Row](#card-row-blade-component)
   - [Tag Cloud](#tag-cloud-blade-component)
+  - [Label](#label-blade-component)
   - [Demo Info](#demo-info-blade-component)
   - [Read-Only Mode Info](#read-only-mode-info-blade-component)
   - [Email Feedback](#email-feedback-blade-component)
@@ -895,6 +896,58 @@ Hues are spread by the golden angle, so neighbouring tags never land on a simila
 Styles come from `ig::common/tag-cloud`; the look of the chips and of the word cloud is set by the `$tag-*` and `$tag-cloud-*` variables, which have to be given before the stylesheet is imported. A cloud sitting on a card is usually given a negative inline margin through `$tag-cloud-margin`, so it reaches past the card's padding and reads as its own shape rather than as a block of text.
 
 The typographic cloud needs the `tagCloud` Alpine.js component, which `ig::common-js` registers: its sizes are measured in the browser, since every line is packed and then scaled to fill the width of the cloud exactly. The cloud stays hidden until it has been measured, so the fallback sizes rendered server-side never show; without JavaScript those sizes are what is shown.
+
+### Label Blade Component
+
+> Names one value out of a set - a status, a role, a payment type, a branch - as a chip read in plain text on white, with the value carried by a small coloured dot.
+
+```html
+<x-ig::label text="Paid" variant="success" />
+
+<x-ig::label :text="$location->name" :seed="$location->name" />
+
+<x-ig::label text="Administrator" variant="danger" icon="fa-solid fa-user-gear" />
+```
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| `text` | `null` | The label itself. The slot is used instead when one is given. |
+| `variant` | `null` | Bootstrap theme colour naming the kind of value: `primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light` or `dark`. |
+| `color` | `null` | An explicit colour, taking precedence over the variant. A hex, `rgb()`, `hsl()` or `var()` notation. |
+| `seed` | the text | What the colour is derived from when neither a variant nor a colour is given. |
+| `icon` | `null` | Font Awesome classes of an icon shown in place of the dot. |
+
+A value with no variant of its own is given a colour derived from a hash of its seed, so it keeps the same colour wherever it is shown without anything having to be stored against it - which is what lets a label name a value read out of the database, such as a branch, and not only a case of an enum. The colours are drawn from twelve evenly spaced hues, so any two values are at least 30 degrees apart; two values out of a larger set will sometimes share one. Pass `seed` where the text is translated or may be renamed, so the colour holds: a backed enum should seed on its value, not on its label.
+
+An enum can render itself through the `HasLabel` contract and the `RendersLabel` trait, which gives it `toLabelHtml()`. The trait seeds the colour on the enum's backing value, so a translated label does not change it; override its `labelIcon()` to give the label an icon in place of the dot. That is what the places building their HTML in PHP need - a model browser column formatter above all, which is given the name of a function and echoes what it returns; `Label::html()` does the same for a value that is not an enum.
+
+```php
+enum OrderStatus: string implements HasLabel
+{
+    use RendersLabel;
+
+    case PAID = 'paid';
+    case UNPAID = 'unpaid';
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::PAID => __('order.status.paid'),
+            self::UNPAID => __('order.status.unpaid'),
+        };
+    }
+
+    public function variant(): ?string
+    {
+        return match ($this) {
+            self::PAID => 'success',
+            self::UNPAID => 'danger',
+        };
+    }
+}
+```
+
+Styles come from `ig::common/label`; the look of the chip is set by the `$ig-label-*` variables, which have to be given before the stylesheet is imported.
 
 ### Demo Info Blade Component
 
