@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- Show the years in the footer again, as "2022–2026 by Internet Guru – All rights reserved." The © sign stays off; the years were what went missing.
+- Offer the enquiry form in Danish. The 7.2.0 footer enquiry reached Danish sites untranslated, as an empty title and an empty link.
+
 ## [7.2.0] - 2026-09-14
 
 _Stable release based on [7.2.0-rc.1]._

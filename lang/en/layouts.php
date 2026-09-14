@@ -31,7 +31,7 @@ return [
     'just_now' => 'just now',
     'in_year' => 'in 1 year',
 
-    'provider' => ':link – All rights reserved.',
+    'provider' => '2022–:year by :link – All rights reserved.',
     'provider.email' => 'info@internetguru.io',
     'provider.name' => 'Internet Guru',
     'provider.www' => 'www.internetguru.io',
