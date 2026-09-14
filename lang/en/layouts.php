@@ -31,7 +31,7 @@ return [
     'just_now' => 'just now',
     'in_year' => 'in 1 year',
 
-    'provider' => '© 2022–:year by :link – All rights reserved.',
+    'provider' => ':link – All rights reserved.',
     'provider.email' => 'info@internetguru.io',
     'provider.name' => 'Internet Guru',
     'provider.www' => 'www.internetguru.io',
@@ -62,6 +62,11 @@ return [
     'card_row.label' => 'Cards',
     'card_row.previous' => 'Previous',
     'card_row.next' => 'Next',
+
+    'inquiry.link' => 'Want a website like this?',
+    'inquiry.title' => 'Love this website? Get your own.',
+    'inquiry.description' => 'Tell us a little about you and we will get back to you with the next steps.',
+    'inquiry.subject' => 'Website inquiry',
 
     'complaints.link' => 'Comments and complaints',
     'complaints.location' => 'Location',

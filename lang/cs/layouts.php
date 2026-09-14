@@ -31,7 +31,7 @@ return [
     'just_now' => 'právě teď',
     'in_year' => 'za 1 rok',
 
-    'provider' => '© 2022–:year :link – Všechna práva vyhrazena.',
+    'provider' => ':link – Všechna práva vyhrazena.',
     'provider.email' => 'info@internetguru.io',
     'provider.name' => 'Internet Guru',
     'provider.www' => 'www.internetguru.cz',
@@ -62,6 +62,11 @@ return [
     'card_row.label' => 'Karty',
     'card_row.previous' => 'Předchozí',
     'card_row.next' => 'Další',
+
+    'inquiry.link' => 'Chcete web jako tento?',
+    'inquiry.title' => 'Líbí se vám tento web? Pořiďte si vlastní.',
+    'inquiry.description' => 'Napište nám něco o sobě a my se vám ozveme s dalšími kroky.',
+    'inquiry.subject' => 'Poptávka webu',
 
     'complaints.link' => 'Připomínky a stížnosti',
     'complaints.location' => 'Provozovna',

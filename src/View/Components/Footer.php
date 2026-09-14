@@ -12,9 +12,13 @@ class Footer extends Component
 
     public const COMPLAINTS_FORM_ID = 'complaints-form';
 
+    public const INQUIRY_FORM_ID = 'inquiry-form';
+
     public array $feedbackFields;
 
     public array $complaintsFields;
+
+    public array $inquiryFields;
 
     /**
      * Whether the optional internetguru/laravel-feedback package is installed.
@@ -25,6 +29,7 @@ class Footer extends Component
      * @param  array<int, array<string, mixed>>|null  $feedbackFields  Technical feedback field definitions, defaults to message, attachments and email
      * @param  array<int, array<string, mixed>>|null  $complaintsFields  Complaints field definitions, defaults to location, occurred_at, message and email
      * @param  array<int, string>  $complaintsLocations  Location names rendered as a required select, omitted when empty
+     * @param  array<int, array<string, mixed>>|null  $inquiryFields  Website inquiry field definitions, defaults to fullname, email, phone and message
      */
     public function __construct(
         public ?string $feedbackEmail = null,
@@ -40,6 +45,14 @@ class Footer extends Component
         public ?string $complaintsDescription = null,
         ?array $complaintsFields = null,
         array $complaintsLocations = [],
+        public ?string $inquiryEmail = null,
+        public ?string $inquiryName = null,
+        public ?string $inquiryTitle = null,
+        public ?string $inquirySubject = null,
+        public ?string $inquiryDescription = null,
+        ?array $inquiryFields = null,
+        public ?string $inquiryLink = null,
+        public bool $inquiry = true,
         public string $feedbackIcon = '',
         public string $complaintsIcon = '',
         public bool $share = true,
@@ -57,8 +70,16 @@ class Footer extends Component
         $this->complaintsTitle = $complaintsTitle ?? __('ig-common::layouts.complaints.link');
         $this->complaintsSubject = $complaintsSubject ?? config('app.name') . ' ' . __('ig-common::layouts.complaints.link');
 
+        $this->inquiryEmail = $inquiryEmail ?? __('ig-common::layouts.provider.email');
+        $this->inquiryName = $inquiryName ?? __('ig-common::layouts.provider.name');
+        $this->inquiryTitle = $inquiryTitle ?? __('ig-common::layouts.inquiry.title');
+        $this->inquirySubject = $inquirySubject ?? config('app.name') . ' ' . __('ig-common::layouts.inquiry.subject');
+        $this->inquiryDescription = $inquiryDescription ?? __('ig-common::layouts.inquiry.description');
+        $this->inquiryLink = $inquiryLink ?? __('ig-common::layouts.inquiry.link');
+
         $this->feedbackFields = $feedbackFields ?? $this->defaultFeedbackFields();
         $this->complaintsFields = $complaintsFields ?? $this->defaultComplaintsFields($complaintsLocations);
+        $this->inquiryFields = $inquiryFields ?? $this->defaultInquiryFields();
     }
 
     /**
@@ -79,6 +100,26 @@ class Footer extends Component
             ['name' => 'message', 'required' => true],
             ['name' => 'attachments'],
             ['name' => 'email', 'label' => __('ig-feedback::fields.email_optional')],
+        ];
+    }
+
+    /**
+     * The website inquiry is a lead rather than a report, so it asks who is
+     * asking before it asks what about.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    protected function defaultInquiryFields(): array
+    {
+        if (! $this->hasFeedback) {
+            return [];
+        }
+
+        return [
+            ['name' => 'fullname', 'required' => true],
+            ['name' => 'email', 'required' => true],
+            ['name' => 'phone'],
+            ['name' => 'message'],
         ];
     }
 
