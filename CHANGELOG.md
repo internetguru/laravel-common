@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Name a value with the new `x-ig::label` chip: black on white, a light border, a small coloured dot.
+- A value with no colour of its own gets one derived from its name, so a branch out of the database is labelled as readily as an enum.
+- Enums carry their own label through `HasLabel` and `RendersLabel`, including into a model browser column.
+
 ## [7.2.1] - 2026-09-14
 
 ### Fixed

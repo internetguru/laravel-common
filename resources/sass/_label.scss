@@ -1,0 +1,53 @@
+/// A chip naming one value out of a set. Soft enough to sit in a table cell
+/// without ruling it: the text is read in the body colour on white, and the
+/// kind of value is carried by a small dot, whose colour the component sets per
+/// label as the `--ig-label-dot` custom property.
+$ig-label-radius: 1.25rem !default;
+$ig-label-color: $gray-700 !default;
+$ig-label-bg: $white !default;
+$ig-label-border-color: rgba($black, .07) !default;
+$ig-label-padding: .4em .85em !default;
+$ig-label-gap: .5em !default;
+$ig-label-dot-size: .45em !default;
+
+.ig-label {
+    display: inline-flex;
+    align-items: center;
+    gap: $ig-label-gap;
+    max-width: 100%;
+    padding: $ig-label-padding;
+    font-weight: $font-weight-light;
+    line-height: 1.4;
+    text-align: left;
+    color: $ig-label-color;
+    background-color: $ig-label-bg;
+    border: 1px solid $ig-label-border-color;
+    border-radius: $ig-label-radius;
+
+    // A label always reads on one line; it sits in table cells, where a wrapped
+    // chip would push the whole row taller than its neighbours.
+    white-space: nowrap;
+
+    &::before {
+        content: '';
+        flex: 0 0 auto;
+        width: $ig-label-dot-size;
+        height: $ig-label-dot-size;
+        border-radius: 50%;
+        background-color: var(--ig-label-dot);
+    }
+
+    // An icon says what the label is on its own, so it stands in for the dot
+    // rather than being read beside it.
+    &.ig-label-icon {
+
+        &::before {
+            content: none;
+        }
+
+        i {
+            flex: 0 0 auto;
+            color: var(--ig-label-dot);
+        }
+    }
+}
