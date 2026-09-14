@@ -71,7 +71,7 @@ class SharePageTest extends TestCase
         $html = $this->blade('<x-ig::share-page />');
 
         $html->assertSee('class="link-ico"', false);
-        $html->assertSee('<i class="fa-regular fa-fw fa-share-from-square"></i>', false);
+        $html->assertSee('<i class="fa-solid fa-fw fa-share-nodes"></i>', false);
         $html->assertSee('class="modal-title"', false);
     }
 
@@ -80,7 +80,7 @@ class SharePageTest extends TestCase
         $html = $this->blade('<x-ig::share-page icon="" />');
 
         $html->assertSee('data-testid="share-page-link"', false);
-        $html->assertDontSee('fa-share-from-square', false);
+        $html->assertDontSee('fa-share-nodes', false);
     }
 
     public function test_slot_overrides_the_link_text()
@@ -102,14 +102,14 @@ class SharePageTest extends TestCase
 
     public function test_svg_truncates_oversized_content()
     {
-        $svg = QrCode::svg('https://example.com/?q='.str_repeat('a', 5000));
+        $svg = QrCode::svg('https://example.com/?q=' . str_repeat('a', 5000));
 
         $this->assertStringStartsWith('<svg', $svg);
     }
 
     public function test_component_renders_with_an_oversized_url()
     {
-        $component = new SharePage(url: 'https://example.com/?q='.str_repeat('a', 5000));
+        $component = new SharePage(url: 'https://example.com/?q=' . str_repeat('a', 5000));
 
         $this->assertStringStartsWith('<svg', $component->svg);
     }
