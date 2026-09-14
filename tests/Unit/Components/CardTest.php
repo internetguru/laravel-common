@@ -91,6 +91,58 @@ class CardTest extends TestCase
         $this->assertFalse((new Card)->gray);
     }
 
+    public function test_a_pdf_link_is_marked_with_its_file_type()
+    {
+        $html = $this->blade('<x-ig::card link="https://example.com/paper.pdf" />');
+
+        $html->assertSee('<span class="card-format" aria-hidden="true">PDF</span>', false);
+        $html->assertSee('aria-label="' . __('ig-common::layouts.card.open') . ' (PDF)"', false);
+    }
+
+    public function test_the_file_type_is_read_off_the_path_rather_than_the_query_string()
+    {
+        $this->assertSame('PDF', (new Card(link: 'https://example.com/paper.pdf?v=2#page=3'))->format);
+        $this->assertNull((new Card(link: 'https://example.com/papers?file=paper.pdf'))->format);
+    }
+
+    public function test_a_file_served_without_an_extension_is_recognised_by_its_folder()
+    {
+        $this->assertSame('PDF', (new Card(link: 'https://arxiv.org/pdf/2607.21166'))->format);
+        $this->assertNull((new Card(link: 'https://arxiv.org/abs/2607.21166'))->format);
+    }
+
+    public function test_the_button_label_does_not_repeat_a_file_type_it_already_names()
+    {
+        $html = $this->blade('<x-ig::card link="https://example.com/cv.pdf" link-label="Download CV in PDF" />');
+
+        $html->assertSee('aria-label="Download CV in PDF"', false);
+        $html->assertDontSee('Download CV in PDF (PDF)', false);
+    }
+
+    public function test_the_file_type_stands_beside_the_button_rather_than_inside_it()
+    {
+        $html = $this->blade('<x-ig::card link="https://example.com/paper.pdf" />');
+
+        $this->assertMatchesRegularExpression(
+            '/<span class="card-format" aria-hidden="true">PDF<\/span>\s*<a class="card-action"/',
+            $html->__toString()
+        );
+    }
+
+    public function test_a_web_page_link_is_left_unmarked()
+    {
+        $html = $this->blade('<x-ig::card link="https://example.com/seminar.html" />');
+
+        $html->assertDontSee('card-format', false);
+        $html->assertSee('aria-label="' . __('ig-common::layouts.card.open') . '"', false);
+    }
+
+    public function test_the_file_type_can_be_given_or_suppressed()
+    {
+        $this->assertSame('SLIDES', (new Card(link: 'https://example.com/talk', format: 'SLIDES'))->format);
+        $this->assertNull((new Card(link: 'https://example.com/paper.pdf', format: ''))->format);
+    }
+
     public function test_the_slot_and_extra_attributes_are_kept()
     {
         $html = $this->blade('<x-ig::card class="card-highlight" data-testid="card">Body</x-ig::card>');
