@@ -93,6 +93,47 @@ class FooterTest extends TestCase
         $html->assertSee(__('ig-common::layouts.provider.name'));
     }
 
+    public function test_the_copyright_line_carries_no_copyright_notice()
+    {
+        $html = $this->blade('<x-ig::footer />');
+
+        $html->assertDontSee('©', false);
+        $html->assertDontSee('2022', false);
+        $html->assertSee(__('ig-common::layouts.provider.name'));
+    }
+
+    public function test_inquiry_defaults_are_taken_from_provider_translations()
+    {
+        $footer = new Footer;
+
+        $this->assertSame(__('ig-common::layouts.provider.email'), $footer->inquiryEmail);
+        $this->assertSame(__('ig-common::layouts.provider.name'), $footer->inquiryName);
+        $this->assertSame(__('ig-common::layouts.inquiry.title'), $footer->inquiryTitle);
+        $this->assertSame(__('ig-common::layouts.inquiry.link'), $footer->inquiryLink);
+        $this->assertSame(__('ig-common::layouts.inquiry.description'), $footer->inquiryDescription);
+        $this->assertSame(
+            config('app.name') . ' ' . __('ig-common::layouts.inquiry.subject'),
+            $footer->inquirySubject
+        );
+    }
+
+    public function test_default_inquiry_fields_are_empty_without_the_feedback_package()
+    {
+        $footer = new Footer;
+
+        $this->assertFalse($footer->hasFeedback);
+        $this->assertSame([], $footer->inquiryFields);
+    }
+
+    public function test_explicit_inquiry_fields_are_used_as_is()
+    {
+        $fields = [['name' => 'fullname', 'required' => true]];
+
+        $footer = new Footer(inquiryFields: $fields);
+
+        $this->assertSame($fields, $footer->inquiryFields);
+    }
+
     public function test_tools_can_be_disabled()
     {
         $html = $this->blade('<x-ig::footer :share="false" :lang-switch="false" />');
@@ -105,10 +146,18 @@ class FooterTest extends TestCase
     {
         $html = $this->blade('<x-ig::footer />');
 
-        $html->assertSee('<i class="fa-regular fa-fw fa-share-from-square"></i>', false);
+        $html->assertSee('<i class="fa-solid fa-fw fa-share-nodes"></i>', false);
         $html->assertSee('provider-ico', false);
         $html->assertSee('class="fa-group"', false);
         $html->assertSee('class="fa-secondary"', false);
+    }
+
+    public function test_the_inquiry_link_is_omitted_without_the_feedback_package()
+    {
+        $html = $this->blade('<x-ig::footer />');
+
+        $html->assertDontSee('data-testid="footer-inquiry-link"', false);
+        $html->assertDontSee(__('ig-common::layouts.inquiry.link'));
     }
 
     public function test_slot_content_is_rendered()

@@ -20,6 +20,18 @@
         :description="$feedbackDescription"
         :fields="$feedbackFields"
     />
+
+    @if ($inquiry)
+        <livewire:ig-feedback
+            :id="InternetGuru\LaravelCommon\View\Components\Footer::INQUIRY_FORM_ID"
+            :email="$inquiryEmail"
+            :name="$inquiryName"
+            :subject="$inquirySubject"
+            :title="$inquiryTitle"
+            :description="$inquiryDescription"
+            :fields="$inquiryFields"
+        />
+    @endif
 @endif
 
 <footer {{ $attributes->merge(['class' => 'container-fluid']) }} data-testid="footer">
@@ -56,7 +68,12 @@
         </ul>
 
         <ul class="list-inline">
-            <li class="list-inline-item"><x-ig::footer-copy /></li>
+            {{-- The inquiry link follows the copyright in the same sentence, so it must not be broken onto its own line. --}}
+            <li class="list-inline-item" data-testid="footer-copy"><x-ig::footer-copy />@if ($hasFeedback && $inquiry) <x-dynamic-component
+                    component="ig-feedback::link"
+                    :form-id="InternetGuru\LaravelCommon\View\Components\Footer::INQUIRY_FORM_ID"
+                    data-testid="footer-inquiry-link"
+                >{{ $inquiryLink }}</x-dynamic-component>@endif</li>
         </ul>
 
         @if ($generated)

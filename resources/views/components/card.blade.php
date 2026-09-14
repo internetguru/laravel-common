@@ -22,6 +22,11 @@
     {{ $slot }}
 
     @if ($link)
+        @if ($format)
+            {{-- Spelled out in the button's own label, so it is decorative here. --}}
+            <span class="card-format" aria-hidden="true">{{ $format }}</span>
+        @endif
+
         {{-- Covers the whole card, so a click anywhere but on a nested link follows it. --}}
         <a class="card-action" href="{{ $link }}" aria-label="{{ $linkLabel }}">
             <i class="{{ $icon }}" aria-hidden="true"></i>

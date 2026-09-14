@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Offer the "Want a website like this?" enquiry form from every footer, on the same line as the rights notice. Turn it off with `:inquiry="false"`, or reword it through the `inquiry-*` props.
+- Badge a card whose link opens a file with its type, read off the link's path - an extension, or a folder like arXiv's `/pdf/`. Set `format` where the URL gives nothing away, or `format=""` to leave the link unmarked.
+
+### Changed
+
+- Share a page under the share-nodes icon, so it is no longer mistaken for the links that open in a new window.
+- Drop the copyright notice from the footer, leaving the provider and the rights notice.
+
 ## [7.1.1] - 2026-09-10
 
 ### Fixed
@@ -1945,6 +1957,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
 [7.1.1]: https://https://github.com/internetguru/laravel-common/compare/v7.1.0...v7.1.1
 [7.1.0]: https://https://github.com/internetguru/laravel-common/compare/v7.0.1...v7.1.0
 [7.1.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v7.0.1

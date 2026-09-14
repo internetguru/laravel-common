@@ -14,6 +14,14 @@ $card-action-color: $white !default;
 $card-action-bg: $link-color !default;
 $card-action-bg-hover: shade-color($link-color, 25%) !default;
 
+/// The badge naming the file the button opens. It is tinted rather than filled,
+/// so it is read in the button's colour without competing with it.
+$card-format-color: $card-action-bg !default;
+$card-format-bg: rgba($card-action-bg, .14) !default;
+$card-format-bg-hover: rgba($card-action-bg, .22) !default;
+$card-format-size: 1.5rem !default;
+$card-format-gap: $spacer * .5 !default;
+
 /// The surface a `gray` card sits on.
 $card-gray-bg: $gray-100 !default;
 
@@ -49,7 +57,7 @@ $card-badge-dots: () !default;
     }
 
     // A full-bleed image keeps its own edge; the button moves onto it instead.
-    *:not(.card-image):has(+ .card-action) {
+    *:not(.card-image, .card-format):has(+ .card-action, + .card-format) {
         margin-bottom: .5em;
     }
 
@@ -148,6 +156,10 @@ $card-badge-dots: () !default;
         .card-action {
             background-color: $card-action-bg-hover;
         }
+
+        .card-format {
+            background-color: $card-format-bg-hover;
+        }
     }
 }
 
@@ -185,6 +197,30 @@ $card-badge-dots: () !default;
     }
 }
 
+/// The file a linked card leads to, named beside the button rather than in it,
+/// so the button stays the same shape whatever it opens. It carries the
+/// button's colour and deepens with it on hover, so the pair reads together
+/// without the label shouting as loudly as the control.
+.card-format {
+    position: absolute;
+    // Centred against the button rather than sat on its baseline.
+    bottom: $spacer + ($card-action-size - $card-format-size) * .5;
+    right: $spacer + $card-action-size + $card-format-gap;
+    display: inline-flex;
+    align-items: center;
+    height: $card-format-size;
+    padding: 0 .45em;
+    border-radius: .3125rem;
+    font-size: .75rem;
+    font-weight: $font-weight-bold;
+    line-height: 1;
+    letter-spacing: .04em;
+    color: $card-format-color;
+    background-color: $card-format-bg;
+    transition: background-color .2s ease;
+    pointer-events: none;
+}
+
 /// A card's contents as a picture. It reaches past the card's padding on every
 /// free side, so it meets the card's borders rather than floating inside them,
 /// which the card has to trim back to its own rounding.
@@ -215,7 +251,8 @@ $card-badge-dots: () !default;
 @media (prefers-reduced-motion: reduce) {
 
     .card,
-    .card-action {
+    .card-action,
+    .card-format {
         transition: none;
     }
 }
