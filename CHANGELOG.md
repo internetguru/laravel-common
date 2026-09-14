@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- A link with a leading icon gives the icon a box of a fixed width, so a row of them - a favicon, an inline SVG, a glyph - spaces its text the same way rather than by whatever each drawing happens to be wide.
 - A form sent twice in quick succession is dropped without a word: a double click is the browser repeating itself, not someone asking twice.
 - Someone signed in may repeat the same submission after ten seconds rather than a minute; staff enter the same amount from the same till as a matter of course. Both windows, and the one a double click falls inside, are configurable under `ig-common.duplicate_submissions`.
 - A submission refused as a repeat now reads "Please wait between form resubmissions."

@@ -24,16 +24,25 @@ mark {
 
 // Link with a leading icon: the icon is taken out of the flow so the link
 // underline (border-bottom) runs under the text only.
+//
+// The icon gets a box of its own, the width Font Awesome's fa-fw gives one, whatever
+// the icon actually is - a glyph, an inline SVG, a favicon. Without it the gap to the
+// text is whatever that particular drawing happens to be wide, and a row of links
+// reads as though each one were spaced by hand.
 a.link-ico {
     position: relative;
     margin-left: 1.6em;
 
     i,
-    svg {
+    svg,
+    img {
         position: absolute;
         left: -1.6em;
         top: 50%;
+        width: 1.25em;
+        max-height: 1.25em;
         transform: translateY(-50%);
+        object-fit: contain;
         vertical-align: middle;
     }
 }
