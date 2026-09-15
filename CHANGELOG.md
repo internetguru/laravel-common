@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [7.4.0] - 2026-09-15
+
+_Stable release based on [7.4.0-rc.1]._
+
+## [7.4.0-rc.1] - 2026-09-15
+
+### Changed
+
+- A link with a leading icon gives the icon a box of a fixed width, so a row of them - a favicon, an inline SVG, a glyph - spaces its text the same way rather than by whatever each drawing happens to be wide.
+- A form sent twice in quick succession is dropped without a word: a double click is the browser repeating itself, not someone asking twice.
+- Someone signed in may repeat the same submission after ten seconds rather than a minute; staff enter the same amount from the same till as a matter of course. Both windows, and the one a double click falls inside, are configurable under `ig-common.duplicate_submissions`.
+- A submission refused as a repeat now reads "Please wait between form resubmissions."
+
 ## [7.3.0] - 2026-09-14
 
 _Stable release based on [7.3.0-rc.1]._
@@ -1981,6 +1994,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[7.4.0]: https://https://github.com/internetguru/laravel-common/compare/v7.3.0...v7.4.0
+[7.4.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v7.3.0
 [7.3.0]: https://https://github.com/internetguru/laravel-common/compare/v7.2.1...v7.3.0
 [7.3.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v7.2.1
 [7.2.1]: https://https://github.com/internetguru/laravel-common/compare/v7.2.0...v7.2.1

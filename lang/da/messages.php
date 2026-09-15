@@ -3,7 +3,7 @@
 return [
 
     'inbox' => 'Indbakke',
-    'duplicate_submission' => 'Denne formular er allerede blevet indsendt for nylig.',
+    'duplicate_submission' => 'Vent venligst lidt mellem gentagne indsendelser af formularen.',
     'demo.warning' => '**Demotilstand**: Alle oplysninger er kun til illustration og kan ændres eller nulstilles når som helst.',
 
     'translated' => 'Oversat',

@@ -3,7 +3,7 @@
 return [
 
     'inbox' => 'Inbox',
-    'duplicate_submission' => 'This form has already been submitted recently.',
+    'duplicate_submission' => 'Please wait between form resubmissions.',
     'demo.warning' => '**Demo mode**: All information is for illustrative purposes only and may change or reset at any time.',
 
     'translated' => 'Translated',
