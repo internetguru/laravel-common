@@ -28,11 +28,15 @@ $ig-label-dot-size: .45em !default;
     // chip would push the whole row taller than its neighbours.
     white-space: nowrap;
 
+    // Laid out as an inline box of its own: width and height say nothing on a
+    // plain inline one, which would leave the dot with no size to be seen at.
     &::before {
         content: '';
-        flex: 0 0 auto;
+        display: inline-block;
+        vertical-align: middle;
         width: $ig-label-dot-size;
         height: $ig-label-dot-size;
+        margin-right: $ig-label-gap;
         border-radius: 50%;
         background-color: var(--ig-label-dot);
     }
@@ -46,7 +50,6 @@ $ig-label-dot-size: .45em !default;
         }
 
         i {
-            flex: 0 0 auto;
             color: var(--ig-label-dot);
         }
 
@@ -61,6 +64,7 @@ $ig-label-dot-size: .45em !default;
     &.ig-label-slim {
         padding: $ig-label-slim-padding;
 
+        &::before,
         svg {
             margin-right: $ig-label-slim-gap;
         }
