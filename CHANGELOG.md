@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- A label can be slim: the same chip with the padding cut down, for the places it is read inside a line of text.
+
 ## [7.4.0] - 2026-09-15
 
 _Stable release based on [7.4.0-rc.1]._
