@@ -907,6 +907,8 @@ The typographic cloud needs the `tagCloud` Alpine.js component, which `ig::commo
 <x-ig::label :text="$location->name" :seed="$location->name" />
 
 <x-ig::label text="Administrator" variant="danger" icon="fa-solid fa-user-gear" />
+
+<x-ig::label text="Hidden" variant="secondary" slim />
 ```
 
 | Prop | Default | Description |
@@ -916,10 +918,11 @@ The typographic cloud needs the `tagCloud` Alpine.js component, which `ig::commo
 | `color` | `null` | An explicit colour, taking precedence over the variant. A hex, `rgb()`, `hsl()` or `var()` notation. |
 | `seed` | the text | What the colour is derived from when neither a variant nor a colour is given. |
 | `icon` | `null` | Font Awesome classes of an icon shown in place of the dot. |
+| `slim` | `false` | Cuts the padding down, for a label read inside a line of text rather than in a column of its own. |
 
 A value with no variant of its own is given a colour derived from a hash of its seed, so it keeps the same colour wherever it is shown without anything having to be stored against it - which is what lets a label name a value read out of the database, such as a branch, and not only a case of an enum. The colours are drawn from twelve evenly spaced hues, so any two values are at least 30 degrees apart; two values out of a larger set will sometimes share one. Pass `seed` where the text is translated or may be renamed, so the colour holds: a backed enum should seed on its value, not on its label.
 
-An enum can render itself through the `HasLabel` contract and the `RendersLabel` trait, which gives it `toLabelHtml()`. The trait seeds the colour on the enum's backing value, so a translated label does not change it; override its `labelIcon()` to give the label an icon in place of the dot. That is what the places building their HTML in PHP need - a model browser column formatter above all, which is given the name of a function and echoes what it returns; `Label::html()` does the same for a value that is not an enum.
+An enum can render itself through the `HasLabel` contract and the `RendersLabel` trait, which gives it `toLabelHtml()`, taking the same `slim` flag. The trait seeds the colour on the enum's backing value, so a translated label does not change it; override its `labelIcon()` to give the label an icon in place of the dot. That is what the places building their HTML in PHP need - a model browser column formatter above all, which is given the name of a function and echoes what it returns; `Label::html()` does the same for a value that is not an enum.
 
 ```php
 enum OrderStatus: string implements HasLabel
