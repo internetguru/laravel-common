@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [7.5.0] - 2026-09-21
+
+_Stable release based on [7.5.0-rc.1]._
+
+## [7.5.0-rc.1] - 2026-09-21
+
+### Added
+
+- A label can be slim: the same chip with the padding cut down, for the places it is read inside a line of text.
+
 ## [7.4.0] - 2026-09-15
 
 _Stable release based on [7.4.0-rc.1]._
@@ -1994,6 +2004,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[7.5.0]: https://https://github.com/internetguru/laravel-common/compare/v7.4.0...v7.5.0
+[7.5.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v7.4.0
 [7.4.0]: https://https://github.com/internetguru/laravel-common/compare/v7.3.0...v7.4.0
 [7.4.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v7.3.0
 [7.3.0]: https://https://github.com/internetguru/laravel-common/compare/v7.2.1...v7.3.0

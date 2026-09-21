@@ -79,6 +79,20 @@ class LabelTest extends TestCase
         $html->assertSee('<i class="fa-solid fa-user-gear" aria-hidden="true">', false);
     }
 
+    public function test_a_slim_label_is_marked_as_one()
+    {
+        $html = $this->blade('<x-ig::label text="Hidden" slim />');
+
+        $html->assertSee('class="ig-label ig-label-slim"', false);
+    }
+
+    public function test_a_label_is_not_slim_unless_it_is_asked_for()
+    {
+        $html = $this->blade('<x-ig::label text="Hidden" />');
+
+        $html->assertDontSee('ig-label-slim', false);
+    }
+
     private function dotColorOf(string $html): string
     {
         preg_match('/--ig-label-dot: ([^"]+)"/', $html, $matches);

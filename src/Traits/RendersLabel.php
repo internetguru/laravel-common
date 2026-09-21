@@ -11,13 +11,14 @@ use InternetGuru\LaravelCommon\View\Components\Label;
  */
 trait RendersLabel
 {
-    public function toLabelHtml(): string
+    public function toLabelHtml(bool $slim = false): string
     {
         return Label::html(
             $this->label(),
             variant: $this->variant(),
             seed: $this->labelSeed(),
             icon: $this->labelIcon(),
+            slim: $slim,
         );
     }
 

@@ -54,6 +54,7 @@ class Label extends Component
      * @param  string|null  $color  An explicit colour, taking precedence over the variant.
      * @param  string|null  $seed  What the colour is derived from when neither a variant nor a colour is given; the text by default.
      * @param  string|null  $icon  Font Awesome classes of an icon shown in place of the dot.
+     * @param  bool  $slim  Cut the padding down, for a label read inside a line of text.
      */
     public function __construct(
         public ?string $text = null,
@@ -61,6 +62,7 @@ class Label extends Component
         ?string $color = null,
         ?string $seed = null,
         public ?string $icon = null,
+        public bool $slim = false,
     ) {
         $this->dotColor = $this->dotColor($variant, $color, $seed ?? $text ?? '');
         $this->iconMarkup = $icon === null ? '' : sprintf('<i class="%s" aria-hidden="true"></i>', e($icon));
@@ -77,8 +79,9 @@ class Label extends Component
         ?string $color = null,
         ?string $seed = null,
         ?string $icon = null,
+        bool $slim = false,
     ): string {
-        $label = new self($text, $variant, $color, $seed, $icon);
+        $label = new self($text, $variant, $color, $seed, $icon, $slim);
 
         return Blade::renderComponent($label->withAttributes([]));
     }
