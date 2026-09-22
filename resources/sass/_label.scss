@@ -49,7 +49,10 @@ $ig-label-dot-size: .45em !default;
             content: none;
         }
 
-        i {
+        // Font Awesome swaps the `i` out for an `svg` once its script runs, so
+        // both have to be named or the icon loses its colour on load.
+        i,
+        svg {
             color: var(--ig-label-dot);
         }
 
