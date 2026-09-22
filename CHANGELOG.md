@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- A notification records the account it was raised for whichever shape that account's key takes, so an application that keys accounts by something other than a number can still send one.
+
 ## [7.5.1] - 2026-09-21
 
 ### Fixed

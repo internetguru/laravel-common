@@ -25,7 +25,13 @@ abstract class BaseNotification extends Notification implements ShouldQueue
 
     public ?string $timezone;
 
-    public ?int $userId;
+    /**
+     * The key of the account the notification was raised for.
+     *
+     * An application may key its accounts by an auto-incrementing id or by a
+     * string such as a ULID, and this is whatever auth()->id() returned.
+     */
+    public int|string|null $userId;
 
     public ?string $url = null;
 
