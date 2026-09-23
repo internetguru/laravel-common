@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [7.7.1] - 2026-09-23
+
 ### Fixed
 
 - A file set on a Livewire component in a test is uploaded instead of being rejected as a malformed payload.
@@ -2047,6 +2049,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[7.7.1]: https://https://github.com/internetguru/laravel-common/compare/v7.7.0...v7.7.1
 [7.7.0]: https://https://github.com/internetguru/laravel-common/compare/v7.6.1...v7.7.0
 [7.7.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v7.6.1
 [7.6.1]: https://https://github.com/internetguru/laravel-common/compare/v7.6.0...v7.6.1
