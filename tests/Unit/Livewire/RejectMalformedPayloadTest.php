@@ -2,7 +2,9 @@
 
 namespace Tests\Unit\Livewire;
 
+use Illuminate\Http\UploadedFile;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\Livewire;
 use Livewire\WithFileUploads;
 use Tests\TestCase;
@@ -117,6 +119,15 @@ class RejectMalformedPayloadTest extends TestCase
         Livewire::test(UploadComponent::class)
             ->call('_startUpload', 'photo', [['name' => 'a.png', 'size' => 100, 'type' => 'image/png']], false)
             ->assertDispatched('upload:generatedSignedUrl');
+    }
+
+    public function test_a_file_set_in_a_test_is_uploaded()
+    {
+        $photo = Livewire::test(UploadComponent::class)
+            ->set('photo', UploadedFile::fake()->create('a.pdf', 10))
+            ->get('photo');
+
+        $this->assertInstanceOf(TemporaryUploadedFile::class, $photo);
     }
 
     public function test_unrelated_method_calls_are_left_alone()
