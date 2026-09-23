@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- A file set on a Livewire component in a test is uploaded instead of being rejected as a malformed payload.
+
 ## [7.7.0] - 2026-09-23
 
 _Stable release based on [7.7.0-rc.1]._

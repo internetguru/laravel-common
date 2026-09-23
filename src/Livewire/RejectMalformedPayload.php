@@ -2,6 +2,7 @@
 
 namespace InternetGuru\LaravelCommon\Livewire;
 
+use Illuminate\Support\Collection;
 use InternetGuru\LaravelCommon\Exceptions\BotPayloadException;
 use Livewire\ComponentHook;
 
@@ -161,7 +162,8 @@ class RejectMalformedPayload extends ComponentHook
         }
 
         return match ($type) {
-            'array' => is_array($value),
+            // Livewire's test helper passes the stored uploads as a Collection; JSON never decodes to one.
+            'array' => is_array($value) || $value instanceof Collection,
             'string' => is_string($value),
             default => false,
         };
