@@ -2,8 +2,10 @@
 
     &:focus {
             box-shadow: none;
-            outline: 0.25rem solid rgba(13, 110, 253, 0.25);
-            outline-offset: -0.25em;
+            outline: 0.25rem solid $input-btn-focus-color;
+            // In rem like the ring itself: in em a field with a larger font insets the ring past its
+            // own width and leaves a gap inside the border, which reads as a second outline.
+            outline-offset: -0.25rem;
     }
 
     &.is-invalid {
