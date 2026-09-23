@@ -72,6 +72,8 @@
                 'password' => 'current-password',
                 default => 'off',
             };
+            $inputValue = old($name) ?? $value ?? '';
+            $isEmptyDate = in_array($type, ['date', 'datetime-local', 'month', 'week', 'time']) && (string) $inputValue === '';
         @endphp
         <input
             type="{{ $type }}"
@@ -79,7 +81,8 @@
             name="{{ $name }}"
             placeholder="{{ $slot }}"
             data-testid="input-{{ $id }}"
-            @if ($type !== 'password') value="{{ old($name) ?? $value ?? '' }}" @endif
+            @if ($type !== 'password') value="{{ $inputValue }}" @endif
+            @if ($isEmptyDate) data-empty @endif
             @if ($disabled) disabled @endif
             {{ $attributes->merge(['autocomplete' => $autocomplete, 'class' => 'form-control' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
         />

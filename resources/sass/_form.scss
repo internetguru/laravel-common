@@ -12,3 +12,16 @@
     }
 
 }
+
+// An empty date-like input rests its floating label like an empty text input; data-empty comes from date-placeholder.js
+.form-floating > .form-control[data-empty]:not(:focus) {
+    color: transparent;
+
+    &::-webkit-datetime-edit {
+        color: transparent;
+    }
+
+    ~ label {
+        transform: none;
+    }
+}
