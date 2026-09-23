@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Guidelines for AI agents: `php artisan boost:update` adds how to use this package to the instructions of an application using Laravel Boost.
 
+### Fixed
+
+- The form example in the readme uses the `select` input type with `options`, which the component supports, instead of the `option` type it never had.
+
 ## [7.6.1] - 2026-09-22
 
 ### Fixed
