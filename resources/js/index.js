@@ -4,6 +4,7 @@ import clearable from './clearable';
 import cardRow from './card-row';
 import tagCloud from './tag-cloud';
 import registerLivewireErrorHandling from './livewire-error-handling';
+import registerDatePlaceholders from './date-placeholder';
 
 // Set up for Alpine.js
 document.addEventListener('alpine:init', () => {
@@ -15,5 +16,6 @@ document.addEventListener('alpine:init', () => {
 });
 
 registerLivewireErrorHandling();
+registerDatePlaceholders();
 
 export { initEditable, print, clearable, cardRow, tagCloud };
