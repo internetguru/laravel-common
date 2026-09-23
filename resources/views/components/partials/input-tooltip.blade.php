@@ -10,4 +10,4 @@
     data-bs-title="{{ $text }}"
     x-data
     x-on:click.prevent
-><i class="fa-solid fa-circle-info" aria-hidden="true"></i></span>
+><i class="fa-regular fa-circle-question" aria-hidden="true"></i></span>
