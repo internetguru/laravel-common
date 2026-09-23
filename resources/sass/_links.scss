@@ -6,7 +6,7 @@ a {
     color: rgba(var(--link-color), 1);
 
     &[href] {
-        border-bottom: 1px solid rgba(var(--link-color), 0.5);
+        border-bottom: thin solid rgba(var(--link-color), 0.5);
     }
 
     &[href="#"] {
