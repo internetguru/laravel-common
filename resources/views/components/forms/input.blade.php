@@ -10,6 +10,7 @@
     'checked' => false,
     'clearable' => true,
     'showError' => true,
+    'tooltip' => null,
 ])
 
 @php
@@ -17,11 +18,14 @@
     // only the element id has to tell them apart. It follows the field name unless the
     // caller has something more specific to say.
     $id = $id ?? $name;
+    // Other types have nothing to clear. They keep an Alpine scope all the same, which Alpine
+    // directives passed to the field may rely on outside a Livewire component.
+    $hasClearButton = in_array($type, ['text', 'search', 'email', 'url', 'tel', 'password', 'textarea']);
 @endphp
 
 <div
     @class(["mt-3", "form-floating" => $type !== "checkbox"])
-    @if($clearable) x-data="clearable" @endif
+    @if($clearable) x-data="{{ $hasClearButton ? 'clearable' : '' }}" @endif
 >
     @if ($type === 'textarea')
         <textarea
@@ -55,6 +59,7 @@
                 @endif
             @endforeach
         </select>
+        <span class="select-arrow" aria-hidden="true">▼</span>
     @elseif ($type == 'checkbox')
         <label><input
             type="{{ $type }}"
@@ -64,7 +69,7 @@
             @if (old($name) ?? $checked) checked @endif
             @if ($disabled) disabled @endif
             {{ $attributes->merge(['class' => 'form-check-input me-2' . ((isset($errors) && $errors->has($name)) ? ' is-invalid' : '')]) }}
-        />{{ $slot }}</label>
+        />{{ $slot }}@if ($tooltip)@include('ig-common::components.partials.input-tooltip', ['text' => $tooltip])@endif</label>
     @else
         @php
             $autocomplete = match($type) {
@@ -89,7 +94,7 @@
     @endif
     @if ($type !== 'hidden')
         @if ($type !== 'checkbox')
-            <label for="{{ $id }}">{{ $slot }}@if($type == 'select')<span>▼</span>@endif</label>
+            <label for="{{ $id }}">{{ $slot }}@if ($tooltip)@include('ig-common::components.partials.input-tooltip', ['text' => $tooltip])@endif</label>
         @endif
         @if ($showError)
             @error($name)
