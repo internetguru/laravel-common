@@ -39,7 +39,7 @@ class InputTest extends TestCase
 
         $html = $this->blade('<x-ig::input type="text" name="title" tooltip="Not printed on the card">Title</x-ig::input>');
 
-        $html->assertSeeInOrder(['<label for="title">', 'Title', 'class="input-tooltip"', 'data-bs-title="Not printed on the card"', '</label>'], false);
+        $html->assertSeeInOrder(['<label for="title">', 'Title', 'class="input-tooltip"', 'data-bs-title="Not printed on the card"', 'fa-regular fa-circle-question', '</label>'], false);
     }
 
     public function test_checkbox_tooltip_marker_follows_the_label_text()

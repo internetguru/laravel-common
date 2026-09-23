@@ -646,7 +646,7 @@ $this->dispatch('ig-message', type: 'danger', message: 'Something went wrong.');
 Notes:
 
 - The [Google reCAPTCHA V3](https://developers.google.com/recaptcha/docs/v3) service is enabled by default. To disable it, set the `recaptcha` attribute to `false`.
-- `tooltip="…"` on `x-ig::input` puts an info icon after the label, which shows the text in a tooltip on hover, focus or tap. The application initialises Bootstrap tooltips on `[data-bs-toggle="tooltip"]` and registers Font Awesome's `faCircleInfo`.
+- `tooltip="…"` on `x-ig::input` puts an info icon after the label, which shows the text in a tooltip on hover, focus or tap. The icon is an outlined question mark: the application initialises Bootstrap tooltips on `[data-bs-toggle="tooltip"]` and registers `faCircleQuestion` from `@fortawesome/free-regular-svg-icons`.
 
 Complete example:
 

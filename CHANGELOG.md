@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [7.8.1] - 2026-09-23
+
+### Changed
+
+- Field focus rings take the theme's primary colour instead of Bootstrap's default blue.
+- The `x-ig::input` tooltip icon is an outlined question mark (`fa-regular fa-circle-question`); register `faCircleQuestion` from `@fortawesome/free-regular-svg-icons` in place of `faCircleInfo`.
+
+### Fixed
+
+- A field's focus ring sits flush inside its border whatever the field's font size; a larger font left a gap that read as a second outline.
+
 ## [7.8.0] - 2026-09-23
 
 _Stable release based on [7.8.0-rc.1]._
@@ -2080,6 +2091,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[7.8.1]: https://https://github.com/internetguru/laravel-common/compare/v7.8.0...v7.8.1
 [7.8.0]: https://https://github.com/internetguru/laravel-common/compare/v7.7.3...v7.8.0
 [7.8.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v7.7.3
 [7.7.3]: https://https://github.com/internetguru/laravel-common/compare/v7.7.2...v7.7.3
