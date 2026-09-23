@@ -646,12 +646,14 @@ $this->dispatch('ig-message', type: 'danger', message: 'Something went wrong.');
 Notes:
 
 - The [Google reCAPTCHA V3](https://developers.google.com/recaptcha/docs/v3) service is enabled by default. To disable it, set the `recaptcha` attribute to `false`.
+- `tooltip="…"` on `x-ig::input` puts an info icon after the label, which shows the text in a tooltip on hover, focus or tap. The application initialises Bootstrap tooltips on `[data-bs-toggle="tooltip"]` and registers Font Awesome's `faCircleInfo`.
 
 Complete example:
 
 ```html
 <x-ig::form :action="route('test')" :recaptcha="false">
     <x-ig::input type="text" name="name" required>Name</x-ig::input>
+    <x-ig::input type="email" name="email" tooltip="Used only to send the receipt.">Email</x-ig::input>
     <x-ig::input type="select" name="simple-options" :options="['a', 'b', 'c']">Simple Options</x-ig::input>
     <x-ig::input type="select" name="keyed-options" :options="['a' => 'Option A', 'b' => 'Option B']" useoptionkeys>Keyed Options</x-ig::input>
     <x-ig::input type="select" name="advanced-options" value="2" :options="[

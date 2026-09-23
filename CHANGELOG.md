@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `x-ig::input` takes a `tooltip` attribute, shown as an info icon after the label.
+
+### Changed
+
+- The arrow of an `x-ig::input` select sits at the field's right-hand edge instead of after its label.
+
+### Fixed
+
+- A read-only `x-ig::input` field has no clear button.
+- A select, checkbox or other field with nothing to clear logs no console warning.
+
 ## [7.7.3] - 2026-09-23
 
 ### Changed

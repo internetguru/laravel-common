@@ -2,6 +2,8 @@ export default () => ({
     input: null,
     clearButton: null,
     _inputHandler: null,
+    _navigatedHandler: null,
+    _updatedHandler: null,
     _isUpdating: false,
 
     init() {
@@ -19,7 +21,7 @@ export default () => ({
             console.warn('Clearable: No suitable input found');
             return;
         }
-        if (this.input.disabled) {
+        if (this.input.disabled || this.input.readOnly) {
             if (this.clearButton && this.$el.contains(this.clearButton)) {
                 this.clearButton.style.display = 'none';
             }
@@ -82,15 +84,15 @@ export default () => ({
     },
 
     setupLivewireListeners() {
-        document.addEventListener('livewire:navigated', () => {
-            this.setupClearable();
-        });
-
-        document.addEventListener('livewire:updated', (event) => {
+        // Kept so destroy() can remove them; otherwise every field Livewire swaps out leaves one behind
+        this._navigatedHandler = () => this.setupClearable();
+        this._updatedHandler = (event) => {
             if (this.$el.contains(event.detail.component.el) || event.detail.component.el.contains(this.$el)) {
                 this.setupClearable();
             }
-        });
+        };
+        document.addEventListener('livewire:navigated', this._navigatedHandler);
+        document.addEventListener('livewire:updated', this._updatedHandler);
 
         // Use MutationObserver only as a safety net for when Livewire
         // removes the button during DOM morphing
@@ -120,7 +122,8 @@ export default () => ({
         if (this.clearButton) {
             const shouldShow = this.input
                 && this.input.value.length > 0
-                && !this.input.disabled;
+                && !this.input.disabled
+                && !this.input.readOnly;
             this.clearButton.style.display = shouldShow ? 'block' : 'none';
             if (this.input) {
                 this.input.style.paddingRight = shouldShow ? '2em' : '';
@@ -129,6 +132,8 @@ export default () => ({
     },
 
     destroy() {
+        document.removeEventListener('livewire:navigated', this._navigatedHandler);
+        document.removeEventListener('livewire:updated', this._updatedHandler);
         if (this._observer) {
             this._observer.disconnect();
         }

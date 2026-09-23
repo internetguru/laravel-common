@@ -25,3 +25,34 @@
         transform: none;
     }
 }
+
+// The marker follows the label's text. A floating label lets clicks through to its field, so the
+// marker takes them back to be hovered, focused or tapped.
+.input-tooltip {
+    display: inline-block;
+    margin-left: 0.35em;
+    pointer-events: auto;
+    cursor: help;
+}
+
+.form-floating {
+    // A select's arrow sits at the control's right-hand edge, where a text field's clear button
+    // does, rather than after the label, which the tooltip marker follows.
+    > .select-arrow {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        height: $form-floating-height;
+        padding: 0 $form-floating-padding-x;
+        color: var(--#{$prefix}secondary-color);
+        pointer-events: none;
+    }
+
+    // Keep a long option from running under the arrow.
+    > select.form-control {
+        padding-right: 2.5rem;
+    }
+}
