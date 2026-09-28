@@ -504,8 +504,9 @@ For full implementation details, see the [Helpers](src/Support/Helpers.php) clas
 
 | Macro | Description |
 | --- | --- |
-| `Number::currencyForHumans($number, $in, $precision)` | Formats a number as a locale-aware currency string. Returns the currency symbol if no number is provided. |
-| `Number::formatCurrencyToInput($number, $in, $precision, $inputTemplate)` | Formats a number for use inside an input field with a currency symbol. |
+| `Number::currencySymbol($in, $locale)` | The symbol of a currency as the locale writes it. Defaults to `Number::defaultCurrency()` and `Number::defaultLocale()`. |
+
+`Number::defaultLocale()` follows the application's locale: the package sets it on boot and on every `app()->setLocale()`, so `Number::format()`, `Number::currency()` and the other `Number` methods format in the current language.
 
 ### Carbon Macros
 
@@ -522,19 +523,19 @@ Example usage:
 
 ```php
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Number;
+use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
 echo Str::ref(6);
 // Output: "k3mhpq"
 
 Number::useCurrency('USD');
-echo Number::currencyForHumans(1234);
-// Output (en_US locale): $1,234
-echo Number::currencyForHumans();
-// Output (en_US locale): $
-echo Number::currencyForHumans(1234.567, in: 'EUR', precision: 2);
-// Output (en_US locale): €1,234.57
+echo Number::currency(1234, precision: 0);
+// Output (en locale): $1,234
+echo Number::currencySymbol();
+// Output (en locale): $
+echo Number::currencySymbol('CZK', 'cs');
+// Output: Kč
 
 $date = Carbon::parse('2023-12-31');
 echo $date->dateForHumans();

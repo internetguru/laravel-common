@@ -3,11 +3,13 @@
 namespace InternetGuru\LaravelCommon;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Foundation\Events\LocaleUpdated;
 use Illuminate\Notifications\Events\NotificationSent;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Validator as ValidatorInstance;
 use InternetGuru\LaravelCommon\Exceptions\Handler;
@@ -185,6 +187,9 @@ class CommonServiceProvider extends ServiceProvider
     private function registerEvents(): void
     {
         Event::listen(NotificationSent::class, [LogSentNotification::class, 'handle']);
+
+        Number::useLocale($this->app->getLocale());
+        Event::listen(LocaleUpdated::class, fn (LocaleUpdated $event) => Number::useLocale($event->locale));
     }
 
     private function registerValidationRules(): void
