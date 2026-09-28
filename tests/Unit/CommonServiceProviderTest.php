@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Number;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -32,6 +33,14 @@ class CommonServiceProviderTest extends TestCase
 
         // Verify that Livewire is available
         $this->assertTrue(class_exists(\Livewire\Livewire::class));
+    }
+
+    public function test_number_follows_the_app_locale()
+    {
+        app()->setLocale('cs');
+
+        $this->assertSame('cs', Number::defaultLocale());
+        $this->assertSame("1\u{A0}234", Number::format(1234));
     }
 
     public function test_web_routes_are_loaded()

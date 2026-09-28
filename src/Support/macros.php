@@ -101,33 +101,12 @@ function initStringMacros()
 
 function initNumberMacros()
 {
-    // Return number formatted to currency with input
-    Number::macro('formatCurrencyToInput', function (mixed $number, ?string $in = null, int $precision = 0, string $inputTemplate = '%s'): string {
-        $formattedNumber = Number::currencyForHumans($number, $in ?? Number::$currency, $precision);
-        $formattedNumber = preg_replace('/\xc2\xa0|[, .]/', '', $formattedNumber);
+    // The symbol of a currency as the locale writes it, e.g. "Kč" for CZK in Czech
+    Number::macro('currencySymbol', function (?string $in = null, ?string $locale = null): string {
+        $formatter = new NumberFormatter($locale ?? Number::defaultLocale(), NumberFormatter::CURRENCY);
+        $formatter->setTextAttribute(NumberFormatter::CURRENCY_CODE, $in ?? Number::defaultCurrency());
 
-        // return $input Kč
-        // return CZK $input
-        $inputWithNumber = sprintf($inputTemplate, $number);
-
-        return preg_replace('/\d+/', $inputWithNumber, $formattedNumber);
-    });
-
-    // Return number formatted to currency
-    // Or return currency symbol if no number is provided
-    Number::macro('currencyForHumans', function (mixed $number = null, ?string $in = null, int $precision = 0): string {
-        $formatter = new NumberFormatter(app()->getLocale(), NumberFormatter::CURRENCY);
-
-        if (is_null($number)) {
-            $formatter->setTextAttribute(NumberFormatter::CURRENCY_CODE, $in ?? Number::$currency);
-
-            return $formatter->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
-        }
-
-        $number = (float) $number;
-        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $precision);
-
-        return $formatter->formatCurrency($number, $in ?? Number::$currency);
+        return $formatter->getSymbol(NumberFormatter::CURRENCY_SYMBOL);
     });
 }
 

@@ -18,13 +18,6 @@ class MacrosTest extends TestCase
         initCarbonMacros();
     }
 
-    public function test_number_currency_for_humans_macro_exists()
-    {
-        // Test that the macro is registered
-        $this->assertTrue(Number::hasMacro('currencyForHumans'));
-        $this->assertTrue(Number::hasMacro('formatCurrencyToInput'));
-    }
-
     public function test_carbon_date_for_humans()
     {
         $date = Carbon::parse('2024-01-15');
@@ -156,19 +149,14 @@ class MacrosTest extends TestCase
         Str::ref(1);
     }
 
-    public function test_number_currency_for_humans_returns_symbol_without_number()
+    public function test_number_currency_symbol_follows_the_locale()
     {
-        Number::useCurrency('USD');
-        $symbol = Number::currencyForHumans();
-        $this->assertIsString($symbol);
-        $this->assertNotEmpty($symbol);
+        $this->assertSame('Kč', Number::currencySymbol('CZK', 'cs'));
+        $this->assertSame('CZK', Number::currencySymbol('CZK', 'en'));
     }
 
-    public function test_number_currency_for_humans_formats_number()
+    public function test_number_currency_symbol_defaults_to_the_number_currency_and_locale()
     {
-        Number::useCurrency('USD');
-        $result = Number::currencyForHumans(1000);
-        $this->assertIsString($result);
-        $this->assertStringContainsString('1', $result);
+        Number::withLocale('cs', fn () => Number::withCurrency('EUR', fn () => $this->assertSame('€', Number::currencySymbol())));
     }
 }

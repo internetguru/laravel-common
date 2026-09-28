@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- `Number::currencySymbol($in, $locale)` returns a currency's symbol as the locale writes it, e.g. `Kč` for CZK in Czech.
+
+### Changed
+
+- `Number` formats in the application's locale: it follows `app()->setLocale()` instead of staying on `en`.
+
+### Removed
+
+- **Breaking:** `Number::currencyForHumans()` is gone; use `Number::currency($number, $in, precision: …)` and pass the precision explicitly (the macro defaulted to 0), or `Number::currencySymbol()` for the symbol alone.
+- **Breaking:** `Number::formatCurrencyToInput()` is gone.
+
 ## [7.8.1] - 2026-09-23
 
 ### Changed
@@ -2088,6 +2103,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
 [7.8.1]: https://https://github.com/internetguru/laravel-common/compare/v7.8.0...v7.8.1
 [7.8.0]: https://https://github.com/internetguru/laravel-common/compare/v7.7.3...v7.8.0
 [7.8.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v7.7.3
