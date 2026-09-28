@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `Number::currencySymbol($in, $locale)` returns a currency's symbol as the locale writes it, e.g. `Kč` for CZK in Czech.
+
+### Changed
+
+- `Number` formats in the application's locale: it follows `app()->setLocale()` instead of staying on `en`.
+
+### Removed
+
+- **Breaking:** `Number::currencyForHumans()` is gone; use `Number::currency($number, $in, precision: …)` and pass the precision explicitly (the macro defaulted to 0), or `Number::currencySymbol()` for the symbol alone.
+- **Breaking:** `Number::formatCurrencyToInput()` is gone.
+
 ## [7.8.1] - 2026-09-23
 
 ### Changed

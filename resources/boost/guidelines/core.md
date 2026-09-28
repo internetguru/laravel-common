@@ -33,6 +33,6 @@ Shared foundation of every Internet Guru application: Blade components, input sa
 ## Helpers
 
 - `Ulid32` trait on models: `ulidForHumans()`, `shortUlidForHumans()`, `ulidUrl()`, `ulidLink()`. Validate ULIDs with the `ulid32` rule or `new Ulid32`.
-- Macros: `Str::ref()`, `Number::currencyForHumans()`, `$date->dateForHumans()`, `dateTimeForHumans()`, `timeForHumans()`, `toDisplayTimezone()`.
+- Macros: `Str::ref()`, `Number::currencySymbol()`, `$date->dateForHumans()`, `dateTimeForHumans()`, `timeForHumans()`, `toDisplayTimezone()`. `Number` follows the app locale, so format money with `Number::currency($amount, precision: …)`.
 - Notifications extend `BaseNotification` (queued, retried) and build mail with `InternetGuru\LaravelCommon\Mail\MailMessage`. Sent mail is logged to `mail_logs`.
 - `AssociationHistory` trait plus `$associationHistoryTracked` records field changes, shown by `<x-ig::association-history :model="…" />`.
