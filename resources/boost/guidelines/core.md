@@ -19,7 +19,7 @@ Shared foundation of every Internet Guru application: Blade components, input sa
 ## Input sanitization
 
 - Every validation (`$request->validate()`, Livewire `$this->validate()`, `validator()`) sanitizes input first, driven by `config/ig-common.php` → `sanitize`. That is why applications validate in controllers and Livewire components without Form Requests.
-- **A new input field must resolve to a pipeline.** It is matched by field name (exact or glob such as `*_email`) or by one of its validation rules. Otherwise `UnmappedInputException` is thrown while `APP_DEBUG` is on, and the `strict` pipeline plus a log entry apply in production. When adding a field whose name and rules don't identify it, add it to `sanitize.types`.
+- **A new input field must resolve to a pipeline.** It is matched by field name (exact or glob such as `*_email`) or by one of its validation rules. Otherwise `UnmappedInputException` is thrown while `APP_DEBUG` is on, and the `strict` pipeline plus a log entry apply in production. When adding a field whose name and rules don't identify it, add it to `sanitize.types`. Requests matching `sanitize.except_paths` (the debugbar's `_debugbar/*` by default) are left alone.
 - Livewire components with dynamic property names use the `SanitizesInput` trait (`sanitizeTypes()`), and read the cleaned values from what `validate()` returns.
 - Passwords, `_token` and `#[Locked]` properties are never touched.
 

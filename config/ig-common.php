@@ -69,6 +69,14 @@ return [
             'g-recaptcha-response',
         ],
 
+        // Requests whose input is never sanitized nor reported, as request
+        // path patterns (`$request->is()`). Development tools validate their
+        // own machine values, such as the debugbar's `?type=js` for its
+        // scripts; reporting them as unmapped would break the tool itself.
+        'except_paths' => [
+            '_debugbar/*',
+        ],
+
         // Named pipelines. A bare name used inside a pipeline expands to that
         // pipeline's operations, so 'base' composes into the others. An entry
         // may also be an invokable class or any callable, which is how an app

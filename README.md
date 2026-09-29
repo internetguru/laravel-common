@@ -331,6 +331,7 @@ Names are matched before rules because a name is usually more specific - `last_n
 ### What is never touched
 
 - **`sanitize.except`** - matched on the whole path or on any segment, so `password` also covers `user.password`. It ships with the password fields plus `_token`, `_method`, `_previous` and `g-recaptcha-response`: machine-generated values that carry a signature or address the framework itself, where normalizing can only break them.
+- **`sanitize.except_paths`** - whole requests, as path patterns for `$request->is()`. It ships with `_debugbar/*`: the debugbar validates its own machine values, such as `?type=js` for its scripts, and reporting them as unmapped would keep it from loading.
 - **`#[Locked]` Livewire properties** - a locked property cannot be written by the client, so it holds what the server put there. Sanitizing it would rewrite the application's own configuration, and reporting it would bury the fields that really do come from a form. `laravel-model-browser` alone carries sixteen locked properties against four writable ones.
 - **Anything that is not a string** - arrays are walked into, and everything else passes through.
 
