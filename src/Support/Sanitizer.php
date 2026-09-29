@@ -93,7 +93,7 @@ class Sanitizer
      */
     public function changes(array $data, array $rules = [], array $map = [], array $ignore = []): array
     {
-        if (! config('ig-common.sanitize.enabled', true)) {
+        if (! $this->isActive()) {
             return [];
         }
 
@@ -109,6 +109,21 @@ class Sanitizer
         );
 
         return $changes;
+    }
+
+    /**
+     * Whether this request's input is sanitized: sanitization is on and the
+     * request is not one of `sanitize.except_paths`.
+     */
+    private function isActive(): bool
+    {
+        if (! config('ig-common.sanitize.enabled', true)) {
+            return false;
+        }
+
+        $paths = (array) config('ig-common.sanitize.except_paths', ['_debugbar/*']);
+
+        return $paths === [] || ! request()->is(...$paths);
     }
 
     /**
@@ -246,7 +261,7 @@ class Sanitizer
      */
     public function changesFor(array $data, array $map): array
     {
-        if (! config('ig-common.sanitize.enabled', true)) {
+        if (! $this->isActive()) {
             return [];
         }
 
