@@ -2,7 +2,9 @@
 
 namespace Tests\Unit\Support;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use InternetGuru\LaravelCommon\Exceptions\UnmappedInputException;
 use InternetGuru\LaravelCommon\Support\Sanitizer;
 use Tests\TestCase;
@@ -80,6 +82,24 @@ class UnmappedInputTest extends TestCase
 
         $this->assertSame('  secret  ', $result['password']);
         $this->assertSame(7, $result['undeclared_count']);
+    }
+
+    public function test_the_debugbar_requests_are_neither_sanitized_nor_reported()
+    {
+        config(['app.debug' => true]);
+        Route::get('_debugbar/assets', fn (Request $request) => $request->validate(['type' => 'required|in:js,css'])['type']);
+
+        $this->get('_debugbar/assets?type=js')->assertOk()->assertSee('js');
+    }
+
+    public function test_a_request_path_can_be_excepted()
+    {
+        config(['app.debug' => true, 'ig-common.sanitize.except_paths' => ['webhooks/*']]);
+        $this->app->instance('request', Request::create('/webhooks/payment'));
+
+        $result = (new Sanitizer)->sanitize(['nickname_of_pet' => ' a ']);
+
+        $this->assertSame(' a ', $result['nickname_of_pet']);
     }
 
     public function test_nothing_is_reported_when_the_feature_is_disabled()
