@@ -12,7 +12,6 @@ use Illuminate\Validation\ValidationException;
 use InternetGuru\LaravelCommon\Exceptions\BotPayloadException;
 use InternetGuru\LaravelCommon\Exceptions\DbReadOnlyException;
 use InternetGuru\LaravelCommon\Exceptions\Handler;
-use Livewire\Component;
 use Livewire\Exceptions\ComponentNotFoundException;
 use Livewire\Exceptions\MissingRulesException;
 use Livewire\Features\SupportFileUploads\MissingFileUploadsTraitException;
@@ -295,21 +294,16 @@ class HandlerTest extends TestCase
     }
 
     /**
-     * A typed property with no default stays uninitialized after hydration -
-     * Livewire skips null snapshot values for typed properties - and
-     * expandConsolidatedFormObjectUpdates then reads it before any update hook
-     * can run. So this one is classified by where it was raised rather than
-     * prevented at the point of entry.
+     * A typed property with no default stayed uninitialized after hydration
+     * (Livewire below 4.4.7 skipped null snapshot values for typed properties),
+     * and expandConsolidatedFormObjectUpdates then read it before any update
+     * hook could run. Such errors are classified by where they were raised, so
+     * the test raises one there instead of depending on that Livewire bug.
      */
     public function test_a_raw_error_from_livewire_internals_is_demoted_to_debug()
     {
-        try {
-            Livewire::test(UninitializedTypedPropertyStub::class)->set('anonymous', []);
-            $this->fail('Expected Livewire to raise the uninitialized typed property error.');
-        } catch (\Error $e) {
-            $this->assertStringContainsString('must not be accessed before initialization', $e->getMessage());
-            $this->assertStringContainsString('/livewire/livewire/src/', $e->getFile());
-        }
+        $e = new \Error('Typed property UninitializedTypedPropertyStub::$anonymous must not be accessed before initialization');
+        (new \ReflectionProperty(\Error::class, 'file'))->setValue($e, (new \ReflectionClass(Livewire::class))->getFileName());
 
         Log::spy();
 
@@ -368,19 +362,5 @@ class NamedComponentStub
     public function getName(): string
     {
         return 'order-create';
-    }
-}
-
-/**
- * Mirrors the shape that produced the error in production: a typed public
- * property declared without a default.
- */
-class UninitializedTypedPropertyStub extends Component
-{
-    public ?bool $anonymous;
-
-    public function render()
-    {
-        return '<div></div>';
     }
 }
