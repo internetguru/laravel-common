@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `InternetGuru\LaravelCommon\Testing\CommonTests::register()` adds the shared layout, language, error page and i18n tests to an application's Pest suite.
+
+### Removed
+
+- **Breaking:** The Playwright helpers `tests/e2e/common-tests.js`; register `CommonTests` instead.
+
 ## [8.0.1] - 2026-09-29
 
 ### Fixed
