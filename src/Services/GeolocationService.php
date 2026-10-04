@@ -86,6 +86,11 @@ class GeolocationService
             $ip = request()->ip();
         }
 
+        // A private or reserved address, such as in local development or tests, has no location to look up
+        if (! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            throw new GeolocationServiceException("No location for the private or reserved address $ip.");
+        }
+
         $cacheKey = "geoip_$ip";
 
         if (Cache::has($cacheKey)) {

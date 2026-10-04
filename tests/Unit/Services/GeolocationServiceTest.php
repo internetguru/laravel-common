@@ -66,6 +66,21 @@ class GeolocationServiceTest extends TestCase
         $this->service->getLocation($ip);
     }
 
+    public function test_get_location_throws_exception_for_a_private_or_reserved_address()
+    {
+        Http::fake();
+
+        foreach (['127.0.0.1', '10.0.0.1', '192.168.1.154', '::1'] as $ip) {
+            try {
+                $this->service->getLocation($ip);
+                $this->fail("Expected no location for $ip.");
+            } catch (GeolocationServiceException $e) {
+                $this->assertStringContainsString($ip, $e->getMessage());
+            }
+        }
+        Http::assertNothingSent();
+    }
+
     public function test_get_location_throws_exception_for_bot_user_agents()
     {
         $bots = [
