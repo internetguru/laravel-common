@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [8.1.3] - 2026-10-04
+
+### Fixed
+
+- The timezone of a private or reserved address, such as in local development or tests, is the default one without a request to ip-api.com.
+
 ## [8.1.2] - 2026-10-04
 
 ### Fixed
@@ -2142,6 +2148,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[8.1.3]: https://https://github.com/internetguru/laravel-common/compare/v8.1.2...v8.1.3
 [8.1.2]: https://https://github.com/internetguru/laravel-common/compare/v8.1.1...v8.1.2
 [8.1.1]: https://https://github.com/internetguru/laravel-common/compare/v8.1.0...v8.1.1
 [8.1.0]: https://https://github.com/internetguru/laravel-common/compare/v8.0.1...v8.1.0
