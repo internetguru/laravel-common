@@ -10,7 +10,7 @@
 
 - [Installation](#installation)
 - [Run Tests Locally](#run-tests-locally)
-- [E2E Tests](#e2e-tests)
+- [Shared Tests](#shared-tests)
 - [Service Providers](#service-providers)
   - [CommonServiceProvider](#commonserviceprovider)
   - [ReadOnlyServiceProvider](#readonlyserviceprovider)
@@ -84,50 +84,32 @@ To run the tests manually, you can use the following command:
 ./test.sh
 ```
 
-## E2E Tests
+## Shared Tests
 
-The package ships reusable [Playwright](https://playwright.dev/) test helpers in `tests/e2e/common-tests.js`. Consuming projects can register them into their own test suite with a single call.
+The package ships [Pest](https://pestphp.com/) tests that every application built on it should pass. Register them from one test file, e.g. `tests/Feature/CommonTest.php`:
 
-### Setup
+```php
+use InternetGuru\LaravelCommon\Testing\CommonTests;
 
-1. Install Playwright in your project if not already present:
+CommonTests::register(languages: ['en', 'cs'], demo: false, subpage: '/login');
+```
 
-    ```bash
-    npm init playwright@latest
-    ```
+They are HTTP tests and run with the application's `TestCase`.
 
-2. In your test file, import and register the helpers:
-
-    ```js
-    import { test, expect } from '@playwright/test';
-    import { registerCommonTests } from '../../vendor/internetguru/laravel-common/tests/e2e/common-tests.js';
-
-    registerCommonTests(test, expect, {
-      languages: { en: 'English', cs: 'Česky' },
-      demo: process.env.APP_DEMO === 'true',
-    });
-    ```
-
-### Options
-
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `languages` | `object` | `{ en: 'English', cs: 'Česky' }` | Language code → label map. Language switch tests are skipped when only one language is configured. |
-| `demo` | `boolean` | `false` | When `true`, includes a test verifying the demo mode banner is visible. |
-
-### Covered test groups
+| Option | Default | Description |
+| --- | --- | --- |
+| `languages` | `['en', 'cs']` | The languages the switch offers; the switch tests are skipped for a single language. |
+| `demo` | `false` | Expect the demo banner. |
+| `subpage` | `'/login'` | A page one breadcrumb level below the homepage; `null` skips the check. |
 
 | Group | What is tested |
 | --- | --- |
-| `layout` | `header`, `main`, `footer` presence; `charset`, `viewport`, and `title` meta tags. |
-| `breadcrumb` | Visibility, item count, active state, growth on subpages. |
-| `language switch` | Visibility, correct item count, active highlight, language change, persistence across pages. _(skipped when `languages` has one entry)_ |
-| `error pages` | 401, 403, 404, 500, 503 status codes and `h1` content; error index links; unknown code falls back to 404. |
-| `messages` | `.messages-wrapper` is present on every page. |
-| `demo mode` | Demo banner visible. _(skipped unless `demo: true`)_ |
-| `csrf` | CSRF token meta tag is present and non-empty. |
-| `i18n pages` | `/i18n`, `/i18n/complete`, `/i18n/missing-all`, `/i18n/missing-cs`, `/i18n/missing-en` all load. |
-| `html structure` | `<html lang>` attribute is set; exactly one `<h1>` per page. |
+| layout | `header`, `main` and `footer`; the `charset`, `viewport` and CSRF meta tags; a title; `<html lang>`; one `h1`; the messages wrapper. |
+| breadcrumb | The last item is active; a subpage adds an item. |
+| language switch | Every language is offered and the current one highlighted; `?lang=` switches the page and the next one keeps it. |
+| error pages | The error index; 401, 403, 404, 500 and 503 with their status and `h1`; 404 for an unknown code or page. |
+| i18n pages | `/i18n` and its subpages render. |
+| demo mode | The demo banner. |
 
 ## Service Providers
 
