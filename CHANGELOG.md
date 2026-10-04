@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
-- **Breaking:** The Playwright helpers `tests/e2e/common-tests.js`; register `CommonTests` instead.
+- The Playwright helpers `tests/e2e/common-tests.js`; register `CommonTests` instead.
 
 ## [8.0.1] - 2026-09-29
 
