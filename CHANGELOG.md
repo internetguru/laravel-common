@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [8.1.2] - 2026-10-04
+
+### Fixed
+
+- A modal rendered before the modal script, such as one in the header of a page whose content has its own modal, registers once the script loads instead of throwing an error.
+
 ## [8.1.1] - 2026-10-04
 
 ### Fixed
@@ -2136,6 +2142,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[8.1.2]: https://https://github.com/internetguru/laravel-common/compare/v8.1.1...v8.1.2
 [8.1.1]: https://https://github.com/internetguru/laravel-common/compare/v8.1.0...v8.1.1
 [8.1.0]: https://https://github.com/internetguru/laravel-common/compare/v8.0.1...v8.1.0
 [8.1.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v8.0.1
