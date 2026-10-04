@@ -5,6 +5,7 @@ namespace Tests\Unit\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use InternetGuru\LaravelCommon\Exceptions\GeolocationServiceException;
 use InternetGuru\LaravelCommon\Middleware\TimezoneMiddleware;
@@ -153,13 +154,10 @@ class TimezoneMiddlewareTest extends TestCase
         $this->assertEquals('Europe/Prague', session('display_timezone'));
     }
 
-    public function test_skips_the_lookup_for_a_private_address()
+    public function test_uses_default_timezone_for_a_private_address_without_a_lookup()
     {
         Config::set('geoip.default_location.timezone', 'Europe/Prague');
-
-        $geoService = Mockery::mock(GeolocationService::class);
-        $geoService->shouldNotReceive('getLocation');
-        $this->app->instance(GeolocationService::class, $geoService);
+        Http::fake();
 
         foreach (['127.0.0.1', '192.168.1.154', '172.20.0.1', '::1'] as $ip) {
             Session::flush();
@@ -170,5 +168,6 @@ class TimezoneMiddlewareTest extends TestCase
 
             $this->assertEquals('Europe/Prague', session('display_timezone'), $ip);
         }
+        Http::assertNothingSent();
     }
 }
