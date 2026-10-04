@@ -23,6 +23,13 @@ class TimezoneMiddleware
             $ip = $settingsIp;
         }
 
+        // A private or reserved address, such as in local development or tests, has no location to look up
+        if (! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            session(['display_timezone' => config('geoip.default_location.timezone')]);
+
+            return $next($request);
+        }
+
         try {
             $geoService = app(GeolocationService::class);
             $timezone = $geoService->getLocation($ip)->timezone ?? config('geoip.default_location.timezone');

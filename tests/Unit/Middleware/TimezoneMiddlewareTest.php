@@ -116,6 +116,7 @@ class TimezoneMiddlewareTest extends TestCase
         $this->app->instance(GeolocationService::class, $geoService);
 
         $request = Request::create('/', 'GET');
+        $request->server->set('REMOTE_ADDR', '8.8.8.8');
         $next = function ($req) {
             return response('OK');
         };
@@ -142,6 +143,7 @@ class TimezoneMiddlewareTest extends TestCase
         $this->app->instance(GeolocationService::class, $geoService);
 
         $request = Request::create('/', 'GET');
+        $request->server->set('REMOTE_ADDR', '8.8.8.8');
         $next = function ($req) {
             return response('OK');
         };
@@ -149,5 +151,24 @@ class TimezoneMiddlewareTest extends TestCase
         $response = $this->middleware->handle($request, $next);
 
         $this->assertEquals('Europe/Prague', session('display_timezone'));
+    }
+
+    public function test_skips_the_lookup_for_a_private_address()
+    {
+        Config::set('geoip.default_location.timezone', 'Europe/Prague');
+
+        $geoService = Mockery::mock(GeolocationService::class);
+        $geoService->shouldNotReceive('getLocation');
+        $this->app->instance(GeolocationService::class, $geoService);
+
+        foreach (['127.0.0.1', '192.168.1.154', '172.20.0.1', '::1'] as $ip) {
+            Session::flush();
+            $request = Request::create('/', 'GET');
+            $request->server->set('REMOTE_ADDR', $ip);
+
+            $this->middleware->handle($request, fn () => response('OK'));
+
+            $this->assertEquals('Europe/Prague', session('display_timezone'), $ip);
+        }
     }
 }
