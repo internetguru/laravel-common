@@ -126,6 +126,9 @@
             },
         };
 
+        (window.igModalQueue ?? []).forEach(([id, options]) => window.igModal.register(id, options));
+        delete window.igModalQueue;
+
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 window.igModal.closeAll();

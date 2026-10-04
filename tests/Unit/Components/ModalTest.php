@@ -59,7 +59,15 @@ class ModalTest extends TestCase
     {
         $html = $this->blade('<x-ig::modal id="my-modal" />');
 
-        $html->assertSee("window.igModal.register('my-modal', {});", false);
+        $html->assertSee("window.igModal.register('my-modal', {})", false);
+    }
+
+    public function test_a_modal_rendered_before_the_script_queues_its_registration()
+    {
+        $html = $this->blade('<x-ig::modal id="my-modal" />');
+
+        $html->assertSee("(window.igModalQueue ??= []).push(['my-modal', {}])", false);
+        $html->assertSee('(window.igModalQueue ?? []).forEach(([id, options]) => window.igModal.register(id, options));', false);
     }
 
     public function test_the_hash_and_the_livewire_property_are_passed_to_the_registration()

@@ -31,4 +31,6 @@
 
 @include('ig-common::components.partials.modal-script')
 
-<script>window.igModal.register(@js($id), @js((object) array_filter(['hash' => $hash, 'wire' => $wireOpen])));</script>
+{{-- The script is emitted once, with the first modal rendered; Blade renders a page's content before
+     its layout, so a modal earlier in the page can run before it and waits in the queue --}}
+<script>window.igModal ? window.igModal.register(@js($id), @js((object) array_filter(['hash' => $hash, 'wire' => $wireOpen]))) : (window.igModalQueue ??= []).push([@js($id), @js((object) array_filter(['hash' => $hash, 'wire' => $wireOpen]))]);</script>
