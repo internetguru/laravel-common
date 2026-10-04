@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [8.1.1] - 2026-10-04
+
+### Fixed
+
+- The test suite passes with Livewire 4.4.7 and newer.
+
 ## [8.1.0] - 2026-10-04
 
 _Stable release based on [8.1.0-rc.1]._
@@ -2130,6 +2136,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://https://github.com/internetguru/laravel-common/compare/staging...dev
+[8.1.1]: https://https://github.com/internetguru/laravel-common/compare/v8.1.0...v8.1.1
 [8.1.0]: https://https://github.com/internetguru/laravel-common/compare/v8.0.1...v8.1.0
 [8.1.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v8.0.1
 [8.0.1]: https://https://github.com/internetguru/laravel-common/compare/v8.0.0...v8.0.1
