@@ -18,6 +18,8 @@ class CardRowTest extends TestCase
         $html->assertSee('x-ref="track"', false);
         $html->assertSee('aria-label="' . __('ig-common::layouts.card_row.previous') . '"', false);
         $html->assertSee('aria-label="' . __('ig-common::layouts.card_row.next') . '"', false);
+        $html->assertSee('x-for="grip in grips"', false);
+        $html->assertSee('fa-ellipsis-vertical', false);
         $html->assertSee('Cards');
     }
 
@@ -36,6 +38,7 @@ class CardRowTest extends TestCase
         $html->assertDontSee('x-data="cardRow"', false);
         $html->assertDontSee('x-ref="track"', false);
         $html->assertDontSee('card-row-nav', false);
+        $html->assertDontSee('card-row-grip', false);
     }
 
     public function test_the_size_and_centered_props_add_their_modifiers()
