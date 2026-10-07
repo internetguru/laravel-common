@@ -37,6 +37,22 @@
         @endif
     >
         {{ $slot }}
+
+        @if ($isCarousel)
+            <template x-for="grip in grips">
+                <span
+                    class="card-row-grip"
+                    aria-hidden="true"
+                    x-bind:style="`left: ${grip.left}px; width: ${grip.width}px`"
+                    x-on:pointerdown="startDrag($event)"
+                    x-on:pointermove="drag($event)"
+                    x-on:pointerup="endDrag($event)"
+                    x-on:pointercancel="endDrag($event)"
+                >
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                </span>
+            </template>
+        @endif
     </div>
 
     @if ($isCarousel)
