@@ -51,6 +51,8 @@ return [
 
     'close' => 'Zavřít',
 
+    'breadcrumb.toggle' => 'Zobrazit navigaci',
+
     'share.link' => 'Sdílet stránku',
     'share.title' => 'Sdílet stránku',
 

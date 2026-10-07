@@ -63,4 +63,30 @@ class BreadcrumbTest extends TestCase
         $this->assertEquals('ig-common::components.breadcrumb', $view->name());
         $this->assertStringContainsString("--bs-breadcrumb-divider: '|';", $view->render());
     }
+
+    public function test_render_folds_the_levels_into_a_menu()
+    {
+        $html = (new Breadcrumb)->render()->render();
+
+        $this->assertStringContainsString('aria-labelledby="breadcrumbMenu"', $html);
+        $this->assertStringContainsString('<li><a class="dropdown-item" href="/about">', $html);
+        $this->assertStringContainsString('aria-current="page"', $html);
+        $this->assertStringNotContainsString('ig-breadcrumb-marked', $html);
+    }
+
+    public function test_render_draws_the_mark()
+    {
+        $html = (new Breadcrumb(mark: '/mark.svg'))->render()->render();
+
+        $this->assertStringContainsString('ig-breadcrumb-marked', $html);
+        $this->assertStringContainsString("--breadcrumb-home-mark: url('/mark.svg');", $html);
+        $this->assertStringContainsString('<span class="ig-breadcrumb-mark"></span>', $html);
+    }
+
+    public function test_items_replace_the_parsed_levels()
+    {
+        $breadcrumb = new Breadcrumb(items: [['uri' => '/', 'translation' => 'Home']]);
+
+        $this->assertEquals([['uri' => '/', 'translation' => 'Home']], $breadcrumb->items);
+    }
 }

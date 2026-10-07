@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [8.2.0] - 2026-10-07
+
+_Stable release based on [8.2.0-rc.1]._
+
+## [8.2.0-rc.1] - 2026-10-07
+
+### Added
+
+- The breadcrumb takes a small logo as `mark`, drawn beside the first item and as the menu toggle, and its levels as `items`.
+
+### Changed
+
+- On a phone the breadcrumb folds into a menu behind its first item. Import `ig::common/breadcrumb` for its styles and register the solid `faAngleDown` icon.
+
 ## [8.1.4] - 2026-10-04
 
 ### Fixed
@@ -2151,6 +2165,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[8.2.0]: https://github.com/internetguru/laravel-common/compare/v8.1.4...v8.2.0
+[8.2.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v8.1.4
 [8.1.4]: https://https://github.com/internetguru/laravel-common/compare/v8.1.3...v8.1.4
 [8.1.3]: https://https://github.com/internetguru/laravel-common/compare/v8.1.2...v8.1.3
 [8.1.2]: https://https://github.com/internetguru/laravel-common/compare/v8.1.1...v8.1.2
