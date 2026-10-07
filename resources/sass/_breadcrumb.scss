@@ -1,0 +1,109 @@
+// The mark comes from the component as --breadcrumb-home-mark. An image address written
+// here, even as a var() fallback, is resolved and inlined by Vite, which drops the custom
+// property along with it.
+
+/// The size of the mark beside the first item and in the menu toggle.
+$breadcrumb-mark-size: 1.5em !default;
+
+/// The line and stops the menu draws its levels on; the current page is a filled stop.
+$breadcrumb-menu-line-color: $border-color !default;
+$breadcrumb-menu-current-color: $primary !default;
+
+@mixin breadcrumb-mark {
+    content: "";
+    display: inline-block;
+    width: $breadcrumb-mark-size;
+    height: $breadcrumb-mark-size;
+    background-image: var(--breadcrumb-home-mark);
+    background-size: contain;
+}
+
+.ig-breadcrumb-mark {
+    @include breadcrumb-mark;
+}
+
+.ig-breadcrumb-marked .breadcrumb-item:first-child {
+    &.active::before {
+        @include breadcrumb-mark;
+        margin-right: .25em;
+        vertical-align: -.35em;
+    }
+
+    a {
+        position: relative;
+        margin-left: $breadcrumb-mark-size + .25em;
+
+        &::before {
+            @include breadcrumb-mark;
+            position: absolute;
+            left: -($breadcrumb-mark-size + .4em);
+            top: -.1em;
+        }
+    }
+}
+
+.ig-breadcrumb-menu {
+    .dropdown-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: .25em;
+        border: none;
+
+        // the explicit arrow replaces Bootstrap's caret
+        &::after {
+            display: none;
+        }
+
+        svg {
+            transition: transform .2s;
+        }
+
+        &[aria-expanded="true"] svg {
+            transform: rotate(180deg);
+        }
+    }
+
+    .dropdown-item,
+    .dropdown-item-text {
+        position: relative;
+        padding-left: 2.25rem;
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: 1.25rem;
+        }
+
+        // the line
+        &::before {
+            top: 0;
+            bottom: 0;
+            border-left: medium solid $breadcrumb-menu-line-color;
+        }
+
+        // the stop
+        &::after {
+            top: 50%;
+            width: .625rem;
+            height: .625rem;
+            margin: -.3125rem 0 0 -.25rem;
+            border: medium solid $breadcrumb-menu-line-color;
+            border-radius: 50%;
+            background: $dropdown-bg;
+        }
+    }
+
+    li:first-child > ::before {
+        top: 50%;
+    }
+
+    li:last-child > ::before {
+        bottom: 50%;
+    }
+
+    [aria-current="page"]::after {
+        border-color: $breadcrumb-menu-current-color;
+        background: $breadcrumb-menu-current-color;
+    }
+}

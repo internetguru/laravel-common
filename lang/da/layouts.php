@@ -51,6 +51,8 @@ return [
 
     'close' => 'Luk',
 
+    'breadcrumb.toggle' => 'Vis navigationen',
+
     'share.link' => 'Del siden',
     'share.title' => 'Del siden',
 
