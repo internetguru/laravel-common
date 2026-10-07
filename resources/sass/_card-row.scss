@@ -27,6 +27,11 @@ $card-row-btn-color: $gray-700 !default;
 $card-row-btn-bg: $gray-200 !default;
 $card-row-btn-bg-hover: $gray-300 !default;
 
+/// The handle drawn between cards of a carousel that overflows, which a mouse
+/// drags to scroll the row.
+$card-row-grip-color: $gray-400 !default;
+$card-row-grip-color-hover: $gray-600 !default;
+
 /// Lays the cards out as a grid of at most $columns columns, each at least $min
 /// wide, so they share out the whole line. The column minimum never drops below
 /// an even share of the row, which caps the count; the outer min() lets a lone
@@ -99,6 +104,7 @@ $card-row-btn-bg-hover: $gray-300 !default;
 // }
 
 .card-row-track {
+    position: relative;
     display: flex;
     gap: $card-row-gap;
     overflow-x: auto;
@@ -131,6 +137,43 @@ $card-row-btn-bg-hover: $gray-300 !default;
 
         // Keeps sparse cards from collapsing next to text-heavy ones.
         min-height: $card-row-min-height;
+    }
+}
+
+/// Laid over the gap between two cards and as tall as they are. Only a mouse
+/// needs it; touch swipes the row and keyboard pages it.
+.card-row-grip {
+    position: absolute;
+    top: $card-row-bleed;
+    height: var(--card-row-shadow-height, 0);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: $card-row-grip-color;
+    cursor: grab;
+    touch-action: none;
+    transition: color .2s ease;
+
+    &:hover {
+        color: $card-row-grip-color-hover;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        display: flex;
+    }
+}
+
+.card-row-free .card-row-track {
+    scroll-snap-type: none;
+}
+
+.card-row-dragging {
+    cursor: grabbing;
+    user-select: none;
+
+    .card-row-grip {
+        cursor: grabbing;
+        color: $card-row-grip-color-hover;
     }
 }
 
@@ -245,7 +288,8 @@ $card-row-btn-bg-hover: $gray-300 !default;
         scroll-behavior: auto;
     }
 
-    .card-row-btn {
+    .card-row-btn,
+    .card-row-grip {
         transition: none;
     }
 }

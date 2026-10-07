@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- A carousel card row that overflows shows a light grey handle between its cards, which a mouse drags to scroll the row. Register the solid `faEllipsisVertical` icon.
+
 ## [8.2.0] - 2026-10-07
 
 _Stable release based on [8.2.0-rc.1]._
