@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- The breadcrumb takes a small logo as `mark`, drawn beside the first item and as the menu toggle, and its levels as `items`.
+
+### Changed
+
+- On a phone the breadcrumb folds into a menu behind its first item. Import `ig::common/breadcrumb` for its styles and register the solid `faAngleDown` icon.
+
 ## [8.1.4] - 2026-10-04
 
 ### Fixed

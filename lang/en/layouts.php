@@ -51,6 +51,8 @@ return [
 
     'close' => 'Close',
 
+    'breadcrumb.toggle' => 'Show the navigation',
+
     'share.link' => 'Share page',
     'share.title' => 'Share page',
 

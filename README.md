@@ -534,9 +534,13 @@ All Blade components are registered under the `ig` namespace and can be used wit
 
 ### Breadcrumb Blade Component
 
-> Renders breadcrumb navigation based on routes matching the current URL segments. Supports translations with short and long labels, custom divider, and segment skipping.
+> Renders breadcrumb navigation based on routes matching the current URL segments. Supports translations with short and long labels, custom divider, and segment skipping. On a narrow screen the levels fold into a menu behind the first one.
 
 Key Features:
+
+- **Compact on a Phone** – Below Bootstrap's `sm` breakpoint the breadcrumb is a dropdown toggle with the first item (or the mark) and an arrow, opening a menu of all levels drawn as stops on one line, the current page a filled one.
+- **Home Mark** – The `mark` attribute takes an image URL drawn beside the first item and as the menu toggle, e.g. a small logo.
+- **Custom Items** – The `items` attribute replaces the items parsed from the URL, as a list of `['uri' => …, 'translation' => …]`.
 
 - **Customizable Divider** – Allows a custom divider symbol between breadcrumb items.
 - **Short and Long Labels** – Using `trans_choice` if available shows n-th right translation based on the item position.
@@ -563,7 +567,11 @@ Usage:
 <x-ig::breadcrumb divider="|" />
 <!-- If you need to skip certain segments of the URL (e.g., a language prefix), use the skipFirst attribute -->
 <x-ig::breadcrumb :skipFirst="1" />
+<!-- A small logo beside the first item and as the menu toggle on a phone -->
+<x-ig::breadcrumb :mark="asset('logo-small.svg')" />
 ```
+
+Styles come from `ig::common/breadcrumb`: the mark and the menu's line and stops. The size of the mark and the colours of the line and of the current stop are set by the `$breadcrumb-*` variables, which have to be given before the stylesheet is imported. The arrow of the toggle is the solid `faAngleDown`, which the application registers in Font Awesome. A mark given as a URL in Sass would be inlined by Vite and lose the custom property, which is why the component hands it over as `--breadcrumb-home-mark`.
 
 Example:
 
