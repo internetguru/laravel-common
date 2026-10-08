@@ -98,7 +98,7 @@ class Handler extends ExceptionHandler
             // do not process any exception in testing mode, except an HTTP error page: Laravel's
             // own error views translate keys the translator throws on while debugging
             if (app()->environment('testing')) {
-                if ($e instanceof HttpExceptionInterface && ! $request->expectsJson() && ! $isLivewireRequest) {
+                if ($e instanceof HttpExceptionInterface && ! $request->expectsJson()) {
                     return $this->errorPage($e, $e->getStatusCode());
                 }
 
