@@ -1,6 +1,6 @@
 @props([
     'view',
-    'prefix' => 'common::',
+    'prefix' => 'ig-common::',
     'props' => [],
     'title' => null,
     'description' => null,
@@ -8,8 +8,8 @@
 ])
 
 @php
-    $title = $title ?? __("${prefix}layouts.$view.title");
-    $description = $description ?? __("${prefix}layouts.$view.description");
+    $title = $title ?? __("{$prefix}layouts.$view.title");
+    $description = $description ?? __("{$prefix}layouts.$view.description");
 @endphp
 
 <h1>{{ $title }}</h1>
