@@ -44,8 +44,10 @@ export default () => ({
             document.fonts.ready.then(() => this.layout(true));
         }
 
+        // Laid out in the next frame: resizing the cloud inside the callback
+        // makes the browser report a ResizeObserver loop as an error.
         if (typeof ResizeObserver !== 'undefined') {
-            this.observer = new ResizeObserver(() => this.layout());
+            this.observer = new ResizeObserver(() => requestAnimationFrame(() => this.layout()));
             this.observer.observe(this.$el);
         }
     },
