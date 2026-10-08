@@ -153,6 +153,23 @@ class HandlerTest extends TestCase
         app()['env'] = 'testing';
     }
 
+    public function test_http_exception_renders_the_error_page_while_testing_even_in_debug_mode()
+    {
+        config(['app.debug' => true]);
+
+        $response = $this->handler->render($this->request, new HttpException(403));
+
+        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertStringContainsString('403 ' . __('ig-common::errors.403'), $response->getContent());
+    }
+
+    public function test_other_exceptions_are_left_to_laravel_while_testing()
+    {
+        $response = $this->handler->render($this->request, new RuntimeException('Boom'));
+
+        $this->assertStringNotContainsString(__('ig-common::errors.500'), $response->getContent());
+    }
+
     public function test_unknown_http_exception_with_html_response()
     {
         app()['env'] = 'production';

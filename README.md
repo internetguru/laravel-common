@@ -1202,6 +1202,7 @@ Features:
 - **JSON support**: Returns JSON responses when the request expects JSON.
 - Redirects to the previously tracked page (via `SetPrevPage` middleware) on error.
 - **503 auto-refresh**: The 503 error page automatically reloads after 30 seconds.
+- **Testing**: Exceptions are left to Laravel, except HTTP errors on HTML pages, which render the styled error page as in production.
 
 Custom error views are included for standard HTTP status codes. The error pages use the `ig-common::layouts.base` layout.
 
