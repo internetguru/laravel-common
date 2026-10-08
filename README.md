@@ -101,6 +101,7 @@ They are HTTP tests and run with the application's `TestCase`.
 | `languages` | `['en', 'cs']` | The languages the switch offers; the switch tests are skipped for a single language. |
 | `demo` | `false` | Expect the demo banner. |
 | `subpage` | `'/login'` | A page one breadcrumb level below the homepage; `null` skips the check. |
+| `breadcrumb` | `true` | `false` skips the breadcrumb tests, for a site designed without one. |
 
 | Group | What is tested |
 | --- | --- |
