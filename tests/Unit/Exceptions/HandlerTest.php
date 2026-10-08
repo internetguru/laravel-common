@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Exceptions;
 
+use Carbon\Carbon;
 use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
@@ -19,6 +20,7 @@ use Livewire\Features\SupportFileUploads\MissingFileUploadsTraitException;
 use Livewire\Features\SupportLockedProperties\CannotUpdateLockedPropertyException;
 use Livewire\Livewire;
 use Livewire\Mechanisms\HandleComponents\CorruptComponentPayloadException;
+use Livewire\Mechanisms\HandleComponents\Synthesizers\CarbonSynth;
 use PHPUnit\Framework\Attributes\DataProvider;
 use RuntimeException;
 use Spatie\LaravelIgnition\Exceptions\ViewException;
@@ -309,6 +311,26 @@ class HandlerTest extends TestCase
         } catch (\Error $e) {
             $this->assertStringContainsString('must not be accessed before initialization', $e->getMessage());
             $this->assertStringContainsString('/livewire/livewire/src/', $e->getFile());
+        }
+
+        Log::spy();
+
+        $this->handler->report($e);
+
+        Log::shouldHaveReceived('debug')->once();
+        Log::shouldNotHaveReceived('error');
+    }
+
+    /**
+     * A scanner sent `[1, [...]]` as the update of a Carbon property; Livewire
+     * hydrated it before any update hook ran, and Carbon rejected the array.
+     */
+    public function test_an_error_raised_by_a_library_livewire_called_is_demoted_to_debug()
+    {
+        try {
+            CarbonSynth::hydrateFromType(Carbon::class, [1, []]);
+            $this->fail('Carbon accepted an array.');
+        } catch (\TypeError $e) {
         }
 
         Log::spy();
