@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `CommonTests::register(breadcrumb: false)` skips the breadcrumb tests for a site designed without a breadcrumb.
+
 ## [8.3.1] - 2026-10-08
 
 ### Fixed
