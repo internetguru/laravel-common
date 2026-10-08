@@ -18,8 +18,9 @@ class CommonTests
     /**
      * @param  list<string>  $languages  the languages the switch offers
      * @param  string|null  $subpage  a page one breadcrumb level below the homepage
+     * @param  bool  $breadcrumb  false for a site designed without a breadcrumb
      */
-    public static function register(array $languages = ['en', 'cs'], bool $demo = false, ?string $subpage = '/login'): void
+    public static function register(array $languages = ['en', 'cs'], bool $demo = false, ?string $subpage = '/login', bool $breadcrumb = true): void
     {
         describe('laravel-common layout', function () {
             it('renders the header, main and footer with the required meta tags', function () {
@@ -38,23 +39,25 @@ class CommonTests
             });
         });
 
-        describe('laravel-common breadcrumb', function () use ($subpage) {
-            it('ends with the active page', function () {
-                $items = CommonTests::page($this->get('/'))->query(CommonTests::BREADCRUMB_ITEMS);
+        if ($breadcrumb) {
+            describe('laravel-common breadcrumb', function () use ($subpage) {
+                it('ends with the active page', function () {
+                    $items = CommonTests::page($this->get('/'))->query(CommonTests::BREADCRUMB_ITEMS);
 
-                expect($items->length)->toBeGreaterThanOrEqual(1)
-                    ->and($items->item($items->length - 1)->getAttribute('class'))->toContain('active');
-            });
-
-            if ($subpage !== null) {
-                it('grows on a subpage', function () use ($subpage) {
-                    $home = CommonTests::page($this->get('/'))->query(CommonTests::BREADCRUMB_ITEMS)->length;
-                    $sub = CommonTests::page($this->get($subpage))->query(CommonTests::BREADCRUMB_ITEMS)->length;
-
-                    expect($sub)->toBeGreaterThan($home);
+                    expect($items->length)->toBeGreaterThanOrEqual(1)
+                        ->and($items->item($items->length - 1)->getAttribute('class'))->toContain('active');
                 });
-            }
-        });
+
+                if ($subpage !== null) {
+                    it('grows on a subpage', function () use ($subpage) {
+                        $home = CommonTests::page($this->get('/'))->query(CommonTests::BREADCRUMB_ITEMS)->length;
+                        $sub = CommonTests::page($this->get($subpage))->query(CommonTests::BREADCRUMB_ITEMS)->length;
+
+                        expect($sub)->toBeGreaterThan($home);
+                    });
+                }
+            });
+        }
 
         if (count($languages) > 1) {
             describe('laravel-common language switch', function () use ($languages) {
