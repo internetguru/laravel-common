@@ -29,6 +29,8 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    private const LIVEWIRE_SOURCE = '/livewire/livewire/src/';
+
     /**
      * Livewire's own vocabulary for "the client sent something structurally
      * invalid". None of these can be produced by a browser driving the UI, so
@@ -240,12 +242,30 @@ class Handler extends ExceptionHandler
         // malformed, not a bug in this application: our own bugs surface in
         // app/ and resources/views/, which RejectMalformedPayload shields by
         // refusing the bad value at the point of entry.
-        if ($e instanceof \Error && str_contains($e->getFile(), '/livewire/livewire/src/')) {
+        if ($e instanceof \Error && $this->isRaisedByLivewire($e)) {
             return true;
         }
 
         // Livewire and Ignition both wrap the original cause.
         return $e->getPrevious() !== null && $this->isMalformedLivewirePayload($e->getPrevious());
+    }
+
+    /**
+     * Raised inside Livewire, or inside a vendor library Livewire called
+     * directly - a synthesizer passes the value straight on, as CarbonSynth
+     * hands an array to the Carbon constructor, which rejects it.
+     *
+     * The callee must live in vendor/, so an application hook that Livewire
+     * calls, such as updatedFoo(), still reports its own errors.
+     */
+    private function isRaisedByLivewire(\Error $e): bool
+    {
+        if (str_contains($e->getFile(), self::LIVEWIRE_SOURCE)) {
+            return true;
+        }
+
+        return str_contains($e->getFile(), '/vendor/')
+            && str_contains($e->getTrace()[0]['file'] ?? '', self::LIVEWIRE_SOURCE);
     }
 
     private function back()
