@@ -163,6 +163,17 @@ class HandlerTest extends TestCase
         $this->assertStringContainsString('403 ' . __('ig-common::errors.403'), $response->getContent());
     }
 
+    public function test_http_exception_in_a_livewire_request_renders_the_error_page_while_testing()
+    {
+        config(['app.debug' => true]);
+        $this->request->headers->set('X-Livewire', 'true');
+
+        $response = $this->handler->render($this->request, new HttpException(403));
+
+        $this->assertEquals(403, $response->getStatusCode());
+        $this->assertStringContainsString('403 ' . __('ig-common::errors.403'), $response->getContent());
+    }
+
     public function test_other_exceptions_are_left_to_laravel_while_testing()
     {
         $response = $this->handler->render($this->request, new RuntimeException('Boom'));
