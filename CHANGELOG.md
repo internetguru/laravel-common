@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [8.4.3] - 2026-10-08
+
+### Fixed
+
+- While testing, an HTTP error renders the styled error page instead of Laravel's own, which threw on untranslated keys while debugging.
+
 ## [8.4.2] - 2026-10-08
 
 ### Fixed
@@ -2203,6 +2209,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[8.4.3]: https://github.com/internetguru/laravel-common/compare/v8.4.2...v8.4.3
 [8.4.2]: https://github.com/internetguru/laravel-common/compare/v8.4.1...v8.4.2
 [8.4.1]: https://github.com/internetguru/laravel-common/compare/v8.4.0...v8.4.1
 [8.4.0]: https://github.com/internetguru/laravel-common/compare/v8.3.1...v8.4.0
