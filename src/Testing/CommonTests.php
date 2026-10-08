@@ -99,6 +99,9 @@ class CommonTests
 
         describe('laravel-common i18n pages', function () {
             it('renders the translation overview pages', function (string $uri) {
+                // The missing-* pages leave translations out on purpose, which throws while debugging
+                config(['app.debug' => false]);
+
                 expect(CommonTests::page($this->get($uri)->assertOk())->query('//h1'))->toHaveCount(1);
             })->with(['/i18n', '/i18n/complete', '/i18n/missing-all', '/i18n/missing-cs', '/i18n/missing-en']);
         });
