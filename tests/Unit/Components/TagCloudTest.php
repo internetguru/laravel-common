@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Components;
 
+use InternetGuru\LaravelCommon\Support\Palette;
 use Tests\TestCase;
 
 class TagCloudTest extends TestCase
@@ -36,13 +37,20 @@ class TagCloudTest extends TestCase
         $html->assertSee('--tag-size:', false);
     }
 
-    public function test_neighbouring_tags_are_spread_across_the_colour_wheel()
+    public function test_each_tag_takes_the_palette_colour_of_its_position()
     {
         $html = $this->blade('<x-ig::tag-cloud :tags="[\'One\', \'Two\', \'Three\']" />');
 
-        $html->assertSee('--tag-hue: 0', false);
-        $html->assertSee('--tag-hue: 138', false);
-        $html->assertSee('--tag-hue: 275', false);
+        $html->assertSee('--ig-label-dot: ' . Palette::color(0), false);
+        $html->assertSee('--ig-label-dot: ' . Palette::color(1), false);
+        $html->assertSee('--ig-label-dot: ' . Palette::color(2), false);
+    }
+
+    public function test_the_typographic_cloud_colours_its_words_by_the_palette_hue()
+    {
+        $html = $this->blade('<x-ig::tag-cloud typography :tags="[\'One\', \'Two\']" />');
+
+        $html->assertSee('--tag-hue: ' . Palette::hue(1) . ';', false);
     }
 
     public function test_renders_nothing_without_tags()

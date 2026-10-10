@@ -8,15 +8,12 @@ $tag-cloud-gap: $spacer * .5 !default;
 
 @import 'chip';
 
-/// The colour of a tag's dot, from the hue the component gives each tag.
-$tag-dot-color: hsl(var(--tag-hue) 62% 45%) !default;
-
 /// The gap in the typographic cloud, which also carries the scale its sizes
 /// are set at; `zoom` would do the same for the whole cloud, but it also
 /// scales the widths the layout script measures, which mobile browsers report
 /// inconsistently.
 $tag-cloud-typography-gap: 0 ($spacer * .4) !default;
-$tag-cloud-typography-color: hsl(var(--tag-hue) 58% 60%) !default;
+$tag-cloud-typography-color: oklch(68% 0.12 var(--tag-hue)) !default;
 $tag-cloud-typography-weight: $font-weight-semibold !default;
 
 /// A list of tags as chips, wrapping onto as many lines as they need.
@@ -30,9 +27,8 @@ $tag-cloud-typography-weight: $font-weight-semibold !default;
     margin: $tag-cloud-margin;
 }
 
-/// The same chip as a label.
+/// The same chip as a label, coloured by the component.
 .tag {
-    --ig-label-dot: #{$tag-dot-color};
     @include ig-chip;
 }
 
