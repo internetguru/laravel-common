@@ -9,6 +9,7 @@ Shared foundation of every Internet Guru application: Blade components, input sa
 - Session flashes (`success`, `errors`) are shown by `<livewire:ig-messages />`. From a Livewire component, show a message with `$this->dispatch('ig-message', type: 'success', message: __('…'))`.
 - Package views are namespaced `ig-common::`, translations `ig-common::file.key`. An application overrides a view in `resources/views/vendor/ig-common`.
 - Sass and JS come in through Vite aliases: `@import 'ig::common/variables'`, `'ig::common/card'` and so on in `app.scss`, and `import 'ig::common-js'` in `app.js`, which registers the Alpine components `editable`, `print`, `clearable`, `cardRow` and `tagCloud`.
+- The notices above the header (demo, read-only, laravel-user's system message and hints) are Bootstrap alert bars unless `app.scss` imports `ig::common/notice`, which draws them as an icon and a short centred line; tune them with the `$notice-*` variables rather than restyling `.alert` in the application.
 
 ## Labels
 

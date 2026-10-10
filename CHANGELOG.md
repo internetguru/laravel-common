@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `@import 'ig::common/notice'` restyles the demo, read-only and system notices above the header as an icon and a short centred line, with an icon per type: info, success, warning and danger.
+
+### Fixed
+
+- The demo notice closes its paragraph with `</p>` instead of `</div>`.
+
 ## [8.4.4] - 2026-10-08
 
 ### Fixed

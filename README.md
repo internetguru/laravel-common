@@ -43,6 +43,7 @@
   - [Label](#label-blade-component)
   - [Demo Info](#demo-info-blade-component)
   - [Read-Only Mode Info](#read-only-mode-info-blade-component)
+  - [Notice Styles](#notice-styles)
   - [Email Feedback](#email-feedback-blade-component)
   - [Editable](#editable-blade-component)
   - [Admin Button Text](#admin-button-text-blade-component)
@@ -961,6 +962,20 @@ Styles come from `ig::common/label`; the look of the chip is set by the `$ig-lab
 ```html
 <x-ig::read-only-mode-info />
 ```
+
+### Notice Styles
+
+> Styles the full-width notices above the page header as an icon and a short centred line of text, with no background, border or shadow.
+
+The demo and read-only banners above, and laravel-user's system message and app hints, render as `div.container-fluid.alert.alert-{type} > p` and look like Bootstrap's alert bars by default. Import the partial to restyle them:
+
+```scss
+$notice-max-width: 30em;
+
+@import 'ig::common/notice';
+```
+
+The types `info`, `success`, `warning` and `danger` each get their own icon (circle-info, circle-check, triangle-exclamation, circle-exclamation) and colour, set by `$notice-{type}-color` and `$notice-{type}-icon`. The icons are drawn in CSS, so they need no Font Awesome registration. The other `$notice-*` variables set the column width, the icon width and the text and link colours; give them before the stylesheet is imported.
 
 ### Email Feedback Blade Component
 
