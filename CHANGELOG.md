@@ -6,9 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- A chip's border glows in its dot colour at the bottom right corner and faintly at the top left, tuned by the `$ig-label-accent-*` variables.
+
 ### Changed
 
-- Card badges and `x-ig::label` are one chip, styled by the `$ig-label-*` variables: a soft white background and a single line, with a text too long for its place cut short. Set `$ig-label-wrap: true` to let the text wrap instead.
+- Card badges and `x-ig::label` are one chip, styled by the `$ig-label-*` variables: black text on white, on a single line with a text too long for its place cut short. Set `$ig-label-wrap: true` to let the text wrap instead.
 
 ### Removed
 

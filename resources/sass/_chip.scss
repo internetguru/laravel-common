@@ -1,19 +1,41 @@
-/// The chip shared by labels and card badges: the text is read in the body
-/// colour on a soft white, and the kind of value is carried by a small dot,
-/// coloured by the `--ig-label-dot` custom property.
+/// The chip shared by labels and card badges: the text is read in black on
+/// white, and the kind of value is carried by a small dot, coloured by the
+/// `--ig-label-dot` custom property.
 $ig-label-radius: 1.25rem !default;
-$ig-label-color: $gray-700 !default;
-$ig-label-bg: rgba($white, .9) !default;
+$ig-label-color: $black !default;
+$ig-label-bg: $white !default;
 $ig-label-border-color: rgba($black, .07) !default;
 $ig-label-padding: .4em .85em !default;
 $ig-label-gap: .5em !default;
 $ig-label-dot-size: .45em !default;
 
+/// The chip picks up its dot colour as if catching its light: the border glows
+/// in it at the bottom right corner and faintly at the top left.
+$ig-label-accent-border: 45% !default;
+$ig-label-accent-border-soft: 25% !default;
+$ig-label-accent-reach: 3em !default;
+
+/// How much of the glow reaches into the fill, as a share of the border's.
+$ig-label-accent-fill: .1 !default;
+
 /// A chip keeps to one line and cuts a text too long for its place short, so a
 /// row of them stays even; true lets the text wrap inside the chip instead.
 $ig-label-wrap: false !default;
 
+/// The two corner glows in the dot colour, at a share of their full strength.
+@function ig-chip-glows($dot, $share: 1) {
+    @return
+        radial-gradient($ig-label-accent-reach at 100% 100%,
+            color-mix(in srgb, #{$dot} $ig-label-accent-border * $share, transparent), transparent),
+        radial-gradient($ig-label-accent-reach * .75 at 0 0,
+            color-mix(in srgb, #{$dot} $ig-label-accent-border-soft * $share, transparent), transparent);
+}
+
 @mixin ig-chip {
+    $dot: var(--ig-label-dot, #{$gray-600});
+
+    position: relative;
+    isolation: isolate;
     display: inline-block;
     max-width: 100%;
     padding: $ig-label-padding;
@@ -22,7 +44,7 @@ $ig-label-wrap: false !default;
     text-align: left;
     color: $ig-label-color;
     background-color: $ig-label-bg;
-    border: 1px solid $ig-label-border-color;
+    background-image: ig-chip-glows($dot, $ig-label-accent-fill);
     border-radius: $ig-label-radius;
 
     // Hidden overflow moves an inline block's baseline to its bottom edge, so it
@@ -47,6 +69,35 @@ $ig-label-wrap: false !default;
         height: $ig-label-dot-size;
         margin-right: $ig-label-gap;
         border-radius: 50%;
-        background-color: var(--ig-label-dot, currentcolor);
+        background-color: $dot;
+    }
+
+    // The border, drawn as a ring of its own behind the text: a border cannot
+    // take a gradient along a rounded edge, and the ring is masked to its edge
+    // so its grey stays out of the fill.
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border: thin solid transparent;
+        border-radius: inherit;
+        background:
+            ig-chip-glows($dot),
+            linear-gradient($ig-label-border-color, $ig-label-border-color);
+        background-origin: border-box;
+        mask:
+            linear-gradient(#000 0 0) content-box exclude,
+            linear-gradient(#000 0 0);
+    }
+
+    // Printing and high contrast modes drop backgrounds, the ring among them, so
+    // an outline stands in for it there.
+    @media print {
+        outline: thin solid $gray-400;
+    }
+
+    @media (forced-colors: active) {
+        outline: thin solid CanvasText;
     }
 }
