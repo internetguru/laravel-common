@@ -888,7 +888,7 @@ The tints are derived from the label, so a row keeps the same palette across req
 
 Hues are spread by the golden angle, so neighbouring tags never land on a similar colour however many there are.
 
-Styles come from `ig::common/tag-cloud`; the look of the chips and of the word cloud is set by the `$tag-*` and `$tag-cloud-*` variables, which have to be given before the stylesheet is imported. A cloud sitting on a card is usually given a negative inline margin through `$tag-cloud-margin`, so it reaches past the card's padding and reads as its own shape rather than as a block of text.
+Styles come from `ig::common/tag-cloud`; the chips are [labels](#label-blade-component), and the word cloud is set by the `$tag-cloud-*` variables, which have to be given before the stylesheet is imported. A cloud sitting on a card is usually given a negative inline margin through `$tag-cloud-margin`, so it reaches past the card's padding and reads as its own shape rather than as a block of text.
 
 The typographic cloud needs the `tagCloud` Alpine.js component, which `ig::common-js` registers: its sizes are measured in the browser, since every line is packed and then scaled to fill the width of the cloud exactly. The cloud stays hidden until it has been measured, so the fallback sizes rendered server-side never show; without JavaScript those sizes are what is shown.
 
@@ -945,11 +945,11 @@ enum OrderStatus: string implements HasLabel
 }
 ```
 
-Styles come from `ig::common/label`; the look of the chip is set by the `$ig-label-*` variables, which have to be given before the stylesheet is imported. Card badges are the same chip. A chip keeps to one line and cuts a text too long for its place short; to let it wrap instead:
+Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are one chip, styled by the `$ig-label-*` variables given before the stylesheets are imported:
 
-```scss
-$ig-label-wrap: true;
-```
+- black text on white, with the kind of value carried by the dot
+- the border glows in the dot colour at the bottom right corner and faintly at the top left, set by `$ig-label-accent-*`
+- one line, with a text too long for its place cut short; `$ig-label-wrap: true` lets it wrap instead
 
 ### Demo Info Blade Component
 

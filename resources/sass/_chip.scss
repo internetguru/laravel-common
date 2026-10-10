@@ -10,10 +10,13 @@ $ig-label-gap: .5em !default;
 $ig-label-dot-size: .45em !default;
 
 /// The chip picks up its dot colour as if catching its light: the border glows
-/// in it at the bottom right corner and faintly at the top left.
+/// in it at the bottom right corner and faintly at the top left. The glow
+/// reaches across a share of the chip's width and height, so it keeps its shape
+/// on a chip of any size.
 $ig-label-accent-border: 45% !default;
 $ig-label-accent-border-soft: 25% !default;
-$ig-label-accent-reach: 3em !default;
+$ig-label-accent-reach-x: 50% !default;
+$ig-label-accent-reach-y: 140% !default;
 
 /// How much of the glow reaches into the fill, as a share of the border's.
 $ig-label-accent-fill: .1 !default;
@@ -25,9 +28,9 @@ $ig-label-wrap: false !default;
 /// The two corner glows in the dot colour, at a share of their full strength.
 @function ig-chip-glows($dot, $share: 1) {
     @return
-        radial-gradient($ig-label-accent-reach at 100% 100%,
+        radial-gradient($ig-label-accent-reach-x $ig-label-accent-reach-y at 100% 100%,
             color-mix(in srgb, #{$dot} $ig-label-accent-border * $share, transparent), transparent),
-        radial-gradient($ig-label-accent-reach * .75 at 0 0,
+        radial-gradient($ig-label-accent-reach-x * .75 $ig-label-accent-reach-y * .75 at 0 0,
             color-mix(in srgb, #{$dot} $ig-label-accent-border-soft * $share, transparent), transparent);
 }
 
@@ -39,7 +42,7 @@ $ig-label-wrap: false !default;
     display: inline-block;
     max-width: 100%;
     padding: $ig-label-padding;
-    font-weight: $font-weight-light;
+    font-weight: $font-weight-normal;
     line-height: 1.4;
     text-align: left;
     color: $ig-label-color;

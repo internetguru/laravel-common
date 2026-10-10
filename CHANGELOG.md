@@ -12,11 +12,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Card badges and `x-ig::label` are one chip, styled by the `$ig-label-*` variables: black text on white, on a single line with a text too long for its place cut short. Set `$ig-label-wrap: true` to let the text wrap instead.
+- Card badges, tag cloud chips and `x-ig::label` are one chip, styled by the `$ig-label-*` variables: black text in regular weight on white, on a single line with a text too long for its place cut short. Set `$ig-label-wrap: true` to let the text wrap instead.
 
 ### Removed
 
-- `$card-badge-radius`; set `$ig-label-radius` instead.
+- `$card-badge-radius`, `$tag-radius`, `$tag-color`, `$tag-bg` and `$tag-border-color`; set the `$ig-label-*` variables instead.
 
 ## [8.5.0] - 2026-10-10
 
