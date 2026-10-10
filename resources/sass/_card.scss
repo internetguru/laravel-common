@@ -1,5 +1,4 @@
-/// Rounding of the chips sitting on a card.
-$card-badge-radius: 1.25rem !default;
+@import 'chip';
 
 /// A card's own padding, which a full-bleed image reaches back over. Held at
 /// the same size on every screen: the card carries no background of its own on
@@ -77,39 +76,15 @@ $card-badge-dots: () !default;
     margin-bottom: $spacer;
 }
 
-/// A soft chip reading well on any card tint; the kind of item is carried by a
-/// small coloured dot rather than a filled background. Badges carry longer
-/// labels, so they wrap between words inside the chip instead of overflowing a
-/// narrow screen.
+/// The same chip as a label.
 .card .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: .5em;
-    max-width: 100%;
-    padding: .4em .85em;
-    font-weight: $font-weight-light;
-    line-height: 1.4;
-    text-align: left;
-    white-space: normal;
-    color: $gray-700;
-    background-color: rgba($white, .75);
-    border: 1px solid rgba($black, .07);
-    border-radius: $card-badge-radius;
-
-    &::before {
-        content: '';
-        flex: 0 0 auto;
-        width: .45em;
-        height: .45em;
-        border-radius: 50%;
-        background-color: currentcolor;
-    }
+    @include ig-chip;
 }
 
 @each $name, $color in $card-badge-dots {
 
-    .card .badge-#{$name}::before {
-        background-color: $color;
+    .card .badge-#{$name} {
+        --ig-label-dot: #{$color};
     }
 }
 

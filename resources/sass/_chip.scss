@@ -1,0 +1,52 @@
+/// The chip shared by labels and card badges: the text is read in the body
+/// colour on a soft white, and the kind of value is carried by a small dot,
+/// coloured by the `--ig-label-dot` custom property.
+$ig-label-radius: 1.25rem !default;
+$ig-label-color: $gray-700 !default;
+$ig-label-bg: rgba($white, .9) !default;
+$ig-label-border-color: rgba($black, .07) !default;
+$ig-label-padding: .4em .85em !default;
+$ig-label-gap: .5em !default;
+$ig-label-dot-size: .45em !default;
+
+/// A chip keeps to one line and cuts a text too long for its place short, so a
+/// row of them stays even; true lets the text wrap inside the chip instead.
+$ig-label-wrap: false !default;
+
+@mixin ig-chip {
+    display: inline-block;
+    max-width: 100%;
+    padding: $ig-label-padding;
+    font-weight: $font-weight-light;
+    line-height: 1.4;
+    text-align: left;
+    color: $ig-label-color;
+    background-color: $ig-label-bg;
+    border: 1px solid $ig-label-border-color;
+    border-radius: $ig-label-radius;
+
+    // Hidden overflow moves an inline block's baseline to its bottom edge, so it
+    // is centred on the line rather than standing above the text around it.
+    vertical-align: middle;
+
+    @if $ig-label-wrap {
+        white-space: normal;
+    } @else {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    // Laid out as an inline box of its own: width and height say nothing on a
+    // plain inline one, which would leave the dot with no size to be seen at.
+    &::before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        width: $ig-label-dot-size;
+        height: $ig-label-dot-size;
+        margin-right: $ig-label-gap;
+        border-radius: 50%;
+        background-color: var(--ig-label-dot, currentcolor);
+    }
+}

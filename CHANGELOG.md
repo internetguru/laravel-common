@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Card badges and `x-ig::label` are one chip, styled by the `$ig-label-*` variables: a soft white background and a single line, with a text too long for its place cut short. Set `$ig-label-wrap: true` to let the text wrap instead.
+
+### Removed
+
+- `$card-badge-radius`; set `$ig-label-radius` instead.
+
 ## [8.5.0] - 2026-10-10
 
 _Stable release based on [8.5.0-rc.1]._

@@ -830,7 +830,7 @@ Clipboard access requires a secure context (HTTPS or localhost); when it is unav
 | `icon` | `fa-solid fa-arrow-up-right-from-square` | Icon of the corner link button. |
 | `gray` | `false` | Puts the card on a grey surface, with its heading and content centred. |
 
-Styles come from `ig::common/card`. The dot colour per badge kind is taken from the `$card-badge-dots` map, keyed by `badge-type`, which is empty by default:
+Styles come from `ig::common/card`. A badge is drawn as the same chip as a [label](#label-blade-component), so the `$ig-label-*` variables style both. The dot colour per badge kind is taken from the `$card-badge-dots` map, keyed by `badge-type`, which is empty by default:
 
 ```scss
 $card-badge-dots: (
@@ -945,7 +945,11 @@ enum OrderStatus: string implements HasLabel
 }
 ```
 
-Styles come from `ig::common/label`; the look of the chip is set by the `$ig-label-*` variables, which have to be given before the stylesheet is imported.
+Styles come from `ig::common/label`; the look of the chip is set by the `$ig-label-*` variables, which have to be given before the stylesheet is imported. Card badges are the same chip. A chip keeps to one line and cuts a text too long for its place short; to let it wrap instead:
+
+```scss
+$ig-label-wrap: true;
+```
 
 ### Demo Info Blade Component
 
