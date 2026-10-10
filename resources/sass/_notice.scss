@@ -1,0 +1,65 @@
+/// The full-width notices above the page header (demo and read-only mode, and
+/// laravel-user's system message and app hints), rendered by the packages as
+/// `div.container-fluid.alert.alert-{type} > p`. A notice is a remark about the
+/// page rather than a surface on it: no background, border or shadow, only an
+/// icon and a narrow centred column. The icon is a Font Awesome glyph drawn as
+/// a mask, so it takes its type's colour and needs no script.
+$notice-max-width: 28em !default;
+$notice-icon-width: 1.25em !default;
+$notice-color: $body-color !default;
+$notice-link-color: $link-color !default;
+
+/// The icon colour per type; each passes 3:1 on white. Bootstrap's warning
+/// yellow and info cyan are too light on their own.
+$notice-info-color: $primary !default;
+$notice-success-color: $success !default;
+$notice-warning-color: shade-color($warning, 40%) !default;
+$notice-danger-color: $danger !default;
+
+/// The icon shape per type, so the colour is not the only thing telling them
+/// apart: circle-info, circle-check, triangle-exclamation, circle-exclamation.
+$notice-info-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336l24 0 0-64-24 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l48 0c13.3 0 24 10.7 24 24l0 88 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-80 0c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z'/%3E%3C/svg%3E" !default;
+$notice-success-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z'/%3E%3C/svg%3E" !default;
+$notice-warning-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z'/%3E%3C/svg%3E" !default;
+$notice-danger-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z'/%3E%3C/svg%3E" !default;
+
+$notice-types: (
+    info: ($notice-info-color, $notice-info-icon),
+    success: ($notice-success-color, $notice-success-icon),
+    warning: ($notice-warning-color, $notice-warning-icon),
+    danger: ($notice-danger-color, $notice-danger-icon),
+);
+
+.container-fluid.alert:is(.alert-info, .alert-success, .alert-warning, .alert-danger) {
+    --#{$prefix}alert-bg: transparent;
+    --#{$prefix}alert-color: #{$notice-color};
+    --#{$prefix}alert-border-color: transparent;
+    --#{$prefix}alert-link-color: #{$notice-link-color};
+    padding: $spacer * .5 calc(var(--#{$prefix}gutter-x) * .5);
+
+    // The icon hangs in the left padding, so a wrapped line starts under the text, not the icon.
+    > p {
+        position: relative;
+        max-width: $notice-max-width;
+        margin-inline: auto;
+        padding-top: $spacer * .75;
+        padding-bottom: $spacer * .75;
+        padding-left: calc(var(--#{$prefix}gutter-x) * .5 + #{$notice-icon-width} + #{$spacer * .5});
+    }
+
+    > p::before {
+        content: "";
+        position: absolute;
+        top: calc(#{$spacer * .75} + #{($line-height-base - 1) * .5em});
+        left: calc(var(--#{$prefix}gutter-x) * .5);
+        width: $notice-icon-width;
+        height: 1em;
+    }
+
+    @each $type, $look in $notice-types {
+        &.alert-#{$type} > p::before {
+            background-color: nth($look, 1);
+            mask: url(nth($look, 2)) center / contain no-repeat;
+        }
+    }
+}
