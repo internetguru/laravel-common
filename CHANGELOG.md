@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [8.5.0-rc.1] - 2026-10-10
 
 ### Added
 
@@ -2226,7 +2226,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
-[Unreleased]: https://github.com/internetguru/laravel-common/compare/staging...dev
+[8.5.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v8.4.4
 [8.4.4]: https://github.com/internetguru/laravel-common/compare/v8.4.3...v8.4.4
 [8.4.3]: https://github.com/internetguru/laravel-common/compare/v8.4.2...v8.4.3
 [8.4.2]: https://github.com/internetguru/laravel-common/compare/v8.4.1...v8.4.2
