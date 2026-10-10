@@ -4,6 +4,7 @@ namespace InternetGuru\LaravelCommon\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\View\View;
+use InternetGuru\LaravelCommon\Support\Palette;
 
 class TagCloud extends Component
 {
@@ -41,20 +42,18 @@ class TagCloud extends Component
     }
 
     /**
-     * The custom properties of a single tag. Hues are spread by the golden
-     * angle, so neighbouring tags never land on a similar colour however many
-     * there are. In the typographic cloud the sizes are measured in the
+     * The custom properties of a single tag. Each tag takes the palette slot
+     * of its position, so the first tags are the furthest apart in colour and
+     * no two share one. In the typographic cloud the sizes are measured in the
      * browser, so the one set here only stands in until the script has run.
      */
     private function style(string $label, int $index): string
     {
-        $hue = (int) round(fmod($index * 137.5, 360));
-
         if (! $this->isTypography) {
-            return "--tag-hue: {$hue}";
+            return '--ig-label-dot: ' . Palette::color($index);
         }
 
-        return "--tag-hue: {$hue}; --tag-size: {$this->fallbackSize($label)}rem";
+        return '--tag-hue: ' . Palette::hue($index) . "; --tag-size: {$this->fallbackSize($label)}rem";
     }
 
     /**

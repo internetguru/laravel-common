@@ -13,8 +13,8 @@ Shared foundation of every Internet Guru application: Blade components, input sa
 
 ## Labels
 
-- A fixed set of values (status, role, payment type) is a backed string enum implementing `InternetGuru\LaravelCommon\Contracts\HasLabel` with the `RendersLabel` trait. It defines `label()` (a `match` with literal translation keys) and `variant()` (a Bootstrap theme colour), and renders with `toLabelHtml()`.
-- A value without a fixed set, such as a branch name from the database, is rendered with `InternetGuru\LaravelCommon\View\Components\Label::html($text, seed: $stableValue)`. The colour is derived from the seed, so seed on something that does not change with the locale.
+- A fixed set of values (status, role, payment type) is a backed string enum implementing `InternetGuru\LaravelCommon\Contracts\HasLabel` with the `RendersLabel` trait. It defines `label()` (a `match` with literal translation keys) and `variant()` (a theme colour drawn in its palette tone, or null), and renders with `toLabelHtml()`. Cases without a variant get distinct colours from `Support\Palette`; override `labelColor()` to force a slot (integer) or a colour of its own on a case.
+- A value without a fixed set, such as a branch name from the database, is rendered with `InternetGuru\LaravelCommon\View\Components\Label::html($text, seed: $stableValue)`. The colour is hashed from the seed, so seed on something that does not change with the locale. Two values may share a colour; when a set must differ, give each `color` its slot from `Palette::colors()`.
 - In Blade, use `<x-ig::label text="…" variant="success" />`. In PHP that returns markup (model browser formatters), use `toLabelHtml()` or `Label::html()`.
 
 ## Input sanitization
