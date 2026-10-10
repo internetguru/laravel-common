@@ -633,6 +633,8 @@ $this->dispatch('ig-message', type: 'success', message: 'Item saved!');
 $this->dispatch('ig-message', type: 'danger', message: 'Something went wrong.');
 ```
 
+**Known issue:** with Laravel Debugbar enabled in an application that starts the session in its global middleware, a message flashed before a Livewire redirect does not show on the next page. Debugbar fetches the data of the Livewire request (`_debugbar/open`) while the browser is still on its way to the next page, and that request uses up the flash. Production without Debugbar is not affected. Locally, set `DEBUGBAR_ENABLED=false` to see the messages.
+
 ### Form Blade Components
 
 > The package provides a set of Blade components for forms and various input types.
