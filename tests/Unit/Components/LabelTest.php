@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Components;
 
+use InternetGuru\LaravelCommon\Support\Palette;
 use InternetGuru\LaravelCommon\View\Components\Label;
 use Tests\TestCase;
 
@@ -24,11 +25,11 @@ class LabelTest extends TestCase
         $html->assertDontSee('Paid');
     }
 
-    public function test_a_variant_names_a_theme_colour()
+    public function test_a_variant_is_drawn_in_its_palette_tone()
     {
         $html = $this->blade('<x-ig::label text="Paid" variant="success" />');
 
-        $html->assertSee('--ig-label-dot: var(--bs-success)', false);
+        $html->assertSee('--ig-label-dot: ' . Palette::variant('success'), false);
     }
 
     public function test_an_unknown_variant_falls_back_to_a_derived_colour()
@@ -36,7 +37,7 @@ class LabelTest extends TestCase
         $html = $this->blade('<x-ig::label text="Paid" variant="expression(alert(1))" />');
 
         $html->assertDontSee('expression', false);
-        $html->assertSee('--ig-label-dot: hsl(', false);
+        $html->assertSee('--ig-label-dot: oklch(', false);
     }
 
     public function test_an_explicit_colour_wins_over_the_variant()
@@ -51,15 +52,24 @@ class LabelTest extends TestCase
         $html = $this->blade('<x-ig::label text="Paid" color="red; background: url(evil)" />');
 
         $html->assertDontSee('evil', false);
-        $html->assertSee('--ig-label-dot: hsl(', false);
+        $html->assertSee('--ig-label-dot: oklch(', false);
     }
 
-    public function test_a_value_keeps_its_colour_and_differs_from_its_neighbours()
+    public function test_a_number_as_the_colour_picks_a_palette_slot()
+    {
+        $html = $this->blade('<x-ig::label text="Paid" variant="success" color="3" />');
+
+        $html->assertSee('--ig-label-dot: ' . Palette::color(3), false);
+        $this->assertStringContainsString(Palette::color(5), Label::html('Paid', color: 5));
+    }
+
+    public function test_a_value_keeps_its_colour_from_the_first_ring_of_the_palette()
     {
         $this->assertSame(Label::html('Prague'), Label::html('Prague'));
+        $this->assertSame(Palette::color(crc32('Prague') % 8), $this->dotColorOf(Label::html('Prague')));
         $this->assertNotSame(
             $this->dotColorOf(Label::html('Prague')),
-            $this->dotColorOf(Label::html('Brno')),
+            $this->dotColorOf(Label::html('Ostrava')),
         );
     }
 

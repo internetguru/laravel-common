@@ -6,20 +6,14 @@ $tag-cloud-margin: $spacer * 3 0 0 !default;
 /// The gap between chips in the default cloud.
 $tag-cloud-gap: $spacer * .5 !default;
 
-/// A chip: soft enough to read on any card tint, with the tag's own hue
-/// carried by a small dot rather than by a filled background.
-$tag-radius: 1.25rem !default;
-$tag-color: $gray-700 !default;
-$tag-bg: rgba($white, .75) !default;
-$tag-border-color: rgba($black, .07) !default;
-$tag-dot-color: hsl(var(--tag-hue) 62% 45%) !default;
+@import 'chip';
 
 /// The gap in the typographic cloud, which also carries the scale its sizes
 /// are set at; `zoom` would do the same for the whole cloud, but it also
 /// scales the widths the layout script measures, which mobile browsers report
 /// inconsistently.
 $tag-cloud-typography-gap: 0 ($spacer * .4) !default;
-$tag-cloud-typography-color: hsl(var(--tag-hue) 58% 60%) !default;
+$tag-cloud-typography-color: oklch(68% 0.12 var(--tag-hue)) !default;
 $tag-cloud-typography-weight: $font-weight-semibold !default;
 
 /// A list of tags as chips, wrapping onto as many lines as they need.
@@ -33,30 +27,9 @@ $tag-cloud-typography-weight: $font-weight-semibold !default;
     margin: $tag-cloud-margin;
 }
 
+/// The same chip as a label, coloured by the component.
 .tag {
-    display: inline-flex;
-    align-items: center;
-    gap: .5em;
-    padding: .4em .85em;
-    font-weight: $font-weight-light;
-    line-height: 1.4;
-    text-align: left;
-    color: $tag-color;
-    background-color: $tag-bg;
-    border: 1px solid $tag-border-color;
-    border-radius: $tag-radius;
-
-    // A tag always reads on one line; its label never wraps or splits.
-    white-space: nowrap;
-
-    &::before {
-        content: '';
-        flex: 0 0 auto;
-        width: .45em;
-        height: .45em;
-        border-radius: 50%;
-        background-color: $tag-dot-color;
-    }
+    @include ig-chip;
 }
 
 /// The conventional word cloud: no chips, just the terms, each in its own
@@ -78,6 +51,8 @@ $tag-cloud-typography-weight: $font-weight-semibold !default;
         padding: 0;
         border: 0;
         background: none;
+        outline: 0;
+        overflow: visible;
         font-size: var(--tag-size);
         font-weight: $tag-cloud-typography-weight;
         line-height: .95;
@@ -88,7 +63,8 @@ $tag-cloud-typography-weight: $font-weight-semibold !default;
         // no space and the lines stay as tightly packed as measured.
         transform: translateY(var(--tag-shift, 0));
 
-        &::before {
+        &::before,
+        &::after {
             content: none;
         }
     }

@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- A chip's border glows in its dot colour at the bottom right corner and faintly at the top left, tuned by the `$ig-label-accent-*` variables.
+- `Support\Palette` gives labels mild colours, each at least 3:1 against white, as far apart as a set allows. Enum cases without a variant get a colour of their own from it, and `color` on a label takes a palette slot as a number.
+
+### Changed
+
+- Card badges, tag cloud chips and `x-ig::label` are one chip, styled by the `$ig-label-*` variables: black text in regular weight on white, on a single line with a text too long for its place cut short. Set `$ig-label-wrap: true` to let the text wrap instead.
+- Variants, hashed label colours and tag cloud chips are drawn in the palette's tones instead of the theme colours and HSL hues.
+
+### Removed
+
+- `$card-badge-radius`, `$tag-radius`, `$tag-color`, `$tag-bg`, `$tag-border-color` and `$tag-dot-color`; set the `$ig-label-*` variables instead.
+
 ## [8.5.0] - 2026-10-10
 
 _Stable release based on [8.5.0-rc.1]._
@@ -2230,6 +2246,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://github.com/internetguru/laravel-common/compare/staging...dev
 [8.5.0]: https://github.com/internetguru/laravel-common/compare/v8.4.4...v8.5.0
 [8.5.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v8.4.4
 [8.4.4]: https://github.com/internetguru/laravel-common/compare/v8.4.3...v8.4.4

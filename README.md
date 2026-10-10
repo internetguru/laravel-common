@@ -830,7 +830,7 @@ Clipboard access requires a secure context (HTTPS or localhost); when it is unav
 | `icon` | `fa-solid fa-arrow-up-right-from-square` | Icon of the corner link button. |
 | `gray` | `false` | Puts the card on a grey surface, with its heading and content centred. |
 
-Styles come from `ig::common/card`. The dot colour per badge kind is taken from the `$card-badge-dots` map, keyed by `badge-type`, which is empty by default:
+Styles come from `ig::common/card`. A badge is drawn as the same chip as a [label](#label-blade-component), so the `$ig-label-*` variables style both. The dot colour per badge kind is taken from the `$card-badge-dots` map, keyed by `badge-type`, which is empty by default:
 
 ```scss
 $card-badge-dots: (
@@ -888,7 +888,7 @@ The tints are derived from the label, so a row keeps the same palette across req
 
 Hues are spread by the golden angle, so neighbouring tags never land on a similar colour however many there are.
 
-Styles come from `ig::common/tag-cloud`; the look of the chips and of the word cloud is set by the `$tag-*` and `$tag-cloud-*` variables, which have to be given before the stylesheet is imported. A cloud sitting on a card is usually given a negative inline margin through `$tag-cloud-margin`, so it reaches past the card's padding and reads as its own shape rather than as a block of text.
+Styles come from `ig::common/tag-cloud`; the chips are [labels](#label-blade-component), and the word cloud is set by the `$tag-cloud-*` variables, which have to be given before the stylesheet is imported. A cloud sitting on a card is usually given a negative inline margin through `$tag-cloud-margin`, so it reaches past the card's padding and reads as its own shape rather than as a block of text.
 
 The typographic cloud needs the `tagCloud` Alpine.js component, which `ig::common-js` registers: its sizes are measured in the browser, since every line is packed and then scaled to fill the width of the cloud exactly. The cloud stays hidden until it has been measured, so the fallback sizes rendered server-side never show; without JavaScript those sizes are what is shown.
 
@@ -909,15 +909,18 @@ The typographic cloud needs the `tagCloud` Alpine.js component, which `ig::commo
 | Prop | Default | Description |
 | --- | --- | --- |
 | `text` | `null` | The label itself. The slot is used instead when one is given. |
-| `variant` | `null` | Bootstrap theme colour naming the kind of value: `primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light` or `dark`. |
-| `color` | `null` | An explicit colour, taking precedence over the variant. A hex, `rgb()`, `hsl()` or `var()` notation. |
+| `variant` | `null` | Kind of value, drawn in its palette tone: `primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light` or `dark`. |
+| `color` | `null` | A palette slot as a number, or an explicit colour in hex, `rgb()`, `hsl()`, `oklch()` or `var()` notation. Either takes precedence over the variant. |
 | `seed` | the text | What the colour is derived from when neither a variant nor a colour is given. |
 | `icon` | `null` | Font Awesome classes of an icon shown in place of the dot. |
 | `slim` | `false` | Cuts the padding down, for a label read inside a line of text rather than in a column of its own. |
 
-A value with no variant of its own is given a colour derived from a hash of its seed, so it keeps the same colour wherever it is shown without anything having to be stored against it - which is what lets a label name a value read out of the database, such as a branch, and not only a case of an enum. The colours are drawn from twelve evenly spaced hues, so any two values are at least 30 degrees apart; two values out of a larger set will sometimes share one. Pass `seed` where the text is translated or may be renamed, so the colour holds: a backed enum should seed on its value, not on its label.
+Colours come from `InternetGuru\LaravelCommon\Support\Palette`: one mild tone, each colour at least 3:1 against white. Slot `n` always has the same colour, and the first slots are the furthest apart; after eight, a darker ring follows. A seed turns the whole wheel - a string is hashed, an integer is the angle in degrees.
 
-An enum can render itself through the `HasLabel` contract and the `RendersLabel` trait, which gives it `toLabelHtml()`, taking the same `slim` flag. The trait seeds the colour on the enum's backing value, so a translated label does not change it; override its `labelIcon()` to give the label an icon in place of the dot. That is what the places building their HTML in PHP need - a model browser column formatter above all, which is given the name of a function and echoes what it returns; `Label::html()` does the same for a value that is not an enum.
+- `Palette::colors($keys, $forced, $seed)` colours a set: each key takes the slot of its position, so no two share a colour. A slot forced on a key moves the key it was taken from to the next free slot; forcing one past the end drops the colour left over.
+- A value given no variant or colour is hashed into one of the first eight slots, so it keeps its colour wherever it is shown, though two values may share one. Pass `seed` where the text is translated or may be renamed.
+
+An enum renders itself through the `HasLabel` contract and the `RendersLabel` trait, which gives it `toLabelHtml()`, taking the same `slim` flag. Cases whose `variant()` is null share one palette seeded by the enum's class, each in a colour of its own. Override `labelColor()` to force a slot or a colour of its own on a case, `labelPaletteSeed()` to turn the palette, and `labelIcon()` to show an icon in place of the dot. `Label::html()` does the same for a value that is not an enum, for the places building their HTML in PHP, such as a model browser column formatter.
 
 ```php
 enum OrderStatus: string implements HasLabel
@@ -945,7 +948,11 @@ enum OrderStatus: string implements HasLabel
 }
 ```
 
-Styles come from `ig::common/label`; the look of the chip is set by the `$ig-label-*` variables, which have to be given before the stylesheet is imported.
+Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are one chip, styled by the `$ig-label-*` variables given before the stylesheets are imported:
+
+- black text on white, with the kind of value carried by the dot
+- the border glows in the dot colour at the bottom right corner and faintly at the top left, set by `$ig-label-accent-*`
+- one line, with a text too long for its place cut short; `$ig-label-wrap: true` lets it wrap instead
 
 ### Demo Info Blade Component
 
