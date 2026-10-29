@@ -7,7 +7,16 @@ $ig-label-bg: $white !default;
 $ig-label-border-color: rgba($black, .07) !default;
 $ig-label-padding: .4em .85em !default;
 $ig-label-gap: .5em !default;
-$ig-label-dot-size: .45em !default;
+$ig-label-dot-size: .55em !default;
+
+/// How far the dot is lifted from the middle of the line, where it reads as
+/// sitting low beside mixed-case text.
+$ig-label-dot-lift: .1em !default;
+
+/// A soft glow around the dot in its own colour.
+$ig-label-dot-glow-blur: .8em !default;
+$ig-label-dot-glow-spread: .15em !default;
+$ig-label-dot-glow-strength: 35% !default;
 
 /// The chip picks up its dot colour as if catching its light: the border glows
 /// in it at the bottom right corner and faintly at the top left. The glow
@@ -73,6 +82,9 @@ $ig-label-wrap: false !default;
         margin-right: $ig-label-gap;
         border-radius: 50%;
         background-color: $dot;
+        translate: 0 (-$ig-label-dot-lift);
+        box-shadow: 0 0 $ig-label-dot-glow-blur $ig-label-dot-glow-spread
+            color-mix(in srgb, #{$dot} $ig-label-dot-glow-strength, transparent);
     }
 
     // The border, drawn as a ring of its own behind the text: a border cannot

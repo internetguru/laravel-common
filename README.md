@@ -633,6 +633,8 @@ $this->dispatch('ig-message', type: 'success', message: 'Item saved!');
 $this->dispatch('ig-message', type: 'danger', message: 'Something went wrong.');
 ```
 
+**Known issue:** with Laravel Debugbar enabled in an application that starts the session in its global middleware, a message flashed before a Livewire redirect does not show on the next page. Debugbar fetches the data of the Livewire request (`_debugbar/open`) while the browser is still on its way to the next page, and that request uses up the flash. Production without Debugbar is not affected. Locally, set `DEBUGBAR_ENABLED=false` to see the messages.
+
 ### Form Blade Components
 
 > The package provides a set of Blade components for forms and various input types.
@@ -951,6 +953,8 @@ enum OrderStatus: string implements HasLabel
 Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are one chip, styled by the `$ig-label-*` variables given before the stylesheets are imported:
 
 - black text on white, with the kind of value carried by the dot
+- the dot, sized by `$ig-label-dot-size`, sits `$ig-label-dot-lift` above the middle of the line and glows softly in its colour, set by `$ig-label-dot-glow-*`
+- a slim label never makes its line of text taller: its padding reaches into the line spacing
 - the border glows in the dot colour at the bottom right corner and faintly at the top left, set by `$ig-label-accent-*`
 - one line, with a text too long for its place cut short; `$ig-label-wrap: true` lets it wrap instead
 

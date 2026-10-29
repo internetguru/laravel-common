@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- A chip's dot is larger, sits slightly higher and glows softly in its own colour, tuned by `$ig-label-dot-size`, `$ig-label-dot-lift` and the `$ig-label-dot-glow-*` variables.
+- A slim label no longer makes the line of text it sits in taller.
+
 ## [8.6.0] - 2026-10-10
 
 _Stable release based on [8.6.0-rc.1]._
@@ -2250,6 +2257,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://github.com/internetguru/laravel-common/compare/staging...dev
 [8.6.0]: https://github.com/internetguru/laravel-common/compare/v8.5.0...v8.6.0
 [8.6.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v8.5.0
 [8.5.0]: https://github.com/internetguru/laravel-common/compare/v8.4.4...v8.5.0
