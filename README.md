@@ -954,7 +954,7 @@ Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are
 
 - black text on white, with the kind of value carried by the dot
 - the dot, sized by `$ig-label-dot-size`, sits `$ig-label-dot-lift` above the middle of the line and glows softly in its colour, set by `$ig-label-dot-glow-*`
-- a slim label sits `$ig-label-slim-align` below the middle of its line of text, where it lines up with the words around it
+- a slim label never makes its line of text taller, and its text sits on the baseline of the words around it
 - the border glows in the dot colour at the bottom right corner and faintly at the top left, set by `$ig-label-accent-*`
 - one line, with a text too long for its place cut short; `$ig-label-wrap: true` lets it wrap instead
 
