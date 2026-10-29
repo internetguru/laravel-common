@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [8.7.1] - 2026-10-29
+
+### Fixed
+
+- A label leaves no line break after it, so it adds no stray space to the line of text or the link it sits in.
+
 ## [8.7.0] - 2026-10-29
 
 _Stable release based on [8.7.0-rc.1]._
@@ -2264,6 +2270,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://github.com/internetguru/laravel-common/compare/staging...dev
+[8.7.1]: https://github.com/internetguru/laravel-common/compare/v8.7.0...v8.7.1
 [8.7.0]: https://github.com/internetguru/laravel-common/compare/v8.6.0...v8.7.0
 [8.7.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v8.6.0
 [8.6.0]: https://github.com/internetguru/laravel-common/compare/v8.5.0...v8.6.0

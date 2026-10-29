@@ -103,6 +103,20 @@ class LabelTest extends TestCase
         $html->assertDontSee('ig-label-slim', false);
     }
 
+    public function test_the_label_carries_no_whitespace_after_it()
+    {
+        $html = Label::html('Paid');
+
+        $this->assertStringEndsWith('Paid</span>', $html);
+    }
+
+    public function test_an_inline_label_leaves_its_line_of_text_untouched()
+    {
+        $html = $this->blade('Order <x-ig::label text="Paid" />.');
+
+        $this->assertStringEndsWith('Paid</span>.', (string) $html);
+    }
+
     private function dotColorOf(string $html): string
     {
         preg_match('/--ig-label-dot: ([^"]+)"/', $html, $matches);
