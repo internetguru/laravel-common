@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [8.7.4] - 2026-10-29
+
+### Fixed
+
+- The package tests install and run on current Laravel again.
+
 ## [8.7.3] - 2026-10-29
 
 ### Fixed
@@ -2284,6 +2290,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[8.7.4]: https://github.com/internetguru/laravel-common/compare/v8.7.3...v8.7.4
 [8.7.3]: https://github.com/internetguru/laravel-common/compare/v8.7.2...v8.7.3
 [8.7.2]: https://github.com/internetguru/laravel-common/compare/v8.7.1...v8.7.2
 [8.7.1]: https://github.com/internetguru/laravel-common/compare/v8.7.0...v8.7.1
