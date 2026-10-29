@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [8.7.2] - 2026-10-29
+
+### Changed
+
+- A slim label sits slightly below the middle of its line of text, set by `$ig-label-slim-align`, instead of reaching into the line spacing.
+- A chip has less padding, .3em .65em by default.
+
 ## [8.7.1] - 2026-10-29
 
 ### Fixed
@@ -2267,6 +2274,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[8.7.2]: https://github.com/internetguru/laravel-common/compare/v8.7.1...v8.7.2
 [8.7.1]: https://github.com/internetguru/laravel-common/compare/v8.7.0...v8.7.1
 [8.7.0]: https://github.com/internetguru/laravel-common/compare/v8.6.0...v8.7.0
 [8.7.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v8.6.0
