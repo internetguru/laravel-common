@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [8.7.3] - 2026-10-29
+
+### Fixed
+
+- A slim label no longer makes its line of text taller, and its text sits on the baseline of the words around it.
+
+### Removed
+
+- `$ig-label-slim-align`, added in 8.7.2; a slim label is centred on its line like any other.
+
 ## [8.7.2] - 2026-10-29
 
 ### Changed
@@ -2274,6 +2284,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[8.7.3]: https://github.com/internetguru/laravel-common/compare/v8.7.2...v8.7.3
 [8.7.2]: https://github.com/internetguru/laravel-common/compare/v8.7.1...v8.7.2
 [8.7.1]: https://github.com/internetguru/laravel-common/compare/v8.7.0...v8.7.1
 [8.7.0]: https://github.com/internetguru/laravel-common/compare/v8.6.0...v8.7.0
