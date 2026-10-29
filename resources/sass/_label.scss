@@ -3,6 +3,7 @@
 /// A chip naming one value out of a set, soft enough to sit in a table cell
 /// without ruling it. The component sets the colour of its dot per label.
 $ig-label-slim-padding: .2em .5em !default;
+$ig-label-slim-align: -.2em !default;
 $ig-label-slim-gap: .4em !default;
 
 .ig-label {
@@ -33,8 +34,8 @@ $ig-label-slim-gap: .4em !default;
     // in a column of its own, where the full padding makes a chip look pressable.
     &.ig-label-slim {
         padding: $ig-label-slim-padding;
-        // The padding bleeds into the line spacing, so the label never makes its line taller.
-        margin-block: -(nth($ig-label-slim-padding, 1));
+        // Set a little below the middle, where it lines up with the text around it.
+        vertical-align: $ig-label-slim-align;
 
         &::before,
         svg {
