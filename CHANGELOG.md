@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- A chip's dot is larger, sits slightly higher and glows softly in its own colour, tuned by `$ig-label-dot-size`, `$ig-label-dot-lift` and the `$ig-label-dot-glow-*` variables.
+- A slim label no longer makes the line of text it sits in taller.
+
 ## [8.6.0] - 2026-10-10
 
 _Stable release based on [8.6.0-rc.1]._

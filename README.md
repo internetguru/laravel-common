@@ -953,6 +953,8 @@ enum OrderStatus: string implements HasLabel
 Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are one chip, styled by the `$ig-label-*` variables given before the stylesheets are imported:
 
 - black text on white, with the kind of value carried by the dot
+- the dot, sized by `$ig-label-dot-size`, sits `$ig-label-dot-lift` above the middle of the line and glows softly in its colour, set by `$ig-label-dot-glow-*`
+- a slim label never makes its line of text taller: its padding reaches into the line spacing
 - the border glows in the dot colour at the bottom right corner and faintly at the top left, set by `$ig-label-accent-*`
 - one line, with a text too long for its place cut short; `$ig-label-wrap: true` lets it wrap instead
 
