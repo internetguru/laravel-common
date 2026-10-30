@@ -20,6 +20,7 @@
   - [InjectMetaRobots](#injectmetarobots-middleware)
   - [InjectUmamiScript](#injectumamiscript-middleware)
   - [PreventDuplicateSubmissions](#preventduplicatesubmissions-middleware)
+  - [ReportImageProblems](#reportimageproblems-middleware)
   - [SetPrevPage](#setprevpage-middleware)
   - [TimezoneMiddleware](#timezonemiddleware)
   - [VerifyCsrfToken](#verifycsrftoken)
@@ -258,6 +259,24 @@ Turn it off with `IG_LOG_REQUESTS=false`. An application that has its own copy o
 > Prevents duplicate POST form submissions by caching a hashed request fingerprint (IP + path + input minus reCAPTCHA) for 1 minute. Livewire update requests are excluded.
 
 When a duplicate submission is detected, the user is redirected back with input and an error message.
+
+### `ReportImageProblems` Middleware
+
+> Checks every `<img>` on an HTML page for both dimensions and an alt.
+
+| Problem | Severity | Log level |
+| :-- | :-- | :-- |
+| a local photo (`jpg`, `png`, `webp`, `gif`, `avif`) not served by laravel-images | critical | `error` |
+| `width` or `height` missing | severe | `warning` |
+| `alt` missing | medium | `notice` |
+| `alt=""` | low | `info` |
+
+- Each page logs one `Image problems` line with its URL and the problems per image `src`, at the level of the most severe. The same problems on the same page are logged at most once a day.
+- In debug mode the images are also outlined: critical double red, severe solid red, medium solid orange, low dotted orange. Hovering one shows its problems unless it has a title of its own.
+- An attribute bound in the browser (`:alt`, `x-bind:width`) counts as present.
+- The critical check runs only where laravel-images is installed. It covers photos bundled by Vite (`Vite::asset()`) too, and skips SVGs, other hosts and `data:` URIs.
+- `/image-check` shows one image of each kind, as a quick look at the outlines.
+- Turn it off with `IG_IMAGE_WARNINGS=false`.
 
 ### `SetPrevPage` Middleware
 
@@ -875,7 +894,7 @@ Two content classes are styled for use inside the slot: `card-image` for a full-
 | `tinted` | `false` | Tints each card with a colour derived from the label. |
 | `centered` | `false` | Centres the cards instead of pinning them to the left edge. |
 
-Styles come from `ig::common/card-row`; the carousel needs the `cardRow` Alpine.js component, which `ig::common-js` registers. When the carousel overflows, a handle (the solid `faEllipsisVertical` icon, which the application registers) sits between neighbouring cards for a mouse to drag the row by; touch devices swipe instead and do not show it. The row's gap, the widths its cards settle at and the look of the paging buttons are set by the `$card-row-*` variables, which have to be given before the stylesheet is imported. A carousel scrolls sideways, so its track clips downwards too — `$card-row-bleed` is the room the cards' shadows get inside it, and a card with a deeper shadow than the default needs it raised.
+Styles come from `ig::common/card-row`; the carousel needs the `cardRow` Alpine.js component, which `ig::common-js` registers. When the carousel overflows, a handle (the solid `faEllipsisVertical` icon, which the application registers) sits between neighbouring cards for a mouse to drag the row by; touch devices swipe instead and do not show it. The left and right keys step focus card by card through the carousel holding focus, or else the one whose paging buttons are fully on screen and nearest the middle of it, paging the row when the next card is out of view; the focused card rises onto a deeper shadow (`$card-row-card-lift`, `$card-row-card-lift-shadow`) and Enter follows its link. The keys are left alone in form fields, with a modifier held and while a modal is open. The row's gap, the widths its cards settle at and the look of the paging buttons are set by the `$card-row-*` variables, which have to be given before the stylesheet is imported. A carousel scrolls sideways, so its track clips downwards too — `$card-row-bleed` is the room the cards' shadows get inside it, and a card with a deeper shadow than the default needs it raised.
 
 The tints are derived from the label, so a row keeps the same palette across requests while different rows get different colours. The palette repeats every eight cards, and neighbouring cards - including the wrap from the eighth back to the first - always sit about 135 degrees apart on the colour wheel.
 

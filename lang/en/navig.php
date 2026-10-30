@@ -19,5 +19,7 @@ return [
     'i18n.missing-cs' => 'Czech translation is missing',
     'i18n.missing-en' => 'English translation is missing',
     'i18n.complete' => 'Complete translations',
+    'image-check' => 'Image Check',
+    'image-check.index' => 'Image Check|Images',
 
 ];

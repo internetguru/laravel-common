@@ -32,8 +32,8 @@
             x-ref="track"
             x-on:scroll.passive="onScroll()"
             tabindex="0"
-            x-on:keydown.left.prevent="page(-1)"
-            x-on:keydown.right.prevent="page(1)"
+            x-on:keydown.enter="openCard($event)"
+            x-on:pointerdown="releaseCard()"
         @endif
     >
         {{ $slot }}
@@ -56,7 +56,7 @@
     </div>
 
     @if ($isCarousel)
-        <div class="card-row-nav" x-show="overflowing" x-cloak>
+        <div class="card-row-nav" x-ref="nav" x-show="overflowing" x-cloak>
             <button
                 type="button"
                 class="card-row-btn"

@@ -21,6 +21,16 @@ return [
     'errors.index.description' => ' ',
     'errors.index.title' => 'Error Test Pages',
 
+    'image-check.index.description' => ' ',
+    'image-check.index.title' => 'Image Test Page',
+    'image-check.intro' => 'Every image below but the first has a problem. In debug mode each one is outlined and hovering it lists its problems; every problem is also logged once a day.',
+    'image-check.sample' => 'Sample image',
+    'image-check.ok' => 'Complete: size and alt',
+    'image-check.low' => 'Low: empty alt, fine for decoration',
+    'image-check.medium' => 'Medium: missing alt',
+    'image-check.severe' => 'Severe: missing width and height',
+    'image-check.critical' => 'Critical: a local photo not served by laravel-images (checked only where laravel-images is installed)',
+
     'support.header' => 'Describe your issue here:',
     'support.footer' => '--- Do not edit below this line ---',
     'support.subject' => 'Tech Support Request',

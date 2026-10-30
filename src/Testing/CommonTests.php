@@ -106,6 +106,18 @@ class CommonTests
             })->with(['/i18n', '/i18n/complete', '/i18n/missing-all', '/i18n/missing-cs', '/i18n/missing-en']);
         });
 
+        describe('laravel-common image check page', function () {
+            it('outlines each kind of image problem', function () {
+                config(['app.debug' => true]);
+
+                $page = CommonTests::page($this->get('/image-check')->assertOk());
+
+                foreach (['severe', 'medium', 'low'] as $level) {
+                    expect($page->query("//img[@data-ig-image-warning=\"{$level}\"]"))->toHaveCount(1);
+                }
+            });
+        });
+
         if ($demo) {
             it('shows the demo banner', function () {
                 expect(CommonTests::page($this->get('/'))->query('//*[@data-testid="demo-info"]'))->toHaveCount(1);

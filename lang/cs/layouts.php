@@ -21,6 +21,16 @@ return [
     'errors.index.description' => ' ',
     'errors.index.title' => 'Testovací stránka pro chyby',
 
+    'image-check.index.description' => ' ',
+    'image-check.index.title' => 'Testovací stránka pro obrázky',
+    'image-check.intro' => 'Všechny obrázky kromě prvního mají problém. V režimu ladění je každý orámovaný a po najetí myší ukáže své problémy; každý problém se také jednou denně zapíše do logu.',
+    'image-check.sample' => 'Ukázkový obrázek',
+    'image-check.ok' => 'V pořádku: rozměry a alt',
+    'image-check.low' => 'Nízká: prázdný alt, v pořádku pro dekoraci',
+    'image-check.medium' => 'Střední: chybí alt',
+    'image-check.severe' => 'Vážná: chybí šířka a výška',
+    'image-check.critical' => 'Kritická: místní fotografie mimo laravel-images (kontroluje se jen tam, kde je laravel-images nainstalovaný)',
+
     'support.header' => 'Popis problému:',
     'support.footer' => '--- Za touto čarou neupravujte ---',
     'support.subject' => 'Požadavek na technickou podporu',

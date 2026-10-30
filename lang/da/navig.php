@@ -19,5 +19,7 @@ return [
     'i18n.missing-cs' => 'Tjekkisk oversættelse mangler',
     'i18n.missing-en' => 'Engelsk oversættelse mangler',
     'i18n.complete' => 'Fuldstændige oversættelser',
+    'image-check' => 'Billedkontrol',
+    'image-check.index' => 'Billedkontrol|Billeder',
 
 ];

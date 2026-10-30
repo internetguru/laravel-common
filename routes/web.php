@@ -1,7 +1,9 @@
 <?php
 
 use GuzzleHttp\Exception\ConnectException;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
+use InternetGuru\LaravelCommon\Http\Middleware\ReportImageProblems;
 
 Route::get('/error', function (): View {
     return view('ig-common::layouts.base', [
@@ -78,3 +80,13 @@ Route::get('/i18n/complete', function (): View {
         'view' => 'i18n.complete',
     ]);
 })->name('i18n.complete');
+
+Route::get('/image-check', function (): View {
+    return view('ig-common::layouts.base', [
+        'view' => 'image-check.index',
+    ]);
+})->name('image-check.index');
+
+Route::get('/image-check/sample.png', function (): Response {
+    return response(base64_decode(ReportImageProblems::SAMPLE_PNG), 200, ['Content-Type' => 'image/png']);
+})->name('image-check.sample');

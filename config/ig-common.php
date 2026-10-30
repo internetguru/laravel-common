@@ -37,6 +37,10 @@ return [
     // refreshes (polls, refreshes on focus).
     'log_requests' => env('IG_LOG_REQUESTS', true),
 
+    // Log images missing a dimension (warning), an alt (notice) or with an
+    // empty alt (info) once a day per page, and outline them in debug mode.
+    'image_warnings' => env('IG_IMAGE_WARNINGS', true),
+
     // Collapse repeats of the same log record into one entry per window, so a
     // single fault - a scanner working through a component, a failing
     // dependency - cannot bury the rest of the log. Applied to every configured
