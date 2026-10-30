@@ -20,6 +20,7 @@
   - [InjectMetaRobots](#injectmetarobots-middleware)
   - [InjectUmamiScript](#injectumamiscript-middleware)
   - [PreventDuplicateSubmissions](#preventduplicatesubmissions-middleware)
+  - [ReportImageProblems](#reportimageproblems-middleware)
   - [SetPrevPage](#setprevpage-middleware)
   - [TimezoneMiddleware](#timezonemiddleware)
   - [VerifyCsrfToken](#verifycsrftoken)
@@ -258,6 +259,24 @@ Turn it off with `IG_LOG_REQUESTS=false`. An application that has its own copy o
 > Prevents duplicate POST form submissions by caching a hashed request fingerprint (IP + path + input minus reCAPTCHA) for 1 minute. Livewire update requests are excluded.
 
 When a duplicate submission is detected, the user is redirected back with input and an error message.
+
+### `ReportImageProblems` Middleware
+
+> Checks every `<img>` on an HTML page for both dimensions and an alt.
+
+| Problem | Severity | Log level |
+| :-- | :-- | :-- |
+| a local photo (`jpg`, `png`, `webp`, `gif`, `avif`) not served by laravel-images | critical | `error` |
+| `width` or `height` missing | severe | `warning` |
+| `alt` missing | medium | `notice` |
+| `alt=""` | low | `info` |
+
+- Each page logs one `Image problems` line with its URL and the problems per image `src`, at the level of the most severe. The same problems on the same page are logged at most once a day.
+- In debug mode the images are also outlined: critical double red, severe solid red, medium solid orange, low dotted orange. Hovering one shows its problems unless it has a title of its own.
+- An attribute bound in the browser (`:alt`, `x-bind:width`) counts as present.
+- The critical check runs only where laravel-images is installed. It skips SVGs, other hosts, `data:` URIs and Vite's `/build/` output.
+- `/image-check` shows one image of each kind, as a quick look at the outlines.
+- Turn it off with `IG_IMAGE_WARNINGS=false`.
 
 ### `SetPrevPage` Middleware
 

@@ -3,7 +3,9 @@
 namespace InternetGuru\LaravelCommon;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Foundation\Events\LocaleUpdated;
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Notifications\Events\NotificationSent;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
@@ -18,6 +20,7 @@ use InternetGuru\LaravelCommon\Http\Middleware\InjectMetaRobots;
 use InternetGuru\LaravelCommon\Http\Middleware\InjectUmamiScript;
 use InternetGuru\LaravelCommon\Http\Middleware\LogRequest;
 use InternetGuru\LaravelCommon\Http\Middleware\PreventDuplicateSubmissions;
+use InternetGuru\LaravelCommon\Http\Middleware\ReportImageProblems;
 use InternetGuru\LaravelCommon\Http\Middleware\SetPrevPage;
 use InternetGuru\LaravelCommon\Listeners\LogSentNotification;
 use InternetGuru\LaravelCommon\Livewire\Messages;
@@ -40,6 +43,7 @@ class CommonServiceProvider extends ServiceProvider
         InjectUmamiScript::class,
         LogRequest::class,
         PreventDuplicateSubmissions::class,
+        ReportImageProblems::class,
         SetPrevPage::class,
         TimezoneMiddleware::class,
         VerifyCsrfToken::class,
@@ -143,10 +147,14 @@ class CommonServiceProvider extends ServiceProvider
 
     private function registerMiddleware(): void
     {
-        $router = $this->app['router'];
+        // Through the kernel: it overwrites the router's groups whenever it is resolved after boot, as in tests.
+        $kernel = $this->app->make(HttpKernelContract::class);
+        if (! $kernel instanceof HttpKernel) {
+            return;
+        }
 
         foreach ($this->webMiddleware as $middleware) {
-            $router->pushMiddlewareToGroup('web', $middleware);
+            $kernel->appendMiddlewareToGroup('web', $middleware);
         }
     }
 

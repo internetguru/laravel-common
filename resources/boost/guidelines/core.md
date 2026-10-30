@@ -26,7 +26,7 @@ Shared foundation of every Internet Guru application: Blade components, input sa
 
 ## Behaviour to keep in mind
 
-- All middleware is registered in the `web` group automatically. `CheckPostItemNames` rejects POST field names containing a dot outside production. `PreventDuplicateSubmissions` rejects an identical POST within a minute. `TimezoneMiddleware` stores `display_timezone` in the session. `LogRequest` logs every non-GET request except Livewire refreshes (`IG_LOG_REQUESTS=false` turns it off), so an application needs no request logging middleware of its own.
+- All middleware is registered in the `web` group automatically. `CheckPostItemNames` rejects POST field names containing a dot outside production. `PreventDuplicateSubmissions` rejects an identical POST within a minute. `TimezoneMiddleware` stores `display_timezone` in the session. `LogRequest` logs every non-GET request except Livewire refreshes (`IG_LOG_REQUESTS=false` turns it off), so an application needs no request logging middleware of its own. `ReportImageProblems` logs local photos not served by laravel-images (error), images missing `width`/`height` (warning) or `alt` (notice), and `alt=""` (info), and outlines them in debug mode (`/image-check` shows each kind); give every image both dimensions and an alt, and serve local photos through `<x-ig-images::img>`.
 - The queue connection must not be `sync` outside unit tests; the provider throws at boot.
 - With the package's `TranslationServiceProvider` in place, a missing translation key or parameter throws `TranslatorException` outside production. A missing key fails the page and its tests.
 - `ReadOnlyServiceProvider` (when registered and `app.readonly` is true) blocks write queries with `DbReadOnlyException`.

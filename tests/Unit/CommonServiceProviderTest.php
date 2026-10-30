@@ -2,7 +2,10 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Support\Facades\Route;
+use InternetGuru\LaravelCommon\Http\Middleware\LogRequest;
+use InternetGuru\LaravelCommon\Http\Middleware\ReportImageProblems;
 use Illuminate\Support\Number;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -86,5 +89,14 @@ class CommonServiceProviderTest extends TestCase
 
         // If we got here without exception, it means the check works correctly
         $this->assertTrue(true);
+    }
+
+    public function test_web_middleware_survives_the_kernel_syncing_its_groups()
+    {
+        $kernel = app(HttpKernel::class);
+        $kernel->setMiddlewareGroups($kernel->getMiddlewareGroups());
+
+        $this->assertContains(LogRequest::class, app('router')->getMiddlewareGroups()['web']);
+        $this->assertContains(ReportImageProblems::class, app('router')->getMiddlewareGroups()['web']);
     }
 }
