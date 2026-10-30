@@ -32,8 +32,6 @@
             x-ref="track"
             x-on:scroll.passive="onScroll()"
             tabindex="0"
-            x-on:keydown.left.prevent="page(-1)"
-            x-on:keydown.right.prevent="page(1)"
         @endif
     >
         {{ $slot }}
@@ -56,10 +54,11 @@
     </div>
 
     @if ($isCarousel)
-        <div class="card-row-nav" x-show="overflowing" x-cloak>
+        <div class="card-row-nav" x-ref="nav" x-show="overflowing" x-cloak>
             <button
                 type="button"
                 class="card-row-btn"
+                x-ref="previous"
                 aria-label="{{ __('ig-common::layouts.card_row.previous') }}"
                 x-bind:disabled="atStart"
                 x-on:click="page(-1)"
@@ -69,6 +68,7 @@
             <button
                 type="button"
                 class="card-row-btn"
+                x-ref="next"
                 aria-label="{{ __('ig-common::layouts.card_row.next') }}"
                 x-bind:disabled="atEnd"
                 x-on:click="page(1)"

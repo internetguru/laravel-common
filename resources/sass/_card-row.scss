@@ -27,6 +27,11 @@ $card-row-btn-color: $gray-700 !default;
 $card-row-btn-bg: $gray-200 !default;
 $card-row-btn-bg-hover: $gray-300 !default;
 
+/// The soft ring a paging button gives when focused or pressed from the
+/// keyboard, and how long the press takes to fade.
+$card-row-btn-ring-color: rgba($card-row-btn-color, .25) !default;
+$card-row-btn-pulse-duration: .45s !default;
+
 /// The handle drawn between cards of a carousel that overflows, which a mouse
 /// drags to scroll the row.
 $card-row-grip-color: $gray-400 !default;
@@ -124,9 +129,9 @@ $card-row-grip-color-hover: $gray-600 !default;
         display: none;
     }
 
+    // The paging buttons darken instead, so no outline is drawn round the cards.
     &:focus-visible {
-        outline: 2px solid $link-color;
-        outline-offset: 2px;
+        outline: none;
     }
 
     > .card {
@@ -271,9 +276,15 @@ $card-row-grip-color-hover: $gray-600 !default;
     background-color: $card-row-btn-bg;
     transition: background-color .2s ease, color .2s ease, opacity .2s ease;
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled),
+    .card-row-track:focus-visible ~ .card-row-nav &:not(:disabled) {
         background-color: $card-row-btn-bg-hover;
         color: $black;
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 .25em $card-row-btn-ring-color;
     }
 
     &:disabled {
@@ -282,7 +293,44 @@ $card-row-grip-color-hover: $gray-600 !default;
     }
 }
 
+/// Played when a key pages the row: the button presses in and a ring spreads
+/// from it and fades, the way a click would look.
+.card-row-btn-pulse {
+    animation: card-row-btn-pulse $card-row-btn-pulse-duration ease-out;
+}
+
+@keyframes card-row-btn-pulse {
+
+    0% {
+        background-color: $card-row-btn-bg-hover;
+        color: $black;
+        box-shadow: 0 0 0 0 $card-row-btn-ring-color;
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(.92);
+    }
+
+    100% {
+        box-shadow: 0 0 0 .6em rgba($card-row-btn-color, 0);
+        transform: scale(1);
+    }
+}
+
+@keyframes card-row-btn-pulse-still {
+
+    0% {
+        background-color: $card-row-btn-bg-hover;
+        color: $black;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
+
+    .card-row-btn-pulse {
+        animation-name: card-row-btn-pulse-still;
+    }
 
     .card-row-track {
         scroll-behavior: auto;

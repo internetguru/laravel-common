@@ -2,12 +2,77 @@
  * Horizontally scrollable card row with previous/next controls.
  *
  * Scrolling itself is native, so touch swiping and momentum come for free;
- * the arrows page by whole cards and disable at either end.
+ * the arrows page by whole cards and disable at either end. The left and
+ * right keys page the row holding focus, or else the one whose buttons are
+ * on screen nearest its vertical centre.
  */
+const rows = new Set();
+
+/** Controls that use the left and right keys themselves. */
+const ownsArrows = 'input, textarea, select, [contenteditable]:not([contenteditable="false"]), '
+    + '[role="tablist"], [role="radiogroup"], [role="slider"], [role="menu"], [role="listbox"]';
+
+/** Long enough for a smooth page to finish, so a held key steps rather than queues. */
+const repeatInterval = 350;
+
+function keyTarget() {
+    const focused = [...rows].find((row) => row.overflowing && row.$root.contains(document.activeElement));
+
+    if (focused) {
+        return focused;
+    }
+
+    const middle = window.innerHeight / 2;
+    let nearest = null;
+    let nearestDistance = Infinity;
+
+    rows.forEach((row) => {
+        if (!row.overflowing || !row.navVisible) {
+            return;
+        }
+
+        const box = row.$refs.track.getBoundingClientRect();
+        const distance = Math.abs(box.top + box.height / 2 - middle);
+
+        if (distance < nearestDistance) {
+            nearest = row;
+            nearestDistance = distance;
+        }
+    });
+
+    return nearest;
+}
+
+function onKeydown(event) {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+        return;
+    }
+
+    if (event.defaultPrevented || event.isComposing || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+        return;
+    }
+
+    if (event.target instanceof Element && event.target.closest(ownsArrows)) {
+        return;
+    }
+
+    if (document.querySelector('.ig-modal:not(.d-none)')) {
+        return;
+    }
+
+    const row = keyTarget();
+
+    if (row) {
+        event.preventDefault();
+        row.keyPage(event.key === 'ArrowLeft' ? -1 : 1, event.repeat);
+    }
+}
+
 export default () => ({
     atStart: true,
     atEnd: true,
     overflowing: false,
+    navVisible: false,
 
     /** The gaps between neighbouring cards, where the drag handles sit. */
     grips: [],
@@ -16,8 +81,15 @@ export default () => ({
     dragStart: null,
     samples: [],
     glide: null,
+    lastKeyPage: 0,
 
     init() {
+        if (rows.size === 0) {
+            document.addEventListener('keydown', onKeydown);
+        }
+
+        rows.add(this);
+
         // Refs are only bound once Alpine has walked the children.
         this.$nextTick(() => {
             this.update();
@@ -26,12 +98,29 @@ export default () => ({
                 this.observer = new ResizeObserver(() => this.update());
                 this.observer.observe(this.$refs.track);
             }
+
+            if (typeof IntersectionObserver !== 'undefined') {
+                this.navObserver = new IntersectionObserver(([entry]) => {
+                    this.navVisible = entry.isIntersecting && entry.intersectionRatio > .99;
+                }, { threshold: 1 });
+                this.navObserver.observe(this.$refs.nav);
+            }
         });
     },
 
     destroy() {
+        rows.delete(this);
+
+        if (rows.size === 0) {
+            document.removeEventListener('keydown', onKeydown);
+        }
+
         if (this.observer) {
             this.observer.disconnect();
+        }
+
+        if (this.navObserver) {
+            this.navObserver.disconnect();
         }
 
         if (this.frame !== null) {
@@ -219,5 +308,30 @@ export default () => ({
         const step = item ? item.getBoundingClientRect().width + gap : track.clientWidth;
 
         track.scrollBy({ left: direction * step, behavior: 'smooth' });
+    },
+
+    /** Pages as a key press, pulsing the button it stands in for. */
+    keyPage(direction, repeat) {
+        if (direction < 0 ? this.atStart : this.atEnd) {
+            return;
+        }
+
+        const now = performance.now();
+
+        if (repeat && now - this.lastKeyPage < repeatInterval) {
+            return;
+        }
+
+        this.lastKeyPage = now;
+        this.page(direction);
+        this.pulse(direction < 0 ? this.$refs.previous : this.$refs.next);
+    },
+
+    pulse(button) {
+        button.classList.remove('card-row-btn-pulse');
+        // Reading the layout restarts the animation on a quick second press.
+        void button.offsetWidth;
+        button.classList.add('card-row-btn-pulse');
+        button.addEventListener('animationend', () => button.classList.remove('card-row-btn-pulse'), { once: true });
     },
 });
