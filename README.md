@@ -247,6 +247,12 @@ The injected script:
 <script defer src="https://umami.internetguru.io/script.js" data-website-id="0d38f931-afdc-4a99-a913-5c601fc95629"></script>
 ```
 
+### `LogRequest` Middleware
+
+> Logs `Incoming request` at the `info` level for every request except GETs, so the [JsonDailyLogger](#jsondailylogger) records who sent what. Livewire requests that only refresh components (polls, refreshes on focus) are not logged.
+
+Turn it off with `IG_LOG_REQUESTS=false`. An application that has its own copy of this middleware should remove it, or every request is logged twice.
+
 ### `PreventDuplicateSubmissions` Middleware
 
 > Prevents duplicate POST form submissions by caching a hashed request fingerprint (IP + path + input minus reCAPTCHA) for 1 minute. Livewire update requests are excluded.
@@ -1241,7 +1247,7 @@ Custom error views are included for standard HTTP status codes. The error pages 
 Each log entry includes:
 
 - **User info**: ID, name, email (if authenticated).
-- **Request input**: All inputs except `password`, `_token`, and `g-recaptcha-response`. Livewire snapshot data is stripped.
+- **Request input**: All inputs except `password`, `_token`, and `g-recaptcha-response`. Livewire snapshot data is stripped, keeping only the component's `name`, and refresh calls (polls, refreshes on focus) are left out.
 - **Session ID**.
 - **App info**: Git branch and commit.
 - **Request info**: URL, IP, HTTP method, server, referrer, user agent.

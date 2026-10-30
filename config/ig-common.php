@@ -33,6 +33,10 @@ return [
         'guest' => env('IG_DUPLICATE_SUBMISSIONS_GUEST', 60),
     ],
 
+    // Log 'Incoming request' for every request except GETs and Livewire
+    // refreshes (polls, refreshes on focus).
+    'log_requests' => env('IG_LOG_REQUESTS', true),
+
     // Collapse repeats of the same log record into one entry per window, so a
     // single fault - a scanner working through a component, a failing
     // dependency - cannot bury the rest of the log. Applied to every configured
