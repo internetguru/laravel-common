@@ -16,6 +16,7 @@ use InternetGuru\LaravelCommon\Exceptions\Handler;
 use InternetGuru\LaravelCommon\Http\Middleware\CheckPostItemNames;
 use InternetGuru\LaravelCommon\Http\Middleware\InjectMetaRobots;
 use InternetGuru\LaravelCommon\Http\Middleware\InjectUmamiScript;
+use InternetGuru\LaravelCommon\Http\Middleware\LogRequest;
 use InternetGuru\LaravelCommon\Http\Middleware\PreventDuplicateSubmissions;
 use InternetGuru\LaravelCommon\Http\Middleware\SetPrevPage;
 use InternetGuru\LaravelCommon\Listeners\LogSentNotification;
@@ -37,6 +38,7 @@ class CommonServiceProvider extends ServiceProvider
         CheckPostItemNames::class,
         InjectMetaRobots::class,
         InjectUmamiScript::class,
+        LogRequest::class,
         PreventDuplicateSubmissions::class,
         SetPrevPage::class,
         TimezoneMiddleware::class,

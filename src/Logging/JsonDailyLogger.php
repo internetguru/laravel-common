@@ -40,16 +40,8 @@ class JsonDailyLogger
             $record->extra['context']['request_input'] = [];
             $request = app(Request::class);
             $inputs = $request->except('password', '_token', 'g-recaptcha-response');
-            // remove 'snapshot' from livewire request
-            if ($request->path() == 'livewire/update') {
-                foreach ($inputs['components'] as $key => $component) {
-                    if (isset($component['snapshot'])) {
-                        unset($inputs['components'][$key]['snapshot']);
-                    }
-                    if (count($inputs['components'][$key]) == 1) {
-                        unset($inputs['components'][$key]);
-                    }
-                }
+            if (LivewirePayload::isUpdate($request)) {
+                $inputs['components'] = LivewirePayload::forLog($inputs['components'] ?? []);
                 if (count($inputs['components']) == 0) {
                     return $record;
                 }
