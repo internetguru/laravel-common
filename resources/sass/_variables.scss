@@ -7,7 +7,7 @@ $blockquote-footer-font-size: inherit;
 // Containers, Spacers
 $main-min-height: 70vh;
 $global-max-width: 87em;
-$col-narrow-max-width: 23em;
+$col-narrow-max-width: 23em !default;
 $spacer-top: 4em;
 $spacer-bottom: 4em;
 $card-max-width: 30em;

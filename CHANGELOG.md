@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+- An application can set its own `$col-narrow-max-width`; the package's 23em is only a default.
 - The package's web middleware is registered through the HTTP kernel, so it also runs in an application's feature tests, where the kernel used to drop it.
 
 ## [8.8.0] - 2026-10-30
