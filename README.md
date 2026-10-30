@@ -274,7 +274,7 @@ When a duplicate submission is detected, the user is redirected back with input 
 - Each page logs one `Image problems` line with its URL and the problems per image `src`, at the level of the most severe. The same problems on the same page are logged at most once a day.
 - In debug mode the images are also outlined: critical double red, severe solid red, medium solid orange, low dotted orange. Hovering one shows its problems unless it has a title of its own.
 - An attribute bound in the browser (`:alt`, `x-bind:width`) counts as present.
-- The critical check runs only where laravel-images is installed. It skips SVGs, other hosts, `data:` URIs and Vite's `/build/` output.
+- The critical check runs only where laravel-images is installed. It covers photos bundled by Vite (`Vite::asset()`) too, and skips SVGs, other hosts and `data:` URIs.
 - `/image-check` shows one image of each kind, as a quick look at the outlines.
 - Turn it off with `IG_IMAGE_WARNINGS=false`.
 

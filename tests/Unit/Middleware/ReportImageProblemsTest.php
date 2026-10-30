@@ -140,11 +140,15 @@ class ReportImageProblemsTest extends TestCase
         $this->withImageRoute();
         Log::spy();
 
-        $this->handle('<img src="/storage/a.jpg" width="1" height="1" alt="A"><img src="http://localhost/b.PNG" width="1" height="1" alt="B">');
+        $this->handle('<img src="/storage/a.jpg" width="1" height="1" alt="A"><img src="http://localhost/b.PNG" width="1" height="1" alt="B"><img src="/build/assets/c-1a2b.webp" width="1" height="1" alt="C">');
 
         Log::shouldHaveReceived('log')->once()->with('error', 'Image problems', [
             'url' => 'http://localhost',
-            'images' => ['/storage/a.jpg' => 'not served by laravel-images', 'http://localhost/b.PNG' => 'not served by laravel-images'],
+            'images' => [
+                '/storage/a.jpg' => 'not served by laravel-images',
+                'http://localhost/b.PNG' => 'not served by laravel-images',
+                '/build/assets/c-1a2b.webp' => 'not served by laravel-images',
+            ],
         ]);
     }
 
@@ -156,7 +160,6 @@ class ReportImageProblemsTest extends TestCase
         $this->handle(implode('', array_map(fn ($src) => "<img src=\"{$src}\" width=\"1\" height=\"1\" alt=\"A\">", [
             '/img/a.jpg?w=10&s=x',
             '/logo.svg',
-            '/build/assets/hero-1a2b.png',
             'https://example.com/a.jpg',
             'http://localhost:5173/resources/images/a.jpg',
             'data:image/png;base64,AAAA',

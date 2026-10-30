@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- The `ReportImageProblems` middleware logs local photos not served by laravel-images, images missing a dimension or an alt, and images with an empty alt, and outlines them in debug mode. Turn it off with `IG_IMAGE_WARNINGS=false`.
+- The `ReportImageProblems` middleware logs local photos not served by laravel-images, including those bundled by Vite, images missing a dimension or an alt, and images with an empty alt, and outlines them in debug mode. Turn it off with `IG_IMAGE_WARNINGS=false`.
 - The `/image-check` test page shows one image of each kind the check reports.
 
 ### Fixed

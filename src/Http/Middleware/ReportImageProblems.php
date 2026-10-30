@@ -99,10 +99,7 @@ class ReportImageProblems
         return $problems;
     }
 
-    /**
-     * A raster image of this site's own that skips laravel-images, so it is never resized, converted
-     * or signed. Vite's build output is left alone: it is bundled on purpose.
-     */
+    /** A raster image of this site's own that skips laravel-images, so it is never resized or converted. */
     protected function isUnprocessedLocalImage(string $src, Request $request): bool
     {
         if (! Route::has('ig-images.show') || $src === '' || preg_match('/^(data|blob):/i', $src)) {
@@ -122,7 +119,7 @@ class ReportImageProblems
 
         $path = '/' . ltrim($url['path'] ?? '', '/');
         $imageRoute = '/' . trim((string) config('ig-images.route'), '/') . '/';
-        if (str_starts_with($path, $imageRoute) || str_starts_with($path, '/build/')) {
+        if (str_starts_with($path, $imageRoute)) {
             return false;
         }
 
