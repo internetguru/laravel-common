@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- The `ReportImageProblems` middleware logs local photos not served by laravel-images, including those bundled by Vite, images missing a dimension or an alt, and images with an empty alt, and outlines them in debug mode. Turn it off with `IG_IMAGE_WARNINGS=false`.
+- The `/image-check` test page shows one image of each kind the check reports.
+- The left and right keys step card by card through the carousel whose buttons are on screen nearest the middle, or the one holding focus, without clicking into it first. The card stepped onto lifts, Enter follows its link.
+
+### Fixed
+
+- An application can set its own `$col-narrow-max-width`; the package's 23em is only a default.
+- The package's web middleware is registered through the HTTP kernel, so it also runs in an application's feature tests, where the kernel used to drop it.
+
 ## [8.8.0] - 2026-10-30
 
 _Stable release based on [8.8.0-rc.1]._
@@ -2308,6 +2321,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://github.com/internetguru/laravel-common/compare/staging...dev
 [8.8.0]: https://github.com/internetguru/laravel-common/compare/v8.7.4...v8.8.0
 [8.8.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v8.7.4
 [8.7.4]: https://github.com/internetguru/laravel-common/compare/v8.7.3...v8.7.4

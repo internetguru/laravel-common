@@ -21,6 +21,16 @@ return [
     'errors.index.description' => ' ',
     'errors.index.title' => 'Fejltestsider',
 
+    'image-check.index.description' => ' ',
+    'image-check.index.title' => 'Billedtestside',
+    'image-check.intro' => 'Alle billeder herunder undtagen det første har et problem. I debug-tilstand er hvert billede markeret, og når du holder musen over det, vises dets problemer; hvert problem logges også én gang om dagen.',
+    'image-check.sample' => 'Eksempelbillede',
+    'image-check.ok' => 'Komplet: størrelse og alt',
+    'image-check.low' => 'Lav: tom alt, i orden til dekoration',
+    'image-check.medium' => 'Middel: alt mangler',
+    'image-check.severe' => 'Alvorlig: bredde og højde mangler',
+    'image-check.critical' => 'Kritisk: et lokalt foto, der ikke leveres af laravel-images (kontrolleres kun, hvor laravel-images er installeret)',
+
     'support.header' => 'Beskriv dit problem her:',
     'support.footer' => '--- Rediger ikke under denne linje ---',
     'support.subject' => 'Anmodning om teknisk support',

@@ -19,5 +19,7 @@ return [
     'i18n.missing-cs' => 'Chybí český překlad',
     'i18n.missing-en' => 'Chybí anglický překlad',
     'i18n.complete' => 'Kompletní překlady',
+    'image-check' => 'Kontrola obrázků',
+    'image-check.index' => 'Kontrola obrázků|Obrázky',
 
 ];
