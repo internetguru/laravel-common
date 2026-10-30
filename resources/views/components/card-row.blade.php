@@ -32,6 +32,8 @@
             x-ref="track"
             x-on:scroll.passive="onScroll()"
             tabindex="0"
+            x-on:keydown.enter="openCard($event)"
+            x-on:pointerdown="releaseCard()"
         @endif
     >
         {{ $slot }}
@@ -58,7 +60,6 @@
             <button
                 type="button"
                 class="card-row-btn"
-                x-ref="previous"
                 aria-label="{{ __('ig-common::layouts.card_row.previous') }}"
                 x-bind:disabled="atStart"
                 x-on:click="page(-1)"
@@ -68,7 +69,6 @@
             <button
                 type="button"
                 class="card-row-btn"
-                x-ref="next"
                 aria-label="{{ __('ig-common::layouts.card_row.next') }}"
                 x-bind:disabled="atEnd"
                 x-on:click="page(1)"

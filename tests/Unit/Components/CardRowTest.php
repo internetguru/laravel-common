@@ -17,9 +17,8 @@ class CardRowTest extends TestCase
         $html->assertSee('role="group"', false);
         $html->assertSee('x-ref="track"', false);
         $html->assertSee('x-ref="nav"', false);
-        $html->assertSee('x-ref="previous"', false);
-        $html->assertSee('x-ref="next"', false);
-        $html->assertDontSee('x-on:keydown', false);
+        $html->assertSee('x-on:keydown.enter="openCard($event)"', false);
+        $html->assertSee('x-on:pointerdown="releaseCard()"', false);
         $html->assertSee('aria-label="' . __('ig-common::layouts.card_row.previous') . '"', false);
         $html->assertSee('aria-label="' . __('ig-common::layouts.card_row.next') . '"', false);
         $html->assertSee('x-for="grip in grips"', false);

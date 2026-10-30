@@ -3,8 +3,8 @@
  *
  * Scrolling itself is native, so touch swiping and momentum come for free;
  * the arrows page by whole cards and disable at either end. The left and
- * right keys page the row holding focus, or else the one whose buttons are
- * on screen nearest its vertical centre.
+ * right keys step focus card by card through the row holding focus, or else
+ * the one whose buttons are on screen nearest its vertical centre.
  */
 const rows = new Set();
 
@@ -68,6 +68,21 @@ function onKeydown(event) {
     }
 }
 
+/** A card scrolled off the screen lets go of focus, so the keys move on with the page. */
+function onPageScroll() {
+    const card = document.activeElement;
+
+    if (!card || !card.classList.contains('card') || ![...rows].some((row) => row.$root.contains(card))) {
+        return;
+    }
+
+    const box = card.getBoundingClientRect();
+
+    if (box.top < 0 || box.bottom > window.innerHeight) {
+        card.blur();
+    }
+}
+
 export default () => ({
     atStart: true,
     atEnd: true,
@@ -86,6 +101,7 @@ export default () => ({
     init() {
         if (rows.size === 0) {
             document.addEventListener('keydown', onKeydown);
+            window.addEventListener('scroll', onPageScroll, { passive: true });
         }
 
         rows.add(this);
@@ -113,6 +129,7 @@ export default () => ({
 
         if (rows.size === 0) {
             document.removeEventListener('keydown', onKeydown);
+            window.removeEventListener('scroll', onPageScroll);
         }
 
         if (this.observer) {
@@ -310,12 +327,27 @@ export default () => ({
         track.scrollBy({ left: direction * step, behavior: 'smooth' });
     },
 
-    /** Pages as a key press, pulsing the button it stands in for. */
-    keyPage(direction, repeat) {
-        if (direction < 0 ? this.atStart : this.atEnd) {
-            return;
+    cards() {
+        return [...this.$refs.track.children].filter((child) => child.classList.contains('card'));
+    },
+
+    isCardInView(card, partly = false) {
+        const track = this.$refs.track.getBoundingClientRect();
+        const box = card.getBoundingClientRect();
+
+        if (partly) {
+            return box.right > track.left && box.left < track.right;
         }
 
+        return box.left >= track.left - 1 && box.right <= track.right + 1;
+    },
+
+    /**
+     * Moves focus to the neighbouring card, paging the row only when that card
+     * is not in view yet. The first press lands on the first card in view, or
+     * on the last one going back, without moving the row.
+     */
+    keyPage(direction, repeat) {
         const now = performance.now();
 
         if (repeat && now - this.lastKeyPage < repeatInterval) {
@@ -323,15 +355,51 @@ export default () => ({
         }
 
         this.lastKeyPage = now;
-        this.page(direction);
-        this.pulse(direction < 0 ? this.$refs.previous : this.$refs.next);
+
+        const cards = this.cards();
+        const current = cards.indexOf(document.activeElement);
+        let target;
+
+        // Partly in view still counts, as while the row is gliding to it.
+        if (current !== -1 && this.isCardInView(cards[current], true)) {
+            target = cards[current + direction];
+        } else {
+            const inView = cards.filter((card) => this.isCardInView(card));
+            target = direction > 0 ? inView[0] : inView[inView.length - 1];
+        }
+
+        if (!target) {
+            return;
+        }
+
+        target.tabIndex = -1;
+        target.focus({ preventScroll: true });
+
+        if (!this.isCardInView(target)) {
+            this.page(direction);
+        }
     },
 
-    pulse(button) {
-        button.classList.remove('card-row-btn-pulse');
-        // Reading the layout restarts the animation on a quick second press.
-        void button.offsetWidth;
-        button.classList.add('card-row-btn-pulse');
-        button.addEventListener('animationend', () => button.classList.remove('card-row-btn-pulse'), { once: true });
+    /** Lets Enter on a focused card follow its link, as a click on it would. */
+    openCard(event) {
+        const card = event.target;
+
+        if (card.parentElement !== this.$refs.track || !card.classList.contains('card')) {
+            return;
+        }
+
+        const link = card.querySelector('.card-action') ?? card.querySelector('a[href]');
+
+        if (link) {
+            event.preventDefault();
+            link.click();
+        }
+    },
+
+    /** A touch swipe or a drag takes over from the keys, so the lifted card drops. */
+    releaseCard() {
+        if (this.cards().includes(document.activeElement)) {
+            document.activeElement.blur();
+        }
     },
 });
