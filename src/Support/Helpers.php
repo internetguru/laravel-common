@@ -76,7 +76,7 @@ class Helpers
         // If error page or internal/system route, show error breadcrumb
         $route = app('request')->route();
         $skipPrefixes = config('ig-common.breadcrumb_skip_prefixes', []);
-        $shouldSkip = ! $route || collect($skipPrefixes)->contains(fn ($prefix) => str_starts_with($route->uri(), $prefix));
+        $shouldSkip = ! $route || $route->isFallback || collect($skipPrefixes)->contains(fn ($prefix) => str_starts_with($route->uri(), $prefix));
         if ($shouldSkip) {
             $urlParts = ['', 'error'];
         }

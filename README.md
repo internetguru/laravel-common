@@ -1252,6 +1252,7 @@ Features:
 - **Debug mode**: Uses `dd()` for detailed exception inspection.
 - **JSON support**: Returns JSON responses when the request expects JSON.
 - Redirects to the previously tracked page (via `SetPrevPage` middleware) on error.
+- **Unknown addresses**: A `Route::fallback` in the `web` group answers 404, so the error page has the session. An application's own fallback route takes precedence.
 - **503 auto-refresh**: The 503 error page automatically reloads after 30 seconds.
 - **Testing**: Exceptions are left to Laravel, except HTTP errors on HTML pages, which render the styled error page as in production.
 
