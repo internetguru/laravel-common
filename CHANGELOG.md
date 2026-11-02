@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Unknown addresses answer 404 through the `web` middleware group, so their error page has the session, and applications no longer need to start the session globally. An application's own `Route::fallback` takes precedence.
+
 ## [8.9.0] - 2026-10-30
 
 _Stable release based on [8.9.0-rc.1]._
