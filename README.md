@@ -128,6 +128,7 @@ Auto-registered via package discovery. It provides:
 - Registration of all [helper macros](#helper-macros) (String, Number, Carbon).
 - Automatic registration of all [middleware](#middleware) into the `web` middleware group.
 - Queue connection safety check — throws an exception at boot if the queue connection is set to `sync` (except during unit tests).
+- SQLite defaults — every `sqlite` connection that leaves them unset gets `busy_timeout` 5000, `journal_mode` `wal` and `transaction_mode` `IMMEDIATE` (`DEFERRED`, the Laravel skeleton default, counts as unset), so concurrent writers wait for the lock instead of failing with `database is locked`. Set a value in the connection to keep your own, or `IG_SQLITE_DEFAULTS=false` to leave all of them alone.
 
 ### ReadOnlyServiceProvider
 

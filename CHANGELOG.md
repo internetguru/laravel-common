@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [8.10.1] - 2026-11-02
+
+### Fixed
+
+- Concurrent SQLite writers wait for the lock instead of failing with database is locked.
+
 ## [8.10.0] - 2026-11-02
 
 _Stable release based on [8.10.0-rc.1]._
@@ -2335,6 +2341,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[8.10.1]: https://github.com/internetguru/laravel-common/compare/v8.10.0...v8.10.1
 [8.10.0]: https://github.com/internetguru/laravel-common/compare/v8.9.0...v8.10.0
 [8.10.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v8.9.0
 [8.9.0]: https://github.com/internetguru/laravel-common/compare/v8.8.0...v8.9.0
