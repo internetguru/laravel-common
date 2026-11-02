@@ -37,6 +37,17 @@ return [
     // refreshes (polls, refreshes on focus).
     'log_requests' => env('IG_LOG_REQUESTS', true),
 
+    // Let concurrent writers to an SQLite database wait for each other instead
+    // of failing with 'database is locked': every sqlite connection that
+    // leaves them unset gets these values. A transaction_mode of DEFERRED, the
+    // Laravel skeleton default, counts as unset. Set a value in the
+    // connection to keep your own, or false here to leave all of them alone.
+    'sqlite_defaults' => env('IG_SQLITE_DEFAULTS', true) ? [
+        'busy_timeout' => 5000,
+        'journal_mode' => 'wal',
+        'transaction_mode' => 'IMMEDIATE',
+    ] : false,
+
     // Log images missing a dimension (warning), an alt (notice) or with an
     // empty alt (info) once a day per page, and outline them in debug mode.
     'image_warnings' => env('IG_IMAGE_WARNINGS', true),

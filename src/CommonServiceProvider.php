@@ -57,6 +57,8 @@ class CommonServiceProvider extends ServiceProvider
 
         $this->registerLogDeduplication();
 
+        $this->applySqliteDefaults();
+
         // Scoped, not singleton: the sanitizer remembers which keys it has
         // already reported this request, and scoped bindings are flushed
         // between requests under Octane.
@@ -109,6 +111,40 @@ class CommonServiceProvider extends ServiceProvider
 
             $taps[] = DeduplicateRepeatedRecords::class;
             $config->set("logging.channels.$name.tap", $taps);
+        }
+    }
+
+    /**
+     * Give every sqlite connection the busy timeout, WAL journal and IMMEDIATE
+     * transactions it leaves unset, so a queue worker and a web request writing
+     * at once wait for the lock instead of failing with 'database is locked'.
+     *
+     * Done in register(), before anything can open a connection: the pragmas
+     * are applied when a connection is created.
+     */
+    private function applySqliteDefaults(): void
+    {
+        $config = $this->app['config'];
+        $defaults = $config->get('ig-common.sqlite_defaults');
+
+        if (! is_array($defaults)) {
+            return;
+        }
+
+        foreach ($config->get('database.connections', []) as $name => $connection) {
+            if (($connection['driver'] ?? null) !== 'sqlite') {
+                continue;
+            }
+
+            foreach ($defaults as $key => $value) {
+                $current = $connection[$key] ?? null;
+                $unset = $current === null
+                    || ($key === 'transaction_mode' && strtoupper($current) === 'DEFERRED');
+
+                if ($unset) {
+                    $config->set("database.connections.$name.$key", $value);
+                }
+            }
         }
     }
 
