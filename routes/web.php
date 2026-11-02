@@ -90,3 +90,8 @@ Route::get('/image-check', function (): View {
 Route::get('/image-check/sample.png', function (): Response {
     return response(base64_decode(ReportImageProblems::SAMPLE_PNG), 200, ['Content-Type' => 'image/png']);
 })->name('image-check.sample');
+
+// Unknown addresses go through the web group, so their 404 page has the session its layout needs
+Route::fallback(function (): never {
+    abort(404);
+});

@@ -56,6 +56,13 @@ class CommonServiceProviderTest extends TestCase
         $this->assertNotNull($routes->getByName('i18n.index'));
     }
 
+    public function test_an_unknown_address_answers_404_through_the_web_group()
+    {
+        $this->get('/nonexistent-page')
+            ->assertNotFound()
+            ->assertCookie(config('session.cookie'));
+    }
+
     public function test_blade_components_can_be_rendered()
     {
         // Test that a Blade component from the package can be resolved
