@@ -42,6 +42,7 @@ return [
     // leaves them unset gets these values. A transaction_mode of DEFERRED, the
     // Laravel skeleton default, counts as unset. Set a value in the
     // connection to keep your own, or false here to leave all of them alone.
+    // Unit tests run without them.
     'sqlite_defaults' => env('IG_SQLITE_DEFAULTS', true) ? [
         'busy_timeout' => 5000,
         'journal_mode' => 'wal',

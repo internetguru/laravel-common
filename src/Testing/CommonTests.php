@@ -112,9 +112,11 @@ class CommonTests
 
                 $page = CommonTests::page($this->get('/image-check')->assertOk());
 
+                // The page's own samples only: the application's layout may hold images of any kind
                 foreach (['severe', 'medium', 'low'] as $level) {
-                    expect($page->query("//img[@data-ig-image-warning=\"{$level}\"]"))->toHaveCount(1);
+                    expect($page->query("//img[@data-testid=\"image-check-{$level}\"][@data-ig-image-warning=\"{$level}\"]"))->toHaveCount(1);
                 }
+                expect($page->query('//img[@data-testid="image-check-ok"][@data-ig-image-warning]'))->toHaveCount(0);
             });
         });
 

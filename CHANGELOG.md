@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- The SQLite defaults are not applied while unit tests run, so a schema dump that sets its own journal mode loads again.
+- The shared image check test counts only the samples of `/image-check`, not other images in the application's layout.
+
 ## [8.10.1] - 2026-11-02
 
 ### Fixed
@@ -2341,6 +2348,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://github.com/internetguru/laravel-common/compare/staging...dev
 [8.10.1]: https://github.com/internetguru/laravel-common/compare/v8.10.0...v8.10.1
 [8.10.0]: https://github.com/internetguru/laravel-common/compare/v8.9.0...v8.10.0
 [8.10.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v8.9.0
