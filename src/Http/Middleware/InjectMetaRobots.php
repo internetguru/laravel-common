@@ -23,7 +23,10 @@ class InjectMetaRobots
         $content = $response->getContent();
         $content = str_replace('</head>', $meta . '</head>', $content);
 
+        // setContent() would replace the view with this string, and tests read the view
+        $original = $response->original;
         $response->setContent($content);
+        $response->original = $original;
 
         return $response;
     }

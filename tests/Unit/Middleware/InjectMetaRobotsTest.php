@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Middleware;
 
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use InternetGuru\LaravelCommon\Http\Middleware\InjectMetaRobots;
@@ -108,5 +109,22 @@ class InjectMetaRobotsTest extends TestCase
         $response = $this->middleware->handle($request, $next);
 
         $this->assertEquals($html, $response->getContent());
+    }
+
+    public function test_keeps_the_view_the_response_was_made_from()
+    {
+        config(['ig-common.meta_robots' => 'noindex']);
+        $view = new class implements Renderable
+        {
+            public function render(): string
+            {
+                return '<html><head></head><body></body></html>';
+            }
+        };
+
+        $response = $this->middleware->handle(Request::create('/'), fn ($_) => new Response($view, 200, ['Content-Type' => 'text/html']));
+
+        $this->assertStringContainsString('meta name="robots"', $response->getContent());
+        $this->assertSame($view, $response->original);
     }
 }

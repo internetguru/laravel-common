@@ -67,7 +67,10 @@ class ReportImageProblems
 
         $this->log($request, $problems);
         if ($mark) {
+            // setContent() would replace the view with this string, and tests read the view
+            $original = $response->original;
             $response->setContent(str_replace('</head>', self::STYLE . '</head>', $content));
+            $response->original = $original;
         }
 
         return $response;
