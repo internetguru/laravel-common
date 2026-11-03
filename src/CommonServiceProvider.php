@@ -121,13 +121,16 @@ class CommonServiceProvider extends ServiceProvider
      *
      * Done in register(), before anything can open a connection: the pragmas
      * are applied when a connection is created.
+     *
+     * Skipped in unit tests: they write from one process, and a schema dump
+     * that switches the journal mode cannot be loaded beside an open WAL connection.
      */
     private function applySqliteDefaults(): void
     {
         $config = $this->app['config'];
         $defaults = $config->get('ig-common.sqlite_defaults');
 
-        if (! is_array($defaults)) {
+        if (! is_array($defaults) || $this->app->runningUnitTests()) {
             return;
         }
 

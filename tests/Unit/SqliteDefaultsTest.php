@@ -17,6 +17,10 @@ class SqliteDefaultsTest extends TestCase
     {
         parent::resolveApplicationConfiguration($app);
 
+        // Outside unit tests, where the defaults apply; the queue must not be sync there
+        $app->detectEnvironment(fn () => 'local');
+        $app['config']->set('queue.default', 'null');
+
         $this->databaseFile = sys_get_temp_dir() . '/ig-common-sqlite-defaults-' . getmypid() . '.sqlite';
         touch($this->databaseFile);
 
