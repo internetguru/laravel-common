@@ -30,7 +30,10 @@ class InjectUmamiScript
         $content = $response->getContent();
         $content = str_replace('</head>', $script . '</head>', $content);
 
+        // setContent() would replace the view with this string, and tests read the view
+        $original = $response->original;
         $response->setContent($content);
+        $response->original = $original;
 
         return $response;
     }
