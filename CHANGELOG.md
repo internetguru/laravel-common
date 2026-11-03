@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- The SQLite defaults are not applied while unit tests run, so a schema dump that sets its own journal mode loads again.
+- The shared image check test counts only the samples of `/image-check`, not other images in the application's layout.
+
 ## [8.10.1] - 2026-11-02
 
 ### Fixed
