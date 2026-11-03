@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Middleware;
 
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -104,6 +105,23 @@ class ReportImageProblemsTest extends TestCase
         $this->assertStringContainsString('<style>', $marked);
         $this->assertStringNotContainsString('data-ig-image-warning', $plain);
         $this->assertStringNotContainsString('<style>', $plain);
+    }
+
+    public function test_marking_keeps_the_view_the_response_was_made_from()
+    {
+        config(['app.debug' => true]);
+        $view = new class implements Renderable
+        {
+            public function render(): string
+            {
+                return '<html><head></head><body><img src="a.jpg"></body></html>';
+            }
+        };
+
+        $response = (new ReportImageProblems)->handle(Request::create('/'), fn () => new Response($view, 200, ['Content-Type' => 'text/html']));
+
+        $this->assertStringContainsString('data-ig-image-warning', $response->getContent());
+        $this->assertSame($view, $response->original);
     }
 
     public function test_an_existing_title_is_kept()
