@@ -16,6 +16,8 @@ $breadcrumb-menu-current-color: $primary !default;
     height: $breadcrumb-mark-size;
     background-image: var(--breadcrumb-home-mark);
     background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .ig-breadcrumb-mark {
