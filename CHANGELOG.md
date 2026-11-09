@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `<x-ig::label>` takes a `group` and a `key`: a value has one color everywhere, and no two values of a group share one. Groups are registered once with `LabelGroups::register()`, from a list or a closure, and an enum class using `RendersLabel` is a group of its own.
+
+### Changed
+
+- **Breaking:** A label given no variant, color or group and key, or an invalid one, throws a `LabelException` in debug mode, and otherwise logs a warning and shows a gray dot. Give each label a `variant`, a `color`, or a registered `group` and a `key`.
+
+### Removed
+
+- **Breaking:** Labels are no longer colored by a hash of their text, and `seed` and a number as the `color` are gone; register a group and pass a `key` instead. `RendersLabel::labelSeed()` is gone too.
+
 ## [8.11.2] - 2026-11-05
 
 ### Fixed
