@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [9.0.1] - 2026-11-10
+
+### Fixed
+
+- A page no longer fails when no display timezone is found, e.g. for a private address without `geoip.default_location.timezone`; it falls back to `app.timezone`.
+- Two people signed in behind one address can send the same form; only one person's repeat counts as a duplicate submission.
+
 ## [9.0.0] - 2026-11-10
 
 _Stable release based on [9.0.0-rc.1]._
@@ -2382,6 +2389,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[9.0.1]: https://github.com/internetguru/laravel-common/compare/v9.0.0...v9.0.1
 [9.0.0]: https://github.com/internetguru/laravel-common/compare/v8.11.2...v9.0.0
 [9.0.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v8.11.2
 [8.11.2]: https://github.com/internetguru/laravel-common/compare/v8.11.1...v8.11.2

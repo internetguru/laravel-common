@@ -122,7 +122,7 @@ function initCarbonMacros()
     Carbon::macro('dateTimeForHumans', fn () => $this->dateForHumans() . ' ' . $this->timeForHumans());
 
     Carbon::macro('toDisplayTimezone', function () {
-        $timezone = session('display_timezone', config('app.timezone'));
+        $timezone = session('display_timezone') ?? config('app.timezone');
 
         return $this->setTimezone($timezone);
     });
