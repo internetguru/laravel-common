@@ -924,6 +924,30 @@ The typographic cloud needs the `tagCloud` Alpine.js component, which `ig::commo
 
 > Names one value out of a set - a status, a role, a payment type, a branch - as a chip read in plain text on white, with the value carried by a small colored dot.
 
+A label is colored in one of three ways:
+
+- [Specific color](#specific-color): a theme variant or a color of your own, for a value with a fixed meaning.
+- [Registered group](#registered-group): a list of keys registered once, for values from the database or a plain list.
+- [Enum](#enum): the cases of an enum, with no registration.
+
+In a group or an enum, a value has one color on every page, and no two values share one.
+
+A label given none of these, or given a color, variant, group or key that is not valid, throws a `LabelException` in debug mode. Otherwise it logs a warning and shows a gray dot, as a missing translation is handled. An invalid value is never passed over for the next one, so a typo can't show as some other color.
+
+| Prop | Default | Used by | Description |
+| --- | --- | --- | --- |
+| `text` | `null` | all | The label itself. The slot is used instead when one is given. |
+| `variant` | `null` | specific color | Kind of value, drawn in its palette tone: `primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light` or `dark`. |
+| `color` | `null` | specific color | An explicit color in hex, `rgb()`, `hsl()`, `oklch()` or `var()` notation. It takes precedence over the variant. |
+| `group` | `null` | group, enum | A group registered in `LabelGroups`, or an enum class using `RendersLabel`. |
+| `key` | `null` | group, enum | The value within its group, which picks its color. An enum case stands for its name. |
+| `icon` | `null` | all | Font Awesome classes of an icon shown in place of the dot. |
+| `slim` | `false` | all | Cuts the padding down, for a label read inside a line of text rather than in a column of its own. |
+
+Other attributes, such as `class`, `id` or `data-*`, are passed on to the chip.
+
+#### Specific color
+
 ```html
 <x-ig::label text="Paid" variant="success" />
 
@@ -932,55 +956,42 @@ The typographic cloud needs the `tagCloud` Alpine.js component, which `ig::commo
 <x-ig::label text="Administrator" variant="danger" icon="fa-solid fa-user-gear" />
 
 <x-ig::label text="Hidden" variant="secondary" slim />
-
-<x-ig::label :text="$location->name" group="locations" :key="$location->code" />
-
-{!! $order->status->toLabelHtml() !!}
 ```
 
-| Prop | Default | Description |
-| --- | --- | --- |
-| `text` | `null` | The label itself. The slot is used instead when one is given. |
-| `variant` | `null` | Kind of value, drawn in its palette tone: `primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light` or `dark`. |
-| `color` | `null` | An explicit color in hex, `rgb()`, `hsl()`, `oklch()` or `var()` notation. It takes precedence over the variant. |
-| `group` | `null` | A group registered in `LabelGroups`, or an enum class using `RendersLabel`. |
-| `key` | `null` | The value within its group, which picks its color. An enum case stands for its name. |
-| `icon` | `null` | Font Awesome classes of an icon shown in place of the dot. |
-| `slim` | `false` | Cuts the padding down, for a label read inside a line of text rather than in a column of its own. |
+A `variant` names the kind of value and draws it in that tone of the palette: green for success, red for danger, and so on. A `color` sets the dot to any color and takes precedence over the variant.
 
-A label is colored in one of two ways:
-
-- **By hand**, with a `variant` or a `color`.
-- **From the palette**, with a `group` and a `key`. A value has one color on every page, and no two values of a group share one.
-
-A label given neither, or given a color, variant, group or key that is not valid, throws a `LabelException` in debug mode. Otherwise it logs a warning and shows a gray dot, as a missing translation is handled. An invalid value is never passed over for the next one, so a typo can't show as some other color.
-
-Register each group once, in a service provider's `boot()`:
+#### Registered group
 
 ```php
+// app/Providers/AppServiceProvider.php
 use InternetGuru\LaravelCommon\Support\LabelGroups;
 
-LabelGroups::register('payment-types', ['register', 'gateway', 'manual', 'bank']);
+public function boot(): void
+{
+    LabelGroups::register('payment-types', ['register', 'gateway', 'manual', 'bank']);
 
-LabelGroups::register(
-    'locations',
-    fn () => Location::orderBy('id')->pluck('code'),
-    forced: ['ost' => 5],
-    seed: 40,
-);
+    LabelGroups::register(
+        'locations',
+        fn () => Location::orderBy('id')->pluck('code'),
+        forced: ['ost' => 5],
+        seed: 40,
+    );
+}
 ```
 
-- Keys are an array, or a closure returning any iterable. A closure is read when the group is first used in a request and kept for the rest of it.
-- Each key takes the palette color of its place in the list, so keep the order stable (by `id` or a fixed list, not by name). A key added at the end leaves the others their colors.
+```html
+<x-ig::label :text="$location->name" group="locations" :key="$location->code" />
+```
+
+Register each group of your own once, in a service provider's `boot()`, so it exists before any view renders it. Each key takes the palette color of its place in the list.
+
+- Keys are an array, or a closure returning any iterable. A closure is read when the group is first used in a request and kept for the rest of it, so a request showing no such label runs no query.
+- Keep the order stable, by `id` or a fixed list, not by name. A key added at the end leaves the others their colors.
 - `forced` gives a key a slot by hand; the key that slot was taken from moves to the next free one, and forcing one past the end drops the color left over.
 - `seed` turns the palette, so different groups start from different colors: a string is hashed, an integer is the angle in degrees. It defaults to the name of the group.
 - Registering a name again replaces the group, so an application can override one a package registers.
 
-Colors come from `InternetGuru\LaravelCommon\Support\Palette`: one mild tone, each color at least 3:1 against white. Slot `n` always has the same color, whatever the size of the group, and the first slots are the furthest apart; after eight, a darker ring follows.
-
-An enum renders itself through the `HasLabel` contract and the `RendersLabel` trait, which gives every case `toLabelHtml()`, taking the same `slim` flag. It draws each case in its `variant()`, in a color of its own, or in the palette color of the enum's group, so it is the way to show a case whatever colors its enum uses.
-
-The enum class is also a label group of its own, with no registration: `LabelGroups` recognizes it when it is first used. Its keys are the names of the cases whose `variant()` is null, in the order they are declared, each in a color of its own; cases with a variant are not in it. A group registered under the class name overrides it. For an enum whose cases name no variant, `<x-ig::label :text="$channel->label()" :group="Channel::class" :key="$channel" />` gives the same chip as `toLabelHtml()`. Override `labelColor()` to force a slot or a color of its own on a case, `labelPaletteSeed()` to turn the palette, and `labelIcon()` to show an icon in place of the dot. A `HasLabel` value that is not an enum has no set to share, so without a `variant()` or a `labelColor()` it fails as a label does. `Label::html()`, taking the same arguments as the component, does the same for a value that is not an enum, for the places building their HTML in PHP, such as a model browser column formatter.
+#### Enum
 
 ```php
 enum OrderStatus: string implements HasLabel
@@ -1007,6 +1018,30 @@ enum OrderStatus: string implements HasLabel
     }
 }
 ```
+
+```html
+{!! $order->status->toLabelHtml() !!}
+
+<x-ig::label :text="$channel->label()" :group="Channel::class" :key="$channel" />
+```
+
+An enum implementing the `HasLabel` contract with the `RendersLabel` trait renders each case with `toLabelHtml()`, taking the same `slim` flag. It draws a case in its `variant()`, in a color of its own, or in the palette color of the enum, so it shows a case whatever colors its enum uses.
+
+The enum class is also a label group, with no registration: `LabelGroups` recognizes it when it is first used. Its keys are the names of the cases whose `variant()` is null, in the order they are declared; cases with a variant are not in it. For an enum like that, `<x-ig::label>` with the class as the `group` gives the same chip as `toLabelHtml()`. A group registered under the class name overrides it.
+
+Override these methods of the trait to change how cases are shown:
+
+- `labelColor()`: a palette slot (an integer) or a color of its own (a string) for a case.
+- `labelPaletteSeed()`: what turns the palette of the enum; the class name by default.
+- `labelIcon()`: Font Awesome classes of an icon shown in place of the dot.
+
+A `HasLabel` value that is not an enum has no set to share, so without a `variant()` or a `labelColor()` it fails as a label does.
+
+#### Palette, PHP and styles
+
+Colors come from `InternetGuru\LaravelCommon\Support\Palette`: one mild tone, each color at least 3:1 against white. Slot `n` always has the same color, whatever the size of the group, and the first slots are the furthest apart; after eight, a darker ring follows.
+
+`Label::html()` takes the same arguments as the component and returns the chip as HTML, for the places building their HTML in PHP, such as a model browser column formatter. It passes on no other attributes.
 
 Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are one chip, styled by the `$ig-label-*` variables given before the stylesheets are imported:
 
