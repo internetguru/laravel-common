@@ -30,7 +30,7 @@ class TimezoneMiddleware
             $timezone = config('geoip.default_location.timezone');
         }
 
-        session(['display_timezone' => $timezone]);
+        session(['display_timezone' => $timezone ?? config('app.timezone')]);
 
         return $next($request);
     }

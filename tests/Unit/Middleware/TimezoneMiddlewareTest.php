@@ -170,4 +170,17 @@ class TimezoneMiddlewareTest extends TestCase
         }
         Http::assertNothingSent();
     }
+
+    public function test_falls_back_to_the_app_timezone_without_a_default_location()
+    {
+        Config::set('geoip.default_location.timezone', null);
+        Config::set('app.timezone', 'Europe/Prague');
+
+        $request = Request::create('/', 'GET');
+        $request->server->set('REMOTE_ADDR', '127.0.0.1');
+
+        $this->middleware->handle($request, fn () => response('OK'));
+
+        $this->assertEquals('Europe/Prague', session('display_timezone'));
+    }
 }

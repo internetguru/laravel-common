@@ -112,6 +112,16 @@ class MacrosTest extends TestCase
         $this->assertEquals('Europe/Prague', $result->tzName);
     }
 
+    public function test_carbon_to_display_timezone_falls_back_to_config_for_an_empty_session_value()
+    {
+        Session::put('display_timezone', null);
+        config(['app.timezone' => 'Europe/Prague']);
+
+        $result = Carbon::parse('2024-06-15 12:00:00', 'UTC')->toDisplayTimezone();
+
+        $this->assertEquals('Europe/Prague', $result->tzName);
+    }
+
     public function test_str_ref_default_length()
     {
         $this->assertEquals(6, strlen(Str::ref()));
