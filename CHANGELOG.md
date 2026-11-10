@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- The provider icon in the footer is decorative, so accessibility checkers no longer report it as an image without alternative text.
+
 ## [9.0.1] - 2026-11-10
 
 ### Fixed
