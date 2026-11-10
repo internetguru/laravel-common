@@ -29,6 +29,7 @@ use InternetGuru\LaravelCommon\Logging\DeduplicateRepeatedRecords;
 use InternetGuru\LaravelCommon\Middleware\TimezoneMiddleware;
 use InternetGuru\LaravelCommon\Middleware\VerifyCsrfToken;
 use InternetGuru\LaravelCommon\Rules\Ulid32;
+use InternetGuru\LaravelCommon\Support\LabelGroups;
 use InternetGuru\LaravelCommon\Support\Sanitizer;
 use InternetGuru\LaravelFeedback\FeedbackServiceProvider;
 use Livewire\Attributes\Locked;
@@ -63,6 +64,7 @@ class CommonServiceProvider extends ServiceProvider
         // already reported this request, and scoped bindings are flushed
         // between requests under Octane.
         $this->app->scoped(Sanitizer::class);
+        $this->app->scoped(LabelGroups::class);
 
         // Livewire attaches listeners for every registered component hook in
         // ComponentHookRegistry::boot(), so a hook registered after Livewire's
