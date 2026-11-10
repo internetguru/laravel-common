@@ -3,6 +3,7 @@
 namespace Tests\Unit\Traits;
 
 use InternetGuru\LaravelCommon\Contracts\HasLabel;
+use InternetGuru\LaravelCommon\Support\LabelGroups;
 use InternetGuru\LaravelCommon\Support\Palette;
 use InternetGuru\LaravelCommon\Traits\RendersLabel;
 use Tests\TestCase;
@@ -62,7 +63,7 @@ enum Tier: string implements HasLabel
 
 class RendersLabelTest extends TestCase
 {
-    public function test_cases_without_a_variant_share_one_palette_in_colours_of_their_own()
+    public function test_cases_without_a_variant_share_one_palette_in_colors_of_their_own()
     {
         $colors = Palette::colors(['WEB', 'SHOP', 'PHONE'], seed: Channel::class);
 
@@ -76,10 +77,33 @@ class RendersLabelTest extends TestCase
         $this->assertStringContainsString(Palette::variant('danger'), Channel::MAIL->toLabelHtml());
     }
 
-    public function test_a_case_can_force_a_slot_or_a_colour_of_its_own()
+    public function test_a_case_can_force_a_slot_or_a_color_of_its_own()
     {
         $this->assertStringContainsString(Palette::color(4, 0), Tier::GOLD->toLabelHtml());
         $this->assertStringContainsString(Palette::color(1, 0), Tier::SILVER->toLabelHtml());
         $this->assertStringContainsString('--ig-label-dot: #cd7f32', Tier::BRONZE->toLabelHtml());
+    }
+
+    public function test_an_enum_is_a_label_group_of_its_own()
+    {
+        LabelGroups::flush();
+
+        $this->assertSame(Channel::labelColors(), LabelGroups::colors(Channel::class));
+        $this->assertSame(['WEB', 'SHOP', 'PHONE'], array_keys(LabelGroups::colors(Channel::class)));
+
+        $html = $this->blade('<x-ig::label text="SHOP" :group="$group" key="SHOP" />', ['group' => Channel::class]);
+
+        $html->assertSee('--ig-label-dot: ' . LabelGroups::colors(Channel::class)['SHOP'], false);
+        $this->assertSame((string) $html, Channel::SHOP->toLabelHtml());
+    }
+
+    public function test_a_group_registered_under_the_enum_class_overrides_it()
+    {
+        LabelGroups::flush();
+        LabelGroups::register(Channel::class, ['PHONE', 'SHOP', 'WEB']);
+
+        $this->assertStringContainsString(Palette::color(0, Channel::class), Channel::PHONE->toLabelHtml());
+
+        LabelGroups::flush();
     }
 }
