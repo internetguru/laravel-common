@@ -927,13 +927,15 @@ The typographic cloud needs the `tagCloud` Alpine.js component, which `ig::commo
 ```html
 <x-ig::label text="Paid" variant="success" />
 
+<x-ig::label text="VIP" color="#b8860b" />
+
 <x-ig::label text="Administrator" variant="danger" icon="fa-solid fa-user-gear" />
 
 <x-ig::label text="Hidden" variant="secondary" slim />
 
 <x-ig::label :text="$location->name" group="locations" :key="$location->code" />
 
-<x-ig::label :text="$order->status->label()" :group="OrderStatus::class" :key="$order->status" />
+{!! $order->status->toLabelHtml() !!}
 ```
 
 | Prop | Default | Description |
@@ -976,7 +978,9 @@ LabelGroups::register(
 
 Colors come from `InternetGuru\LaravelCommon\Support\Palette`: one mild tone, each color at least 3:1 against white. Slot `n` always has the same color, whatever the size of the group, and the first slots are the furthest apart; after eight, a darker ring follows.
 
-An enum renders itself through the `HasLabel` contract and the `RendersLabel` trait, which gives it `toLabelHtml()`, taking the same `slim` flag. The enum class is a label group of its own, with no registration: its keys are the names of the cases whose `variant()` is null, in the order they are declared, each in a color of its own, and a group registered under the class name overrides it. Override `labelColor()` to force a slot or a color of its own on a case, `labelPaletteSeed()` to turn the palette, and `labelIcon()` to show an icon in place of the dot. A `HasLabel` value that is not an enum has no set to share, so without a `variant()` or a `labelColor()` it fails as a label does. `Label::html()`, taking the same arguments as the component, does the same for a value that is not an enum, for the places building their HTML in PHP, such as a model browser column formatter.
+An enum renders itself through the `HasLabel` contract and the `RendersLabel` trait, which gives every case `toLabelHtml()`, taking the same `slim` flag. It draws each case in its `variant()`, in a color of its own, or in the palette color of the enum's group, so it is the way to show a case whatever colors its enum uses.
+
+The enum class is also a label group of its own, with no registration: `LabelGroups` recognizes it when it is first used. Its keys are the names of the cases whose `variant()` is null, in the order they are declared, each in a color of its own; cases with a variant are not in it. A group registered under the class name overrides it. For an enum whose cases name no variant, `<x-ig::label :text="$channel->label()" :group="Channel::class" :key="$channel" />` gives the same chip as `toLabelHtml()`. Override `labelColor()` to force a slot or a color of its own on a case, `labelPaletteSeed()` to turn the palette, and `labelIcon()` to show an icon in place of the dot. A `HasLabel` value that is not an enum has no set to share, so without a `variant()` or a `labelColor()` it fails as a label does. `Label::html()`, taking the same arguments as the component, does the same for a value that is not an enum, for the places building their HTML in PHP, such as a model browser column formatter.
 
 ```php
 enum OrderStatus: string implements HasLabel
