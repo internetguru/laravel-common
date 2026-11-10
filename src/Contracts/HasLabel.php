@@ -13,8 +13,8 @@ interface HasLabel
     public function label(): string;
 
     /**
-     * The Bootstrap theme colour the dot is drawn in, or null to leave the
-     * colour to be derived from the value itself.
+     * The Bootstrap theme color the dot is drawn in, or null to leave the
+     * color to the palette the value shares with the rest of its set.
      */
     public function variant(): ?string;
 }

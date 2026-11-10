@@ -15,62 +15,44 @@ trait RendersLabel
 {
     public function toLabelHtml(bool $slim = false): string
     {
+        $variant = $this->variant();
+        $isCase = $variant === null && $this instanceof UnitEnum;
+
         return Label::html(
             $this->label(),
-            variant: $this->variant(),
-            color: $this->variant() === null ? $this->labelDotColor() : null,
-            seed: $this->labelSeed(),
+            variant: $variant,
+            color: $variant === null && ! $isCase ? $this->labelDotColor() : null,
+            group: $isCase ? static::class : null,
+            key: $isCase ? $this->name : null,
             icon: $this->labelIcon(),
             slim: $slim,
         );
     }
 
     /**
-     * Font Awesome classes of an icon standing in for the dot, for a value
-     * already recognised by a mark of its own. None by default.
+     * The color of every case that names no variant, by the name of the case:
+     * the label group of the enum, read by LabelGroups. Cases share one palette,
+     * each in a color of its own, as far apart as the number of them allows;
+     * cases with a color of their own take no slot of it.
+     *
+     * @return array<string, string>
      */
-    protected function labelIcon(): ?string
+    public static function labelColors(): array
     {
-        return null;
-    }
-
-    /**
-     * A colour forced on the value when it names no variant: a palette slot, or
-     * a colour of its own. None by default, which leaves an enum case to the
-     * palette it shares with the other cases.
-     */
-    protected function labelColor(): string|int|null
-    {
-        return null;
-    }
-
-    /** What turns the palette of the enum's cases, so sets differ in colour. */
-    protected static function labelPaletteSeed(): int|string
-    {
-        return static::class;
-    }
-
-    /**
-     * The colour of the dot when the value names no variant. The cases of an
-     * enum share one palette, each in a colour of its own, as far apart as
-     * the number of them allows; cases with a variant or a colour of their own
-     * take no slot of it.
-     */
-    protected function labelDotColor(): string|int|null
-    {
-        $chosen = $this->labelColor();
-
-        if (! $this instanceof UnitEnum || is_string($chosen)) {
-            return $chosen;
-        }
-
+        $own = [];
         $keys = [];
         $forced = [];
 
-        foreach ($this::cases() as $case) {
+        foreach (static::cases() as $case) {
+            if ($case->variant() !== null) {
+                continue;
+            }
+
             $choice = $case->labelColor();
 
-            if ($case->variant() !== null || is_string($choice)) {
+            if (is_string($choice)) {
+                $own[$case->name] = $choice;
+
                 continue;
             }
 
@@ -81,16 +63,43 @@ trait RendersLabel
             }
         }
 
-        return Palette::colors($keys, $forced, static::labelPaletteSeed())[$this->name];
+        return $own + Palette::colors($keys, $forced, static::labelPaletteSeed());
     }
 
     /**
-     * What the dot's colour is derived from when the value names no variant and
-     * no colour of its own. A backed enum keeps its colour across renames of
-     * the case.
+     * Font Awesome classes of an icon standing in for the dot, for a value
+     * already recognized by a mark of its own. None by default.
      */
-    protected function labelSeed(): ?string
+    protected function labelIcon(): ?string
     {
-        return property_exists($this, 'value') ? (string) $this->value : null;
+        return null;
+    }
+
+    /**
+     * A color forced on the value when it names no variant: a palette slot, or
+     * a color of its own. None by default, which leaves an enum case to the
+     * palette it shares with the other cases.
+     */
+    protected function labelColor(): string|int|null
+    {
+        return null;
+    }
+
+    /** What turns the palette of the enum's cases, so sets differ in color. */
+    protected static function labelPaletteSeed(): int|string
+    {
+        return static::class;
+    }
+
+    /**
+     * The color of the dot of a value that is not an enum and names no variant:
+     * it has no set to share, so it is given a color or a slot of its own, or
+     * none at all.
+     */
+    protected function labelDotColor(): ?string
+    {
+        $chosen = $this->labelColor();
+
+        return is_int($chosen) ? Palette::color($chosen, static::labelPaletteSeed()) : $chosen;
     }
 }

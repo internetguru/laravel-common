@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- `<x-ig::label>` takes a `group` and a `key`: a value has one color everywhere, and no two values of a group share one. Groups are registered once with `LabelGroups::register()`, from a list or a closure, and an enum class using `RendersLabel` is a group of its own.
+
+### Changed
+
+- **Breaking:** A label given no variant, color or group and key, or an invalid one, throws a `LabelException` in debug mode, and otherwise logs a warning and shows a gray dot. Give each label a `variant`, a `color`, or a registered `group` and a `key`.
+
+### Removed
+
+- **Breaking:** Labels are no longer colored by a hash of their text, and `seed` and a number as the `color` are gone; register a group and pass a `key` instead. `RendersLabel::labelSeed()` is gone too.
+
 ## [8.11.2] - 2026-11-05
 
 ### Fixed
@@ -2364,6 +2378,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://github.com/internetguru/laravel-common/compare/staging...dev
 [8.11.2]: https://github.com/internetguru/laravel-common/compare/v8.11.1...v8.11.2
 [8.11.1]: https://github.com/internetguru/laravel-common/compare/v8.11.0...v8.11.1
 [8.11.0]: https://github.com/internetguru/laravel-common/compare/v8.10.1...v8.11.0
