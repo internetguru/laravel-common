@@ -72,6 +72,25 @@ class PreventDuplicateSubmissionsTest extends TestCase
         $this->assertEquals('OK', $this->handle($request)->getContent());
     }
 
+    public function test_lets_two_people_behind_one_address_send_the_same_form()
+    {
+        $request = Request::create('/contact', 'POST', ['name' => 'Jane']);
+
+        $this->be($this->userWithId(1));
+        $this->handle($request);
+        $this->be($this->userWithId(2));
+
+        $this->assertEquals('OK', $this->handle($request)->getContent());
+    }
+
+    private function userWithId(int $id): User
+    {
+        $user = new class extends User {};
+        $user->id = $id;
+
+        return $user;
+    }
+
     public function test_never_blocks_livewire_requests_even_with_an_identical_payload()
     {
         $plain = Request::create('/contact', 'POST', ['name' => 'Jane']);

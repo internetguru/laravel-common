@@ -55,7 +55,10 @@ class PreventDuplicateSubmissions
             }
         });
 
-        return sha1($request->ip() . '|' . $request->path() . '|' . serialize($input));
+        // Two people behind one address may well send the same form; only one person's repeat is a duplicate.
+        $who = $request->user()?->getAuthIdentifier() ?? ($request->hasSession() ? $request->session()->getId() : '');
+
+        return sha1($request->ip() . '|' . $who . '|' . $request->path() . '|' . serialize($input));
     }
 
     private function seconds(string $key): int
