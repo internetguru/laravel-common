@@ -174,6 +174,19 @@ class HandlerTest extends TestCase
         $this->assertStringContainsString('403 ' . __('ig-common::errors.403'), $response->getContent());
     }
 
+    public function test_a_failed_background_check_answers_with_its_status_alone()
+    {
+        $this->request->headers->set('X-Livewire', 'true');
+        $this->request->merge(['components' => [['calls' => [['method' => 'watchRefresh']]]]]);
+
+        $notFound = $this->handler->render($this->request, new HttpException(404));
+        $readOnly = $this->handler->render($this->request, new DbReadOnlyException('Database is read-only'));
+
+        $this->assertSame([404, ''], [$notFound->getStatusCode(), $notFound->getContent()]);
+        $this->assertSame([503, ''], [$readOnly->getStatusCode(), $readOnly->getContent()]);
+        $this->assertFalse(session()->has('errors'));
+    }
+
     public function test_other_exceptions_are_left_to_laravel_while_testing()
     {
         $response = $this->handler->render($this->request, new RuntimeException('Boom'));

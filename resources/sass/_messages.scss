@@ -24,3 +24,20 @@
         border: medium solid #ffffff6e !important;
     }
 }
+
+// The watcher's notice bar (offline, expired, page updated), above sticky headers and modals
+.ig-watch-region {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 1rem;
+    z-index: $zindex-toast;
+    display: flex;
+    justify-content: center;
+    padding-inline: 1rem;
+    pointer-events: none;
+
+    .ig-watch-notice {
+        max-width: 100%;
+        pointer-events: auto;
+    }
+}
