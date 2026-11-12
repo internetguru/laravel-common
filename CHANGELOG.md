@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `WatchedPage::add()` and `<x-ig::page-watch />` keep a whole page current: it reloads when nobody would notice and shows a notice with a Reload button otherwise.
 - A watched page shows a bar while offline, retries failed checks, and stops with a notice when the session expired, the user was signed out or the record is gone; the Livewire error handler leaves failed checks alone.
 - `window.igWatch.addWatchMethods()` lets an app's own background calls fail just as quietly.
+- `window.igWatch.allowReload(seconds)` lets a change found soon after the user asked for fresh data reload the page at once.
 - `keepUnchangedIcons()` stops Font Awesome icons from flickering when Livewire morphs a component.
 - `BaseNotification::withoutRequester()` leaves the requester out of a notification raised on someone else's behalf.
 

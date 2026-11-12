@@ -8,7 +8,7 @@ import registerDatePlaceholders from './date-placeholder';
 import watch from './watch';
 import pageWatch from './page-watch';
 import keepUnchangedIcons from './keep-unchanged-icons';
-import { addWatchMethods, checkAll as checkWatchers, isWatchRequest } from './watch-clock';
+import { addWatchMethods, allowReload, checkAll as checkWatchers, isWatchRequest } from './watch-clock';
 
 // Set up for Alpine.js
 document.addEventListener('alpine:init', () => {
@@ -21,8 +21,8 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('igPageWatch', pageWatch);
 });
 
-// The watch clock for apps: skip background checks in their error hooks, add background calls, check now
-window.igWatch = { isWatchRequest, addWatchMethods, checkAll: checkWatchers };
+// The watch clock for apps: skip background checks in their error hooks, add background calls, allow a reload, check now
+window.igWatch = { isWatchRequest, addWatchMethods, allowReload, checkAll: checkWatchers };
 
 registerLivewireErrorHandling();
 registerDatePlaceholders();

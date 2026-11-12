@@ -16,6 +16,7 @@ let stopped = false;
 let permanentNotice = false;
 let lastCheckAll = 0;
 let lastActivity = 0;
+let reloadAllowedUntil = 0;
 let region = null;
 let bar = null;
 let trailingCheck = null;
@@ -303,5 +304,13 @@ export function isEditing() {
 
 // Safe to reload on its own: nobody editing, the view at the top, nobody moving for a while
 export function canReloadUnnoticed() {
-    return !isEditing() && window.scrollY === 0 && Date.now() - lastActivity >= IDLE_MS;
+    if (isEditing()) {
+        return false;
+    }
+    return Date.now() < reloadAllowedUntil || (window.scrollY === 0 && Date.now() - lastActivity >= IDLE_MS);
+}
+
+// The user asked for fresh data (e.g. a refresh button): a change found soon after may reload even while they move
+export function allowReload(seconds) {
+    reloadAllowedUntil = Date.now() + seconds * 1000;
 }

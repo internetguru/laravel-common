@@ -1213,6 +1213,8 @@ Livewire.hook('request', ({ payload, fail }) => {
 
 A push or any other script can ask every watcher to check at once with `window.dispatchEvent(new Event('ig-watch:check'))`. When the watching stops (a found page change or a notice), `ig-watch:stopped` is dispatched on `window`, so an application's own background timer can stop too.
 
+When the user asked for fresh data, e.g. with a refresh button, call `window.igWatch.allowReload(20)`: for that many seconds a change the page watcher finds reloads the page even while the user moves or has scrolled, as long as nothing is being edited.
+
 An application's own background calls (e.g. a sync status) can fail as quietly: register their method names with `window.igWatch.addWatchMethods('syncStatus')`. Use names distinctive enough not to match a user action, since the rule holds for every component on the page. A typed value that rides along with a check, also of another component, counts with it, so its failure is quiet and retried.
 
 A watched page whose sources cannot be rebuilt the same way in a later request (e.g. a model loaded with a partial `select`) would look changed on every check. The page watcher then reloads once and shows the notice instead of reloading again.
