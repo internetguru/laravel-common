@@ -1355,13 +1355,15 @@ Throws `GeolocationServiceException` on failure or rate limit.
 
 ### BaseNotification
 
-> Abstract queued notification class that captures request context (IP, timezone, user ID, URL) at creation time and sends via the `mail` channel.
+> Abstract queued notification class that captures the requester (IP, user ID, URL) at creation time and sends via the `mail` channel.
 
 Features:
 
 - **Queued** with 10 retries and 2-minute backoff.
 - **Retry middleware** via `LogNotificationFailure` — logs warnings on transient failures.
-- Captures the sender's IP, timezone (via geolocation), authenticated user ID, and current page URL.
+- Captures the requester's IP, authenticated user ID and current page URL; the footer names the IP and its time zone, looked up by geolocation when the mail is built.
+- Raised in a queue job or by the scheduler, it has no requester, and the footer leaves the line out.
+- Raised on someone else's behalf, e.g. staff accepting a customer's payment, call `->withoutRequester()` so the recipient does not see the staff member's address: `$order->notify((new PaymentReceived)->withoutRequester())`.
 - Logs permanently failed notifications.
 
 Extend this class to create your own notifications:

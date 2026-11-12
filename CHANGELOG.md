@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - A watched page shows a bar while offline, retries failed checks, and stops with a notice when the session expired, the user was signed out or the record is gone; the Livewire error handler leaves failed checks alone.
 - `window.igWatch.addWatchMethods()` lets an app's own background calls fail just as quietly.
 - `keepUnchangedIcons()` stops Font Awesome icons from flickering when Livewire morphs a component.
+- `BaseNotification::withoutRequester()` leaves the requester out of a notification raised on someone else's behalf.
+
+### Changed
+
+- A notification raised in a queue job or by the scheduler names no requester in its footer, instead of the worker's address, and the requester's time zone is looked up when the mail is built, not when the notification is raised.
 
 ## [9.0.2] - 2026-11-10
 

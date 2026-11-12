@@ -21,9 +21,10 @@ abstract class BaseNotification extends Notification implements ShouldQueue
 
     public int $backoff = 120; // 2 minutes
 
-    public ?string $ipAddress;
+    public ?string $ipAddress = null;
 
-    public ?string $timezone;
+    // Looked up when the mail is built, so raising a notification costs no geolocation request
+    public ?string $timezone = null;
 
     /**
      * The key of the account the notification was raised for.
@@ -31,21 +32,30 @@ abstract class BaseNotification extends Notification implements ShouldQueue
      * An application may key its accounts by an auto-incrementing id or by a
      * string such as a ULID, and this is whatever auth()->id() returned.
      */
-    public int|string|null $userId;
+    public int|string|null $userId = null;
 
     public ?string $url = null;
 
     public function __construct()
     {
-        $this->ipAddress = request()?->ip();
-        try {
-            $timezone = app(GeolocationService::class)->getLocation($this->ipAddress)->timezone;
-        } catch (GeolocationServiceException $ex) {
-            $timezone = null;
+        // A queue worker or the scheduler has no requester; its request is a placeholder
+        if (app()->runningInConsole() && ! app()->runningUnitTests()) {
+            return;
         }
-        $this->timezone = $timezone;
+        $this->ipAddress = request()?->ip();
         $this->userId = auth()?->id();
         $this->url = session('currentPage', null);
+    }
+
+    // For a notification raised on someone else's behalf, e.g. staff accepting a customer's payment
+    public function withoutRequester(): static
+    {
+        $this->ipAddress = null;
+        $this->timezone = null;
+        $this->userId = null;
+        $this->url = null;
+
+        return $this;
     }
 
     public function via(object $notifiable): array
@@ -57,10 +67,22 @@ abstract class BaseNotification extends Notification implements ShouldQueue
     {
         return [
             'ip' => $this->ipAddress,
-            'timezone' => $this->timezone,
+            'timezone' => $this->requesterTimezone(),
             'userId' => $this->userId,
             'url' => $this->url,
         ];
+    }
+
+    private function requesterTimezone(): ?string
+    {
+        if ($this->timezone !== null || $this->ipAddress === null) {
+            return $this->timezone;
+        }
+        try {
+            return $this->timezone = app(GeolocationService::class)->getLocation($this->ipAddress)->timezone;
+        } catch (GeolocationServiceException) {
+            return null;
+        }
     }
 
     public function toMail(object $notifiable): MailMessage
