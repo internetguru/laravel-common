@@ -8,8 +8,15 @@ Shared foundation of every Internet Guru application: Blade components, input sa
 - Other components: `card`, `card-row` (a carousel that overflows shows drag handles between cards; register the solid `faEllipsisVertical`; ←/→ page the carousel on screen, so no key handling of its own is needed), `modal` (opened with `window.igModal.open(id)`), `label`, `breadcrumb` (folds into a menu on a phone; `mark` takes a small logo URL, `items` replaces the parsed levels; styles from `ig::common/breadcrumb`, arrow `faAngleDown`), `print-button`, `share-page`, `copy-url`, `tag-cloud`, `editable`, `association-history`, `footer`, `lang-switch`, `admin-button-text`. Check a component's class in `src/View/Components` for its props before using it.
 - Session flashes (`success`, `errors`) are shown by `<livewire:ig-messages />`. From a Livewire component, show a message with `$this->dispatch('ig-message', type: 'success', message: __('…'))`.
 - Package views are namespaced `ig-common::`, translations `ig-common::file.key`. An application overrides a view in `resources/views/vendor/ig-common`.
-- Sass and JS come in through Vite aliases: `@import 'ig::common/variables'`, `'ig::common/card'` and so on in `app.scss`, and `import 'ig::common-js'` in `app.js`, which registers the Alpine components `editable`, `print`, `clearable`, `cardRow` and `tagCloud`.
+- Sass and JS come in through Vite aliases: `@import 'ig::common/variables'`, `'ig::common/card'` and so on in `app.scss`, and `import 'ig::common-js'` in `app.js`, which registers the Alpine components `editable`, `print`, `clearable`, `cardRow`, `tagCloud`, `igWatch` and `igPageWatch`.
 - The notices above the header (demo, read-only, laravel-user's system message and hints) are Bootstrap alert bars unless `app.scss` imports `ig::common/notice`, which draws them as an icon and a short centred line; tune them with the `$notice-*` variables rather than restyling `.alert` in the application.
+
+## Keeping pages current
+
+- Never use `wire:poll` or a focus `$refresh` to keep data current. A Livewire component that draws everything that can change uses the `WatchesForChanges` trait with `watchFingerprint()` and `<x-ig::watch />` in its view; it refreshes in place, and only when the fingerprint changed. A page not drawn by one Livewire component registers what it shows with `WatchedPage::add($model, …)` (models or static `[Class::class, 'method', [scalars]]`, never closures) and the layout carries `<x-ig::page-watch />` once.
+- A fingerprint covers everything the view shows, including states that change with time alone (a model implements `HasPageFingerprint` for those).
+- An application's own Livewire `request` fail hook skips background checks with `window.igWatch.isWatchRequest(payload)`. A push asks for an immediate check with `window.dispatchEvent(new Event('ig-watch:check'))`.
+- To stop icons flickering on morphs, call `keepUnchangedIcons({ config, dom })` from `ig::common-js/keep-unchanged-icons` before `dom.i2svg()` and `dom.watch()`; styles must then not rely on the `<svg>` replacing the `<i>`.
 
 ## Labels
 

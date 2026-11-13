@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Validation\ValidationException;
+use InternetGuru\LaravelCommon\Support\WatchRequest;
 use Livewire\Exceptions\ComponentNotFoundException;
 use Livewire\Exceptions\LivewireReleaseTokenMismatchException;
 use Livewire\Exceptions\MaxNestingDepthExceededException;
@@ -82,6 +83,15 @@ class Handler extends ExceptionHandler
             // error page as a normal request, not a JSON payload or a redirect -
             // the frontend swaps it in in place of Livewire's default error overlay
             $isLivewireRequest = $request->hasHeader('X-Livewire');
+
+            // a background watch check retries or stops in the browser; nothing is flashed for the next page
+            if ($isLivewireRequest && WatchRequest::is($request)) {
+                return response('', match (true) {
+                    $e instanceof HttpExceptionInterface => $e->getStatusCode(),
+                    $e instanceof DbReadOnlyException => 503,
+                    default => 500,
+                });
+            }
 
             if ($e instanceof DbReadOnlyException) {
                 if ($isLivewireRequest) {

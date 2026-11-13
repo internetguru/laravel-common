@@ -16,8 +16,10 @@
         {{ $noreplyMessage }}<br />
     @endif
     @lang('ig-common::layouts.email.generated-at', ['url' => $domainLink])<br />
-    @lang('ig-common::layouts.email.generator', ['generator' => '<code>' . InternetGuru\LaravelCommon\Support\Helpers::getAppInfo() . '</code>'])<br />
-    @lang('ig-common::layouts.email.requested-from', ['ip' => '<code>' . $ip . '</code>', 'timezone' => '<code>' . ($timezone ?? 'n/a') . '</code>'])
+    @lang('ig-common::layouts.email.generator', ['generator' => '<code>' . InternetGuru\LaravelCommon\Support\Helpers::getAppInfo() . '</code>'])
+    @if ($ip)
+        <br />@lang('ig-common::layouts.email.requested-from', ['ip' => '<code>' . $ip . '</code>', 'timezone' => '<code>' . ($timezone ?? 'n/a') . '</code>'])
+    @endif
 </p>
 <p>
     @lang('ig-common::layouts.provider', ['link' => $providerLink, 'year' => date('Y')])
