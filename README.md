@@ -1461,6 +1461,8 @@ Custom error views are included for standard HTTP status codes. The error pages 
 
 ## Logging
 
+The package defines the `deprecations` log channel at boot from `logging.deprecations.channel` (`LOG_DEPRECATIONS_CHANNEL`, `null` by default), unless `logging.channels.deprecations` is already set. Laravel would otherwise add it only on the first deprecation, which under Octane misses the request's config copy and ends in the emergency logger.
+
 ### JsonDailyLogger
 
 > A custom Monolog logger that writes JSON-formatted daily rotating log files enriched with request context.
