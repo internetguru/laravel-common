@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- A warning toast looks like the other toasts, dark gray with white text, with a yellow warning triangle before its text.
 - A notification raised in a queue job or by the scheduler names no requester in its footer, instead of the worker's address, and the requester's time zone is looked up when the mail is built, not when the notification is raised.
 
 ## [9.0.2] - 2026-11-10

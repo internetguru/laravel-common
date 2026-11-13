@@ -7,6 +7,7 @@
         <div class="toast-wrapper" style="
             z-index: 1050;
             --bs-success-rgb: 38, 50, 56;
+            --bs-warning-rgb: 38, 50, 56;
         ">
             <div class="toast-container">
                 <div wire:ignore data-ig-client-toasts></div>
