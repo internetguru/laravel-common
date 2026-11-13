@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- The `deprecations` log channel is defined at boot from `logging.deprecations.channel`, so Octane no longer logs "Log [deprecations] is not defined" emergencies to `laravel.log`.
+
 ## [9.2.0] - 2026-11-13
 
 _Stable release based on [9.2.0-rc.1]._
