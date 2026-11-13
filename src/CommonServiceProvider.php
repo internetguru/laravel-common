@@ -37,6 +37,7 @@ use InternetGuru\LaravelFeedback\FeedbackServiceProvider;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Livewire\Livewire;
+use Monolog\Handler\NullHandler;
 
 class CommonServiceProvider extends ServiceProvider
 {
@@ -58,6 +59,7 @@ class CommonServiceProvider extends ServiceProvider
 
         $this->app->extend(ExceptionHandler::class, fn ($handler, $app) => new Handler($app));
 
+        $this->registerDeprecationsChannel();
         $this->registerLogDeduplication();
 
         $this->applySqliteDefaults();
@@ -89,6 +91,36 @@ class CommonServiceProvider extends ServiceProvider
         $this->registerMacros();
         $this->registerFeedbackFields();
         $this->ensureQueueIsNotSync();
+    }
+
+    /**
+     * Define the "deprecations" log channel up front, the way Laravel's
+     * HandleExceptions does on the first deprecation.
+     *
+     * Laravel adds it to the base application's config, but under Octane the
+     * LogManager reads the request's config clone, which then lacks it: every
+     * new worker logged "Log [deprecations] is not defined" through the
+     * emergency logger. Defining it here puts it into every clone.
+     */
+    private function registerDeprecationsChannel(): void
+    {
+        $config = $this->app['config'];
+
+        if ($config->get('logging.channels.deprecations')) {
+            return;
+        }
+
+        if (! $config->get('logging.channels.null')) {
+            $config->set('logging.channels.null', [
+                'driver' => 'monolog',
+                'handler' => NullHandler::class,
+            ]);
+        }
+
+        $options = $config->get('logging.deprecations');
+        $channel = is_array($options) ? ($options['channel'] ?? 'null') : ($options ?? 'null');
+
+        $config->set('logging.channels.deprecations', $config->get("logging.channels.$channel"));
     }
 
     /**

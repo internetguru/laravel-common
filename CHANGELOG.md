@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [9.3.0] - 2026-11-13
+
+_Stable release based on [9.3.0-rc.1]._
+
+## [9.3.0-rc.1] - 2026-11-13
+
+### Fixed
+
+- The `deprecations` log channel is defined at boot from `logging.deprecations.channel`, so Octane no longer logs "Log [deprecations] is not defined" emergencies to `laravel.log`.
+
 ## [9.2.0] - 2026-11-13
 
 _Stable release based on [9.2.0-rc.1]._
@@ -2438,6 +2448,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[9.3.0]: https://github.com/internetguru/laravel-common/compare/v9.2.0...v9.3.0
+[9.3.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v9.2.0
 [9.2.0]: https://github.com/internetguru/laravel-common/compare/v9.1.0...v9.2.0
 [9.2.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v9.1.0
 [9.1.0]: https://github.com/internetguru/laravel-common/compare/v9.0.2...v9.1.0
