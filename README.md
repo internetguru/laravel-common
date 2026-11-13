@@ -56,6 +56,7 @@
   - [WatchesForChanges Trait](#watchesforchanges-trait)
   - [Page Watch](#page-watch)
   - [Unchanged Icons](#unchanged-icons)
+  - [Missing Icons](#missing-icons)
 - [Traits](#traits)
   - [Ulid32 Trait](#ulid32-trait)
 - [Rules](#rules)
@@ -1291,6 +1292,10 @@ dom.watch();
 ```
 
 Call it before `dom.i2svg()` and `dom.watch()`, and import it from its own file, not from `ig::common-js`. In `nest` mode the `fa-*` classes and `svg-inline--fa` move to the `<svg>` while other classes stay on the `<i>`, so styles that select `svg` directly under an element, or `i.fa-…`, need adjusting.
+
+### Missing Icons
+
+Font Awesome draws an icon that was never added to its library as a pulsing placeholder and logs nothing. `ig::common-js` watches the page for such placeholders and logs each one once as a console error that names what to register, e.g. `add faEllipsisVertical from @fortawesome/free-solid-svg-icons to library.add()`. Browser tests that end with `assertNoJavascriptErrors()` therefore fail on a page that shows a missing icon, including one inside a package component. An icon shown only in a state no test reaches, such as the drag handle of an overflowing carousel, still needs a look in the browser.
 
 ## Traits
 

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- A Font Awesome icon shown without being registered logs a console error naming the import to add, so browser tests ending with `assertNoJavascriptErrors()` catch it.
+
 ## [9.1.0] - 2026-11-13
 
 _Stable release based on [9.1.0-rc.1]._
