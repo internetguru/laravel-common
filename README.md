@@ -52,6 +52,10 @@
   - [Component Signatures](#component-signatures-blade-component)
 - [Casts](#casts)
   - [CarbonIntervalCast](#carbonintervalcast)
+- [Keeping Pages Current](#keeping-pages-current)
+  - [WatchesForChanges Trait](#watchesforchanges-trait)
+  - [Page Watch](#page-watch)
+  - [Unchanged Icons](#unchanged-icons)
 - [Traits](#traits)
   - [Ulid32 Trait](#ulid32-trait)
 - [Rules](#rules)
@@ -85,6 +89,8 @@ To run the tests manually, you can use the following command:
 ```sh
 ./test.sh
 ```
+
+It runs the JavaScript tests (Vitest, `tests/js`) and then the PHPUnit tests in Docker. To run only the JavaScript tests, use `npm test`.
 
 ## Shared Tests
 
@@ -1181,6 +1187,111 @@ class Task extends Model
 }
 ```
 
+## Keeping Pages Current
+
+A page often shows data that others change while it is open. Polling with `wire:poll` re-renders and morphs the component on every tick even when nothing changed, which costs a render and swaps every Font Awesome icon in it, so the icons flicker. The watcher asks instead: a cheap fingerprint of what is shown is compared on a shared clock, and only a change does anything on the page.
+
+One clock serves every watcher on the page. Watchers with the same interval check on the same wall-clock seconds, so Livewire bundles their calls into one request. A tab that is hidden checks ten times less often and catches up when it is shown, when the window gets focus, and when the page returns from the back/forward cache. A failed check never replaces the page:
+
+| Failure | What happens |
+| --- | --- |
+| offline | no checks; a toast says the page is not being updated, and it hides and checks at once when the browser is back online |
+| network error, timeout, 5xx, 429 | retried after 15 s, 30 s, 1 min, 2 min and then every 5 min, back to the normal interval after the first success |
+| 419, 401, 403, or a redirect | the session expired or the user was signed out; all watchers stop and a toast with a Reload button stays |
+| 404, 410 | what the page shows is gone; all watchers stop and the "updated" toast with a Reload button stays |
+
+These messages are warning toasts that look like every other toast. The browser builds them from a template in `<livewire:ig-messages />`, since they report the very moments a request fails, so a page without that component shows none. Only one shows at a time, and the newer state replaces the older, except that going offline never replaces a toast with Reload. Each closes with its ×; a closed Reload toast stays closed, and the offline one comes back on the next disconnect. A page without a watcher shows the offline toast too, saying links and forms work again once back online.
+
+The package's Livewire error handler leaves failed watch checks alone. An application with a Livewire `request` hook of its own skips them the same way:
+
+```js
+Livewire.hook('request', ({ payload, fail }) => {
+    fail(({ preventDefault }) => {
+        if (window.igWatch?.isWatchRequest(payload)) {
+            return;
+        }
+        // …
+    });
+});
+```
+
+A push or any other script can ask every watcher to check at once with `window.dispatchEvent(new Event('ig-watch:check'))`. When the watching stops (a found page change or a notice), `ig-watch:stopped` is dispatched on `window`, so an application's own background timer can stop too.
+
+When the user asked for fresh data, e.g. with a refresh button, call `window.igWatch.allowReload(20)`: for that many seconds a change the page watcher finds reloads the page even while the user moves or has scrolled, as long as nothing is being edited.
+
+An application's own background calls (e.g. a sync status) can fail as quietly: register their method names with `window.igWatch.addWatchMethods('syncStatus')`. Use names distinctive enough not to match a user action, since the rule holds for every component on the page. A typed value that rides along with a check, also of another component, counts with it, so its failure is quiet and retried.
+
+A watched page whose sources cannot be rebuilt the same way in a later request (e.g. a model loaded with a partial `select`) would look changed on every check. The page watcher then reloads once and shows the notice instead of reloading again.
+
+### WatchesForChanges Trait
+
+For a Livewire component that draws everything that can change. It refreshes in place, in one request: an unchanged fingerprint skips the render, so no markup is sent; a changed one renders the component as usual.
+
+```php
+use InternetGuru\LaravelCommon\Traits\WatchesForChanges;
+
+class PendingReservations extends Component
+{
+    use WatchesForChanges;
+
+    protected function watchFingerprint(): string
+    {
+        return md5(json_encode($this->items()));
+    }
+}
+```
+
+```blade
+<div>
+    <x-ig::watch :interval="15" />
+    …
+</div>
+```
+
+- The fingerprint must cover everything the view shows, including what changes with time alone, such as a status that turns expired. It is read once per request and stored on every render.
+- Override `watchChanged()` to update state before the render a found change causes.
+- Place `x-ig::watch` inside the component's root element. The default interval is 15 seconds.
+
+### Page Watch
+
+For a page not drawn by one Livewire component, such as an order detail rendered by a controller. Register what the page shows, from the controller or the view:
+
+```php
+use InternetGuru\LaravelCommon\Support\WatchedPage;
+
+WatchedPage::add($order, ...$order->vouchers);
+WatchedPage::add([PaymentState::class, 'forOrder', [$order->id]]);
+WatchedPage::message(__('order.paid'));
+```
+
+and place the watcher once in the layout:
+
+```blade
+<x-ig::page-watch />
+```
+
+It renders nothing on a page that registered nothing.
+
+- A source must be rebuildable in a later request, so a model (by class, key and `updated_at`) or a static `[Class::class, 'method', [scalar arguments]]` callable. A closure is refused, and a deleted model counts as a change.
+- A model implementing `InternetGuru\LaravelCommon\Contracts\HasPageFingerprint` adds `pageFingerprint()`, for a state that changes with time alone and leaves `updated_at` as it is.
+- On a change, the page reloads only if nothing is being edited (no unsaved field, open modal or dropdown, selected text, or pending Livewire change), the page is scrolled to the top and there was no mouse or key activity for 3 seconds. Otherwise a toast with a Reload button stays and watching stops. After a reload, the message (or the default "This page has been updated.") is flashed.
+
+### Unchanged Icons
+
+Font Awesome replaces each `<i>` with an `<svg>`, so every morph swaps every icon. `keepUnchangedIcons()` switches Font Awesome to its `nest` mode, where the `<i>` stays and holds the `<svg>`, and lets the morph skip each icon whose markup did not change; a changed one is reset and converted again.
+
+```js
+import { config, dom, library } from '@fortawesome/fontawesome-svg-core';
+import keepUnchangedIcons from 'ig::common-js/keep-unchanged-icons';
+
+library.add(/* … */);
+keepUnchangedIcons({ config, dom });
+dom.i2svg();
+dom.watch();
+```
+
+Call it before `dom.i2svg()` and `dom.watch()`, and import it from its own file, not from `ig::common-js`. In `nest` mode the `fa-*` classes and `svg-inline--fa` move to the `<svg>` while other classes stay on the `<i>`, so styles that select `svg` directly under an element, or `i.fa-…`, need adjusting.
+
 ## Traits
 
 ### Ulid32 Trait
@@ -1250,13 +1361,15 @@ Throws `GeolocationServiceException` on failure or rate limit.
 
 ### BaseNotification
 
-> Abstract queued notification class that captures request context (IP, timezone, user ID, URL) at creation time and sends via the `mail` channel.
+> Abstract queued notification class that captures the requester (IP, user ID, URL) at creation time and sends via the `mail` channel.
 
 Features:
 
 - **Queued** with 10 retries and 2-minute backoff.
 - **Retry middleware** via `LogNotificationFailure` — logs warnings on transient failures.
-- Captures the sender's IP, timezone (via geolocation), authenticated user ID, and current page URL.
+- Captures the requester's IP, authenticated user ID and current page URL; the footer names the IP and its time zone, looked up by geolocation when the mail is built.
+- Raised in a queue job or by the scheduler, it has no requester, and the footer leaves the line out.
+- Raised on someone else's behalf, e.g. staff accepting a customer's payment, call `->withoutRequester()` so the recipient does not see the staff member's address: `$order->notify((new PaymentReceived)->withoutRequester())`.
 - Logs permanently failed notifications.
 
 Extend this class to create your own notifications:

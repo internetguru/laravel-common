@@ -30,14 +30,21 @@ RUN echo "xdebug.mode=coverage" >> /usr/local/etc/php/conf.d/docker-php-ext-xdeb
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# Install Node for the JavaScript tests
+COPY --from=node:22-slim /usr/local/bin/node /usr/local/bin/node
+COPY --from=node:22-slim /usr/local/lib/node_modules /usr/local/lib/node_modules
+RUN ln -s ../lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+    && ln -s ../lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
+
 # Set working directory
 WORKDIR /app
 
 # Copy the application code into the container
 COPY . /app
 
-# Install PHP dependencies
-RUN composer install --prefer-dist --no-interaction
+# Install PHP and JavaScript dependencies
+RUN composer install --prefer-dist --no-interaction \
+    && npm ci
 
-# Run the PHPUnit tests by default
-CMD ["./vendor/bin/phpunit", "--coverage-text"]
+# Run the JavaScript and PHPUnit tests by default
+CMD ["sh", "-c", "npm test && ./vendor/bin/phpunit --coverage-text"]

@@ -24,6 +24,7 @@ use InternetGuru\LaravelCommon\Http\Middleware\ReportImageProblems;
 use InternetGuru\LaravelCommon\Http\Middleware\SetPrevPage;
 use InternetGuru\LaravelCommon\Listeners\LogSentNotification;
 use InternetGuru\LaravelCommon\Livewire\Messages;
+use InternetGuru\LaravelCommon\Livewire\PageWatch;
 use InternetGuru\LaravelCommon\Livewire\RejectMalformedPayload;
 use InternetGuru\LaravelCommon\Logging\DeduplicateRepeatedRecords;
 use InternetGuru\LaravelCommon\Middleware\TimezoneMiddleware;
@@ -31,6 +32,7 @@ use InternetGuru\LaravelCommon\Middleware\VerifyCsrfToken;
 use InternetGuru\LaravelCommon\Rules\Ulid32;
 use InternetGuru\LaravelCommon\Support\LabelGroups;
 use InternetGuru\LaravelCommon\Support\Sanitizer;
+use InternetGuru\LaravelCommon\Support\WatchedPage;
 use InternetGuru\LaravelFeedback\FeedbackServiceProvider;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -65,6 +67,7 @@ class CommonServiceProvider extends ServiceProvider
         // between requests under Octane.
         $this->app->scoped(Sanitizer::class);
         $this->app->scoped(LabelGroups::class);
+        $this->app->scoped(WatchedPage::class);
 
         // Livewire attaches listeners for every registered component hook in
         // ComponentHookRegistry::boot(), so a hook registered after Livewire's
@@ -209,6 +212,7 @@ class CommonServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'ig-common');
         Blade::componentNamespace('InternetGuru\LaravelCommon\View\Components', 'ig');
         Livewire::component('ig-messages', Messages::class);
+        Livewire::component('ig-page-watch', PageWatch::class);
     }
 
     private function registerTranslations(): void

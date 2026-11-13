@@ -1,3 +1,5 @@
+import { isWatchRequest } from './watch-clock';
+
 // A failed Livewire request (e.g. an upstream timeout) is shown by Livewire as a
 // raw HTML overlay on top of the current page by default. The backend Handler
 // renders the same styled error page for a failed Livewire request as it would
@@ -10,9 +12,15 @@ export default function registerLivewireErrorHandling() {
         return;
     }
 
-    window.Livewire.hook('request', ({ fail }) => {
+    window.Livewire.hook('request', ({ payload, fail }) => {
         fail(({ status, content, preventDefault }) => {
             preventDefault();
+
+            // a background watch check retries or shows its own notice; it never replaces the page
+            if (isWatchRequest(payload)) {
+                console.warn(`Background Livewire check failed with status ${status}`);
+                return;
+            }
             console.error(`Livewire request failed with status ${status}`);
 
             // only swap in the response when it is a full HTML error page; some

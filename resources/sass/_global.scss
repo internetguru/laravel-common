@@ -33,7 +33,8 @@ a.link-ico {
     position: relative;
     margin-left: 1.6em;
 
-    i,
+    // Font Awesome's nest mode keeps the converted <i> around its <svg>; only one of them is placed
+    i:not([data-fa-i2svg]),
     svg,
     img {
         position: absolute;
