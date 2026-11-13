@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - A Font Awesome icon shown without being registered logs a console error naming the import to add, so browser tests ending with `assertNoJavascriptErrors()` catch it.
 
+### Fixed
+
+- A carousel whose cards are wrapped in the application's own items steps through them with the arrow keys, opens the focused one with Enter, lifts it, and shows its drag handles.
+
 ## [9.1.0] - 2026-11-13
 
 _Stable release based on [9.1.0-rc.1]._
