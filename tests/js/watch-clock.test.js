@@ -12,6 +12,22 @@ const flush = () => vi.advanceTimersByTimeAsync(0);
 const seconds = (ms) => (ms - START) / 1000;
 const notice = () => document.querySelector('[data-testid=watch-notice]');
 
+// What <livewire:ig-messages /> renders around its toasts
+function renderMessages(offline = null) {
+    document.body.innerHTML = `
+        <div class="messages-wrapper" ${offline ? `data-ig-offline="${offline}"` : ''}>
+            <template data-ig-toast>
+                <div class="toast text-white bg-warning message-item" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body flex-grow-1"></div>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </template>
+            <div class="toast-container"><div data-ig-client-toasts></div></div>
+        </div>`;
+}
+
 function watch({ interval = 15, check = vi.fn(async () => {}) } = {}) {
     handles.push(clock.registerWatcher({ interval, check, messages: MESSAGES }));
     return check;
@@ -32,6 +48,7 @@ function setProperty(target, name, value) {
 beforeEach(async () => {
     vi.useFakeTimers({ now: START });
     vi.spyOn(Math, 'random').mockReturnValue(0);
+    renderMessages();
     vi.resetModules();
     clock = await import('../../resources/js/watch-clock.js');
     pageWatch = (await import('../../resources/js/page-watch.js')).default;
@@ -176,7 +193,7 @@ describe('stopping', () => {
     });
 });
 
-describe('offline bar', () => {
+describe('watcher toast', () => {
     it('shows while offline, then hides and checks at once when back online', async () => {
         const check = watch();
 
@@ -190,7 +207,7 @@ describe('offline bar', () => {
     });
 
     it('shows on a page without a watcher, with the page\'s own message', () => {
-        document.body.innerHTML = '<div data-ig-offline="Offline page"></div>';
+        renderMessages('Offline page');
 
         window.dispatchEvent(new Event('offline'));
         expect(notice().textContent).toContain('Offline page');
@@ -206,7 +223,7 @@ describe('offline bar', () => {
     });
 
     it('says the page is not being updated while a watcher runs, and the page\'s message once none does', () => {
-        document.body.innerHTML = '<div data-ig-offline="Offline page"></div>';
+        renderMessages('Offline page');
         setProperty(navigator, 'onLine', false);
         const handle = clock.registerWatcher({ interval: 15, check: vi.fn(), messages: MESSAGES });
         expect(notice().textContent).toContain('Offline');
@@ -216,6 +233,43 @@ describe('offline bar', () => {
 
         expect(notice().textContent).toContain('Offline page');
         expect(document.querySelectorAll('[data-testid=watch-notice]')).toHaveLength(1);
+    });
+
+    it('is a toast of the page\'s own look, shown at once and never shown twice', () => {
+        renderMessages('Offline page');
+        watch();
+        clock.showNotice('Changed');
+        window.dispatchEvent(new Event('offline'));
+
+        const toasts = document.querySelectorAll('[data-ig-client-toasts] .toast');
+        expect(toasts).toHaveLength(1);
+        expect(toasts[0].classList).toContain('show');
+        expect(toasts[0].classList).toContain('bg-warning');
+        expect(toasts[0].querySelector('[data-bs-dismiss]')).toBeNull();
+    });
+
+    it('shows nothing on a page without the messages component', () => {
+        document.body.innerHTML = '';
+        watch();
+
+        window.dispatchEvent(new Event('offline'));
+
+        expect(notice()).toBeNull();
+    });
+
+    it('stays closed once closed, while going offline shows it again', async () => {
+        const check = watch({ check: vi.fn(async () => Promise.reject({ status: 419 })) });
+        clock.checkAll();
+        await flush();
+
+        notice().querySelector('.btn-close').click();
+        expect(notice()).toBeNull();
+        await vi.advanceTimersByTimeAsync(60_000);
+        expect(check).toHaveBeenCalledTimes(1);
+        expect(notice()).toBeNull();
+
+        window.dispatchEvent(new Event('offline'));
+        expect(notice().textContent).toContain('Offline');
     });
 
     it('never replaces a notice that must stay', () => {
@@ -273,9 +327,10 @@ describe('reloading unnoticed', () => {
         clock.allowReload(20);
         expect(clock.canReloadUnnoticed()).toBe(true);
 
-        document.body.append(Object.assign(document.createElement('input'), { defaultValue: 'a', value: 'b' }));
+        const field = Object.assign(document.createElement('input'), { defaultValue: 'a', value: 'b' });
+        document.body.append(field);
         expect(clock.canReloadUnnoticed()).toBe(false);
-        document.body.innerHTML = '';
+        field.remove();
 
         await vi.advanceTimersByTimeAsync(20_000);
         expect(clock.canReloadUnnoticed()).toBe(false);
@@ -351,7 +406,7 @@ describe('page watch', () => {
 
         expect(wire.watchReload).not.toHaveBeenCalled();
         expect(notice().textContent).toContain('Changed');
-        notice().querySelector('button').click();
+        notice().querySelector('.toast-body button').click();
         expect(wire.watchReload).toHaveBeenCalledTimes(1);
     });
 

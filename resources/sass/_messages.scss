@@ -9,7 +9,8 @@
 
     @include link-color(#b3befa);
 
-    a {
+    a,
+    .ig-toast-action {
         text-transform: uppercase;
         border-bottom: none;
         display: inline-block;
@@ -23,21 +24,16 @@
     .message-item {
         border: medium solid #ffffff6e !important;
     }
-}
 
-// The watcher's notice bar (offline, expired, page updated), above sticky headers and modals
-.ig-watch-region {
-    position: fixed;
-    inset-inline: 0;
-    bottom: 1rem;
-    z-index: $zindex-toast;
-    display: flex;
-    justify-content: center;
-    padding-inline: 1rem;
-    pointer-events: none;
+    // A button that acts like the toasts' links, e.g. the watcher's Reload
+    .ig-toast-action {
+        --bs-btn-color: #b3befa;
+        --bs-btn-hover-color: #b3befa;
+        --bs-btn-active-color: #b3befa;
+        text-decoration: none;
+    }
 
-    .ig-watch-notice {
-        max-width: 100%;
-        pointer-events: auto;
+    [data-ig-client-toasts]:empty {
+        display: none;
     }
 }

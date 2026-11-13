@@ -9,10 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - `WatchesForChanges` and `<x-ig::watch />` keep a Livewire component current, re-rendering it only when its fingerprint changed, on one clock shared by every watcher on the page.
-- `WatchedPage::add()` and `<x-ig::page-watch />` keep a whole page current: it reloads when nobody would notice and shows a notice with a Reload button otherwise.
-- A watched page shows a bar while offline, retries failed checks, and stops with a notice when the session expired, the user was signed out or the record is gone; the Livewire error handler leaves failed checks alone.
+- `WatchedPage::add()` and `<x-ig::page-watch />` keep a whole page current: it reloads when nobody would notice and shows a toast with a Reload button otherwise.
+- A watched page shows a toast while offline, retries failed checks, and stops with a toast offering Reload when the session expired, the user was signed out or the record is gone; the Livewire error handler leaves failed checks alone.
 - `window.igWatch.addWatchMethods()` lets an app's own background calls fail just as quietly.
-- Every page with `<livewire:ig-messages />` shows a bar while offline, saying links and forms work again once back online.
+- Every page with `<livewire:ig-messages />` shows a toast while offline, saying links and forms work again once back online.
 - `window.igWatch.allowReload(seconds)` lets a change found soon after the user asked for fresh data reload the page at once.
 - `keepUnchangedIcons()` stops Font Awesome icons from flickering when Livewire morphs a component.
 - `BaseNotification::withoutRequester()` leaves the requester out of a notification raised on someone else's behalf.

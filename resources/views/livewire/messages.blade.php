@@ -1,10 +1,15 @@
 <div class="messages-wrapper" data-ig-offline="{{ __('ig-common::watch.offline-page') }}">
+    {{-- The watcher's toast (offline, page updated) is built in the browser from this template --}}
+    <template data-ig-toast>
+        <x-ig::message type="warning" message="" class="message-item" />
+    </template>
     <div>
         <div class="toast-wrapper" style="
             z-index: 1050;
             --bs-success-rgb: 38, 50, 56;
         ">
             <div class="toast-container">
+                <div wire:ignore data-ig-client-toasts></div>
                 @foreach ($messages as $index => $message)
                     <div wire:key="message-{{ time() }}" data-index="{{ $index }}">
                         <x-ig::message

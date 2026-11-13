@@ -16,4 +16,12 @@ class MessagesTest extends TestCase
             ->assertSeeHtml('data-ig-offline="' . e(__('ig-common::watch.offline-page')) . '"')
             ->assertSee('Jste offline');
     }
+
+    public function test_it_renders_the_template_of_the_watcher_toast()
+    {
+        Livewire::test(Messages::class)
+            ->assertSeeHtml('<template data-ig-toast>')
+            ->assertSeeHtml('data-ig-client-toasts')
+            ->assertSeeHtml('bg-warning');
+    }
 }

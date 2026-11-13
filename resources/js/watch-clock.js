@@ -17,8 +17,7 @@ let permanentNotice = false;
 let lastCheckAll = 0;
 let lastActivity = 0;
 let reloadAllowedUntil = 0;
-let region = null;
-let bar = null;
+let toast = null;
 let trailingCheck = null;
 
 // Same intervals meet on the same seconds; the offset per page spreads browsers apart
@@ -107,49 +106,64 @@ export function checkAll({ trailing = true } = {}) {
 
 const checkOnReturn = () => checkAll({ trailing: false });
 
-// Assistive technology announces content added to a live region that already exists
-function liveRegion() {
-    if (!region?.isConnected) {
-        region = document.querySelector('.ig-watch-region');
+// The watcher's message is a toast like any other, built in the browser from the template of
+// <livewire:ig-messages />, since it reports the very moments a request fails; one at a time
+function watchToast() {
+    const container = document.querySelector('[data-ig-client-toasts]');
+    const template = document.querySelector('template[data-ig-toast]');
+    if (!container || !template) {
+        return null;
     }
-    if (!region) {
-        region = document.createElement('div');
-        region.className = 'ig-watch-region';
-        region.setAttribute('role', 'status');
-        region.setAttribute('aria-live', 'polite');
-        document.body.append(region);
+    if (!toast?.isConnected) {
+        toast = container.querySelector('[data-testid=watch-notice]');
     }
-    return region;
+    if (!toast) {
+        toast = template.content.firstElementChild.cloneNode(true);
+        toast.dataset.testid = 'watch-notice';
+        // Not one of the server's toasts, which its own script shows and removes
+        toast.dataset.igInit = '1';
+        toast.classList.add('show');
+        const close = toast.querySelector('[data-bs-dismiss]');
+        close?.removeAttribute('data-bs-dismiss');
+        close?.addEventListener('click', closeToast);
+        container.append(toast);
+    }
+    return toast;
 }
 
-function showBar(text, onReload = null) {
-    bar?.remove();
-    bar = document.createElement('div');
-    bar.className = 'ig-watch-notice alert alert-warning shadow d-flex flex-wrap align-items-center gap-2 mb-0';
-    bar.dataset.testid = 'watch-notice';
+function showToast(text, onReload = null) {
+    const body = watchToast()?.querySelector('.toast-body');
+    if (!body) {
+        return;
+    }
     const label = document.createElement('span');
     label.textContent = text;
-    bar.append(label);
+    body.replaceChildren(label);
     if (onReload) {
         const button = document.createElement('button');
         button.type = 'button';
-        button.className = 'btn btn-link alert-link p-0 align-baseline';
+        button.className = 'btn btn-link ms-2 align-baseline ig-toast-action';
         button.textContent = messages.reload;
         button.addEventListener('click', onReload);
-        bar.append(button);
+        body.append(button);
     }
-    liveRegion().replaceChildren(bar);
 }
 
-function hideBar() {
-    bar?.remove();
-    bar = null;
+function hideToast() {
+    toast?.remove();
+    toast = null;
 }
 
-// A notice that stays until the page reloads; the offline bar never replaces it
+// A closed notice stays closed; going offline may show the toast again
+function closeToast() {
+    hideToast();
+    permanentNotice = false;
+}
+
+// A notice that stays until the page reloads or it is closed; going offline never replaces it
 export function showNotice(text, onReload = () => window.location.reload()) {
     permanentNotice = true;
-    showBar(text, onReload);
+    showToast(text, onReload);
 }
 
 function stop(reason) {
@@ -166,13 +180,13 @@ function offlineMessage() {
 function onOffline() {
     const text = offlineMessage();
     if (text && !permanentNotice) {
-        showBar(text);
+        showToast(text);
     }
 }
 
 function onOnline() {
     if (!permanentNotice) {
-        hideBar();
+        hideToast();
     }
     checkAll();
 }
@@ -221,7 +235,7 @@ function start() {
     window.addEventListener('ig-watch:check', () => checkAll());
     document.addEventListener('livewire:navigated', () => {
         permanentNotice = false;
-        hideBar();
+        hideToast();
     });
     ['mousemove', 'mousedown', 'keydown', 'wheel', 'touchstart'].forEach((type) => {
         window.addEventListener(type, onActivity, { passive: true, capture: true });
@@ -232,16 +246,19 @@ function start() {
 function reset() {
     stopped = false;
     if (!permanentNotice) {
-        hideBar();
+        hideToast();
         if (!navigator.onLine) {
             onOffline();
         }
     }
 }
 
-// Being offline breaks every link and form, so the bar shows on every page, not only where a watcher runs
-window.addEventListener('online', onOnline);
-window.addEventListener('offline', onOffline);
+// Being offline breaks every link and form, so the toast shows on every page, not only where a watcher
+// runs; a copy loaded again (e.g. by a hot update) takes the listeners over
+window.igWatchConnectivity?.abort();
+window.igWatchConnectivity = new AbortController();
+window.addEventListener('online', onOnline, { signal: window.igWatchConnectivity.signal });
+window.addEventListener('offline', onOffline, { signal: window.igWatchConnectivity.signal });
 if (!navigator.onLine) {
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', onOffline, { once: true });

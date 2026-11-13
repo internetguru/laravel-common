@@ -1195,12 +1195,12 @@ One clock serves every watcher on the page. Watchers with the same interval chec
 
 | Failure | What happens |
 | --- | --- |
-| offline | no checks; a bar says the page is not being updated, and it hides and checks at once when the browser is back online |
+| offline | no checks; a toast says the page is not being updated, and it hides and checks at once when the browser is back online |
 | network error, timeout, 5xx, 429 | retried after 15 s, 30 s, 1 min, 2 min and then every 5 min, back to the normal interval after the first success |
-| 419, 401, 403, or a redirect | the session expired or the user was signed out; all watchers stop and a notice with a Reload button stays |
-| 404, 410 | what the page shows is gone; all watchers stop and the "updated" notice with a Reload button stays |
+| 419, 401, 403, or a redirect | the session expired or the user was signed out; all watchers stop and a toast with a Reload button stays |
+| 404, 410 | what the page shows is gone; all watchers stop and the "updated" toast with a Reload button stays |
 
-A page without a watcher shows an offline bar too, saying links and forms work again once back online. It takes that text from `<livewire:ig-messages />`, so a page without that component shows no bar.
+These messages are warning toasts that look like every other toast. The browser builds them from a template in `<livewire:ig-messages />`, since they report the very moments a request fails, so a page without that component shows none. Only one shows at a time, and the newer state replaces the older, except that going offline never replaces a toast with Reload. Each closes with its ×; a closed Reload toast stays closed, and the offline one comes back on the next disconnect. A page without a watcher shows the offline toast too, saying links and forms work again once back online.
 
 The package's Livewire error handler leaves failed watch checks alone. An application with a Livewire `request` hook of its own skips them the same way:
 
@@ -1274,7 +1274,7 @@ It renders nothing on a page that registered nothing.
 
 - A source must be rebuildable in a later request, so a model (by class, key and `updated_at`) or a static `[Class::class, 'method', [scalar arguments]]` callable. A closure is refused, and a deleted model counts as a change.
 - A model implementing `InternetGuru\LaravelCommon\Contracts\HasPageFingerprint` adds `pageFingerprint()`, for a state that changes with time alone and leaves `updated_at` as it is.
-- On a change, the page reloads only if nothing is being edited (no unsaved field, open modal or dropdown, selected text, or pending Livewire change), the page is scrolled to the top and there was no mouse or key activity for 3 seconds. Otherwise a notice with a Reload button stays and watching stops. After a reload, the message (or the default "This page has been updated.") is flashed.
+- On a change, the page reloads only if nothing is being edited (no unsaved field, open modal or dropdown, selected text, or pending Livewire change), the page is scrolled to the top and there was no mouse or key activity for 3 seconds. Otherwise a toast with a Reload button stays and watching stops. After a reload, the message (or the default "This page has been updated.") is flashed.
 
 ### Unchanged Icons
 
