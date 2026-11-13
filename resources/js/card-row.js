@@ -5,7 +5,7 @@
  * the arrows page by whole cards and disable at either end. An item of the
  * row is a card, or an element of the application's own wrapping one. The
  * left and right keys step focus card by card through the row holding focus,
- * or else the one whose buttons are on screen nearest its vertical centre.
+ * or else the one on screen whose middle is nearest the middle of the screen.
  */
 const rows = new Set();
 
@@ -28,11 +28,16 @@ function keyTarget() {
     let nearestDistance = Infinity;
 
     rows.forEach((row) => {
-        if (!row.overflowing || !row.navVisible) {
+        if (!row.overflowing) {
             return;
         }
 
         const box = row.$refs.track.getBoundingClientRect();
+
+        if (box.bottom <= 0 || box.top >= window.innerHeight) {
+            return;
+        }
+
         const distance = Math.abs(box.top + box.height / 2 - middle);
 
         if (distance < nearestDistance) {
@@ -88,7 +93,6 @@ export default () => ({
     atStart: true,
     atEnd: true,
     overflowing: false,
-    navVisible: false,
 
     /** The gaps between neighbouring cards, where the drag handles sit. */
     grips: [],
@@ -115,13 +119,6 @@ export default () => ({
                 this.observer = new ResizeObserver(() => this.update());
                 this.observer.observe(this.$refs.track);
             }
-
-            if (typeof IntersectionObserver !== 'undefined') {
-                this.navObserver = new IntersectionObserver(([entry]) => {
-                    this.navVisible = entry.isIntersecting && entry.intersectionRatio > .99;
-                }, { threshold: 1 });
-                this.navObserver.observe(this.$refs.nav);
-            }
         });
     },
 
@@ -135,10 +132,6 @@ export default () => ({
 
         if (this.observer) {
             this.observer.disconnect();
-        }
-
-        if (this.navObserver) {
-            this.navObserver.disconnect();
         }
 
         if (this.frame !== null) {

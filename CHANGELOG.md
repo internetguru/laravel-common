@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - A Font Awesome icon shown without being registered logs a console error naming the import to add, so browser tests ending with `assertNoJavascriptErrors()` catch it.
 
+### Changed
+
+- The arrow keys move the carousel on screen whose middle is nearest the middle of the screen, even when its paging buttons are out of view.
+
 ### Fixed
 
 - A carousel whose cards are wrapped in the application's own items steps through them with the arrow keys, opens the focused one with Enter, lifts it, and shows its drag handles.

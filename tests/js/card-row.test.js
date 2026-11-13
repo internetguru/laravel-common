@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import cardRow from '../../resources/js/card-row.js';
 
 const CARD_WIDTH = 100;
@@ -73,5 +73,55 @@ describe.each([false, true])('cardRow with wrapped cards: %s', (wrapped) => {
 
         expect(click).toHaveBeenCalledOnce();
         expect(event.preventDefault).toHaveBeenCalledOnce();
+    });
+});
+
+describe('cardRow choosing the row for the keys', () => {
+    const rows = [];
+
+    // Rows stacked down the page, each at the given top on the screen and 100 high
+    function renderRows(tops) {
+        document.body.innerHTML = tops.map(() => '<div class="card-row"><div class="card-row-track"><div class="card"></div></div></div>').join('');
+
+        return [...document.querySelectorAll('.card-row')].map((root, index) => {
+            const track = root.querySelector('.card-row-track');
+            track.getBoundingClientRect = () => ({ ...box(0, TRACK_WIDTH), top: tops[index], bottom: tops[index] + 100, height: 100 });
+
+            const row = cardRow();
+            row.$refs = { track };
+            row.$root = root;
+            row.$nextTick = () => {};
+            row.keyPage = vi.fn();
+            row.init();
+            row.overflowing = true;
+            rows.push(row);
+
+            return row;
+        });
+    }
+
+    const pressRight = () => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+
+    afterEach(() => {
+        rows.splice(0).forEach((row) => row.destroy());
+    });
+
+    it('pages the row whose middle is nearest the middle of the screen', () => {
+        const middle = window.innerHeight / 2;
+        const [far, near] = renderRows([0, middle - 40]);
+
+        pressRight();
+
+        expect(near.keyPage).toHaveBeenCalledWith(1, false);
+        expect(far.keyPage).not.toHaveBeenCalled();
+    });
+
+    it('leaves a row off the screen alone however near it is', () => {
+        const [above, below] = renderRows([-100, window.innerHeight]);
+
+        pressRight();
+
+        expect(above.keyPage).not.toHaveBeenCalled();
+        expect(below.keyPage).not.toHaveBeenCalled();
     });
 });
