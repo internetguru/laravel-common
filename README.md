@@ -9,6 +9,7 @@
 ## Table of Contents
 
 - [Installation](#installation)
+  - [Vite](#vite)
 - [Run Tests Locally](#run-tests-locally)
 - [Shared Tests](#shared-tests)
 - [Service Providers](#service-providers)
@@ -83,6 +84,18 @@ composer require internetguru/laravel-common
 
 The `CommonServiceProvider` is auto-discovered via `composer.json` `extra.laravel.providers`. No manual registration is needed for the core provider.
 
+### Vite
+
+Register the dev watch plugin in the application's `vite.config.js`:
+
+```js
+import igDevWatch from './vendor/internetguru/laravel-common/resources/js/vite-dev-watch.js';
+
+plugins: [laravel({ ... }), igDevWatch()],
+```
+
+The dev server then skips what it never bundles: `vendor/` apart from the Internet Guru packages, and `storage/framework` and `storage/logs`. Watching them uses up the Linux limit on watched files that every application on the machine shares. A build never loads the plugin.
+
 ## Run Tests Locally
 
 To run the tests manually, you can use the following command:
@@ -119,6 +132,7 @@ They are HTTP tests and run with the application's `TestCase`.
 | language switch | Every language is offered and the current one highlighted; `?lang=` switches the page and the next one keeps it. |
 | error pages | The error index; 401, 403, 404, 500 and 503 with their status and `h1`; 404 for an unknown code or page. |
 | i18n pages | `/i18n` and its subpages render. |
+| vite config | `vite.config.js` registers the dev watch plugin (see [Vite](#vite)); skipped without a `vite.config.js`. |
 | demo mode | The demo banner. |
 
 ## Service Providers

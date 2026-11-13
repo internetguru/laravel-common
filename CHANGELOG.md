@@ -8,10 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- `igDevWatch()` (`resources/js/vite-dev-watch.js`), a Vite plugin that keeps the dev server from watching `vendor/` apart from the Internet Guru packages, and `storage/framework` and `storage/logs`.
 - A Font Awesome icon shown without being registered logs a console error naming the import to add, so browser tests ending with `assertNoJavascriptErrors()` catch it.
 
 ### Changed
 
+- The shared tests (`CommonTests::register()`) check that `vite.config.js` registers `igDevWatch()`.
 - Labels, card badges and tag chips are all 1rem (`$ig-label-font-size`), wherever they stand; card badges were Bootstrap's smaller badge text.
 - The arrow keys move the carousel on screen whose middle is nearest the middle of the screen, even when its paging buttons are out of view.
 
