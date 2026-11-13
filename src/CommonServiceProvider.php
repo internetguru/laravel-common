@@ -60,6 +60,7 @@ class CommonServiceProvider extends ServiceProvider
         $this->app->extend(ExceptionHandler::class, fn ($handler, $app) => new Handler($app));
 
         $this->registerDeprecationsChannel();
+        $this->silenceLogsInUnitTests();
         $this->registerLogDeduplication();
 
         $this->applySqliteDefaults();
@@ -110,17 +111,33 @@ class CommonServiceProvider extends ServiceProvider
             return;
         }
 
-        if (! $config->get('logging.channels.null')) {
-            $config->set('logging.channels.null', [
-                'driver' => 'monolog',
-                'handler' => NullHandler::class,
-            ]);
-        }
+        $this->ensureNullChannel();
 
         $options = $config->get('logging.deprecations');
         $channel = is_array($options) ? ($options['channel'] ?? 'null') : ($options ?? 'null');
 
         $config->set('logging.channels.deprecations', $config->get("logging.channels.$channel"));
+    }
+
+    // The default channel writes to storage/logs, which tests share with the running application
+    private function silenceLogsInUnitTests(): void
+    {
+        if (! $this->app->runningUnitTests()) {
+            return;
+        }
+
+        $this->ensureNullChannel();
+        $this->app['config']->set('logging.default', 'null');
+    }
+
+    private function ensureNullChannel(): void
+    {
+        if (! $this->app['config']->get('logging.channels.null')) {
+            $this->app['config']->set('logging.channels.null', [
+                'driver' => 'monolog',
+                'handler' => NullHandler::class,
+            ]);
+        }
     }
 
     /**

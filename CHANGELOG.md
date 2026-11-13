@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Tests log to the `null` channel, so errors they provoke on purpose no longer fill the application's log.
+
 ## [9.3.0] - 2026-11-13
 
 _Stable release based on [9.3.0-rc.1]._
