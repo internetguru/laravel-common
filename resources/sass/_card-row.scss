@@ -146,6 +146,11 @@ $card-row-grip-color-hover: $gray-600 !default;
 
         // Keeps sparse cards from collapsing next to text-heavy ones.
         min-height: $card-row-min-height;
+    }
+
+    // A card wrapped in an item of the application's own lifts the same way.
+    > .card,
+    > * > .card {
         transition: transform .2s ease, box-shadow .2s ease;
 
         // Above its neighbours, so its shadow falls across them. Applications
@@ -312,7 +317,8 @@ $card-row-grip-color-hover: $gray-600 !default;
     .card-row-track {
         scroll-behavior: auto;
 
-        > .card {
+        > .card,
+        > * > .card {
             transition: none;
 
             &:focus-visible {

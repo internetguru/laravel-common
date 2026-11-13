@@ -16,6 +16,7 @@ Shared foundation of every Internet Guru application: Blade components, input sa
 - Never use `wire:poll` or a focus `$refresh` to keep data current. A Livewire component that draws everything that can change uses the `WatchesForChanges` trait with `watchFingerprint()` and `<x-ig::watch />` in its view; it refreshes in place, and only when the fingerprint changed. A page not drawn by one Livewire component registers what it shows with `WatchedPage::add($model, …)` (models or static `[Class::class, 'method', [scalars]]`, never closures) and the layout carries `<x-ig::page-watch />` once.
 - A fingerprint covers everything the view shows, including states that change with time alone (a model implements `HasPageFingerprint` for those).
 - An application's own Livewire `request` fail hook skips background checks with `window.igWatch.isWatchRequest(payload)`. A push asks for an immediate check with `window.dispatchEvent(new Event('ig-watch:check'))`.
+- `ig::common-js` logs a console error for every Font Awesome icon the page shows without it being registered, naming the import to add; browser tests ending with `assertNoJavascriptErrors()` catch it.
 - To stop icons flickering on morphs, call `keepUnchangedIcons({ config, dom })` from `ig::common-js/keep-unchanged-icons` before `dom.i2svg()` and `dom.watch()`; styles must then not rely on the `<svg>` replacing the `<i>`.
 
 ## Labels

@@ -2,9 +2,10 @@
  * Horizontally scrollable card row with previous/next controls.
  *
  * Scrolling itself is native, so touch swiping and momentum come for free;
- * the arrows page by whole cards and disable at either end. The left and
- * right keys step focus card by card through the row holding focus, or else
- * the one whose buttons are on screen nearest its vertical centre.
+ * the arrows page by whole cards and disable at either end. An item of the
+ * row is a card, or an element of the application's own wrapping one. The
+ * left and right keys step focus card by card through the row holding focus,
+ * or else the one on screen whose middle is nearest the middle of the screen.
  */
 const rows = new Set();
 
@@ -27,11 +28,16 @@ function keyTarget() {
     let nearestDistance = Infinity;
 
     rows.forEach((row) => {
-        if (!row.overflowing || !row.navVisible) {
+        if (!row.overflowing) {
             return;
         }
 
         const box = row.$refs.track.getBoundingClientRect();
+
+        if (box.bottom <= 0 || box.top >= window.innerHeight) {
+            return;
+        }
+
         const distance = Math.abs(box.top + box.height / 2 - middle);
 
         if (distance < nearestDistance) {
@@ -87,7 +93,6 @@ export default () => ({
     atStart: true,
     atEnd: true,
     overflowing: false,
-    navVisible: false,
 
     /** The gaps between neighbouring cards, where the drag handles sit. */
     grips: [],
@@ -114,13 +119,6 @@ export default () => ({
                 this.observer = new ResizeObserver(() => this.update());
                 this.observer.observe(this.$refs.track);
             }
-
-            if (typeof IntersectionObserver !== 'undefined') {
-                this.navObserver = new IntersectionObserver(([entry]) => {
-                    this.navVisible = entry.isIntersecting && entry.intersectionRatio > .99;
-                }, { threshold: 1 });
-                this.navObserver.observe(this.$refs.nav);
-            }
         });
     },
 
@@ -134,10 +132,6 @@ export default () => ({
 
         if (this.observer) {
             this.observer.disconnect();
-        }
-
-        if (this.navObserver) {
-            this.navObserver.disconnect();
         }
 
         if (this.frame !== null) {
@@ -179,7 +173,7 @@ export default () => ({
         this.overflowing = max > tolerance;
         this.atStart = track.scrollLeft <= tolerance;
         this.atEnd = track.scrollLeft >= max - tolerance;
-        this.grips = this.overflowing ? this.measureGrips(track) : [];
+        this.grips = this.overflowing ? this.measureGrips() : [];
 
         // The edge shadows are cast only across the cards, so they have to
         // match the card height rather than the whole component. Cards
@@ -195,13 +189,13 @@ export default () => ({
      * Measures the gaps between neighbouring cards. The handles are laid over
      * the track rather than drawn by the cards, which may clip what overflows.
      */
-    measureGrips(track) {
-        const cards = [...track.children].filter((child) => child.classList.contains('card'));
+    measureGrips() {
+        const items = this.items();
         const grips = [];
 
-        for (let index = 1; index < cards.length; index++) {
-            const end = cards[index - 1].offsetLeft + cards[index - 1].offsetWidth;
-            grips.push({ left: end, width: cards[index].offsetLeft - end });
+        for (let index = 1; index < items.length; index++) {
+            const end = items[index - 1].offsetLeft + items[index - 1].offsetWidth;
+            grips.push({ left: end, width: items[index].offsetLeft - end });
         }
 
         return grips;
@@ -305,9 +299,8 @@ export default () => ({
         const padding = parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
         // The end of the row is a resting point too, since the last cards
         // cannot be scrolled to the start.
-        const positions = [...track.children]
-            .filter((child) => child.classList.contains('card'))
-            .map((card) => Math.min(max, Math.max(0, card.offsetLeft - padding)))
+        const positions = this.items()
+            .map((item) => Math.min(max, Math.max(0, item.offsetLeft - padding)))
             .concat(max);
 
         return positions.reduce((nearest, position) => (
@@ -327,8 +320,13 @@ export default () => ({
         track.scrollBy({ left: direction * step, behavior: 'smooth' });
     },
 
+    /** What the row lays out: its cards, or the application's own items each wrapping one. */
+    items() {
+        return [...this.$refs.track.children].filter((child) => child.matches('.card') || child.querySelector('.card'));
+    },
+
     cards() {
-        return [...this.$refs.track.children].filter((child) => child.classList.contains('card'));
+        return this.items().map((item) => (item.matches('.card') ? item : item.querySelector('.card')));
     },
 
     isCardInView(card, partly = false) {
@@ -384,7 +382,7 @@ export default () => ({
     openCard(event) {
         const card = event.target;
 
-        if (card.parentElement !== this.$refs.track || !card.classList.contains('card')) {
+        if (!this.cards().includes(card)) {
             return;
         }
 

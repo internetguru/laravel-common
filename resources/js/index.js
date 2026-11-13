@@ -8,6 +8,7 @@ import registerDatePlaceholders from './date-placeholder';
 import watch from './watch';
 import pageWatch from './page-watch';
 import keepUnchangedIcons from './keep-unchanged-icons';
+import reportMissingIcons from './report-missing-icons';
 import { addWatchMethods, allowReload, checkAll as checkWatchers, isWatchRequest } from './watch-clock';
 
 // Set up for Alpine.js
@@ -26,5 +27,6 @@ window.igWatch = { isWatchRequest, addWatchMethods, allowReload, checkAll: check
 
 registerLivewireErrorHandling();
 registerDatePlaceholders();
+reportMissingIcons();
 
 export { initEditable, print, clearable, cardRow, tagCloud, watch, pageWatch, keepUnchangedIcons };
