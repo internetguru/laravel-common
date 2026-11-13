@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- Labels, card badges and tag chips are all 1rem (`$ig-label-font-size`), wherever they stand; card badges were Bootstrap's smaller badge text.
 - The arrow keys move the carousel on screen whose middle is nearest the middle of the screen, even when its paging buttons are out of view.
 
 ### Fixed

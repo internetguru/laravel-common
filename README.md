@@ -1053,6 +1053,7 @@ Colors come from `InternetGuru\LaravelCommon\Support\Palette`: one mild tone, ea
 Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are one chip, styled by the `$ig-label-*` variables given before the stylesheets are imported:
 
 - black text on white, with the kind of value carried by the dot
+- 1rem wherever it stands, in a heading or in a table alike, set by `$ig-label-font-size`
 - the dot, sized by `$ig-label-dot-size`, sits `$ig-label-dot-lift` above the middle of the line and glows softly in its color, set by `$ig-label-dot-glow-*`
 - a slim label never makes its line of text taller, and its text sits on the baseline of the words around it
 - the border glows in the dot color at the bottom right corner and faintly at the top left, set by `$ig-label-accent-*`
