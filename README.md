@@ -9,6 +9,7 @@
 ## Table of Contents
 
 - [Installation](#installation)
+  - [Vite](#vite)
 - [Run Tests Locally](#run-tests-locally)
 - [Shared Tests](#shared-tests)
 - [Service Providers](#service-providers)
@@ -56,6 +57,7 @@
   - [WatchesForChanges Trait](#watchesforchanges-trait)
   - [Page Watch](#page-watch)
   - [Unchanged Icons](#unchanged-icons)
+  - [Missing Icons](#missing-icons)
 - [Traits](#traits)
   - [Ulid32 Trait](#ulid32-trait)
 - [Rules](#rules)
@@ -81,6 +83,18 @@ composer require internetguru/laravel-common
 ```
 
 The `CommonServiceProvider` is auto-discovered via `composer.json` `extra.laravel.providers`. No manual registration is needed for the core provider.
+
+### Vite
+
+Register the dev watch plugin in the application's `vite.config.js`:
+
+```js
+import igDevWatch from './vendor/internetguru/laravel-common/resources/js/vite-dev-watch.js';
+
+plugins: [laravel({ ... }), igDevWatch()],
+```
+
+The dev server then skips what it never bundles: `vendor/` apart from the Internet Guru packages, and `storage/framework` and `storage/logs`. Watching them uses up the Linux limit on watched files that every application on the machine shares. A build never loads the plugin.
 
 ## Run Tests Locally
 
@@ -118,6 +132,7 @@ They are HTTP tests and run with the application's `TestCase`.
 | language switch | Every language is offered and the current one highlighted; `?lang=` switches the page and the next one keeps it. |
 | error pages | The error index; 401, 403, 404, 500 and 503 with their status and `h1`; 404 for an unknown code or page. |
 | i18n pages | `/i18n` and its subpages render. |
+| vite config | `vite.config.js` registers the dev watch plugin (see [Vite](#vite)); skipped without a `vite.config.js`. |
 | demo mode | The demo banner. |
 
 ## Service Providers
@@ -901,7 +916,7 @@ Two content classes are styled for use inside the slot: `card-image` for a full-
 | `tinted` | `false` | Tints each card with a colour derived from the label. |
 | `centered` | `false` | Centres the cards instead of pinning them to the left edge. |
 
-Styles come from `ig::common/card-row`; the carousel needs the `cardRow` Alpine.js component, which `ig::common-js` registers. When the carousel overflows, a handle (the solid `faEllipsisVertical` icon, which the application registers) sits between neighbouring cards for a mouse to drag the row by; touch devices swipe instead and do not show it. The left and right keys step focus card by card through the carousel holding focus, or else the one whose paging buttons are fully on screen and nearest the middle of it, paging the row when the next card is out of view; the focused card rises onto a deeper shadow (`$card-row-card-lift`, `$card-row-card-lift-shadow`) and Enter follows its link. The keys are left alone in form fields, with a modifier held and while a modal is open. The row's gap, the widths its cards settle at and the look of the paging buttons are set by the `$card-row-*` variables, which have to be given before the stylesheet is imported. A carousel scrolls sideways, so its track clips downwards too — `$card-row-bleed` is the room the cards' shadows get inside it, and a card with a deeper shadow than the default needs it raised.
+Styles come from `ig::common/card-row`; the carousel needs the `cardRow` Alpine.js component, which `ig::common-js` registers. Each card is a direct child of the row, or sits in an element of the application's own that is, such as an item drawing a timeline above its card; the application sizes such an item as the row sizes a card, and the keys, drag handles and snapping work by the items either way. When the carousel overflows, a handle (the solid `faEllipsisVertical` icon, which the application registers) sits between neighbouring cards for a mouse to drag the row by; touch devices swipe instead and do not show it. The left and right keys step focus card by card through the carousel holding focus, or else the one on screen whose middle is nearest the middle of the screen, paging the row when the next card is out of view; the focused card rises onto a deeper shadow (`$card-row-card-lift`, `$card-row-card-lift-shadow`) and Enter follows its link. The keys are left alone in form fields, with a modifier held and while a modal is open. The row's gap, the widths its cards settle at and the look of the paging buttons are set by the `$card-row-*` variables, which have to be given before the stylesheet is imported. A carousel scrolls sideways, so its track clips downwards too — `$card-row-bleed` is the room the cards' shadows get inside it, and a card with a deeper shadow than the default needs it raised.
 
 The tints are derived from the label, so a row keeps the same palette across requests while different rows get different colours. The palette repeats every eight cards, and neighbouring cards - including the wrap from the eighth back to the first - always sit about 135 degrees apart on the colour wheel.
 
@@ -1052,6 +1067,7 @@ Colors come from `InternetGuru\LaravelCommon\Support\Palette`: one mild tone, ea
 Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are one chip, styled by the `$ig-label-*` variables given before the stylesheets are imported:
 
 - black text on white, with the kind of value carried by the dot
+- 1rem wherever it stands, in a heading or in a table alike, set by `$ig-label-font-size`
 - the dot, sized by `$ig-label-dot-size`, sits `$ig-label-dot-lift` above the middle of the line and glows softly in its color, set by `$ig-label-dot-glow-*`
 - a slim label never makes its line of text taller, and its text sits on the baseline of the words around it
 - the border glows in the dot color at the bottom right corner and faintly at the top left, set by `$ig-label-accent-*`
@@ -1291,6 +1307,10 @@ dom.watch();
 ```
 
 Call it before `dom.i2svg()` and `dom.watch()`, and import it from its own file, not from `ig::common-js`. In `nest` mode the `fa-*` classes and `svg-inline--fa` move to the `<svg>` while other classes stay on the `<i>`, so styles that select `svg` directly under an element, or `i.fa-…`, need adjusting.
+
+### Missing Icons
+
+Font Awesome draws an icon that was never added to its library as a pulsing placeholder and logs nothing. `ig::common-js` watches the page for such placeholders and logs each one once as a console error that names what to register, e.g. `add faEllipsisVertical from @fortawesome/free-solid-svg-icons to library.add()`. Browser tests that end with `assertNoJavascriptErrors()` therefore fail on a page that shows a missing icon, including one inside a package component. An icon shown only in a state no test reaches, such as the drag handle of an overflowing carousel, still needs a look in the browser.
 
 ## Traits
 

@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- `igDevWatch()` (`resources/js/vite-dev-watch.js`), a Vite plugin that keeps the dev server from watching `vendor/` apart from the Internet Guru packages, and `storage/framework` and `storage/logs`.
+- A Font Awesome icon shown without being registered logs a console error naming the import to add, so browser tests ending with `assertNoJavascriptErrors()` catch it.
+
+### Changed
+
+- The shared tests (`CommonTests::register()`) check that `vite.config.js` registers `igDevWatch()`.
+- Labels, card badges and tag chips are all 1rem (`$ig-label-font-size`), wherever they stand; card badges were Bootstrap's smaller badge text.
+- The arrow keys move the carousel on screen whose middle is nearest the middle of the screen, even when its paging buttons are out of view.
+
+### Fixed
+
+- A carousel whose cards are wrapped in the application's own items steps through them with the arrow keys, opens the focused one with Enter, lifts it, and shows its drag handles.
+
 ## [9.1.0] - 2026-11-13
 
 _Stable release based on [9.1.0-rc.1]._
@@ -2417,6 +2434,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://github.com/internetguru/laravel-common/compare/staging...dev
 [9.1.0]: https://github.com/internetguru/laravel-common/compare/v9.0.2...v9.1.0
 [9.1.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v9.0.2
 [9.0.2]: https://github.com/internetguru/laravel-common/compare/v9.0.1...v9.0.2

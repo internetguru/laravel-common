@@ -120,6 +120,17 @@ class CommonTests
             });
         });
 
+        describe('laravel-common vite config', function () {
+            it('keeps the dev server from watching vendor and runtime storage', function () {
+                $config = base_path('vite.config.js');
+                if (! is_file($config)) {
+                    $this->markTestSkipped('No vite.config.js.');
+                }
+
+                expect(file_get_contents($config))->toContain('vite-dev-watch');
+            });
+        });
+
         if ($demo) {
             it('shows the demo banner', function () {
                 expect(CommonTests::page($this->get('/'))->query('//*[@data-testid="demo-info"]'))->toHaveCount(1);

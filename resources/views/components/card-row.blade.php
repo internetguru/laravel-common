@@ -56,7 +56,7 @@
     </div>
 
     @if ($isCarousel)
-        <div class="card-row-nav" x-ref="nav" x-show="overflowing" x-cloak>
+        <div class="card-row-nav" x-show="overflowing" x-cloak>
             <button
                 type="button"
                 class="card-row-btn"
