@@ -90,6 +90,8 @@ To run the tests manually, you can use the following command:
 ./test.sh
 ```
 
+It runs the JavaScript tests (Vitest, `tests/js`) and then the PHPUnit tests in Docker. To run only the JavaScript tests, use `npm test`.
+
 ## Shared Tests
 
 The package ships [Pest](https://pestphp.com/) tests that every application built on it should pass. Register them from one test file, e.g. `tests/Feature/CommonTest.php`:
