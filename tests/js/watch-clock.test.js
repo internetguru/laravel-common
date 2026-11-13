@@ -189,6 +189,35 @@ describe('offline bar', () => {
         expect(check).toHaveBeenCalledTimes(1);
     });
 
+    it('shows on a page without a watcher, with the page\'s own message', () => {
+        document.body.innerHTML = '<div data-ig-offline="Offline page"></div>';
+
+        window.dispatchEvent(new Event('offline'));
+        expect(notice().textContent).toContain('Offline page');
+
+        window.dispatchEvent(new Event('online'));
+        expect(notice()).toBeNull();
+    });
+
+    it('shows nothing on a page that offers no message', () => {
+        window.dispatchEvent(new Event('offline'));
+
+        expect(notice()).toBeNull();
+    });
+
+    it('says the page is not being updated while a watcher runs, and the page\'s message once none does', () => {
+        document.body.innerHTML = '<div data-ig-offline="Offline page"></div>';
+        setProperty(navigator, 'onLine', false);
+        const handle = clock.registerWatcher({ interval: 15, check: vi.fn(), messages: MESSAGES });
+        expect(notice().textContent).toContain('Offline');
+        expect(notice().textContent).not.toContain('Offline page');
+
+        handle.unregister();
+
+        expect(notice().textContent).toContain('Offline page');
+        expect(document.querySelectorAll('[data-testid=watch-notice]')).toHaveLength(1);
+    });
+
     it('never replaces a notice that must stay', () => {
         watch();
         clock.showNotice('Changed');

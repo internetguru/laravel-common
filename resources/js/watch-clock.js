@@ -110,6 +110,9 @@ const checkOnReturn = () => checkAll({ trailing: false });
 // Assistive technology announces content added to a live region that already exists
 function liveRegion() {
     if (!region?.isConnected) {
+        region = document.querySelector('.ig-watch-region');
+    }
+    if (!region) {
         region = document.createElement('div');
         region.className = 'ig-watch-region';
         region.setAttribute('role', 'status');
@@ -135,7 +138,7 @@ function showBar(text, onReload = null) {
         button.addEventListener('click', onReload);
         bar.append(button);
     }
-    liveRegion().append(bar);
+    liveRegion().replaceChildren(bar);
 }
 
 function hideBar() {
@@ -155,9 +158,15 @@ function stop(reason) {
     window.dispatchEvent(new Event('ig-watch:stopped'));
 }
 
+// A watched page says it is not being updated; any other page says what its messages component offers
+function offlineMessage() {
+    return watchers.size > 0 ? messages.offline : document.querySelector('[data-ig-offline]')?.dataset.igOffline;
+}
+
 function onOffline() {
-    if (watchers.size > 0 && !permanentNotice) {
-        showBar(messages.offline);
+    const text = offlineMessage();
+    if (text && !permanentNotice) {
+        showBar(text);
     }
 }
 
@@ -209,8 +218,6 @@ function start() {
     document.addEventListener('visibilitychange', onVisibilityChange);
     window.addEventListener('focus', checkOnReturn);
     window.addEventListener('pageshow', (event) => event.persisted && checkOnReturn());
-    window.addEventListener('online', onOnline);
-    window.addEventListener('offline', onOffline);
     window.addEventListener('ig-watch:check', () => checkAll());
     document.addEventListener('livewire:navigated', () => {
         permanentNotice = false;
@@ -226,6 +233,20 @@ function reset() {
     stopped = false;
     if (!permanentNotice) {
         hideBar();
+        if (!navigator.onLine) {
+            onOffline();
+        }
+    }
+}
+
+// Being offline breaks every link and form, so the bar shows on every page, not only where a watcher runs
+window.addEventListener('online', onOnline);
+window.addEventListener('offline', onOffline);
+if (!navigator.onLine) {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', onOffline, { once: true });
+    } else {
+        onOffline();
     }
 }
 

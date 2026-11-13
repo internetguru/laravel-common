@@ -1200,6 +1200,8 @@ One clock serves every watcher on the page. Watchers with the same interval chec
 | 419, 401, 403, or a redirect | the session expired or the user was signed out; all watchers stop and a notice with a Reload button stays |
 | 404, 410 | what the page shows is gone; all watchers stop and the "updated" notice with a Reload button stays |
 
+A page without a watcher shows an offline bar too, saying links and forms work again once back online. It takes that text from `<livewire:ig-messages />`, so a page without that component shows no bar.
+
 The package's Livewire error handler leaves failed watch checks alone. An application with a Livewire `request` hook of its own skips them the same way:
 
 ```js

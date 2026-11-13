@@ -1,4 +1,4 @@
-<div class="messages-wrapper">
+<div class="messages-wrapper" data-ig-offline="{{ __('ig-common::watch.offline-page') }}">
     <div>
         <div class="toast-wrapper" style="
             z-index: 1050;
