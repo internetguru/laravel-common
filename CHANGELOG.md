@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `x-ig::input type="date"` with `:defaultToday="true"` shows today's date while it is empty.
+- The footer complaints form starts with the current date and time filled in, with laravel-feedback 8.5 or later.
+
 ## [9.4.0] - 2026-11-13
 
 _Stable release based on [9.4.0-rc.1]._
