@@ -960,7 +960,7 @@ A label given none of these, or given a color, variant, group or key that is not
 | Prop | Default | Used by | Description |
 | --- | --- | --- | --- |
 | `text` | `null` | all | The label itself. The slot is used instead when one is given. |
-| `variant` | `null` | specific color | Kind of value, drawn in its palette tone: `primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light` or `dark`. |
+| `variant` | `null` | specific color | Kind of value, drawn in its palette tone: `primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light` or `dark`. `info`, `success`, `warning` and `danger` take the color of the notice of the same type where `ig::common/label` is loaded. |
 | `color` | `null` | specific color | An explicit color in hex, `rgb()`, `hsl()`, `oklch()` or `var()` notation. It takes precedence over the variant. |
 | `group` | `null` | group, enum | A group registered in `LabelGroups`, or an enum class using `RendersLabel`. |
 | `key` | `null` | group, enum | The value within its group, which picks its color. An enum case stands for its name. |
