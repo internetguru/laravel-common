@@ -319,6 +319,22 @@ describe('reloading unnoticed', () => {
         expect(clock.canReloadUnnoticed()).toBe(false);
     });
 
+    it('takes a field prefilled through wire:model for untouched until its value changes', async () => {
+        watch();
+        const field = document.createElement('input');
+        field.type = 'datetime-local';
+        field.setAttribute('wire:model', 'formData.0');
+        document.body.append(field);
+        field.value = '2026-11-14T09:30';
+
+        document.dispatchEvent(new Event('livewire:initialized'));
+        await vi.advanceTimersByTimeAsync(20);
+        expect(clock.isEditing()).toBe(false);
+
+        field.value = '2026-11-15T09:30';
+        expect(clock.isEditing()).toBe(true);
+    });
+
     it('may reload at once for a while after the user asked for fresh data, but never over an edit', async () => {
         watch();
         setProperty(window, 'scrollY', 200);

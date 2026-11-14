@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - `x-ig::page-heading` renders the page heading with a remark: as the tooltip of a `badge` above the heading (below the heading with `:tooltip="false"`), or below the heading without one, colored and given an icon by `variant` (info by default); a `badge` slot puts markup of your own above the heading instead.
 
+### Fixed
+
+- The page watcher reloads a page whose form Livewire prefilled, such as the complaint date in the footer, instead of taking the prefilled field for one being edited and showing a notice.
+
 ## [9.5.0] - 2026-11-14
 
 _Stable release based on [9.5.0-rc.1]._
