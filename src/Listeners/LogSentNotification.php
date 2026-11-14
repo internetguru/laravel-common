@@ -2,6 +2,7 @@
 
 namespace InternetGuru\LaravelCommon\Listeners;
 
+use Illuminate\Mail\SentMessage;
 use Illuminate\Notifications\Events\NotificationSent;
 use InternetGuru\LaravelCommon\Models\MailLog;
 
@@ -13,7 +14,7 @@ class LogSentNotification
             return;
         }
 
-        if (! isset($event->response) || ! method_exists($event->response, 'getOriginalMessage')) {
+        if (! $event->response instanceof SentMessage) {
             return;
         }
 
