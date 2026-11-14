@@ -1092,6 +1092,7 @@ Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are
 | `variant` | `null` | `info`, `success`, `warning` or `danger`. It colors the badge (`info` when empty) and gives the remark below the heading its icon; without it, that remark is plain text. |
 | `icon` | `null` | Font Awesome classes that replace the variant's icon on the badge. |
 | `tooltip` | `true` | With a badge, the slot is its tooltip; `false` writes the slot below the heading instead, for a remark that must be read. |
+| `description-variant` | `variant` | The variant of the remark below the heading, when it should differ from the badge's, e.g. a warning status with advice in `info`. |
 
 - With a badge, the slot is its tooltip, and nothing is written below the heading.
 - A `badge` slot (`<x-slot:badge>`) stands above the heading in place of the label, for a badge of your own such as a live status; it carries its own explanation, so the default slot is not shown unless `tooltip` is `false`.

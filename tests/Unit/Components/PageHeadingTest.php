@@ -134,4 +134,20 @@ class PageHeadingTest extends TestCase
 
         $html->assertDontSee('<b>chips</b>', false);
     }
+
+    public function test_the_description_can_take_a_variant_of_its_own()
+    {
+        $html = $this->blade('<x-ig::page-heading heading="Redemption" badge="Pending" variant="warning" description-variant="info" :tooltip="false">Check the account first.</x-ig::page-heading>');
+
+        $html->assertSee('--ig-label-dot: ' . Palette::variant('warning'), false);
+        $html->assertSee('ig-page-heading-desc-info', false);
+        $html->assertDontSee('ig-page-heading-desc-warning', false);
+    }
+
+    public function test_the_description_follows_the_badge_variant_by_default()
+    {
+        $html = $this->blade('<x-ig::page-heading heading="Redemption" badge="Pending" variant="warning" :tooltip="false">Check the account first.</x-ig::page-heading>');
+
+        $html->assertSee('ig-page-heading-desc-warning', false);
+    }
 }

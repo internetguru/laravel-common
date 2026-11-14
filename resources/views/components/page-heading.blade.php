@@ -17,5 +17,5 @@
 @endif
 <h1{{ $attributes->isEmpty() ? '' : ' ' }}{{ $attributes }}>{{ $heading }}</h1>
 @if ($descriptionBelow)
-    <p @class(['ig-page-heading-desc', "ig-page-heading-desc-{$variant}" => $variant !== null]) data-testid="page-heading-desc">{{ $slot }}</p>
+    <p @class(['ig-page-heading-desc', "ig-page-heading-desc-{$descriptionVariant}" => $descriptionVariant !== null]) data-testid="page-heading-desc">{{ $slot }}</p>
 @endif
