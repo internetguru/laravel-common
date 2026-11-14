@@ -8,6 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // An app whose schema dump already holds the table publishes this migration unrun.
+        if (Schema::hasTable('association_histories')) {
+            return;
+        }
+
         Schema::create('association_histories', function (Blueprint $table) {
             $table->id();
             $table->morphs('associable');
