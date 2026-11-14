@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [9.5.0] - 2026-11-14
+
+_Stable release based on [9.5.0-rc.1]._
+
+## [9.5.0-rc.1] - 2026-11-14
+
+### Added
+
+- `x-ig::input type="date"` with `:defaultToday="true"` shows today's date while it is empty.
+- The footer complaints form starts with the current date and time filled in, with laravel-feedback 8.5 or later.
+
 ## [9.4.0] - 2026-11-13
 
 _Stable release based on [9.4.0-rc.1]._
@@ -2458,6 +2469,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[9.5.0]: https://github.com/internetguru/laravel-common/compare/v9.4.0...v9.5.0
+[9.5.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v9.4.0
 [9.4.0]: https://github.com/internetguru/laravel-common/compare/v9.3.0...v9.4.0
 [9.4.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v9.3.0
 [9.3.0]: https://github.com/internetguru/laravel-common/compare/v9.2.0...v9.3.0

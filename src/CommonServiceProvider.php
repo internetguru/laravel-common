@@ -225,6 +225,7 @@ class CommonServiceProvider extends ServiceProvider
             'occurred_at' => [
                 'type' => 'datetime-local',
                 'validation' => 'date',
+                'default_now' => true,
                 'label_translation_key' => 'ig-common::layouts.complaints.occurred_at',
             ],
         ];

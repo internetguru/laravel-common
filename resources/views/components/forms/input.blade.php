@@ -11,6 +11,7 @@
     'clearable' => true,
     'showError' => true,
     'tooltip' => null,
+    'defaultToday' => false,
 ])
 
 @php
@@ -78,6 +79,9 @@
                 default => 'off',
             };
             $inputValue = old($name) ?? $value ?? '';
+            if ($type === 'date' && $defaultToday && (string) $inputValue === '') {
+                $inputValue = now()->toDisplayTimezone()->toDateString();
+            }
             $isEmptyDate = in_array($type, ['date', 'datetime-local', 'month', 'week', 'time']) && (string) $inputValue === '';
         @endphp
         <input
