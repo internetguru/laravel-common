@@ -7,7 +7,9 @@
         'tabindex' => '0',
     ];
 @endphp
-@if ($badge !== null)
+@if ($badge instanceof Illuminate\View\ComponentSlot)
+    <p class="ig-page-heading-badge" data-testid="page-heading-badge">{{ $badge }}</p>
+@elseif ($badge !== null)
     <p class="ig-page-heading-badge">
         <x-ig::label :text="$badge" :variant="$variant" :icon="$badgeIcon" data-testid="page-heading-badge" :attributes="new Illuminate\View\ComponentAttributeBag($tooltip)" />
     </p>

@@ -1093,6 +1093,7 @@ Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are
 | `icon` | `null` | Font Awesome classes that replace the variant's icon on the badge. |
 
 - With a badge, the slot is its tooltip, and nothing is written below the heading.
+- A `badge` slot (`<x-slot:badge>`) stands above the heading in place of the label, for a badge of your own such as a live status; it carries its own explanation, so the default slot is not shown.
 - Without a badge, the slot follows the heading as a remark with the variant's icon, or nothing when the slot is empty.
 - Register the solid `faCircleInfo`, `faCircleCheck`, `faTriangleExclamation` and `faCircleExclamation` icons. The application initializes Bootstrap tooltips.
 - Styles come from `ig::common/page-heading`, imported after `ig::common/notice`.

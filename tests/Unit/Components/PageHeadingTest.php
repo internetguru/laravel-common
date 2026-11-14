@@ -80,4 +80,20 @@ class PageHeadingTest extends TestCase
         $html->assertSee('ig-page-heading-desc-info', false);
         Log::shouldHaveReceived('warning')->once();
     }
+
+    public function test_a_badge_slot_stands_above_the_heading_in_place_of_the_label()
+    {
+        $html = (string) $this->blade('<x-ig::page-heading heading="Order 1"><x-slot:badge><span class="status">Paid</span></x-slot:badge></x-ig::page-heading>');
+
+        $this->assertLessThan(strpos($html, '<h1'), strpos($html, '<span class="status">Paid</span>'));
+        $this->assertStringNotContainsString('ig-label', $html);
+        $this->assertStringNotContainsString('page-heading-desc', $html);
+    }
+
+    public function test_a_badge_slot_leaves_the_description_out()
+    {
+        $html = $this->blade("<x-ig::page-heading heading=\"Order 1\"><x-slot:badge>Paid</x-slot:badge>\n    Paid in full.</x-ig::page-heading>");
+
+        $html->assertDontSee('Paid in full.');
+    }
 }
