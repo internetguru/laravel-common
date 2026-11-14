@@ -1546,6 +1546,13 @@ php artisan vendor:publish --tag=ig-common:views
 php artisan vendor:publish --tag=ig-common:lang
 ```
 
+## Considerations
+
+Changes worth considering that were not carried out yet: what to do and why.
+
+- **Security: prune the mail log.** `mail_logs` keeps the recipient, reply-to and subject of every e-mail forever. Make `MailLog` prunable (for example after 90 days, configurable) and schedule `model:prune`, so the table does not grow into a list of every address the application ever wrote to.
+- **Security: redact secrets inside messages.** The log processor no longer adds request input, but a message or an exception message can still carry a secret: Guzzle puts the full request URL, query string included, into its exception messages (an API key sent as `?key=`), and a `QueryException` includes the SQL bindings. Add a processor step that masks the values of query parameters such as `key`, `token`, `secret`, `code` and `pin`, in the message and in a logged exception's message.
+
 ## License & Commercial Terms
 
 ### License
