@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+- A label given a variant tone from `Palette::variant()` as its `color`, now a custom property with a fallback, is drawn in it instead of gray.
 - The page watcher reloads a page whose form Livewire prefilled, such as the complaint date in the footer, instead of taking the prefilled field for one being edited and showing a notice.
 
 ### Security

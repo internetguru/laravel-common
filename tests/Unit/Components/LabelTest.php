@@ -59,6 +59,13 @@ class LabelTest extends TestCase
         $html->assertSee('--ig-label-dot: #ff8800', false);
     }
 
+    public function test_a_variant_tone_can_be_given_as_an_explicit_color()
+    {
+        $html = $this->blade('<x-ig::label text="Today" :color="$color" />', ['color' => Palette::variant('danger')]);
+
+        $html->assertSee('--ig-label-dot: ' . Palette::variant('danger'), false);
+    }
+
     public function test_a_key_takes_the_color_of_its_place_in_the_group()
     {
         $html = $this->blade('<x-ig::label text="Ostrava" group="locations" key="ost" />');
@@ -116,6 +123,7 @@ class LabelTest extends TestCase
         return [
             'nothing' => [[], "Label 'Paid' has no variant, color or group"],
             'color' => [['color' => 'red; background: url(evil)'], "Label 'Paid' has an invalid color: red; background: url(evil)"],
+            'custom property fallback' => [['color' => 'var(--x, red; background: url(evil))'], "Label 'Paid' has an invalid color: var(--x, red; background: url(evil))"],
             'color over a valid variant' => [['variant' => 'success', 'color' => 'reed'], "Label 'Paid' has an invalid color: reed"],
             'variant' => [['variant' => 'expression(alert(1))'], "Label 'Paid' has an unknown variant: expression(alert(1))"],
             'group without a key' => [['group' => 'locations'], "Label 'Paid' needs both a group and a key"],
