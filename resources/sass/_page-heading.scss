@@ -15,22 +15,20 @@ $page-heading-badge-gap: $spacer * .5 !default;
     }
 }
 
-// The icon runs inline before the first word, so it stays next to the text however the text is aligned.
+// A variant gives the remark its icon, inline before the first word, so it stays next to the
+// text however the text is aligned; without one the remark is plain text.
 .ig-page-heading-desc {
     max-width: $notice-max-width;
     margin-inline: auto;
 
-    &::before {
-        content: "";
-        display: inline-block;
-        width: $notice-icon-width;
-        height: 1em;
-        margin-right: $spacer * .25;
-        vertical-align: -0.125em;
-    }
-
     @each $type, $look in $notice-types {
         &.ig-page-heading-desc-#{$type}::before {
+            content: "";
+            display: inline-block;
+            width: $notice-icon-width;
+            height: 1em;
+            margin-right: $spacer * .25;
+            vertical-align: -0.125em;
             background-color: nth($look, 1);
             mask: url(nth($look, 2)) center / contain no-repeat;
         }

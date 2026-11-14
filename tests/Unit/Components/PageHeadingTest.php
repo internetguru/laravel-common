@@ -4,6 +4,7 @@ namespace Tests\Unit\Components;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\ViewException;
+use InternetGuru\LaravelCommon\Support\Palette;
 use Tests\TestCase;
 
 class PageHeadingTest extends TestCase
@@ -44,13 +45,27 @@ class PageHeadingTest extends TestCase
         $html->assertDontSee('page-heading-desc', false);
     }
 
-    public function test_the_variant_defaults_to_info()
+    public function test_a_badge_without_a_variant_is_info()
     {
-        $badge = $this->blade('<x-ig::page-heading heading="Orders" badge="Note">Text</x-ig::page-heading>');
-        $desc = $this->blade('<x-ig::page-heading heading="Orders">Text</x-ig::page-heading>');
+        $html = $this->blade('<x-ig::page-heading heading="Orders" badge="Note">Text</x-ig::page-heading>');
 
-        $badge->assertSee('fa-circle-info', false);
-        $desc->assertSee('ig-page-heading-desc-info', false);
+        $html->assertSee('fa-circle-info', false);
+        $html->assertSee('--ig-label-dot: ' . Palette::variant('info'), false);
+    }
+
+    public function test_a_description_without_a_variant_has_no_icon()
+    {
+        $html = $this->blade('<x-ig::page-heading heading="Orders">Text</x-ig::page-heading>');
+
+        $html->assertSee('<p class="ig-page-heading-desc" data-testid="page-heading-desc">Text</p>', false);
+    }
+
+    public function test_a_description_under_a_badge_without_a_variant_has_no_icon()
+    {
+        $html = $this->blade('<x-ig::page-heading heading="Orders" badge="Note" :tooltip="false">Text</x-ig::page-heading>');
+
+        $html->assertSee('fa-circle-info', false);
+        $html->assertSee('<p class="ig-page-heading-desc" data-testid="page-heading-desc">Text</p>', false);
     }
 
     public function test_an_icon_replaces_the_badge_icon_of_the_variant()
