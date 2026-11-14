@@ -15,20 +15,18 @@ $page-heading-badge-gap: $spacer * .5 !default;
     }
 }
 
-// The icon hangs in the left padding, so a wrapped line starts under the text, not the icon.
+// The icon runs inline before the first word, so it stays next to the text however the text is aligned.
 .ig-page-heading-desc {
-    position: relative;
     max-width: $notice-max-width;
     margin-inline: auto;
-    padding-left: calc(#{$notice-icon-width} + #{$spacer * .5});
 
     &::before {
         content: "";
-        position: absolute;
-        top: #{($line-height-base - 1) * .5em};
-        left: 0;
+        display: inline-block;
         width: $notice-icon-width;
         height: 1em;
+        margin-right: $spacer * .25;
+        vertical-align: -0.125em;
     }
 
     @each $type, $look in $notice-types {
