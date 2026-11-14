@@ -28,10 +28,12 @@ use UnitEnum;
 class Label extends Component
 {
     /**
-     * Color notations an explicit color may be given in. Deliberately narrow:
-     * the value ends up inside a style attribute.
+     * Color notations an explicit color may be given in, a custom property
+     * with or without a fallback in one of the others, as a variant tone from
+     * the palette is. Deliberately narrow: the value ends up inside a style
+     * attribute.
      */
-    protected const COLOR_PATTERN = '/^(#[0-9a-f]{3,8}|(rgb|hsl|oklch)a?\([\d\s.,%\/]+\)|var\(--[\w-]+\))$/i';
+    protected const COLOR_PATTERN = '/^(?:(?<plain>#[0-9a-f]{3,8}|(?:rgb|hsl|oklch)a?\([\d\s.,%\/]+\))|var\(--[\w-]+(?:,\s*(?&plain))?\))$/i';
 
     /** The color of the dot, ready to be set as a custom property. */
     public string $dotColor;

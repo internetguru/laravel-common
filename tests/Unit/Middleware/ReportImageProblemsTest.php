@@ -47,7 +47,7 @@ class ReportImageProblemsTest extends TestCase
         $this->handle('<img src="a.jpg" width="10" alt=""><img src="b.jpg" width="10" height="10">');
 
         Log::shouldHaveReceived('log')->once()->with('warning', 'Image problems', [
-            'url' => 'http://localhost',
+            'url' => '/',
             'images' => ['a.jpg' => 'missing height, empty alt', 'b.jpg' => 'missing alt'],
         ]);
     }
@@ -161,7 +161,7 @@ class ReportImageProblemsTest extends TestCase
         $this->handle('<img src="/storage/a.jpg" width="1" height="1" alt="A"><img src="http://localhost/b.PNG" width="1" height="1" alt="B"><img src="/build/assets/c-1a2b.webp" width="1" height="1" alt="C">');
 
         Log::shouldHaveReceived('log')->once()->with('error', 'Image problems', [
-            'url' => 'http://localhost',
+            'url' => '/',
             'images' => [
                 '/storage/a.jpg' => 'not served by laravel-images',
                 'http://localhost/b.PNG' => 'not served by laravel-images',

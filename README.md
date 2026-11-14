@@ -43,6 +43,7 @@
   - [Card Row](#card-row-blade-component)
   - [Tag Cloud](#tag-cloud-blade-component)
   - [Label](#label-blade-component)
+  - [Page Heading](#page-heading-blade-component)
   - [Demo Info](#demo-info-blade-component)
   - [Read-Only Mode Info](#read-only-mode-info-blade-component)
   - [Notice Styles](#notice-styles)
@@ -272,9 +273,9 @@ The injected script:
 
 ### `LogRequest` Middleware
 
-> Logs `Incoming request` at the `info` level for every request except GETs, so the [JsonDailyLogger](#jsondailylogger) records who sent what. Livewire requests that only refresh components (polls, refreshes on focus) are not logged.
+> Logs `Incoming request` at the `debug` level for every request except GETs, when turned on with `IG_LOG_REQUESTS=true`. Livewire requests that only refresh components (polls, refreshes on focus) are not logged.
 
-Turn it off with `IG_LOG_REQUESTS=false`. An application that has its own copy of this middleware should remove it, or every request is logged twice.
+It is off by default: the line carries no request input, so it repeats the web server's access log. Log what happened instead, as an audit line such as `Log::info('Order paid', ['order' => $order->id])`. An application that has its own copy of this middleware should remove it.
 
 ### `PreventDuplicateSubmissions` Middleware
 
@@ -959,7 +960,7 @@ A label given none of these, or given a color, variant, group or key that is not
 | Prop | Default | Used by | Description |
 | --- | --- | --- | --- |
 | `text` | `null` | all | The label itself. The slot is used instead when one is given. |
-| `variant` | `null` | specific color | Kind of value, drawn in its palette tone: `primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light` or `dark`. |
+| `variant` | `null` | specific color | Kind of value, drawn in its palette tone: `primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light` or `dark`. `info`, `success`, `warning` and `danger` take the color of the notice of the same type where `ig::common/label` is loaded. |
 | `color` | `null` | specific color | An explicit color in hex, `rgb()`, `hsl()`, `oklch()` or `var()` notation. It takes precedence over the variant. |
 | `group` | `null` | group, enum | A group registered in `LabelGroups`, or an enum class using `RendersLabel`. |
 | `key` | `null` | group, enum | The value within its group, which picks its color. An enum case stands for its name. |
@@ -1061,7 +1062,7 @@ A `HasLabel` value that is not an enum has no set to share, so without a `varian
 
 #### Palette, PHP and styles
 
-Colors come from `InternetGuru\LaravelCommon\Support\Palette`: one mild tone, each color at least 3:1 against white. Slot `n` always has the same color, whatever the size of the group, and the first slots are the furthest apart; after eight, a darker ring follows.
+Colors come from `InternetGuru\LaravelCommon\Support\Palette`: one mild tone, each color at least 3:1 against white; the `danger` variant alone is a full red. Slot `n` always has the same color, whatever the size of the group, and the first slots are the furthest apart; after eight, a darker ring follows.
 
 `Label::html()` takes the same arguments as the component and returns the chip as HTML, for the places building their HTML in PHP, such as a model browser column formatter. It passes on no other attributes.
 
@@ -1073,6 +1074,31 @@ Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are
 - a slim label never makes its line of text taller, and its text sits on the baseline of the words around it
 - the border glows in the dot color at the bottom right corner and faintly at the top left, set by `$ig-label-accent-*`
 - one line, with a text too long for its place cut short; `$ig-label-wrap: true` lets it wrap instead
+
+### Page Heading Blade Component
+
+> Renders the page heading with a remark about the page, such as a list showing only some records.
+
+```html
+<x-ig::page-heading :heading="__('order.list')" badge="Restricted" variant="warning">
+    You are viewing your own orders.
+</x-ig::page-heading>
+```
+
+| Attribute | Default | Description |
+|-----------|---------|-------------|
+| `heading` | required | The text of the `h1`, escaped; pass an `HtmlString` to keep markup. Other attributes go on the `h1`. |
+| `badge` | `null` | A label above the heading. The slot becomes its tooltip. |
+| `variant` | `null` | `info`, `success`, `warning` or `danger`. It colors the badge (`info` when empty) and gives the remark below the heading its icon; without it, that remark is plain text. |
+| `icon` | `null` | Font Awesome classes that replace the variant's icon on the badge. |
+| `tooltip` | `true` | With a badge, the slot is its tooltip; `false` writes the slot below the heading instead, for a remark that must be read. |
+| `description-variant` | `variant` | The variant of the remark below the heading, when it should differ from the badge's, e.g. a warning status with advice in `info`. |
+
+- With a badge, the slot is its tooltip, and nothing is written below the heading.
+- A `badge` slot (`<x-slot:badge>`) stands above the heading in place of the label, for a badge of your own such as a live status; it carries its own explanation, so the default slot is not shown unless `tooltip` is `false`.
+- Without a badge, the slot follows the heading as a remark, with the variant's icon when a variant is given, or nothing when the slot is empty.
+- Register the solid `faCircleInfo`, `faCircleCheck` and `faTriangleExclamation` icons; warning and danger share the triangle. The application initializes Bootstrap tooltips.
+- Styles come from `ig::common/page-heading`.
 
 ### Demo Info Blade Component
 
@@ -1102,7 +1128,7 @@ $notice-max-width: 30em;
 @import 'ig::common/notice';
 ```
 
-The types `info`, `success`, `warning` and `danger` each get their own icon (circle-info, circle-check, triangle-exclamation, circle-exclamation) and colour, set by `$notice-{type}-color` and `$notice-{type}-icon`. The icons are drawn in CSS, so they need no Font Awesome registration. The other `$notice-*` variables set the column width, the icon width and the text and link colours; give them before the stylesheet is imported.
+The types `info`, `success`, `warning` and `danger` each get an icon (circle-info, circle-check, and triangle-exclamation for both warning and danger) and a colour, set by `$notice-{type}-color` and `$notice-{type}-icon`. The icons are drawn in CSS, so they need no Font Awesome registration. The other `$notice-*` variables set the column width, the icon width and the text and link colours; give them before the stylesheet is imported.
 
 ### Email Feedback Blade Component
 
@@ -1440,7 +1466,7 @@ php artisan vendor:publish --tag=ig-common:migrations
 php artisan migrate
 ```
 
-Logged fields: `to`, `replyto`, `subject`, `body`, `created_at`, `updated_at`.
+Logged fields: `to`, `replyto`, `subject`, `notification` (the notification class), `created_at`, `updated_at`. The body is not kept, because it can carry sign-in PINs and links; the `body` column stays only for older rows and is emptied by the 2026-11-14 migration.
 
 ## Exception Handling
 
@@ -1470,13 +1496,14 @@ Under phpunit and Pest, the default log channel is `null`, so test runs stay out
 
 > A custom Monolog logger that writes JSON-formatted daily rotating log files enriched with request context.
 
-Each log entry includes:
+Each log entry includes, under `extra.context`:
 
-- **User info**: ID, name, email (if authenticated).
-- **Request input**: All inputs except `password`, `_token`, and `g-recaptcha-response`. Livewire snapshot data is stripped, keeping only the component's `name`, and refresh calls (polls, refreshes on focus) are left out.
-- **Session ID**.
-- **App info**: Git branch and commit.
-- **Request info**: URL, IP, HTTP method, server, referrer, user agent.
+- **User**: `user.id` (if authenticated).
+- **Session**: `session`, the first 12 hex digits of the session ID's SHA-256, so lines of one visit can be grouped (null without a started session).
+- **App info**: Git `branch` and `commit`.
+- **Request info**: `request_info` with `url` (the path), `ip`, `http_method` and `server`.
+
+It deliberately leaves out names, e-mail addresses, request input, the raw session ID, the referrer and the user agent, so the log holds no personal data or secrets on its own. Pass what a line is about in its context, as ids: `Log::info('Settings updated', ['setting_ids' => $ids])`.
 
 Configuration in `config/logging.php`:
 
@@ -1518,6 +1545,14 @@ php artisan vendor:publish --tag=ig-common:views
 # Publish language files
 php artisan vendor:publish --tag=ig-common:lang
 ```
+
+## Considerations
+
+Changes worth considering that were not carried out yet: what to do and why.
+
+- **Security: prune the mail log.** `mail_logs` keeps the recipient, reply-to and subject of every e-mail forever. Make `MailLog` prunable (for example after 90 days, configurable) and schedule `model:prune`, so the table does not grow into a list of every address the application ever wrote to.
+- **Security: redact secrets inside messages.** The log processor no longer adds request input, but a message or an exception message can still carry a secret: Guzzle puts the full request URL, query string included, into its exception messages (an API key sent as `?key=`), and a `QueryException` includes the SQL bindings. Add a processor step that masks the values of query parameters such as `key`, `token`, `secret`, `code` and `pin`, in the message and in a logged exception's message.
+- **Generalize the share button.** `share-page` always opens the same modal: a QR code and the page URL to copy. Turn it into a share menu that projects and individual pages add their own items to, through a slot, a stack or a registry, so laravel-model-browser can offer its exports (CSV download, copying the current page) there instead of in buttons of its own. Allow placing it anywhere, as a full button or as an icon only, for example next to the hamburger menu icon, and keep the footer link as it is when nothing is added.
 
 ## License & Commercial Terms
 

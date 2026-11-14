@@ -17,13 +17,12 @@ class LogSentNotification
             return;
         }
 
-        $message  = $event->response->getOriginalMessage();
+        $message = $event->response->getOriginalMessage();
         $headers = $message->getHeaders();
         $to = $headers->get('to')->toString();
         $replyTo = $headers->get('reply-to')?->toString() ?? null;
         $subject = $message->getSubject() ?? 'n/a';
-        $body = $message->getTextBody() ?? 'n/a';
 
-        MailLog::log($to, $replyTo, $subject, $body);
+        MailLog::log($to, $replyTo, $subject, $event->notification::class);
     }
 }

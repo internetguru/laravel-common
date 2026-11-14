@@ -7,7 +7,7 @@ use Livewire\Mechanisms\HandleRequests\EndpointResolver;
 
 /**
  * Reads a Livewire update request for logging: tells refreshes (polls,
- * refreshes on focus) from real work and strips the bulky snapshots.
+ * refreshes on focus) from real work.
  */
 class LivewirePayload
 {
@@ -40,34 +40,6 @@ class LivewirePayload
     }
 
     /**
-     * Replace each snapshot with the component's name and drop refresh calls;
-     * components left with nothing to do are removed.
-     *
-     * @param  array<int|string, mixed>  $components
-     * @return array<int|string, array<string, mixed>>
-     */
-    public static function forLog(array $components): array
-    {
-        $logged = [];
-        foreach ($components as $key => $component) {
-            if (! is_array($component)) {
-                continue;
-            }
-            $name = self::componentName($component['snapshot'] ?? null);
-            unset($component['snapshot']);
-            if (is_array($component['calls'] ?? null)) {
-                $component['calls'] = self::withoutRefreshes($component['calls']);
-            }
-            if (empty($component['updates']) && empty($component['calls'])) {
-                continue;
-            }
-            $logged[$key] = ($name === null ? [] : ['name' => $name]) + $component;
-        }
-
-        return $logged;
-    }
-
-    /**
      * @param  array<int|string, mixed>  $calls
      * @return list<mixed>
      */
@@ -77,15 +49,5 @@ class LivewirePayload
             $calls,
             fn ($call) => ! is_array($call) || ($call['method'] ?? null) !== '$refresh'
         ));
-    }
-
-    private static function componentName(mixed $snapshot): ?string
-    {
-        if (is_string($snapshot)) {
-            $snapshot = json_decode($snapshot, true);
-        }
-        $name = is_array($snapshot) ? ($snapshot['memo']['name'] ?? null) : null;
-
-        return is_string($name) ? $name : null;
     }
 }

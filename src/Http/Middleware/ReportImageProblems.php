@@ -176,7 +176,7 @@ class ReportImageProblems
         $severity = collect(array_keys(self::LOG_LEVELS))->first(fn ($level) => in_array($level, $severities, true));
         $images = array_map(fn ($imageProblems) => implode(', ', array_merge(...array_values($imageProblems))), $problems);
 
-        Log::log(self::LOG_LEVELS[$severity], 'Image problems', ['url' => $request->fullUrl(), 'images' => $images]);
+        Log::log(self::LOG_LEVELS[$severity], 'Image problems', ['url' => $request->path(), 'images' => $images]);
     }
 
     protected function isHtmlResponse(mixed $response): bool

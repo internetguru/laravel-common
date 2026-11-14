@@ -31,7 +31,8 @@ class Palette
 
     /**
      * Theme variants as tones of the palette, each keeping the meaning of its
-     * hue: green for success, red for danger, and so on.
+     * hue: green for success, red for danger, and so on. Danger alone is a
+     * full red rather than the mild tone, so it reads as a warning sign.
      *
      * @var array<string, string>
      */
@@ -39,7 +40,7 @@ class Palette
         'primary' => 'oklch(65% 0.11 260)',
         'secondary' => 'oklch(65% 0 0)',
         'success' => 'oklch(65% 0.11 145)',
-        'danger' => 'oklch(65% 0.11 25)',
+        'danger' => 'oklch(60% 0.2 27)',
         'warning' => 'oklch(65% 0.11 75)',
         'info' => 'oklch(65% 0.11 215)',
         'light' => 'oklch(85% 0 0)',
@@ -75,10 +76,26 @@ class Palette
         return round(fmod($fraction * 360 + self::offset($seed), 360), 1);
     }
 
+    /**
+     * The variants the notices are drawn in. Their tone is the notice colour the
+     * label stylesheet sets as a custom property, so a label in one of them
+     * matches the notices and follows the app theme; the palette tone remains
+     * the fallback where that stylesheet is not loaded, such as in an email.
+     *
+     * @var list<string>
+     */
+    protected const NOTICE_VARIANTS = ['info', 'success', 'warning', 'danger'];
+
     /** The tone a theme variant is drawn in, or null for a name that is none. */
     public static function variant(string $variant): ?string
     {
-        return self::VARIANTS[$variant] ?? null;
+        $tone = self::VARIANTS[$variant] ?? null;
+
+        if ($tone === null || ! in_array($variant, self::NOTICE_VARIANTS, true)) {
+            return $tone;
+        }
+
+        return "var(--ig-variant-{$variant}, {$tone})";
     }
 
     /**

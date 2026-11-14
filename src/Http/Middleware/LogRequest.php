@@ -15,7 +15,7 @@ class LogRequest
         if (config('ig-common.log_requests')
             && ! $request->isMethod('GET')
             && ! LivewirePayload::isRefreshOnly($request)) {
-            Log::info('Incoming request');
+            Log::debug('Incoming request');
         }
 
         return $next($request);
