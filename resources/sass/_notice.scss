@@ -1,9 +1,10 @@
 /// The full-width notices above the page header (demo and read-only mode, and
 /// laravel-user's system message and app hints), rendered by the packages as
 /// `div.container-fluid.alert.alert-{type} > p`. A notice is a remark about the
-/// page rather than a surface on it: no background, border or shadow, only an
-/// icon and a narrow centred column. The icon is a Font Awesome glyph drawn as
-/// a mask, so it takes its type's colour and needs no script.
+/// page rather than a surface on it: no background, border or shadow, only a
+/// narrow centered line with its icon right before the first word, like the
+/// page heading description. The icon is a Font Awesome glyph drawn as a mask,
+/// so it takes its type's color and needs no script.
 @import 'notice-variables';
 
 .container-fluid.alert:is(.alert-info, .alert-success, .alert-warning, .alert-danger) {
@@ -13,29 +14,17 @@
     --#{$prefix}alert-link-color: #{$notice-link-color};
     padding: $spacer * .5 calc(var(--#{$prefix}gutter-x) * .5);
 
-    // The icon hangs in the left padding, so a wrapped line starts under the text, not the icon.
     > p {
-        position: relative;
         max-width: $notice-max-width;
         margin-inline: auto;
         padding-top: $spacer * .75;
         padding-bottom: $spacer * .75;
-        padding-left: calc(var(--#{$prefix}gutter-x) * .5 + #{$notice-icon-width} + #{$spacer * .5});
-    }
-
-    > p::before {
-        content: "";
-        position: absolute;
-        top: calc(#{$spacer * .75} + #{($line-height-base - 1) * .5em});
-        left: calc(var(--#{$prefix}gutter-x) * .5);
-        width: $notice-icon-width;
-        height: 1em;
+        text-align: center;
     }
 
     @each $type, $look in $notice-types {
         &.alert-#{$type} > p::before {
-            background-color: nth($look, 1);
-            mask: url(nth($look, 2)) center / contain no-repeat;
+            @include notice-icon($look);
         }
     }
 }

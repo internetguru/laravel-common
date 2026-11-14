@@ -23,14 +23,7 @@ $page-heading-badge-gap: $spacer * .5 !default;
 
     @each $type, $look in $notice-types {
         &.ig-page-heading-desc-#{$type}::before {
-            content: "";
-            display: inline-block;
-            width: $notice-icon-width;
-            height: 1em;
-            margin-right: $spacer * .25;
-            vertical-align: -0.125em;
-            background-color: nth($look, 1);
-            mask: url(nth($look, 2)) center / contain no-repeat;
+            @include notice-icon($look);
         }
     }
 }

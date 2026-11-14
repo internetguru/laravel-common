@@ -25,3 +25,15 @@ $notice-types: (
     warning: ($notice-warning-color, $notice-warning-icon),
     danger: ($notice-danger-color, $notice-danger-icon),
 ) !default;
+
+/// The type's icon inline before the first word, in the type's color.
+@mixin notice-icon($look) {
+    content: "";
+    display: inline-block;
+    width: $notice-icon-width;
+    height: 1em;
+    margin-right: $spacer * .25;
+    vertical-align: -0.125em;
+    background-color: nth($look, 1);
+    mask: url(nth($look, 2)) center / contain no-repeat;
+}
