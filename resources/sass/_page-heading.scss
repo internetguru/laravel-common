@@ -1,7 +1,8 @@
 /// The heading of a page with its remark (`x-ig::page-heading`): a badge on a
 /// line of its own above the heading, or the remark beneath it drawn as a
-/// notice, with its variant's icon and no box. Import after `notice`, whose
-/// colors and icons it shares.
+/// notice, with its variant's icon and no box.
+@import 'notice-variables';
+
 $page-heading-badge-gap: $spacer * .5 !default;
 
 .ig-page-heading-badge {
