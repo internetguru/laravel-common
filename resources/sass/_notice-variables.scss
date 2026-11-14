@@ -32,7 +32,7 @@ $notice-types: (
     display: inline-block;
     width: $notice-icon-width;
     height: 1em;
-    margin-right: $spacer * .25;
+    margin-right: 0;
     vertical-align: -0.125em;
     background-color: nth($look, 1);
     mask: url(nth($look, 2)) center / contain no-repeat;
