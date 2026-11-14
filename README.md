@@ -1552,6 +1552,7 @@ Changes worth considering that were not carried out yet: what to do and why.
 
 - **Security: prune the mail log.** `mail_logs` keeps the recipient, reply-to and subject of every e-mail forever. Make `MailLog` prunable (for example after 90 days, configurable) and schedule `model:prune`, so the table does not grow into a list of every address the application ever wrote to.
 - **Security: redact secrets inside messages.** The log processor no longer adds request input, but a message or an exception message can still carry a secret: Guzzle puts the full request URL, query string included, into its exception messages (an API key sent as `?key=`), and a `QueryException` includes the SQL bindings. Add a processor step that masks the values of query parameters such as `key`, `token`, `secret`, `code` and `pin`, in the message and in a logged exception's message.
+- **Generalize the share button.** `share-page` always opens the same modal: a QR code and the page URL to copy. Turn it into a share menu that projects and individual pages add their own items to, through a slot, a stack or a registry, so laravel-model-browser can offer its exports (CSV download, copying the current page) there instead of in buttons of its own. Allow placing it anywhere, as a full button or as an icon only, for example next to the hamburger menu icon, and keep the footer link as it is when nothing is added.
 
 ## License & Commercial Terms
 
