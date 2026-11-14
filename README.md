@@ -43,6 +43,7 @@
   - [Card Row](#card-row-blade-component)
   - [Tag Cloud](#tag-cloud-blade-component)
   - [Label](#label-blade-component)
+  - [Page Heading](#page-heading-blade-component)
   - [Demo Info](#demo-info-blade-component)
   - [Read-Only Mode Info](#read-only-mode-info-blade-component)
   - [Notice Styles](#notice-styles)
@@ -1073,6 +1074,28 @@ Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are
 - a slim label never makes its line of text taller, and its text sits on the baseline of the words around it
 - the border glows in the dot color at the bottom right corner and faintly at the top left, set by `$ig-label-accent-*`
 - one line, with a text too long for its place cut short; `$ig-label-wrap: true` lets it wrap instead
+
+### Page Heading Blade Component
+
+> Renders the page heading with a remark about the page, such as a list showing only some records.
+
+```html
+<x-ig::page-heading :heading="__('order.list')" badge="Restricted" variant="warning">
+    You are viewing your own orders.
+</x-ig::page-heading>
+```
+
+| Attribute | Default | Description |
+|-----------|---------|-------------|
+| `heading` | required | The text of the `h1`. Other attributes go on the `h1`. |
+| `badge` | `null` | A label above the heading. The slot becomes its tooltip. |
+| `variant` | `info` | `info`, `success`, `warning` or `danger`. It colors the badge or the remark and picks its icon. |
+| `icon` | `null` | Font Awesome classes that replace the variant's icon on the badge. |
+
+- With a badge, the slot is its tooltip, and nothing is written below the heading.
+- Without a badge, the slot follows the heading as a remark with the variant's icon, or nothing when the slot is empty.
+- Register the solid `faCircleInfo`, `faCircleCheck`, `faTriangleExclamation` and `faCircleExclamation` icons. The application initializes Bootstrap tooltips.
+- Styles come from `ig::common/page-heading`, imported after `ig::common/notice`.
 
 ### Demo Info Blade Component
 

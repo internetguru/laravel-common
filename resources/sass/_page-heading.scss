@@ -1,0 +1,39 @@
+/// The heading of a page with its remark (`x-ig::page-heading`): a badge on a
+/// line of its own above the heading, or the remark beneath it drawn as a
+/// notice, with its variant's icon and no box. Import after `notice`, whose
+/// colors and icons it shares.
+$page-heading-badge-gap: $spacer * .5 !default;
+
+.ig-page-heading-badge {
+    display: flex;
+    justify-content: center;
+    margin-bottom: $page-heading-badge-gap;
+
+    .ig-label {
+        font-size: $font-size-base;
+    }
+}
+
+// The icon hangs in the left padding, so a wrapped line starts under the text, not the icon.
+.ig-page-heading-desc {
+    position: relative;
+    max-width: $notice-max-width;
+    margin-inline: auto;
+    padding-left: calc(#{$notice-icon-width} + #{$spacer * .5});
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: #{($line-height-base - 1) * .5em};
+        left: 0;
+        width: $notice-icon-width;
+        height: 1em;
+    }
+
+    @each $type, $look in $notice-types {
+        &.ig-page-heading-desc-#{$type}::before {
+            background-color: nth($look, 1);
+            mask: url(nth($look, 2)) center / contain no-repeat;
+        }
+    }
+}
