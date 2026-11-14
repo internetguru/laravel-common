@@ -30,12 +30,14 @@ class PageHeading extends Component
      * @param  string|null  $badge  The text of a badge above the heading.
      * @param  string  $variant  One of info, success, warning or danger.
      * @param  string|null  $icon  Font Awesome classes replacing the variant's icon on the badge.
+     * @param  bool  $tooltip  With a badge, make the remark its tooltip; false writes it below the heading.
      */
     public function __construct(
         public string $heading,
         public ?string $badge = null,
         public string $variant = 'info',
         ?string $icon = null,
+        public bool $tooltip = true,
     ) {
         if (! isset(self::ICONS[$variant])) {
             $this->fail("Page heading '{$heading}' has an unknown variant: {$variant}");

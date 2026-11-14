@@ -96,4 +96,13 @@ class PageHeadingTest extends TestCase
 
         $html->assertDontSee('Paid in full.');
     }
+
+    public function test_a_badge_without_tooltip_writes_the_description_below_the_heading()
+    {
+        $html = (string) $this->blade('<x-ig::page-heading heading="Redemption" badge="Pending" :tooltip="false">Check the account first.</x-ig::page-heading>');
+
+        $this->assertLessThan(strpos($html, '<h1'), strpos($html, 'data-testid="page-heading-badge"'));
+        $this->assertLessThan(strpos($html, 'data-testid="page-heading-desc"'), strpos($html, '<h1'));
+        $this->assertStringNotContainsString('data-bs-toggle', $html);
+    }
 }
