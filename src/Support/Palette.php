@@ -31,7 +31,8 @@ class Palette
 
     /**
      * Theme variants as tones of the palette, each keeping the meaning of its
-     * hue: green for success, red for danger, and so on.
+     * hue: green for success, red for danger, and so on. Danger alone is a
+     * full red rather than the mild tone, so it reads as a warning sign.
      *
      * @var array<string, string>
      */
@@ -39,7 +40,7 @@ class Palette
         'primary' => 'oklch(65% 0.11 260)',
         'secondary' => 'oklch(65% 0 0)',
         'success' => 'oklch(65% 0.11 145)',
-        'danger' => 'oklch(65% 0.11 25)',
+        'danger' => 'oklch(60% 0.2 27)',
         'warning' => 'oklch(65% 0.11 75)',
         'info' => 'oklch(65% 0.11 215)',
         'light' => 'oklch(85% 0 0)',

@@ -1062,7 +1062,7 @@ A `HasLabel` value that is not an enum has no set to share, so without a `varian
 
 #### Palette, PHP and styles
 
-Colors come from `InternetGuru\LaravelCommon\Support\Palette`: one mild tone, each color at least 3:1 against white. Slot `n` always has the same color, whatever the size of the group, and the first slots are the furthest apart; after eight, a darker ring follows.
+Colors come from `InternetGuru\LaravelCommon\Support\Palette`: one mild tone, each color at least 3:1 against white; the `danger` variant alone is a full red. Slot `n` always has the same color, whatever the size of the group, and the first slots are the furthest apart; after eight, a darker ring follows.
 
 `Label::html()` takes the same arguments as the component and returns the chip as HTML, for the places building their HTML in PHP, such as a model browser column formatter. It passes on no other attributes.
 

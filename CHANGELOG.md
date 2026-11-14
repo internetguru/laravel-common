@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - `x-ig::page-heading` renders the page heading with a remark: as the tooltip of a `badge` above the heading (below the heading with `:tooltip="false"`), or below the heading without one, given a color and an icon by `variant` (a badge is info without one, a remark below the heading plain text); a `badge` slot puts markup of your own above the heading instead; an `Htmlable` heading keeps its markup.
 
+### Changed
+
+- The `danger` label variant is a full red instead of the mild salmon tone, matching Bootstrap's danger color.
+
 ### Fixed
 
 - The page watcher reloads a page whose form Livewire prefilled, such as the complaint date in the footer, instead of taking the prefilled field for one being edited and showing a notice.
