@@ -6,12 +6,24 @@ use Tests\TestCase;
 
 class InputTest extends TestCase
 {
+    public function test_empty_date_input_with_default_today_shows_today()
+    {
+        $this->withViewErrors([]);
+        $this->travelTo('2026-11-14 10:00:00');
+
+        $html = $this->blade('<x-ig::input type="date" name="starts_at" value="" :defaultToday="true">Starts</x-ig::input>');
+
+        $html->assertSee('value="2026-11-14"', false);
+        $html->assertDontSee('data-empty', false);
+    }
+
     public function test_empty_date_input_is_marked_empty()
     {
         $this->withViewErrors([]);
 
         $html = $this->blade('<x-ig::input type="date" name="starts_at" value="">Starts</x-ig::input>');
 
+        $html->assertSee('value=""', false);
         $html->assertSee('data-empty', false);
     }
 
