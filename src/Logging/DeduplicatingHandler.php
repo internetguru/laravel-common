@@ -71,12 +71,18 @@ class DeduplicatingHandler extends HandlerWrapper
 
     /**
      * The first record of a window claims the key; every later one within the
-     * window finds it taken. Keyed on level and the message's first line, so a
-     * multi-line message still collapses with its repeats.
+     * window finds it taken. Keyed on level, the message's first line and the
+     * context, so a multi-line message still collapses with its repeats while
+     * the same message about another order or user is kept. The exception is
+     * left out of the key: its trace differs between otherwise equal repeats.
      */
     private function isRepeat(LogRecord $record): bool
     {
-        $key = 'ig-common:log-dedup:' . md5($record->level->getName() . ':' . strtok($record->message, "\r\n"));
+        $context = $record->context;
+        unset($context['exception']);
+        $key = 'ig-common:log-dedup:' . md5(
+            $record->level->getName() . ':' . strtok($record->message, "\r\n") . ':' . json_encode($context)
+        );
 
         try {
             return ! Cache::add($key, true, $this->seconds);

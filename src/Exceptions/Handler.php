@@ -227,7 +227,6 @@ class Handler extends ExceptionHandler
             Log::debug('Discarded malformed Livewire payload: ' . $e->getMessage(), [
                 'exception' => $e::class,
                 'origin' => $e->getFile() . ':' . $e->getLine(),
-                'ip' => request()->ip(),
             ]);
 
             return;

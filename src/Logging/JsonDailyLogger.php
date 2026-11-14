@@ -24,52 +24,41 @@ class JsonDailyLogger
             return $logger;
         }
 
-        // Add custom processor for request input
-        $logger->pushProcessor(function (LogRecord $record) {
-            // user info
-            $record->extra['context']['user'] = [];
-            if (auth()->check()) {
-                $user = auth()->user();
-                $record->extra['context']['user'] = [
-                    'id' => $user?->id,
-                    'name' => $user?->name,
-                    'email' => $user?->email,
-                ];
-            }
-            // request input
-            $record->extra['context']['request_input'] = [];
-            $request = app(Request::class);
-            $inputs = $request->except('password', '_token', 'g-recaptcha-response');
-            if (LivewirePayload::isUpdate($request)) {
-                $inputs['components'] = LivewirePayload::forLog($inputs['components'] ?? []);
-                if (count($inputs['components']) == 0) {
-                    return $record;
-                }
-            }
-            if ($inputs) {
-                $record->extra['context']['request_input'] = $inputs;
-            }
-            // session id
-            $record->extra['context']['session_id'] = session()->getId();
-            // software info
-            $app = Helpers::getAppInfoArray();
-            $record->extra['context']['branch'] = $app['branch'];
-            $record->extra['context']['commit'] = $app['commit'];
-            // request info
-            $record->extra['context']['request_info'] = [];
-            $info = [
-                'url' => $request->path(),
-                'ip' => $request->ip(),
-                'http_method' => $request->method(),
-                'server' => $request->server('SERVER_NAME'),
-                'referrer' => $request->server('HTTP_REFERER'),
-                'user_agent' => $request->userAgent(),
-            ];
-            $record->extra['context']['request_info'] = $info;
-
-            return $record;
-        });
+        $logger->pushProcessor(fn (LogRecord $record) => $this->addRequestContext($record));
 
         return $logger;
+    }
+
+    /**
+     * Identifies who and what a line is about without carrying personal data
+     * or secrets: no names, e-mail addresses, request input or raw session id.
+     */
+    private function addRequestContext(LogRecord $record): LogRecord
+    {
+        $request = app(Request::class);
+        $app = Helpers::getAppInfoArray();
+
+        $record->extra['context']['user'] = auth()->check() ? ['id' => auth()->id()] : [];
+        $record->extra['context']['session'] = $this->sessionHash();
+        $record->extra['context']['branch'] = $app['branch'];
+        $record->extra['context']['commit'] = $app['commit'];
+        $record->extra['context']['request_info'] = [
+            'url' => $request->path(),
+            'ip' => $request->ip(),
+            'http_method' => $request->method(),
+            'server' => $request->server('SERVER_NAME'),
+        ];
+
+        return $record;
+    }
+
+    /** Lets lines of one visit be grouped without the id that would sign in as it. */
+    private function sessionHash(): ?string
+    {
+        if (! app()->bound('session.store') || ! session()->isStarted()) {
+            return null;
+        }
+
+        return substr(hash('sha256', session()->getId()), 0, 12);
     }
 }

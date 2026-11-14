@@ -273,9 +273,9 @@ The injected script:
 
 ### `LogRequest` Middleware
 
-> Logs `Incoming request` at the `info` level for every request except GETs, so the [JsonDailyLogger](#jsondailylogger) records who sent what. Livewire requests that only refresh components (polls, refreshes on focus) are not logged.
+> Logs `Incoming request` at the `debug` level for every request except GETs, when turned on with `IG_LOG_REQUESTS=true`. Livewire requests that only refresh components (polls, refreshes on focus) are not logged.
 
-Turn it off with `IG_LOG_REQUESTS=false`. An application that has its own copy of this middleware should remove it, or every request is logged twice.
+It is off by default: the line carries no request input, so it repeats the web server's access log. Log what happened instead, as an audit line such as `Log::info('Order paid', ['order' => $order->id])`. An application that has its own copy of this middleware should remove it.
 
 ### `PreventDuplicateSubmissions` Middleware
 
@@ -1466,7 +1466,7 @@ php artisan vendor:publish --tag=ig-common:migrations
 php artisan migrate
 ```
 
-Logged fields: `to`, `replyto`, `subject`, `body`, `created_at`, `updated_at`.
+Logged fields: `to`, `replyto`, `subject`, `notification` (the notification class), `created_at`, `updated_at`. The body is not kept, because it can carry sign-in PINs and links; the `body` column stays only for older rows and is emptied by the 2026-11-14 migration.
 
 ## Exception Handling
 
@@ -1496,13 +1496,14 @@ Under phpunit and Pest, the default log channel is `null`, so test runs stay out
 
 > A custom Monolog logger that writes JSON-formatted daily rotating log files enriched with request context.
 
-Each log entry includes:
+Each log entry includes, under `extra.context`:
 
-- **User info**: ID, name, email (if authenticated).
-- **Request input**: All inputs except `password`, `_token`, and `g-recaptcha-response`. Livewire snapshot data is stripped, keeping only the component's `name`, and refresh calls (polls, refreshes on focus) are left out.
-- **Session ID**.
-- **App info**: Git branch and commit.
-- **Request info**: URL, IP, HTTP method, server, referrer, user agent.
+- **User**: `user.id` (if authenticated).
+- **Session**: `session`, the first 12 hex digits of the session ID's SHA-256, so lines of one visit can be grouped (null without a started session).
+- **App info**: Git `branch` and `commit`.
+- **Request info**: `request_info` with `url` (the path), `ip`, `http_method` and `server`.
+
+It deliberately leaves out names, e-mail addresses, request input, the raw session ID, the referrer and the user agent, so the log holds no personal data or secrets on its own. Pass what a line is about in its context, as ids: `Log::info('Settings updated', ['setting_ids' => $ids])`.
 
 Configuration in `config/logging.php`:
 

@@ -22,15 +22,17 @@ class LogRequestTest extends TestCase
 
     public function test_get_requests_are_not_logged()
     {
+        config(['ig-common.log_requests' => true]);
         Log::spy();
 
         (new LogRequest)->handle(Request::create('/'), fn () => response('ok'));
 
-        Log::shouldNotHaveReceived('info');
+        Log::shouldNotHaveReceived('debug');
     }
 
     public function test_polls_and_focus_refreshes_are_not_logged()
     {
+        config(['ig-common.log_requests' => true]);
         Log::spy();
 
         $this->handleLivewireRequest([
@@ -38,11 +40,12 @@ class LogRequestTest extends TestCase
             ['updates' => [], 'calls' => [['method' => '$refresh', 'params' => [], 'metadata' => []]]],
         ]);
 
-        Log::shouldNotHaveReceived('info');
+        Log::shouldNotHaveReceived('debug');
     }
 
     public function test_actions_and_updates_are_logged_even_alongside_a_refresh()
     {
+        config(['ig-common.log_requests' => true]);
         Log::spy();
 
         $this->handleLivewireRequest([
@@ -54,16 +57,15 @@ class LogRequestTest extends TestCase
         ]);
         (new LogRequest)->handle(Request::create('/login', 'POST'), fn () => response('ok'));
 
-        Log::shouldHaveReceived('info')->with('Incoming request')->times(3);
+        Log::shouldHaveReceived('debug')->with('Incoming request')->times(3);
     }
 
-    public function test_can_be_turned_off()
+    public function test_is_off_by_default()
     {
-        config(['ig-common.log_requests' => false]);
         Log::spy();
 
         (new LogRequest)->handle(Request::create('/login', 'POST'), fn () => response('ok'));
 
-        Log::shouldNotHaveReceived('info');
+        Log::shouldNotHaveReceived('debug');
     }
 }

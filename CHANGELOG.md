@@ -15,10 +15,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - The `danger` label variant is a full red instead of the mild salmon tone, matching Bootstrap's danger color.
 - Danger notices show the warning triangle in red instead of an exclamation mark in a circle, which read too much like the info icon at text size.
 - The demo, read-only and system notices center their text with the icon right before the first word, like the page heading description, instead of hanging the icon left of a left-aligned column.
+- `JsonDailyLogger` adds only `user.id`, a `session` hash, `branch`, `commit` and `request_info` (`url`, `ip`, `http_method`, `server`) to each line; the user's name and e-mail, `request_input`, the raw `session_id`, the referrer and the user agent are gone, so pass what a line is about in its context, as ids.
+- `LogRequest` is off by default and logs `Incoming request` at debug; set `IG_LOG_REQUESTS=true` to keep it.
+- Log deduplication tells records apart by their context too, leaving out the exception, so the same message about another order or user is no longer swallowed.
+- Mail logs record the notification class instead of the body, which is no longer kept; publish the migrations (`--tag=ig-common:migrations`) and migrate to add the `notification` column and empty the stored bodies. `MailLog::log()` takes the notification class as its fourth argument.
+- Retried notification failures, image problems, GeoIP timeouts and discarded Livewire payloads log their exception and notification class in context, the page path instead of the full URL, and no duplicate IP.
 
 ### Fixed
 
 - The page watcher reloads a page whose form Livewire prefilled, such as the complaint date in the footer, instead of taking the prefilled field for one being edited and showing a notice.
+
+### Security
+
+- Logs no longer carry request input, so password confirmations, sign-in PINs, API keys typed into forms and Livewire form values stay out of them, and sent mail bodies with sign-in PINs are no longer logged or stored.
 
 ## [9.5.0] - 2026-11-14
 
