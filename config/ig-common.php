@@ -33,9 +33,10 @@ return [
         'guest' => env('IG_DUPLICATE_SUBMISSIONS_GUEST', 60),
     ],
 
-    // Log 'Incoming request' for every request except GETs and Livewire
-    // refreshes (polls, refreshes on focus).
-    'log_requests' => env('IG_LOG_REQUESTS', true),
+    // Log 'Incoming request' at the debug level for every request except GETs
+    // and Livewire refreshes (polls, refreshes on focus). Off by default: the
+    // line repeats the web server's access log.
+    'log_requests' => env('IG_LOG_REQUESTS', false),
 
     // Let concurrent writers to an SQLite database wait for each other instead
     // of failing with 'database is locked': every sqlite connection that

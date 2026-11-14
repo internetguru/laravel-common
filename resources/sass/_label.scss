@@ -1,9 +1,18 @@
 @import 'chip';
+@import 'notice-variables';
 
 /// A chip naming one value out of a set, soft enough to sit in a table cell
 /// without ruling it. The component sets the colour of its dot per label.
 $ig-label-slim-padding: .2em .5em !default;
 $ig-label-slim-gap: .4em !default;
+
+/// The notice colours, which labels of the same variants are drawn in (see
+/// `Palette::variant()`), so a label matches the notices and the app theme.
+:root {
+    @each $type, $look in $notice-types {
+        --ig-variant-#{$type}: #{nth($look, 1)};
+    }
+}
 
 .ig-label {
     @include ig-chip;

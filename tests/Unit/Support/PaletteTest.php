@@ -79,7 +79,8 @@ class PaletteTest extends TestCase
 
     public function test_variants_are_drawn_in_tones_of_the_palette()
     {
-        $this->assertSame('oklch(65% 0.11 145)', Palette::variant('success'));
+        $this->assertSame('var(--ig-variant-success, oklch(65% 0.11 145))', Palette::variant('success'));
+        $this->assertSame('var(--ig-variant-info, oklch(65% 0.11 215))', Palette::variant('info'));
         $this->assertSame('oklch(65% 0 0)', Palette::variant('secondary'));
         $this->assertNull(Palette::variant('expression(alert(1))'));
     }

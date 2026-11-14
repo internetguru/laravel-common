@@ -42,6 +42,22 @@ class LogDeduplicationTest extends TestCase
         $this->assertCount(2, $this->records->getRecords());
     }
 
+    public function test_the_same_message_about_another_object_is_written()
+    {
+        $this->logger->error('Duplicate payment for order', ['order_id' => 1]);
+        $this->logger->error('Duplicate payment for order', ['order_id' => 2]);
+
+        $this->assertCount(2, $this->records->getRecords());
+    }
+
+    public function test_repeats_with_a_different_exception_collapse()
+    {
+        $this->logger->error('Bank sync failed', ['exception' => new \RuntimeException('first')]);
+        $this->logger->error('Bank sync failed', ['exception' => new \RuntimeException('second')]);
+
+        $this->assertCount(1, $this->records->getRecords());
+    }
+
     public function test_the_same_message_at_a_different_level_is_written()
     {
         $this->logger->error('Database is read-only');

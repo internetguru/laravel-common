@@ -108,7 +108,7 @@ class GeolocationService
             $location = $this->fetchLocation($ip);
             RateLimiter::hit('geoip-lookup', 60); // 60 seconds cooldown
         } catch (ConnectionException $e) {
-            Log::warning('GeoIP lookup timed out.', ['ip' => $ip, 'message' => $e->getMessage()]);
+            Log::warning('GeoIP lookup timed out.', ['message' => $e->getMessage()]);
             throw new GeolocationServiceException('GeoIP lookup timed out: ' . $e->getMessage());
         } catch (\Exception $e) {
             throw new GeolocationServiceException('GeoIP lookup failed: ' . $e->getMessage());

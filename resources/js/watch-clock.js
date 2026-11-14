@@ -304,7 +304,44 @@ export function isWatchRequest(payload) {
     }
 }
 
+// A field bound with wire:model gets its value from Livewire, not from its HTML, so the value it
+// starts with is recorded as its baseline; a prefilled field is not taken for one being edited
+const baselines = new WeakMap();
+
+const isBound = (field) => [...field.attributes].some((attribute) => attribute.name.startsWith('wire:model'));
+
+const fieldState = (field) => {
+    if (field.type === 'checkbox' || field.type === 'radio') {
+        return String(field.checked);
+    }
+    if (field.type === 'file') {
+        return String(field.files.length);
+    }
+    if (field instanceof HTMLSelectElement) {
+        return [...field.selectedOptions].map((option) => option.value).join('\n');
+    }
+    return field.value;
+};
+
+const recordBaselines = (root) => root.querySelectorAll('input, textarea, select').forEach((field) => {
+    if (!baselines.has(field) && isBound(field)) {
+        baselines.set(field, fieldState(field));
+    }
+});
+
+// wire:model sets the value after Livewire starts or morphs, so wait a frame
+const recordBaselinesLater = (root) => requestAnimationFrame(() => recordBaselines(root));
+
+document.addEventListener('livewire:initialized', () => recordBaselinesLater(document));
+document.addEventListener('livewire:navigated', () => recordBaselinesLater(document));
+document.addEventListener('livewire:init', () => {
+    window.Livewire?.hook?.('morphed', ({ el }) => recordBaselinesLater(el));
+});
+
 const isFieldDirty = (field) => {
+    if (baselines.has(field)) {
+        return fieldState(field) !== baselines.get(field);
+    }
     if (field.type === 'checkbox' || field.type === 'radio') {
         return field.checked !== field.defaultChecked;
     }

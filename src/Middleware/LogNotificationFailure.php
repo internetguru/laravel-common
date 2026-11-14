@@ -11,9 +11,12 @@ class LogNotificationFailure
     {
         try {
             return $next($job);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             if ($job->attempts() < $job->tries) {
-                Log::warning('Notification failed, retrying: ' . $e->getMessage());
+                Log::warning('Notification failed, retrying', [
+                    'exception' => $e,
+                    'notification' => $job->notification::class,
+                ]);
                 $job->release($job->notification->backoff);
 
                 return;

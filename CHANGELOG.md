@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- `x-ig::page-heading` renders the page heading with a remark: as the tooltip of a `badge` above the heading (below the heading with `:tooltip="false"`, in its own `description-variant` if given), or below the heading without one, given a color and an icon by `variant` (a badge is info without one, a remark below the heading plain text); a `badge` slot puts markup of your own above the heading instead; an `Htmlable` heading keeps its markup.
+
+### Changed
+
+- **Required on update:** publish the migrations (`--tag=ig-common:migrations`) and migrate before sending mail, or every sent mail fails; an app without a published `add_mail_logs_table` keeps only the new `drop_bodies_from_mail_logs` one. Mail logs then record the notification class instead of the body, which is no longer kept, and the stored bodies are emptied. `MailLog::log()` takes the notification class as its fourth argument.
+- Labels in the `info`, `success`, `warning` and `danger` variants take the color of the notice of the same type from `ig::common/label`, so a page heading badge matches the demo and other notices and follows the app's `$primary`; elsewhere, such as in an email, they keep their palette tone.
+- The `danger` label variant is a full red instead of the mild salmon tone, matching Bootstrap's danger color.
+- Danger notices show the warning triangle in red instead of an exclamation mark in a circle, which read too much like the info icon at text size.
+- The demo, read-only and system notices center their text with the icon right before the first word, like the page heading description, instead of hanging the icon left of a left-aligned column.
+- `JsonDailyLogger` adds only `user.id`, a `session` hash, `branch`, `commit` and `request_info` (`url`, `ip`, `http_method`, `server`) to each line; the user's name and e-mail, `request_input`, the raw `session_id`, the referrer and the user agent are gone, so pass what a line is about in its context, as ids.
+- `LogRequest` is off by default and logs `Incoming request` at debug; set `IG_LOG_REQUESTS=true` to keep it.
+- Log deduplication tells records apart by their context too, leaving out the exception, so the same message about another order or user is no longer swallowed.
+- Retried notification failures, image problems, GeoIP timeouts and discarded Livewire payloads log their exception and notification class in context, the page path instead of the full URL, and no duplicate IP.
+
+### Fixed
+
+- A label given a variant tone from `Palette::variant()` as its `color`, now a custom property with a fallback, is drawn in it instead of gray.
+- The page watcher reloads a page whose form Livewire prefilled, such as the complaint date in the footer, instead of taking the prefilled field for one being edited and showing a notice.
+
+### Security
+
+- Logs no longer carry request input, so password confirmations, sign-in PINs, API keys typed into forms and Livewire form values stay out of them, and sent mail bodies with sign-in PINs are no longer logged or stored.
+
 ## [9.5.0] - 2026-11-14
 
 _Stable release based on [9.5.0-rc.1]._
@@ -2469,6 +2496,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://github.com/internetguru/laravel-common/compare/staging...dev
 [9.5.0]: https://github.com/internetguru/laravel-common/compare/v9.4.0...v9.5.0
 [9.5.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v9.4.0
 [9.4.0]: https://github.com/internetguru/laravel-common/compare/v9.3.0...v9.4.0
