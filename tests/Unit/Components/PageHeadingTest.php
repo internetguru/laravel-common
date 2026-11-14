@@ -40,7 +40,7 @@ class PageHeadingTest extends TestCase
     {
         $html = $this->blade("<x-ig::page-heading heading=\"Orders\">\n    </x-ig::page-heading>");
 
-        $html->assertSee('>Orders</h1>', false);
+        $html->assertSee('<h1>Orders</h1>', false);
         $html->assertDontSee('page-heading-desc', false);
     }
 
