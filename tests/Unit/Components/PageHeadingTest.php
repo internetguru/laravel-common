@@ -105,4 +105,18 @@ class PageHeadingTest extends TestCase
         $this->assertLessThan(strpos($html, 'data-testid="page-heading-desc"'), strpos($html, '<h1'));
         $this->assertStringNotContainsString('data-bs-toggle', $html);
     }
+
+    public function test_an_htmlable_heading_keeps_its_markup()
+    {
+        $html = $this->blade('<x-ig::page-heading :heading="new Illuminate\Support\HtmlString(\'Reservation <tt>ABC</tt>\')" />');
+
+        $html->assertSee('<h1>Reservation <tt>ABC</tt></h1>', false);
+    }
+
+    public function test_a_string_heading_is_escaped()
+    {
+        $html = $this->blade('<x-ig::page-heading heading="Fish &amp; <b>chips</b>" />');
+
+        $html->assertDontSee('<b>chips</b>', false);
+    }
 }

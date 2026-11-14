@@ -2,6 +2,7 @@
 
 namespace InternetGuru\LaravelCommon\View\Components;
 
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\Component;
@@ -26,21 +27,22 @@ class PageHeading extends Component
     public string $badgeIcon;
 
     /**
-     * @param  string  $heading  The heading itself.
+     * @param  string|Htmlable  $heading  The heading itself; an Htmlable keeps its markup.
      * @param  string|null  $badge  The text of a badge above the heading.
      * @param  string  $variant  One of info, success, warning or danger.
      * @param  string|null  $icon  Font Awesome classes replacing the variant's icon on the badge.
      * @param  bool  $tooltip  With a badge, make the remark its tooltip; false writes it below the heading.
      */
     public function __construct(
-        public string $heading,
+        public string|Htmlable $heading,
         public ?string $badge = null,
         public string $variant = 'info',
         ?string $icon = null,
         public bool $tooltip = true,
     ) {
         if (! isset(self::ICONS[$variant])) {
-            $this->fail("Page heading '{$heading}' has an unknown variant: {$variant}");
+            $name = $heading instanceof Htmlable ? strip_tags($heading->toHtml()) : $heading;
+            $this->fail("Page heading '{$name}' has an unknown variant: {$variant}");
             $this->variant = 'info';
         }
         $this->badgeIcon = $icon ?? 'fa-solid fa-fw ' . self::ICONS[$this->variant];

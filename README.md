@@ -1087,7 +1087,7 @@ Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are
 
 | Attribute | Default | Description |
 |-----------|---------|-------------|
-| `heading` | required | The text of the `h1`. Other attributes go on the `h1`. |
+| `heading` | required | The text of the `h1`, escaped; pass an `HtmlString` to keep markup. Other attributes go on the `h1`. |
 | `badge` | `null` | A label above the heading. The slot becomes its tooltip. |
 | `variant` | `info` | `info`, `success`, `warning` or `danger`. It colors the badge or the remark and picks its icon. |
 | `icon` | `null` | Font Awesome classes that replace the variant's icon on the badge. |

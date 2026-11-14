@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- `x-ig::page-heading` renders the page heading with a remark: as the tooltip of a `badge` above the heading (below the heading with `:tooltip="false"`), or below the heading without one, colored and given an icon by `variant` (info by default); a `badge` slot puts markup of your own above the heading instead.
+- `x-ig::page-heading` renders the page heading with a remark: as the tooltip of a `badge` above the heading (below the heading with `:tooltip="false"`), or below the heading without one, colored and given an icon by `variant` (info by default); a `badge` slot puts markup of your own above the heading instead; an `Htmlable` heading keeps its markup.
 
 ### Fixed
 
