@@ -34,6 +34,15 @@ class MailLogTest extends TestCase
         Log::shouldHaveReceived('info')->with('Mail sent', \Mockery::on(fn (array $context) => ! array_key_exists('body', $context)));
     }
 
+    public function test_creating_the_table_again_leaves_it_and_its_rows_alone()
+    {
+        DB::table('mail_logs')->insert(['to' => 'jane@example.com', 'subject' => 'PIN', 'body' => 'Hello']);
+
+        (require __DIR__ . '/../../../database/migrations/2025_05_15_000000_add_mail_logs_table.php')->up();
+
+        $this->assertSame(1, DB::table('mail_logs')->count());
+    }
+
     public function test_migration_empties_the_bodies_already_stored()
     {
         DB::table('mail_logs')->insert(['to' => 'jane@example.com', 'subject' => 'PIN', 'body' => 'Your PIN is 483920']);
