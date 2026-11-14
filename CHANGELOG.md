@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - The `danger` label variant is a full red instead of the mild salmon tone, matching Bootstrap's danger color.
+- Danger notices show the warning triangle in red instead of an exclamation mark in a circle, which read too much like the info icon at text size.
 
 ### Fixed
 

@@ -21,7 +21,7 @@ class PageHeading extends Component
         'info' => 'fa-circle-info',
         'success' => 'fa-circle-check',
         'warning' => 'fa-triangle-exclamation',
-        'danger' => 'fa-circle-exclamation',
+        'danger' => 'fa-triangle-exclamation',
     ];
 
     public string $badgeIcon;

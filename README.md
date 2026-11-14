@@ -1097,7 +1097,7 @@ Styles come from `ig::common/label`. Labels, card badges and tag cloud chips are
 - With a badge, the slot is its tooltip, and nothing is written below the heading.
 - A `badge` slot (`<x-slot:badge>`) stands above the heading in place of the label, for a badge of your own such as a live status; it carries its own explanation, so the default slot is not shown unless `tooltip` is `false`.
 - Without a badge, the slot follows the heading as a remark, with the variant's icon when a variant is given, or nothing when the slot is empty.
-- Register the solid `faCircleInfo`, `faCircleCheck`, `faTriangleExclamation` and `faCircleExclamation` icons. The application initializes Bootstrap tooltips.
+- Register the solid `faCircleInfo`, `faCircleCheck` and `faTriangleExclamation` icons; warning and danger share the triangle. The application initializes Bootstrap tooltips.
 - Styles come from `ig::common/page-heading`.
 
 ### Demo Info Blade Component
@@ -1128,7 +1128,7 @@ $notice-max-width: 30em;
 @import 'ig::common/notice';
 ```
 
-The types `info`, `success`, `warning` and `danger` each get their own icon (circle-info, circle-check, triangle-exclamation, circle-exclamation) and colour, set by `$notice-{type}-color` and `$notice-{type}-icon`. The icons are drawn in CSS, so they need no Font Awesome registration. The other `$notice-*` variables set the column width, the icon width and the text and link colours; give them before the stylesheet is imported.
+The types `info`, `success`, `warning` and `danger` each get an icon (circle-info, circle-check, and triangle-exclamation for both warning and danger) and a colour, set by `$notice-{type}-color` and `$notice-{type}-icon`. The icons are drawn in CSS, so they need no Font Awesome registration. The other `$notice-*` variables set the column width, the icon width and the text and link colours; give them before the stylesheet is imported.
 
 ### Email Feedback Blade Component
 
