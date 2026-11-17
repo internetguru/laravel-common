@@ -36,6 +36,17 @@ $ig-label-slim-gap: .4em !default;
             vertical-align: -0.1em;
             margin-right: $ig-label-gap;
         }
+
+        @if $ig-label-wrap {
+            @include ig-chip-hanging-mark($mark: $ig-label-icon-width);
+
+            i,
+            svg {
+                @include ig-chip-mark-hung;
+                width: $ig-label-icon-width;
+                text-align: center;
+            }
+        }
     }
 
     // Cut down for the places a label is read inside a line of text rather than
@@ -49,6 +60,23 @@ $ig-label-slim-gap: .4em !default;
         &::before,
         svg {
             margin-right: $ig-label-slim-gap;
+        }
+
+        @if $ig-label-wrap {
+            @include ig-chip-hanging-mark($ig-label-slim-padding, $ig-label-slim-gap);
+
+            &::before {
+                @include ig-chip-mark-hung($ig-label-slim-padding, $ig-label-dot-lift);
+            }
+
+            &.ig-label-icon {
+                @include ig-chip-hanging-mark($ig-label-slim-padding, $ig-label-slim-gap, $ig-label-icon-width);
+
+                i,
+                svg {
+                    @include ig-chip-mark-hung($ig-label-slim-padding);
+                }
+            }
         }
     }
 }
