@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - A chip that wraps (`$ig-label-wrap: true`) indents every line of its text as far as the first one, and its dot or icon moves half a line down to stand between the first two lines.
+- A chip's dot is centred on the chip: `$ig-label-dot-lift` is 0 by default, .1em before.
 
 ## [9.6.2] - 2026-11-14
 
