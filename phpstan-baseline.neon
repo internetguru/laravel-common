@@ -103,12 +103,6 @@ parameters:
 			path: src/Http/Middleware/ReportImageProblems.php
 
 		-
-			message: '#^Possibly invalid array key type string\|null\.$#'
-			identifier: offsetAccess.invalidOffset
-			count: 1
-			path: src/Http/Middleware/ReportImageProblems.php
-
-		-
 			message: '#^Method InternetGuru\\LaravelCommon\\Http\\Middleware\\SetPrevPage\:\:handle\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
