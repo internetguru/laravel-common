@@ -41,6 +41,7 @@ use Monolog\Handler\NullHandler;
 
 class CommonServiceProvider extends ServiceProvider
 {
+    /** @var list<class-string> */
     protected array $webMiddleware = [
         CheckPostItemNames::class,
         InjectMetaRobots::class,

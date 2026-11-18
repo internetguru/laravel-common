@@ -9,6 +9,7 @@ use InternetGuru\LaravelCommon\Models\MailLog;
 
 class LogSentNotification
 {
+    /** @return void */
     public function handle(NotificationSent $event)
     {
         if ($event->channel !== 'mail') {

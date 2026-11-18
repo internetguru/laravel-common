@@ -22,6 +22,8 @@ class Helpers
      *  - version: VERSION file content
      *  - branch: Git branch or [detached]
      *  - commit: Git commit
+     *
+     * @return array{app_name: string, environment: string, version: string, branch: string, commit: string}
      */
     public static function getAppInfoArray(): array
     {
@@ -58,6 +60,8 @@ class Helpers
      *  - route: The route to the segment
      *  - translation: The translation of the segment
      *  - class: Additional classes to add to the segment
+     *
+     * @return list<array{uri: string, translation: string}>
      */
     public static function parseUrlPath(string $homeRoute = 'home', int $skipFirst = 0): array
     {
@@ -148,6 +152,7 @@ class Helpers
         return $segments;
     }
 
+    /** @param  string  $homeRoute */
     public static function createTitle(string $separator = ' – ', $homeRoute = 'home'): string
     {
         return implode(

@@ -3,9 +3,15 @@
 namespace InternetGuru\LaravelCommon\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class SetPrevPage
 {
+    /**
+     * @param  Request  $request
+     * @return Response
+     */
     public function handle($request, Closure $next)
     {
         // accept only GET requests

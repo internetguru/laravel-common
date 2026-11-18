@@ -12,6 +12,10 @@ class Translator extends BaseTranslator
 {
     private bool $logMissingTranslations = true;
 
+    /**
+     * @param  array<string, mixed>  $replace
+     * @return string|array<array-key, mixed>
+     */
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
         $line = parent::get($key, $replace, $locale, $fallback);
@@ -44,6 +48,9 @@ class Translator extends BaseTranslator
 
     /**
      * Rewrite of the original method to allow for logging missing translations
+     *
+     * @param  \Countable|int|float|array<array-key, mixed>  $number
+     * @param  array<string, mixed>  $replace
      */
     public function choice($key, $number, array $replace = [], $locale = null)
     {
@@ -68,7 +75,8 @@ class Translator extends BaseTranslator
         );
     }
 
-    private function checkMissingTranslation($key, $line, $locale = null)
+    /** @param  string|array<array-key, mixed>  $line */
+    private function checkMissingTranslation(string $key, string|array $line, ?string $locale = null): void
     {
         if ($line && $line !== $key) {
             return;
@@ -84,7 +92,11 @@ class Translator extends BaseTranslator
         $this->log($message);
     }
 
-    private function checkMissingVariables($key, $line, $replace, $locale = null)
+    /**
+     * @param  string|array<array-key, mixed>  $line
+     * @param  array<string, mixed>  $replace
+     */
+    private function checkMissingVariables(string $key, string|array $line, array $replace, ?string $locale = null): void
     {
         if (! is_string($line)) {
             return;
@@ -113,7 +125,7 @@ class Translator extends BaseTranslator
         }
     }
 
-    private function log(string $message)
+    private function log(string $message): void
     {
         if (! $this->logMissingTranslations) {
             return;
@@ -125,6 +137,7 @@ class Translator extends BaseTranslator
         throw new TranslatorException($message);
     }
 
+    /** @return array<int, string> */
     private function getAvailableLocales(): array
     {
         $locales = [];

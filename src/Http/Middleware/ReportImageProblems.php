@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 /**
  * Checks every image on an HTML page for what it needs to be laid out and read:
@@ -41,6 +42,7 @@ class ReportImageProblems
         . 'img[data-ig-image-warning=low]{outline:0.2rem dotted #fd7e14}'
         . '</style>';
 
+    /** @return SymfonyResponse */
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
@@ -147,7 +149,11 @@ class ReportImageProblems
         return trim($attributes[$name] ?? '') !== '' || $this->isBound($attributes, $name);
     }
 
-    /** An Alpine or Vue binding sets the attribute in the browser. */
+    /**
+     * An Alpine or Vue binding sets the attribute in the browser.
+     *
+     * @param  array<string, string>  $attributes
+     */
     protected function isBound(array $attributes, string $name): bool
     {
         return array_key_exists(":{$name}", $attributes) || array_key_exists("x-bind:{$name}", $attributes);

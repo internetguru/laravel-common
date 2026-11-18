@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 
 class MailMessage extends BaseMailMessage
 {
+    /** @var array<string, mixed> */
     protected array $extraMailData = [];
 
     protected string $refNumber;
@@ -28,7 +29,7 @@ class MailMessage extends BaseMailMessage
     /**
      * Set the "to" recipients of the message.
      *
-     * @param  array|string  $address  Email address or array of [email => name] pairs
+     * @param  array<int|string, string>|string  $address  Email address or array of [email => name] pairs
      * @param  string|null  $name
      */
     public function to($address, $name = null): static
@@ -53,6 +54,7 @@ class MailMessage extends BaseMailMessage
         $this->refNumber = Str::ref(5);
     }
 
+    /** @return $this */
     public function setRefNumber(string $refNumber, ?string $refLabel = null)
     {
         $this->refNumber = $refNumber;
@@ -97,6 +99,7 @@ class MailMessage extends BaseMailMessage
         return parent::view($view, array_merge($data, $this->extraMailData));
     }
 
+    /** @return array<string, mixed> */
     public function data()
     {
         $data = parent::data();
@@ -122,6 +125,7 @@ class MailMessage extends BaseMailMessage
         return $data;
     }
 
+    /** @param  array<string, mixed>  $data */
     public function setExtraMailData(array $data): static
     {
         $this->extraMailData = array_merge($this->extraMailData, $data);

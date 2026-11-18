@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use InternetGuru\LaravelCommon\Support\Sanitizer;
 
-function initRequestMacros()
+function initRequestMacros(): void
 {
     // The sanitized input, without validating anything. For a controller that
     // reads $request->input() rather than the array validate() returns.
@@ -73,7 +73,7 @@ function initRequestMacros()
     });
 }
 
-function initStringMacros()
+function initStringMacros(): void
 {
     Str::macro('ref', function (int $length = 6) {
         throw_if($length < 2, new InvalidArgumentException('Length must be at least 2'));
@@ -99,7 +99,7 @@ function initStringMacros()
     });
 }
 
-function initNumberMacros()
+function initNumberMacros(): void
 {
     // The symbol of a currency as the locale writes it, e.g. "Kč" for CZK in Czech
     Number::macro('currencySymbol', function (?string $in = null, ?string $locale = null): string {
@@ -110,7 +110,7 @@ function initNumberMacros()
     });
 }
 
-function initCarbonMacros()
+function initCarbonMacros(): void
 {
     // Override English "X from now" to "in X" to match other locales
     Translator::get('en')->setTranslations([

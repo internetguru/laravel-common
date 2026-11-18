@@ -552,6 +552,7 @@ class Sanitizer
      * properties use onto the snake_case one request fields use.
      *
      * @param  array<string, string>  $map
+     * @param  array<int, string>  $path
      */
     private function matchName(array $map, array $path): ?string
     {

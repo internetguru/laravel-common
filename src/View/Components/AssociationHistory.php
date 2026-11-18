@@ -3,6 +3,7 @@
 namespace InternetGuru\LaravelCommon\View\Components;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +15,7 @@ use InternetGuru\LaravelCommon\Models\AssociationHistory as AssociationHistoryMo
 
 class AssociationHistory extends Component
 {
+    /** @var list<array{author_id: int|string|null, author_name: ?string, anchor: ?CarbonInterface, time: ?CarbonInterface, entries: list<AssociationHistoryModel>, is_creation: bool}> */
     public $groups;
 
     /**

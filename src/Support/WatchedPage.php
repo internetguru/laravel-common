@@ -87,7 +87,10 @@ class WatchedPage
         return md5(json_encode(array_map(self::read(...), $sources), JSON_THROW_ON_ERROR));
     }
 
-    /** @return Source */
+    /**
+     * @param  Model|array<int, mixed>  $source
+     * @return Source
+     */
     private static function describe(Model|array $source): array
     {
         if ($source instanceof Model) {
