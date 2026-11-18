@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- The local Mailpit inbox link uses the app's own Mailpit port from `MAILPIT_PORT` (config `ig-common.mailpit_port`, default 8025), so apps running side by side no longer link to another app's inbox.
+
 ## [9.6.2] - 2026-11-14
 
 ### Fixed

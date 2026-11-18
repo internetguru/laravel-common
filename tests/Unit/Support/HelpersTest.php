@@ -114,6 +114,19 @@ class HelpersTest extends TestCase
         $this->assertStringContainsString('href=', $link);
     }
 
+    public function test_get_email_client_link_with_mailpit_on_its_own_port()
+    {
+        Config::set('mail.default', 'smtp');
+        Config::set('mail.mailers.smtp.host', 'mailpit');
+        Config::set('app.env', 'local');
+        Config::set('app.url', 'http://192.168.1.10:8001');
+        Config::set('ig-common.mailpit_port', 8101);
+
+        $link = Helpers::getEmailClientLink();
+
+        $this->assertStringContainsString('href="http://192.168.1.10:8101"', $link);
+    }
+
     public function test_get_email_client_link_with_mailpit_production()
     {
         Config::set('mail.default', 'smtp');
