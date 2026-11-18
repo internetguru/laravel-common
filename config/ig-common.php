@@ -10,6 +10,9 @@ return [
     'umami_identify' => env('UMAMI_IDENTIFY', true),
     'umami_identify_hash' => env('UMAMI_IDENTIFY_HASH', false),
 
+    // The local Mailpit's web port, which docker-ansible moves off 8025 when apps run side by side
+    'mailpit_port' => env('MAILPIT_PORT', 8025),
+
     // Route URI prefixes that should be treated as error pages in breadcrumbs
     // (no navigation generated, prevents missing translation warnings)
     'breadcrumb_skip_prefixes' => [

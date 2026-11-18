@@ -163,7 +163,7 @@ class Helpers
         // Generate link to Mailpit inbox
         $link = config('app.url');
         if (config('app.env') == 'local') {
-            $link = parse_url($link, PHP_URL_SCHEME) . '://' . parse_url($link, PHP_URL_HOST) . ':8025';
+            $link = parse_url($link, PHP_URL_SCHEME) . '://' . parse_url($link, PHP_URL_HOST) . ':' . config('ig-common.mailpit_port');
         } else {
             $link = preg_replace('/^(https?:\/\/)/', '$1mail.', config('app.url'));
         }

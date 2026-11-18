@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [9.6.3] - 2026-11-18
+
+### Fixed
+
+- The local Mailpit inbox link uses the app's own Mailpit port from `MAILPIT_PORT` (config `ig-common.mailpit_port`, default 8025), so apps running side by side no longer link to another app's inbox.
+
 ## [9.6.2] - 2026-11-14
 
 ### Fixed
@@ -2512,6 +2518,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[9.6.3]: https://github.com/internetguru/laravel-common/compare/v9.6.2...v9.6.3
 [9.6.2]: https://github.com/internetguru/laravel-common/compare/v9.6.1...v9.6.2
 [9.6.1]: https://github.com/internetguru/laravel-common/compare/v9.6.0...v9.6.1
 [9.6.0]: https://github.com/internetguru/laravel-common/compare/v9.5.0...v9.6.0
