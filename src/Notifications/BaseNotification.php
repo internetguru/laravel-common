@@ -42,8 +42,8 @@ abstract class BaseNotification extends Notification implements ShouldQueue
         if (app()->runningInConsole() && ! app()->runningUnitTests()) {
             return;
         }
-        $this->ipAddress = request()?->ip();
-        $this->userId = auth()?->id();
+        $this->ipAddress = request()->ip();
+        $this->userId = auth()->id();
         $this->url = session('currentPage', null);
     }
 

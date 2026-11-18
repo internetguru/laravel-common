@@ -178,7 +178,7 @@ class Handler extends ExceptionHandler
      */
     private function flashErrorAndReload(string $message, int $statusCode)
     {
-        session()->flash('errors', (new ViewErrorBag)->put('default', new MessageBag([$message])));
+        session()->flash('errors', (new ViewErrorBag)->put('default', new MessageBag(['error' => [$message]])));
 
         return response()->json(['message' => $message], $statusCode);
     }

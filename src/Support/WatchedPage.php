@@ -12,10 +12,12 @@ use InvalidArgumentException;
  *
  * A source must be rebuildable in a later request, because the check runs long after the
  * page was rendered: an Eloquent model, or a static callable with scalar arguments.
+ *
+ * @phpstan-type Source array{type: 'model', class: class-string<Model>, key: mixed}|array{type: 'callable', class: class-string, method: string, arguments: list<scalar|null>}
  */
 class WatchedPage
 {
-    /** @var list<array{type: 'model', class: class-string<Model>, key: mixed}|array{type: 'callable', class: class-string, method: string, arguments: list<scalar|null>}> */
+    /** @var list<Source> */
     private array $sources = [];
 
     /** @var list<mixed> */
@@ -85,7 +87,7 @@ class WatchedPage
         return md5(json_encode(array_map(self::read(...), $sources), JSON_THROW_ON_ERROR));
     }
 
-    /** @return array<string, mixed> */
+    /** @return Source */
     private static function describe(Model|array $source): array
     {
         if ($source instanceof Model) {
@@ -93,7 +95,7 @@ class WatchedPage
         }
 
         [$class, $method, $arguments] = $source + [2 => []];
-        if ($class instanceof Closure || ! is_string($class) || ! is_string($method) || ! is_callable([$class, $method])) {
+        if ($class instanceof Closure || ! is_string($class) || ! class_exists($class) || ! is_string($method) || ! is_callable([$class, $method])) {
             throw new InvalidArgumentException('A watched source must be a model or a static [Class::class, \'method\'] callable.');
         }
         foreach ($arguments as $argument) {
@@ -109,7 +111,7 @@ class WatchedPage
     private static function read(array $source): mixed
     {
         if ($source['type'] === 'callable') {
-            return call_user_func([$source['class'], $source['method']], ...$source['arguments']);
+            return $source['class']::{$source['method']}(...$source['arguments']);
         }
 
         $model = $source['class']::find($source['key']);
@@ -122,7 +124,7 @@ class WatchedPage
     {
         return [
             $model->getKey(),
-            $model->usesTimestamps() ? $model->getAttribute($model->getUpdatedAtColumn()) : null,
+            $model->usesTimestamps() ? $model->getAttribute((string) $model->getUpdatedAtColumn()) : null,
             $model instanceof HasPageFingerprint ? $model->pageFingerprint() : null,
         ];
     }

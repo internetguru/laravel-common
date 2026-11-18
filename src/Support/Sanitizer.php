@@ -582,7 +582,7 @@ class Sanitizer
                 }
 
                 foreach ($map as $pattern => $pipeline) {
-                    if (is_string($pattern) && str_contains($pattern, '*') && Str::is($pattern, $name)) {
+                    if (str_contains($pattern, '*') && Str::is($pattern, $name)) {
                         return $pipeline;
                     }
                 }

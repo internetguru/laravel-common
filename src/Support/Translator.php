@@ -94,7 +94,7 @@ class Translator extends BaseTranslator
             return;
         }
         preg_match_all('/(?<!:):[a-zA-Z_]\w*/', $line, $matches);
-        $placeholders = $matches[0] ?? [];
+        $placeholders = $matches[0];
 
         $providedVariables = array_map(fn ($k) => ':' . $k, array_keys($replace));
         // allow to use $provided varaibles multiple times

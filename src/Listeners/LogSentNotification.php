@@ -4,6 +4,7 @@ namespace InternetGuru\LaravelCommon\Listeners;
 
 use Illuminate\Mail\SentMessage;
 use Illuminate\Notifications\Events\NotificationSent;
+use Symfony\Component\Mime\Email;
 use InternetGuru\LaravelCommon\Models\MailLog;
 
 class LogSentNotification
@@ -19,8 +20,11 @@ class LogSentNotification
         }
 
         $message = $event->response->getOriginalMessage();
+        if (! $message instanceof Email) {
+            return;
+        }
         $headers = $message->getHeaders();
-        $to = $headers->get('to')->toString();
+        $to = $headers->get('to')?->toString() ?? '';
         $replyTo = $headers->get('reply-to')?->toString() ?? null;
         $subject = $message->getSubject() ?? 'n/a';
 

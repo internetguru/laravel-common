@@ -21,6 +21,9 @@ class AssociationHistory extends Model
 
     public function author(): BelongsTo
     {
-        return $this->belongsTo(config('auth.providers.users.model'), 'author_id');
+        /** @var class-string<Model> $userModel */
+        $userModel = config('auth.providers.users.model');
+
+        return $this->belongsTo($userModel, 'author_id');
     }
 }

@@ -83,7 +83,7 @@ class GeolocationService
         }
 
         if (! $ip) {
-            $ip = request()->ip();
+            $ip = request()->ip() ?? '';
         }
 
         // A private or reserved address, such as in local development or tests, has no location to look up
@@ -114,10 +114,6 @@ class GeolocationService
             throw new GeolocationServiceException('GeoIP lookup failed: ' . $e->getMessage());
         } finally {
             set_time_limit($previousLimit);
-        }
-
-        if (! $location) {
-            throw new GeolocationServiceException('Could not resolve location from IP: ' . $ip);
         }
 
         Cache::put($cacheKey, $location);

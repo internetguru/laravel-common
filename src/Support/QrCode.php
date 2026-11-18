@@ -27,6 +27,8 @@ class QrCode
             new SvgImageBackEnd
         ));
 
-        return preg_replace('/^<\?xml.*?\?>\s*/', '', $writer->writeString($content));
+        $svg = $writer->writeString($content);
+
+        return preg_replace('/^<\?xml.*?\?>\s*/', '', $svg) ?? $svg;
     }
 }

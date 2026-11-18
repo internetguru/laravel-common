@@ -1,24 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Cannot access offset ''config'' on Illuminate\\Contracts\\Foundation\\Application\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 8
-			path: src/CommonServiceProvider.php
-
-		-
-			message: '#^Class Internetguru\\LaravelCommon\\Livewire\\Messages referenced with incorrect case\: InternetGuru\\LaravelCommon\\Livewire\\Messages\.$#'
-			identifier: class.nameCase
-			count: 2
-			path: src/CommonServiceProvider.php
-
-		-
-			message: '#^Instanceof between Orchestra\\Testbench\\Http\\Kernel and Illuminate\\Foundation\\Http\\Kernel will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: src/CommonServiceProvider.php
-
-		-
 			message: '#^Property InternetGuru\\LaravelCommon\\CommonServiceProvider\:\:\$webMiddleware type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -39,12 +21,6 @@ parameters:
 		-
 			message: '#^Method InternetGuru\\LaravelCommon\\Exceptions\\Handler\:\:flashErrorAndReload\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: src/Exceptions/Handler.php
-
-		-
-			message: '#^Parameter \#1 \$messages of class Illuminate\\Support\\MessageBag constructor expects array\<string, array\<string\>\|Illuminate\\Contracts\\Support\\Arrayable\|string\>, array\<int, string\> given\.$#'
-			identifier: argument.type
 			count: 1
 			path: src/Exceptions/Handler.php
 
@@ -91,18 +67,6 @@ parameters:
 			path: src/Http/Middleware/ReportImageProblems.php
 
 		-
-			message: '#^Method InternetGuru\\LaravelCommon\\Http\\Middleware\\ReportImageProblems\:\:marked\(\) should return string but returns string\|null\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Http/Middleware/ReportImageProblems.php
-
-		-
-			message: '#^Offset string\|null might not exist on array\{critical\: ''error'', severe\: ''warning'', medium\: ''notice'', low\: ''info''\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/Http/Middleware/ReportImageProblems.php
-
-		-
 			message: '#^Method InternetGuru\\LaravelCommon\\Http\\Middleware\\SetPrevPage\:\:handle\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -115,148 +79,100 @@ parameters:
 			path: src/Http/Middleware/SetPrevPage.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\Mime\\RawMessage\:\:getHeaders\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Listeners/LogSentNotification.php
-
-		-
-			message: '#^Call to an undefined method Symfony\\Component\\Mime\\RawMessage\:\:getSubject\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Listeners/LogSentNotification.php
-
-		-
 			message: '#^Method InternetGuru\\LaravelCommon\\Listeners\\LogSentNotification\:\:handle\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/Listeners/LogSentNotification.php
 
 		-
-			message: '#^Cannot call method all\(\) on class\-string\|object\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/Livewire/Messages.php
-
-		-
-			message: '#^Cannot call method getBags\(\) on class\-string\|object\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/Livewire/Messages.php
-
-		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:addMessage\(\) has no return type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:addMessage\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:addMessage\(\) has parameter \$content with no type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:addMessage\(\) has parameter \$content with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:addMessage\(\) has parameter \$type with no type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:addMessage\(\) has parameter \$type with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:handleMessage\(\) has no return type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:handleMessage\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:handleMessage\(\) has parameter \$message with no type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:handleMessage\(\) has parameter \$message with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:handleMessage\(\) has parameter \$type with no type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:handleMessage\(\) has parameter \$type with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:loadSessionMessages\(\) has no return type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:loadSessionMessages\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:mount\(\) has no return type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:mount\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:removeMessage\(\) has no return type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:removeMessage\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:removeMessage\(\) has parameter \$index with no type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:removeMessage\(\) has parameter \$index with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:removeMessageQuietly\(\) has no return type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:removeMessageQuietly\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:removeMessageQuietly\(\) has parameter \$index with no type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:removeMessageQuietly\(\) has parameter \$index with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Method Internetguru\\LaravelCommon\\Livewire\\Messages\:\:render\(\) has no return type specified\.$#'
+			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:render\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/Livewire/Messages.php
 
 		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Livewire/Messages.php
-
-		-
-			message: '#^Property Internetguru\\LaravelCommon\\Livewire\\Messages\:\:\$messages has no type specified\.$#'
+			message: '#^Property InternetGuru\\LaravelCommon\\Livewire\\Messages\:\:\$messages has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
 			path: src/Livewire/Messages.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Livewire/PageWatch.php
 
 		-
 			message: '#^Method InternetGuru\\LaravelCommon\\Livewire\\RejectMalformedPayload\:\:uniformElementShape\(\) has parameter \$values with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Livewire/RejectMalformedPayload.php
-
-		-
-			message: '#^Access to an undefined property InternetGuru\\LaravelCommon\\Mail\\MailMessage\:\:\$to\.$#'
-			identifier: property.notFound
-			count: 3
-			path: src/Mail/MailMessage.php
-
-		-
-			message: '#^Call to an undefined static method Illuminate\\Support\\Str\:\:ref\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: src/Mail/MailMessage.php
 
 		-
 			message: '#^Method InternetGuru\\LaravelCommon\\Mail\\MailMessage\:\:data\(\) return type has no value type specified in iterable type array\.$#'
@@ -279,18 +195,6 @@ parameters:
 		-
 			message: '#^Method InternetGuru\\LaravelCommon\\Mail\\MailMessage\:\:to\(\) has parameter \$address with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/Mail/MailMessage.php
-
-		-
-			message: '#^Property Illuminate\\Notifications\\Messages\\MailMessage\:\:\$from \(array\|array\<mixed\>\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
-			count: 1
-			path: src/Mail/MailMessage.php
-
-		-
-			message: '#^Property Illuminate\\Notifications\\Messages\\MailMessage\:\:\$replyTo \(array\<array\<mixed\>\>\) on left side of \?\? is not nullable\.$#'
-			identifier: nullCoalesce.property
 			count: 1
 			path: src/Mail/MailMessage.php
 
@@ -325,12 +229,6 @@ parameters:
 			path: src/Middleware/TimezoneMiddleware.php
 
 		-
-			message: '#^Unable to resolve the template type TRelatedModel in call to method Illuminate\\Database\\Eloquent\\Model\:\:belongsTo\(\)$#'
-			identifier: argument.templateType
-			count: 1
-			path: src/Models/AssociationHistory.php
-
-		-
 			message: '#^Method InternetGuru\\LaravelCommon\\Notifications\\BaseNotification\:\:getExtraMailData\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -349,42 +247,6 @@ parameters:
 			path: src/Notifications/BaseNotification.php
 
 		-
-			message: '#^Parameter \#1 \$view of method InternetGuru\\LaravelCommon\\Mail\\MailMessage\:\:view\(\) expects array\<view\-string\>\|view\-string, array\<string, string\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Notifications/BaseNotification.php
-
-		-
-			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Auth\\AuthManager\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: src/Notifications/BaseNotification.php
-
-		-
-			message: '#^Using nullsafe method call on non\-nullable type Illuminate\\Http\\Request\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: src/Notifications/BaseNotification.php
-
-		-
-			message: '#^Negated boolean expression is always false\.$#'
-			identifier: booleanNot.alwaysFalse
-			count: 1
-			path: src/Services/GeolocationService.php
-
-		-
-			message: '#^Parameter \#1 \$ip of method InternetGuru\\LaravelCommon\\Services\\GeolocationService\:\:fetchLocation\(\) expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Services/GeolocationService.php
-
-		-
-			message: '#^Binary operation "\-" between float\|int\|string and int results in an error\.$#'
-			identifier: binaryOp.invalid
-			count: 1
-			path: src/Support/Helpers.php
-
-		-
 			message: '#^Method InternetGuru\\LaravelCommon\\Support\\Helpers\:\:createTitle\(\) has parameter \$homeRoute with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -397,52 +259,10 @@ parameters:
 			path: src/Support/Helpers.php
 
 		-
-			message: '#^Method InternetGuru\\LaravelCommon\\Support\\Helpers\:\:installSeed\(\) should return int but returns float\|int\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Support/Helpers.php
-
-		-
 			message: '#^Method InternetGuru\\LaravelCommon\\Support\\Helpers\:\:parseUrlPath\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/Helpers.php
-
-		-
-			message: '#^Parameter \#1 \$string of function trim expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 3
-			path: src/Support/Helpers.php
-
-		-
-			message: '#^Parameter \#2 \$user_string of function hash_equals expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Support/Helpers.php
-
-		-
-			message: '#^Unable to resolve the template type TKey in call to function collect$#'
-			identifier: argument.templateType
-			count: 1
-			path: src/Support/Helpers.php
-
-		-
-			message: '#^Unable to resolve the template type TValue in call to function collect$#'
-			identifier: argument.templateType
-			count: 1
-			path: src/Support/Helpers.php
-
-		-
-			message: '#^Method InternetGuru\\LaravelCommon\\Support\\QrCode\:\:svg\(\) should return string but returns string\|null\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Support/QrCode.php
-
-		-
-			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: src/Support/Sanitizer.php
 
 		-
 			message: '#^Method InternetGuru\\LaravelCommon\\Support\\Sanitizer\:\:matchName\(\) has parameter \$path with no value type specified in iterable type array\.$#'
@@ -541,52 +361,10 @@ parameters:
 			path: src/Support/Translator.php
 
 		-
-			message: '#^Offset 0 on array\{list\<string\>\} on left side of \?\? always exists and is not nullable\.$#'
-			identifier: nullCoalesce.offset
-			count: 1
-			path: src/Support/Translator.php
-
-		-
 			message: '#^Method InternetGuru\\LaravelCommon\\Support\\WatchedPage\:\:describe\(\) has parameter \$source with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Support/WatchedPage.php
-
-		-
-			message: '#^Parameter \#1 \$callback of function call_user_func expects callable\(\)\: mixed, array\{mixed, mixed\} given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Support/WatchedPage.php
-
-		-
-			message: '#^Parameter \#1 \$key of method Illuminate\\Database\\Eloquent\\Model\:\:getAttribute\(\) expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Support/WatchedPage.php
-
-		-
-			message: '#^Property InternetGuru\\LaravelCommon\\Support\\WatchedPage\:\:\$sources \(list\<array\{type\: ''callable'', class\: class\-string, method\: string, arguments\: list\<bool\|float\|int\|string\|null\>\}\|array\{type\: ''model'', class\: class\-string\<Illuminate\\Database\\Eloquent\\Model\>, key\: mixed\}\>\) does not accept non\-empty\-list\<array\<string, mixed\>\>\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/Support/WatchedPage.php
-
-		-
-			message: '#^Call to an undefined method Carbon\\Carbon\:\:dateForHumans\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Support/macros.php
-
-		-
-			message: '#^Call to an undefined method Carbon\\Carbon\:\:timeForHumans\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Support/macros.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Http\\Request\:\:sanitize\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Support/macros.php
 
 		-
 			message: '#^Function initCarbonMacros\(\) has no return type specified\.$#'
@@ -613,136 +391,16 @@ parameters:
 			path: src/Support/macros.php
 
 		-
-			message: '#^Trait InternetGuru\\LaravelCommon\\Traits\\AssociationHistory is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: src/Traits/AssociationHistory.php
-
-		-
-			message: '#^Trait InternetGuru\\LaravelCommon\\Traits\\RendersLabel is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: src/Traits/RendersLabel.php
-
-		-
-			message: '#^Trait InternetGuru\\LaravelCommon\\Traits\\SanitizesInput is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: src/Traits/SanitizesInput.php
-
-		-
-			message: '#^Trait InternetGuru\\LaravelCommon\\Traits\\Ulid32 is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: src/Traits/Ulid32.php
-
-		-
-			message: '#^Trait InternetGuru\\LaravelCommon\\Traits\\WatchesForChanges is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: src/Traits/WatchesForChanges.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/AdminButtonText.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$created_at\.$#'
-			identifier: property.notFound
-			count: 3
-			path: src/View/Components/AssociationHistory.php
-
-		-
-			message: '#^Call to an undefined method Carbon\\Carbon\:\:dateForHumans\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/View/Components/AssociationHistory.php
-
-		-
-			message: '#^Call to an undefined method Carbon\\Carbon\:\:toDisplayTimezone\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/View/Components/AssociationHistory.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:withTrashed\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/View/Components/AssociationHistory.php
-
-		-
-			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:associationHistories\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: src/View/Components/AssociationHistory.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/AssociationHistory.php
-
-		-
 			message: '#^Property InternetGuru\\LaravelCommon\\View\\Components\\AssociationHistory\:\:\$groups has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
 			path: src/View/Components/AssociationHistory.php
 
 		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/Breadcrumb.php
-
-		-
 			message: '#^Property InternetGuru\\LaravelCommon\\View\\Components\\Breadcrumb\:\:\$items type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/View/Components/Breadcrumb.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/Card.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/CardRow.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/ComponentSignatures.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/CopyUrl.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/DemoInfo.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/EmailFeedback.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/Footer.php
 
 		-
 			message: '#^Property InternetGuru\\LaravelCommon\\View\\Components\\Footer\:\:\$complaintsFields type has no value type specified in iterable type array\.$#'
@@ -761,105 +419,3 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/View/Components/Footer.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/FooterCopy.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/Form.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/Input.php
-
-		-
-			message: '#^Method InternetGuru\\LaravelCommon\\View\\Components\\Label\:\:fail\(\) should return string but returns string\|null\.$#'
-			identifier: return.type
-			count: 1
-			path: src/View/Components/Label.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/Label.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/LangSwitch.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/Message.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/Messages.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/Modal.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/PageHeading.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/PageWatch.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/PrintButton.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/ReadOnlyModeInfo.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/SharePage.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/Submit.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/TagCloud.php
-
-		-
-			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/View/Components/Watch.php

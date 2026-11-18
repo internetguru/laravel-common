@@ -161,7 +161,7 @@ class ReportImageProblems
             $markup .= ' title="' . e('Image: ' . implode(', ', array_merge(...array_values($problems)))) . '"';
         }
 
-        return preg_replace('/^<img\b/i', '<img' . $markup, $tag);
+        return preg_replace('/^<img\b/i', '<img' . $markup, $tag) ?? $tag;
     }
 
     /** @param  array<string, array<string, list<string>>>  $problems */
@@ -176,7 +176,7 @@ class ReportImageProblems
         $severity = collect(array_keys(self::LOG_LEVELS))->first(fn ($level) => in_array($level, $severities, true));
         $images = array_map(fn ($imageProblems) => implode(', ', array_merge(...array_values($imageProblems))), $problems);
 
-        Log::log(self::LOG_LEVELS[$severity], 'Image problems', ['url' => $request->path(), 'images' => $images]);
+        Log::log(self::LOG_LEVELS[$severity ?? 'low'], 'Image problems', ['url' => $request->path(), 'images' => $images]);
     }
 
     protected function isHtmlResponse(mixed $response): bool

@@ -105,7 +105,7 @@ class CommonServiceProvider extends ServiceProvider
      */
     private function registerDeprecationsChannel(): void
     {
-        $config = $this->app['config'];
+        $config = config();
 
         if ($config->get('logging.channels.deprecations')) {
             return;
@@ -127,13 +127,13 @@ class CommonServiceProvider extends ServiceProvider
         }
 
         $this->ensureNullChannel();
-        $this->app['config']->set('logging.default', 'null');
+        config()->set('logging.default', 'null');
     }
 
     private function ensureNullChannel(): void
     {
-        if (! $this->app['config']->get('logging.channels.null')) {
-            $this->app['config']->set('logging.channels.null', [
+        if (! config()->get('logging.channels.null')) {
+            config()->set('logging.channels.null', [
                 'driver' => 'monolog',
                 'handler' => NullHandler::class,
             ]);
@@ -150,7 +150,7 @@ class CommonServiceProvider extends ServiceProvider
      */
     private function registerLogDeduplication(): void
     {
-        $config = $this->app['config'];
+        $config = config();
 
         if (! $config->get('ig-common.log_deduplication.enabled')) {
             return;
@@ -181,7 +181,7 @@ class CommonServiceProvider extends ServiceProvider
      */
     private function applySqliteDefaults(): void
     {
-        $config = $this->app['config'];
+        $config = config();
         $defaults = $config->get('ig-common.sqlite_defaults');
 
         if (! is_array($defaults) || $this->app->runningUnitTests()) {
@@ -230,7 +230,7 @@ class CommonServiceProvider extends ServiceProvider
             ],
         ];
 
-        $config = $this->app['config'];
+        $config = config();
 
         foreach ($defaults as $name => $definition) {
             if (! $config->has("ig-feedback.names.$name")) {
@@ -243,6 +243,7 @@ class CommonServiceProvider extends ServiceProvider
     {
         // Through the kernel: it overwrites the router's groups whenever it is resolved after boot, as in tests.
         $kernel = $this->app->make(HttpKernelContract::class);
+        // @phpstan-ignore instanceof.alwaysTrue (only the Testbench kernel is known during analysis)
         if (! $kernel instanceof HttpKernel) {
             return;
         }
@@ -405,7 +406,7 @@ class CommonServiceProvider extends ServiceProvider
 
     private function ensureQueueIsNotSync(): void
     {
-        if ($this->app['config']->get('queue.default') === 'sync' && ! $this->app->runningUnitTests()) {
+        if (config()->get('queue.default') === 'sync' && ! $this->app->runningUnitTests()) {
             throw new \Exception('Queue connection is set to sync. Please change it to a different connection.');
         }
     }

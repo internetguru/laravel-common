@@ -1,7 +1,8 @@
 <?php
 
-namespace Internetguru\LaravelCommon\Livewire;
+namespace InternetGuru\LaravelCommon\Livewire;
 
+use Illuminate\Support\ViewErrorBag;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Renderless;
 use Livewire\Component;
@@ -20,13 +21,13 @@ class Messages extends Component
         // Add error messages
         if (session()->has('errors')) {
             $errors = session('errors');
-            if ($errors && method_exists($errors, 'all')) {
+            if ($errors instanceof ViewErrorBag) {
                 foreach ($errors->all() as $error) {
                     $this->addMessage('danger', $error);
                 }
             }
             // foreach error bag
-            if ($errors && method_exists($errors, 'getBags')) {
+            if ($errors instanceof ViewErrorBag) {
                 foreach ($errors->getBags() as $bag) {
                     foreach ($bag->all() as $error) {
                         $this->addMessage('danger', $error);

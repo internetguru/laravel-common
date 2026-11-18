@@ -22,6 +22,9 @@ class MailMessage extends BaseMailMessage
 
     protected bool $includeRefNumber = true;
 
+    /** @var list<array{0: string, 1: string|null}> */
+    public array $to = [];
+
     /**
      * Set the "to" recipients of the message.
      *
@@ -98,8 +101,8 @@ class MailMessage extends BaseMailMessage
     {
         $data = parent::data();
 
-        $replyToAddress = array_column($this->replyTo ?? [], 0);
-        $fromAddress = array_column($this->from ?? [], 0);
+        $replyToAddress = array_column($this->replyTo, 0);
+        $fromAddress = array_column($this->from, 0);
 
         // If reply-to is explicitly set, don't show the no-reply note
         $valid = ! empty($replyToAddress);
