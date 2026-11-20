@@ -17,4 +17,7 @@ interface HasLabel
      * color to the palette the value shares with the rest of its set.
      */
     public function variant(): ?string;
+
+    /** The label markup, as the RendersLabel trait renders it. */
+    public function toLabelHtml(bool $slim = false): string;
 }

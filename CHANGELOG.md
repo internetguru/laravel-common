@@ -10,15 +10,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - A chip that wraps (`$ig-label-wrap: true`) indents every line of its text as far as the first one, and its dot or icon moves half a line down to stand between the first two lines.
 - A chip's dot is centered on the chip: `$ig-label-dot-lift` is 0 by default, .1em before.
+- **Breaking:** `HasLabel` declares `toLabelHtml()`; an implementer that does not use the `RendersLabel` trait must add it.
 
 ### Removed
 
-- The `<x-ig::messages>` Blade component, which rendered a view that does not exist; `<livewire:ig-messages />` shows the messages.
+- **Breaking:** The `<x-ig::messages>` Blade component, which rendered a view that does not exist; use `<livewire:ig-messages />`.
+- **Breaking:** `MailMessage::to()`, which stored recipients nothing read; route the recipients through the notifiable.
 
 ### Fixed
 
 - Logging a sent notification skips a message that is not an e-mail and accepts one without a To header instead of failing.
-- `MailMessage::to()` stores the recipients in a declared property instead of a dynamic one, which PHP 8.2 deprecates.
 - The app info reads an empty version and commit instead of passing null to `trim()` when `VERSION` or `.git` is missing.
 - An image problem with an unknown severity is logged as info instead of failing.
 
