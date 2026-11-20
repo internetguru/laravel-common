@@ -13,9 +13,9 @@ $ig-label-padding: .3em .65em !default;
 $ig-label-gap: .5em !default;
 $ig-label-dot-size: .55em !default;
 
-/// How far the dot is lifted from the middle of the line, where it reads as
-/// sitting low beside mixed-case text.
-$ig-label-dot-lift: .1em !default;
+/// How far the dot is lifted from the middle of the chip; none by default, so
+/// it stands centred on the chip.
+$ig-label-dot-lift: 0 !default;
 
 /// A soft glow around the dot in its own colour.
 $ig-label-dot-glow-blur: .8em !default;
@@ -38,6 +38,32 @@ $ig-label-accent-fill: .1 !default;
 /// row of them stays even; true lets the text wrap inside the chip instead.
 $ig-label-wrap: false !default;
 
+/// A chip's line height, which a wrapped chip's mark is placed by.
+$ig-label-line-height: 1.4 !default;
+
+/// The room an icon standing in for the dot takes in a wrapped chip.
+$ig-label-icon-width: 1.25em !default;
+
+/// A wrapped chip's mark, the dot or an icon, hangs at the left edge and the
+/// text is indented past it on every line. On one line the mark is centred on
+/// it; on two or more it stands half a line lower, between the first two.
+@mixin ig-chip-hanging-mark($padding: $ig-label-padding, $gap: $ig-label-gap, $mark: $ig-label-dot-size) {
+    padding-left: calc(#{nth($padding, 2)} + #{$mark} + #{$gap});
+}
+
+@mixin ig-chip-mark-hung($padding: $ig-label-padding, $lift: 0) {
+    position: absolute;
+    left: nth($padding, 2);
+    top: min(50%, #{nth($padding, 1) + $ig-label-line-height * 1em});
+    margin-right: 0;
+    // A unitless 0 is invalid in calc() and would drop the whole declaration.
+    @if $lift == 0 {
+        translate: 0 -50%;
+    } @else {
+        translate: 0 calc(-50% - #{$lift});
+    }
+}
+
 /// The two corner glows in the dot colour, at a share of their full strength.
 @function ig-chip-glows($dot, $share: 1) {
     @return
@@ -57,7 +83,7 @@ $ig-label-wrap: false !default;
     padding: $ig-label-padding;
     font-size: $ig-label-font-size;
     font-weight: $font-weight-normal;
-    line-height: 1.4;
+    line-height: $ig-label-line-height;
     text-align: left;
     color: $ig-label-color;
     background-color: $ig-label-bg;
@@ -70,6 +96,7 @@ $ig-label-wrap: false !default;
 
     @if $ig-label-wrap {
         white-space: normal;
+        @include ig-chip-hanging-mark;
     } @else {
         white-space: nowrap;
         overflow: hidden;
@@ -90,6 +117,10 @@ $ig-label-wrap: false !default;
         translate: 0 (-$ig-label-dot-lift);
         box-shadow: 0 0 $ig-label-dot-glow-blur $ig-label-dot-glow-spread
             color-mix(in srgb, #{$dot} $ig-label-dot-glow-strength, transparent);
+
+        @if $ig-label-wrap {
+            @include ig-chip-mark-hung($lift: $ig-label-dot-lift);
+        }
     }
 
     // The border, drawn as a ring of its own behind the text: a border cannot

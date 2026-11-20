@@ -5,7 +5,7 @@ namespace InternetGuru\LaravelCommon\Traits;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
-trait Ulid32
+trait Ulid32 // @phpstan-ignore trait.unused (used by the applications)
 {
     public function ulidLink(string $content = ''): string
     {

@@ -22,6 +22,8 @@ class Helpers
      *  - version: VERSION file content
      *  - branch: Git branch or [detached]
      *  - commit: Git commit
+     *
+     * @return array{app_name: string, environment: string, version: string, branch: string, commit: string}
      */
     public static function getAppInfoArray(): array
     {
@@ -29,13 +31,13 @@ class Helpers
         $info['environment'] = config('app.env');
 
         // Using Storage to access root files
-        $info['version'] = trim(Storage::disk('root')->get('VERSION'));
+        $info['version'] = trim(Storage::disk('root')->get('VERSION') ?? '');
 
         $branch = '[detached]';
-        $commit = trim(Storage::disk('root')->get('.git/HEAD'));
+        $commit = trim(Storage::disk('root')->get('.git/HEAD') ?? '');
         if (substr($commit, 0, 10) == 'ref: refs/') {
             $branch = $commit;
-            $commit = trim(Storage::disk('root')->get('.git/' . substr($branch, 5)));
+            $commit = trim(Storage::disk('root')->get('.git/' . substr($branch, 5)) ?? '');
         }
 
         $info['branch'] = basename($branch);
@@ -58,6 +60,8 @@ class Helpers
      *  - route: The route to the segment
      *  - translation: The translation of the segment
      *  - class: Additional classes to add to the segment
+     *
+     * @return list<array{uri: string, translation: string}>
      */
     public static function parseUrlPath(string $homeRoute = 'home', int $skipFirst = 0): array
     {
@@ -75,6 +79,7 @@ class Helpers
 
         // If error page or internal/system route, show error breadcrumb
         $route = app('request')->route();
+        /** @var list<string> $skipPrefixes */
         $skipPrefixes = config('ig-common.breadcrumb_skip_prefixes', []);
         $shouldSkip = ! $route || $route->isFallback || collect($skipPrefixes)->contains(fn ($prefix) => str_starts_with($route->uri(), $prefix));
         if ($shouldSkip) {
@@ -147,6 +152,7 @@ class Helpers
         return $segments;
     }
 
+    /** @param  string  $homeRoute */
     public static function createTitle(string $separator = ' – ', $homeRoute = 'home'): string
     {
         return implode(
@@ -178,11 +184,11 @@ class Helpers
         }
 
         $clientTimestamp = (int) $request->header('X-Timestamp');
-        $clientSignature = $request->header('X-Signature');
+        $clientSignature = (string) $request->header('X-Signature');
         $appKey = config('app.key');
 
         // 1. Verify Freshness (Allow +/- 1 minutes for clock drift)
-        $diff = Carbon::now()->timestamp - $clientTimestamp;
+        $diff = Carbon::now()->getTimestamp() - $clientTimestamp;
         if (abs($diff) > 60) {
             return false;
         }
@@ -200,6 +206,6 @@ class Helpers
     {
         $hash = hash('sha256', config('app.key'));
 
-        return hexdec(substr($hash, 0, 8));
+        return (int) hexdec(substr($hash, 0, 8));
     }
 }

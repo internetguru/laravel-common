@@ -136,7 +136,7 @@ class Label extends Component
 
         Log::warning($message);
 
-        return Palette::variant('secondary');
+        return (string) Palette::variant('secondary');
     }
 
     public function render(): View

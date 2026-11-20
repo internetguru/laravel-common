@@ -11,7 +11,7 @@ use UnitEnum;
  * passed to a Blade component from a place that echoes plain HTML - a table
  * column formatter, most of all.
  */
-trait RendersLabel
+trait RendersLabel // @phpstan-ignore trait.unused (used by the applications)
 {
     public function toLabelHtml(bool $slim = false): string
     {

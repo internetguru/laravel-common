@@ -3,11 +3,17 @@
 namespace InternetGuru\LaravelCommon\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CheckPostItemNames
 {
+    /**
+     * @param  Request  $request
+     * @return Response
+     */
     public function handle($request, Closure $next)
     {
         if (empty($request->post())) {

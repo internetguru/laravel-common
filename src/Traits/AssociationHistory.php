@@ -5,7 +5,7 @@ namespace InternetGuru\LaravelCommon\Traits;
 use InternetGuru\LaravelCommon\Models\AssociationHistory as AssociationHistoryModel;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-trait AssociationHistory
+trait AssociationHistory // @phpstan-ignore trait.unused (used by the applications)
 {
     protected array $associationHistoryChanges = [];
 

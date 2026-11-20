@@ -20,7 +20,7 @@ use InternetGuru\LaravelCommon\Support\Sanitizer;
  * validation has just failed on some other field, is a surprise nobody asked
  * for.
  */
-trait SanitizesInput
+trait SanitizesInput // @phpstan-ignore trait.unused (used by the applications)
 {
     /**
      * Property path => pipeline name, for properties whose type cannot be read
