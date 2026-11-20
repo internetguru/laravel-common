@@ -10,6 +10,7 @@ class Breadcrumb extends Component
 {
     public string $divider;
 
+    /** @var array<int, array{uri: ?string, translation: string}> */
     public array $items = [];
 
     public ?string $mark;

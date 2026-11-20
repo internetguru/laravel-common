@@ -42,8 +42,8 @@ abstract class BaseNotification extends Notification implements ShouldQueue
         if (app()->runningInConsole() && ! app()->runningUnitTests()) {
             return;
         }
-        $this->ipAddress = request()?->ip();
-        $this->userId = auth()?->id();
+        $this->ipAddress = request()->ip();
+        $this->userId = auth()->id();
         $this->url = session('currentPage', null);
     }
 
@@ -58,11 +58,13 @@ abstract class BaseNotification extends Notification implements ShouldQueue
         return $this;
     }
 
+    /** @return list<string> */
     public function via(object $notifiable): array
     {
         return ['mail'];
     }
 
+    /** @return array<string, mixed> */
     protected function getExtraMailData(): array
     {
         return [
@@ -103,6 +105,7 @@ abstract class BaseNotification extends Notification implements ShouldQueue
             );
     }
 
+    /** @return array<int, object> */
     public function middleware()
     {
         return [

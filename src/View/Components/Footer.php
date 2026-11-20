@@ -14,10 +14,13 @@ class Footer extends Component
 
     public const INQUIRY_FORM_ID = 'inquiry-form';
 
+    /** @var array<int, array<string, mixed>> */
     public array $feedbackFields;
 
+    /** @var array<int, array<string, mixed>> */
     public array $complaintsFields;
 
+    /** @var array<int, array<string, mixed>> */
     public array $inquiryFields;
 
     /**

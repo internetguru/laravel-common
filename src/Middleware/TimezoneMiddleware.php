@@ -6,9 +6,11 @@ use Closure;
 use Illuminate\Http\Request;
 use InternetGuru\LaravelCommon\Exceptions\GeolocationServiceException;
 use InternetGuru\LaravelCommon\Services\GeolocationService;
+use Symfony\Component\HttpFoundation\Response;
 
 class TimezoneMiddleware
 {
+    /** @return Response */
     public function handle(Request $request, Closure $next)
     {
         if (session()->has('display_timezone')) {

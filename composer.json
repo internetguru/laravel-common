@@ -30,7 +30,9 @@
         "laravel/pint": "^1.25",
         "livewire/livewire": "^4.0",
         "orchestra/testbench": "^9.5 || ^10.0 || ^11.0",
-        "phpunit/php-code-coverage": "^11.0"
+        "phpunit/php-code-coverage": "^11.0",
+        "larastan/larastan": "^3.12",
+        "internetguru/laravel-scripts": "^1.7"
     },
     "extra": {
         "laravel": {
@@ -41,5 +43,10 @@
     },
     "suggest": {
         "internetguru/laravel-feedback": "Required by the default footer to render the feedback and complaints forms."
+    },
+    "config": {
+        "allow-plugins": {
+            "internetguru/laravel-scripts": true
+        }
     }
 }

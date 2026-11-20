@@ -3,9 +3,11 @@
 namespace InternetGuru\LaravelCommon\View\Components;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
@@ -13,6 +15,7 @@ use InternetGuru\LaravelCommon\Models\AssociationHistory as AssociationHistoryMo
 
 class AssociationHistory extends Component
 {
+    /** @var list<array{author_id: int|string|null, author_name: ?string, anchor: ?CarbonInterface, time: ?CarbonInterface, entries: list<AssociationHistoryModel>, is_creation: bool}> */
     public $groups;
 
     /**
@@ -26,6 +29,7 @@ class AssociationHistory extends Component
     {
         // Newest first; the key breaks ties between entries written within the
         // same second (a single update writes all its entries at once).
+        // @phpstan-ignore method.notFound (the model uses the AssociationHistory trait)
         $histories = $model->associationHistories()
             ->with('author')
             ->latest()
@@ -101,7 +105,7 @@ class AssociationHistory extends Component
         $createdMerged = false;
         foreach ($groups as &$group) {
             if ($group['author_id'] === $creatorId
-                && abs($group['anchor']->diffInMinutes($model->created_at)) <= 10
+                && abs($group['anchor']->diffInMinutes($model->getAttribute('created_at'))) <= 10
             ) {
                 $group['is_creation'] = true;
                 $createdMerged = true;
@@ -113,8 +117,8 @@ class AssociationHistory extends Component
             $groups[] = [
                 'author_id' => $creatorId,
                 'author_name' => $creator?->name,
-                'anchor' => $model->created_at,
-                'time' => $model->created_at,
+                'anchor' => $model->getAttribute('created_at'),
+                'time' => $model->getAttribute('created_at'),
                 'entries' => [],
                 'is_creation' => true,
             ];
@@ -142,6 +146,7 @@ class AssociationHistory extends Component
      */
     private function creatorId(Model $model, string $createdByField): mixed
     {
+        // @phpstan-ignore method.notFound (the model uses the AssociationHistory trait)
         $oldest = $model->associationHistories()
             ->where('column_name', $createdByField)
             ->oldest()
@@ -240,7 +245,7 @@ class AssociationHistory extends Component
 
             $query = $relation->getRelated()->newQuery();
             if (in_array(SoftDeletes::class, class_uses_recursive($relation->getRelated()), true)) {
-                $query->withTrashed();
+                $query->withoutGlobalScope(SoftDeletingScope::class);
             }
 
             $related = $query->where($relation->getOwnerKeyName(), $value)->first();

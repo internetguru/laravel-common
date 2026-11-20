@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 
 class MailMessage extends BaseMailMessage
 {
+    /** @var array<string, mixed> */
     protected array $extraMailData = [];
 
     protected string $refNumber;
@@ -22,34 +23,12 @@ class MailMessage extends BaseMailMessage
 
     protected bool $includeRefNumber = true;
 
-    /**
-     * Set the "to" recipients of the message.
-     *
-     * @param  array|string  $address  Email address or array of [email => name] pairs
-     * @param  string|null  $name
-     */
-    public function to($address, $name = null): static
-    {
-        if (is_array($address)) {
-            foreach ($address as $key => $value) {
-                if (is_string($key)) {
-                    $this->to[] = [$key, $value];
-                } else {
-                    $this->to[] = [$value, null];
-                }
-            }
-        } else {
-            $this->to[] = [$address, $name];
-        }
-
-        return $this;
-    }
-
     public function __construct()
     {
         $this->refNumber = Str::ref(5);
     }
 
+    /** @return $this */
     public function setRefNumber(string $refNumber, ?string $refLabel = null)
     {
         $this->refNumber = $refNumber;
@@ -94,12 +73,13 @@ class MailMessage extends BaseMailMessage
         return parent::view($view, array_merge($data, $this->extraMailData));
     }
 
+    /** @return array<string, mixed> */
     public function data()
     {
         $data = parent::data();
 
-        $replyToAddress = array_column($this->replyTo ?? [], 0);
-        $fromAddress = array_column($this->from ?? [], 0);
+        $replyToAddress = array_column($this->replyTo, 0);
+        $fromAddress = array_column($this->from, 0);
 
         // If reply-to is explicitly set, don't show the no-reply note
         $valid = ! empty($replyToAddress);
@@ -119,6 +99,7 @@ class MailMessage extends BaseMailMessage
         return $data;
     }
 
+    /** @param  array<string, mixed>  $data */
     public function setExtraMailData(array $data): static
     {
         $this->extraMailData = array_merge($this->extraMailData, $data);

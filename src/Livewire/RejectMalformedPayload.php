@@ -100,6 +100,8 @@ class RejectMalformedPayload extends ComponentHook
     /**
      * The shape shared by every element of a non-empty list, or null when they
      * differ - a mixed list describes no shape for an element appended to it.
+     *
+     * @param  list<mixed>  $values
      */
     private function uniformElementShape(array $values): ?string
     {

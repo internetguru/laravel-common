@@ -7,7 +7,7 @@ use Livewire\Attributes\Locked;
 use function Livewire\store;
 
 // Refreshes a component on the x-ig::watch clock only when watchFingerprint() changed; see the README
-trait WatchesForChanges
+trait WatchesForChanges // @phpstan-ignore trait.unused (used by the applications)
 {
     #[Locked]
     public string $watchedFingerprint = '';

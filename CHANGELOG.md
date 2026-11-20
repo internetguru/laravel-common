@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [10.0.0] - 2026-11-20
+
+_Stable release based on [10.0.0-rc.1]._
+
+## [10.0.0-rc.1] - 2026-11-20
+
+### Changed
+
+- A chip that wraps (`$ig-label-wrap: true`) indents every line of its text as far as the first one, and its dot or icon moves half a line down to stand between the first two lines.
+- A chip's dot is centered on the chip: `$ig-label-dot-lift` is 0 by default, .1em before.
+- **Breaking:** `HasLabel` declares `toLabelHtml()`; an implementer that does not use the `RendersLabel` trait must add it.
+
+### Removed
+
+- **Breaking:** The `<x-ig::messages>` Blade component, which rendered a view that does not exist; use `<livewire:ig-messages />`.
+- **Breaking:** `MailMessage::to()`, which stored recipients nothing read; route the recipients through the notifiable.
+
+### Fixed
+
+- Logging a sent notification skips a message that is not an e-mail and accepts one without a To header instead of failing.
+- The app info reads an empty version and commit instead of passing null to `trim()` when `VERSION` or `.git` is missing.
+- An image problem with an unknown severity is logged as info instead of failing.
+
 ## [9.6.3] - 2026-11-18
 
 ### Fixed
@@ -2518,6 +2541,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[10.0.0]: https://github.com/internetguru/laravel-common/compare/v9.6.3...v10.0.0
+[10.0.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v9.6.3
 [9.6.3]: https://github.com/internetguru/laravel-common/compare/v9.6.2...v9.6.3
 [9.6.2]: https://github.com/internetguru/laravel-common/compare/v9.6.1...v9.6.2
 [9.6.1]: https://github.com/internetguru/laravel-common/compare/v9.6.0...v9.6.1

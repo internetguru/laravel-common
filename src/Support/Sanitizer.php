@@ -552,6 +552,7 @@ class Sanitizer
      * properties use onto the snake_case one request fields use.
      *
      * @param  array<string, string>  $map
+     * @param  array<int, string>  $path
      */
     private function matchName(array $map, array $path): ?string
     {
@@ -582,7 +583,7 @@ class Sanitizer
                 }
 
                 foreach ($map as $pattern => $pipeline) {
-                    if (is_string($pattern) && str_contains($pattern, '*') && Str::is($pattern, $name)) {
+                    if (str_contains($pattern, '*') && Str::is($pattern, $name)) {
                         return $pipeline;
                     }
                 }

@@ -6,6 +6,9 @@ use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Client\ConnectionException as HttpClientConnectionException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
@@ -176,9 +179,9 @@ class Handler extends ExceptionHandler
      * the middleware stack (fresh csrf token, auth redirect when needed) and
      * shows the flashed message via the messages component.
      */
-    private function flashErrorAndReload(string $message, int $statusCode)
+    private function flashErrorAndReload(string $message, int $statusCode): JsonResponse
     {
-        session()->flash('errors', (new ViewErrorBag)->put('default', new MessageBag([$message])));
+        session()->flash('errors', (new ViewErrorBag)->put('default', new MessageBag(['error' => [$message]])));
 
         return response()->json(['message' => $message], $statusCode);
     }
@@ -186,7 +189,7 @@ class Handler extends ExceptionHandler
     /**
      * Render the shared styled error page for a given exception/status code.
      */
-    private function errorPage(Throwable $e, int $statusCode, ?string $descriptionOverride = null)
+    private function errorPage(Throwable $e, int $statusCode, ?string $descriptionOverride = null): Response
     {
         if (! in_array($statusCode, [401, 402, 403, 404, 419, 429, 500, 503])) {
             return response()->view(
@@ -282,7 +285,7 @@ class Handler extends ExceptionHandler
             && str_contains($e->getTrace()[0]['file'] ?? '', self::LIVEWIRE_SOURCE);
     }
 
-    private function back()
+    private function back(): RedirectResponse
     {
         return session('prevPage')
             ? redirect(session('prevPage'))->withInput()

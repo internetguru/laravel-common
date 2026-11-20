@@ -5,9 +5,11 @@ namespace InternetGuru\LaravelCommon\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class InjectUmamiScript
 {
+    /** @return SymfonyResponse */
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
@@ -38,6 +40,7 @@ class InjectUmamiScript
         return $response;
     }
 
+    /** @return array<string, string> */
     protected function buildIdentifyData(): array
     {
         if (! auth()->check()) {
