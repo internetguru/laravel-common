@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- `Helpers::isBot()` tells whether a user agent, by default the current request's, belongs to a crawler or a link preview, so applications can skip them without copying the list.
+
+### Changed
+
+- `BaseNotification::toMail()` is documented to return the package's `MailMessage`, so PHPStan knows `setRefNumber()` and the other mail methods on `parent::toMail()`.
+
 ## [10.0.0] - 2026-11-20
 
 _Stable release based on [10.0.0-rc.1]._
@@ -2541,6 +2551,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[Unreleased]: https://github.com/internetguru/laravel-common/compare/staging...dev
 [10.0.0]: https://github.com/internetguru/laravel-common/compare/v9.6.3...v10.0.0
 [10.0.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v9.6.3
 [9.6.3]: https://github.com/internetguru/laravel-common/compare/v9.6.2...v9.6.3
