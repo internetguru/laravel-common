@@ -43,6 +43,6 @@ Shared foundation of every Internet Guru application: Blade components, input sa
 
 - `Ulid32` trait on models: `ulidForHumans()`, `shortUlidForHumans()`, `ulidUrl()`, `ulidLink()`. Validate ULIDs with the `ulid32` rule or `new Ulid32`.
 - Macros: `Str::ref()`, `Number::currencySymbol()`, `$date->dateForHumans()`, `dateTimeForHumans()`, `timeForHumans()`, `toDisplayTimezone()`. `Number` follows the app locale, so format money with `Number::currency($amount, precision: …)`.
-- Notifications extend `BaseNotification` (queued, retried) and build mail with `InternetGuru\LaravelCommon\Mail\MailMessage`. Sent mail is logged to `mail_logs`.
+- Notifications extend `BaseNotification` (queued, retried) and build mail with `InternetGuru\LaravelCommon\Mail\MailMessage`. Sent mail is logged to `mail_logs`, whose rows the package prunes after `IG_MAIL_LOG_DAYS` (90) days through the scheduler.
 - `AssociationHistory` trait plus `$associationHistoryTracked` records field changes, shown by `<x-ig::association-history :model="…" />`.
 - Shared tests: `CommonTests::register(languages: […], demo: …)` (`breadcrumb: false` for a site designed without one) (`InternetGuru\LaravelCommon\Testing`) in one Pest file, e.g. `tests/Feature/CommonTest.php`, checks the layout, language switch, error and i18n pages. Components carry `data-testid` attributes (`breadcrumb`, `lang-switch`, `input-{id}`, `submit-button`, `form-{testid}`, `system-message-{type}`); select them in browser tests as `@input-email`.

@@ -53,6 +53,10 @@ return [
         'transaction_mode' => 'IMMEDIATE',
     ] : false,
 
+    // Delete mail_logs rows older than this many days, once a day through the
+    // scheduler. 0 keeps every row.
+    'mail_log_days' => (int) env('IG_MAIL_LOG_DAYS', 90),
+
     // Log images missing a dimension (warning), an alt (notice) or with an
     // empty alt (info) once a day per page, and outline them in debug mode.
     'image_warnings' => env('IG_IMAGE_WARNINGS', true),

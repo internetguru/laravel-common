@@ -2,6 +2,7 @@
 
 namespace InternetGuru\LaravelCommon;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Http\Kernel as HttpKernelContract;
 use Illuminate\Foundation\Events\LocaleUpdated;
@@ -29,6 +30,7 @@ use InternetGuru\LaravelCommon\Livewire\RejectMalformedPayload;
 use InternetGuru\LaravelCommon\Logging\DeduplicateRepeatedRecords;
 use InternetGuru\LaravelCommon\Middleware\TimezoneMiddleware;
 use InternetGuru\LaravelCommon\Middleware\VerifyCsrfToken;
+use InternetGuru\LaravelCommon\Models\MailLog;
 use InternetGuru\LaravelCommon\Rules\Ulid32;
 use InternetGuru\LaravelCommon\Support\LabelGroups;
 use InternetGuru\LaravelCommon\Support\Sanitizer;
@@ -93,7 +95,17 @@ class CommonServiceProvider extends ServiceProvider
         $this->registerSanitizer();
         $this->registerMacros();
         $this->registerFeedbackFields();
+        $this->registerMailLogPruning();
         $this->ensureQueueIsNotSync();
+    }
+
+    private function registerMailLogPruning(): void
+    {
+        $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
+            if ((int) config('ig-common.mail_log_days') > 0) {
+                $schedule->command('model:prune', ['--model' => [MailLog::class]])->daily();
+            }
+        });
     }
 
     /**

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Security
 
+- `mail_logs` rows older than 90 days are deleted daily through a scheduled `model:prune`; `IG_MAIL_LOG_DAYS` sets the number of days, and `0` keeps every row.
 - The `json_daily` log masks the values of secret URL query parameters (such as `key`, `api_key`, `token`, `secret`, `password`, `signature`, `code` and `pin`) in log messages and in logged exception messages, including previous exceptions.
 
 ## [10.2.0] - 2026-11-23
