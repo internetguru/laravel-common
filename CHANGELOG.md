@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Each error message is shown only once instead of twice.
+
 ### Security
 
 - The `json_daily` log masks the values of secret URL query parameters (such as `key`, `api_key`, `token`, `secret`, `password`, `signature`, `code` and `pin`) in log messages and in logged exception messages, including previous exceptions.
