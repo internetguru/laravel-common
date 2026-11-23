@@ -1162,10 +1162,9 @@ When `auth()->user()->isAdmin()` is `true`, the slot content is replaced with th
 
 **Setup:**
 
-1. Publish and run the migration:
+1. Run the migrations; the package loads its own:
 
     ```bash
-    php artisan vendor:publish --tag=ig-common:migrations
     php artisan migrate
     ```
 
@@ -1459,12 +1458,7 @@ Available methods:
 
 > All sent mail notifications are automatically logged to the `mail_logs` database table via the `LogSentNotification` listener.
 
-Publish the migration to create the `mail_logs` table:
-
-```bash
-php artisan vendor:publish --tag=ig-common:migrations
-php artisan migrate
-```
+`php artisan migrate` creates the `mail_logs` table from the package's own migrations.
 
 Logged fields: `to`, `replyto`, `subject`, `notification` (the notification class), `created_at`, `updated_at`. The body is not kept, because it can carry sign-in PINs and links; the `body` column stays only for older rows and is emptied by the 2026-11-14 migration.
 
@@ -1533,7 +1527,7 @@ The package includes translations in **English** (`en`), **Czech** (`cs`), and *
 You can publish package assets to customize them:
 
 ```bash
-# Publish database migrations
+# Publish database migrations, only to change them; migrate runs the package's own
 php artisan vendor:publish --tag=ig-common:migrations
 
 # Publish configuration

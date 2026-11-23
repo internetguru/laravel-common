@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- `php artisan migrate` runs the package migrations on its own, so updating the package no longer needs `--tag=ig-common:migrations` published; copies an application already published still work and take precedence over the package's.
+
 ## [10.1.0] - 2026-11-22
 
 _Stable release based on [10.1.0-rc.1]._
