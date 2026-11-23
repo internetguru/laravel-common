@@ -8,7 +8,9 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification as NotificationFacade;
+use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 class LogSentNotificationTest extends TestCase
@@ -53,5 +55,30 @@ class LogSentNotificationTest extends TestCase
         event(new NotificationSent(new AnonymousNotifiable, new class extends Notification {}, 'mail', null));
 
         $this->assertSame(0, DB::table('mail_logs')->count());
+    }
+
+    public function test_a_failing_mail_log_does_not_fail_the_sent_mail()
+    {
+        Schema::drop('mail_logs');
+        Log::spy();
+        $notification = new class extends Notification
+        {
+            public function via(object $notifiable): array
+            {
+                return ['mail'];
+            }
+
+            public function toMail(object $notifiable): MailMessage
+            {
+                return (new MailMessage)->subject('Your order');
+            }
+        };
+
+        NotificationFacade::route('mail', 'jane@example.com')->notifyNow($notification);
+
+        Log::shouldHaveReceived('error')
+            ->withArgs(fn (string $message, array $context) => str_starts_with($message, 'Mail log failed')
+                && $context['notification'] === $notification::class)
+            ->once();
     }
 }

@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - `php artisan migrate` runs the package migrations on its own, so updating the package no longer needs `--tag=ig-common:migrations` published; copies an application already published still work and take precedence over the package's.
 
+### Fixed
+
+- A sent mail that cannot be written to `mail_logs` is logged as an error instead of failing its notification job, which retried the job and sent the mail again.
+
 ## [10.1.0] - 2026-11-22
 
 _Stable release based on [10.1.0-rc.1]._

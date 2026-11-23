@@ -1458,7 +1458,7 @@ Available methods:
 
 > All sent mail notifications are automatically logged to the `mail_logs` database table via the `LogSentNotification` listener.
 
-`php artisan migrate` creates the `mail_logs` table from the package's own migrations.
+`php artisan migrate` creates the `mail_logs` table from the package's own migrations. A failure to write the log is logged as an error and never fails the sent mail.
 
 Logged fields: `to`, `replyto`, `subject`, `notification` (the notification class), `created_at`, `updated_at`. The body is not kept, because it can carry sign-in PINs and links; the `body` column stays only for older rows and is emptied by the 2026-11-14 migration.
 

@@ -4,8 +4,10 @@ namespace InternetGuru\LaravelCommon\Listeners;
 
 use Illuminate\Mail\SentMessage;
 use Illuminate\Notifications\Events\NotificationSent;
-use Symfony\Component\Mime\Email;
+use Illuminate\Support\Facades\Log;
 use InternetGuru\LaravelCommon\Models\MailLog;
+use Symfony\Component\Mime\Email;
+use Throwable;
 
 class LogSentNotification
 {
@@ -29,6 +31,14 @@ class LogSentNotification
         $replyTo = $headers->get('reply-to')?->toString() ?? null;
         $subject = $message->getSubject() ?? 'n/a';
 
-        MailLog::log($to, $replyTo, $subject, $event->notification::class);
+        // The mail is already sent; failing here would retry the job and send it again
+        try {
+            MailLog::log($to, $replyTo, $subject, $event->notification::class);
+        } catch (Throwable $e) {
+            Log::error('Mail log failed: ' . $e->getMessage(), [
+                'exception' => $e,
+                'notification' => $event->notification::class,
+            ]);
+        }
     }
 }
