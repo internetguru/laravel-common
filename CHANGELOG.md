@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Security
+
+- The `json_daily` log masks the values of secret URL query parameters (such as `key`, `api_key`, `token`, `secret`, `password`, `signature`, `code` and `pin`) in log messages and in logged exception messages, including previous exceptions.
+
 ## [10.2.0] - 2026-11-23
 
 _Stable release based on [10.2.0-rc.1]._
