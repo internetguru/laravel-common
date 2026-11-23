@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [10.2.0] - 2026-11-23
+
+_Stable release based on [10.2.0-rc.1]._
+
+## [10.2.0-rc.1] - 2026-11-23
+
+### Changed
+
+- `php artisan migrate` runs the package migrations on its own, so updating the package no longer needs `--tag=ig-common:migrations` published; copies an application already published still work and take precedence over the package's.
+
+### Fixed
+
+- A sent mail that cannot be written to `mail_logs` is logged as an error instead of failing its notification job, which retried the job and sent the mail again.
+
 ## [10.1.0] - 2026-11-22
 
 _Stable release based on [10.1.0-rc.1]._
@@ -2555,6 +2569,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[10.2.0]: https://github.com/internetguru/laravel-common/compare/v10.1.0...v10.2.0
+[10.2.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v10.1.0
 [10.1.0]: https://github.com/internetguru/laravel-common/compare/v10.0.0...v10.1.0
 [10.1.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v10.0.0
 [10.0.0]: https://github.com/internetguru/laravel-common/compare/v9.6.3...v10.0.0
