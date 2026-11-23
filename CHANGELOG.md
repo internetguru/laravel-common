@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - `Helpers::isBot()` tells whether a user agent, by default the current request's, belongs to a crawler or a link preview, so applications can skip them without copying the list.
 
+### Changed
+
+- `BaseNotification::toMail()` is documented to return the package's `MailMessage`, so PHPStan knows `setRefNumber()` and the other mail methods on `parent::toMail()`.
+
 ## [10.0.0] - 2026-11-20
 
 _Stable release based on [10.0.0-rc.1]._

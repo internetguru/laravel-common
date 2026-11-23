@@ -87,6 +87,7 @@ abstract class BaseNotification extends Notification implements ShouldQueue
         }
     }
 
+    /** @return IgMailMessage */
     public function toMail(object $notifiable): MailMessage
     {
         $message = new IgMailMessage;
