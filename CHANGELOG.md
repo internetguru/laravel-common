@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [10.2.0] - 2026-11-23
+
+_Stable release based on [10.2.0-rc.1]._
+
 ## [10.2.0-rc.1] - 2026-11-23
 
 ### Changed
@@ -2565,6 +2569,7 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[10.2.0]: https://github.com/internetguru/laravel-common/compare/v10.1.0...v10.2.0
 [10.2.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v10.1.0
 [10.1.0]: https://github.com/internetguru/laravel-common/compare/v10.0.0...v10.1.0
 [10.1.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v10.0.0
