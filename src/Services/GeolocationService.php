@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use InternetGuru\LaravelCommon\Exceptions\GeolocationServiceException;
+use InternetGuru\LaravelCommon\Support\Helpers;
 use Torann\GeoIP\Facades\GeoIP;
 use Torann\GeoIP\Location;
 
@@ -15,12 +16,7 @@ class GeolocationService
 {
     protected function isBot(): bool
     {
-        $userAgent = request()->userAgent() ?? '';
-
-        return (bool) preg_match(
-            '/(bot|crawler|spider|facebookexternalhit|Twitterbot|Googlebot|Bingbot|YandexBot|DuckDuckBot|Slurp|Baiduspider|LinkedInBot|WhatsApp|Discordbot|Slackbot|TelegramBot)/i',
-            $userAgent
-        );
+        return Helpers::isBot();
     }
 
     protected function fetchLocation(string $ip): Location
