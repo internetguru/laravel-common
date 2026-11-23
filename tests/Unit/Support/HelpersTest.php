@@ -149,4 +149,20 @@ class HelpersTest extends TestCase
 
         $this->assertEquals('', $link);
     }
+
+    public function test_is_bot_recognizes_crawlers_and_link_previews_but_not_browsers()
+    {
+        $this->assertTrue(Helpers::isBot('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'));
+        $this->assertTrue(Helpers::isBot('facebookexternalhit/1.1'));
+        $this->assertTrue(Helpers::isBot('WhatsApp/2.23.20.0'));
+        $this->assertFalse(Helpers::isBot('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36'));
+        $this->assertFalse(Helpers::isBot(''));
+    }
+
+    public function test_is_bot_reads_the_current_request_by_default()
+    {
+        $this->app['request']->headers->set('User-Agent', 'Mozilla/5.0 (compatible; Bingbot/2.0)');
+
+        $this->assertTrue(Helpers::isBot());
+    }
 }

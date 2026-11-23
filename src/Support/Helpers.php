@@ -177,6 +177,15 @@ class Helpers
         return " <a href=\"$link\">" . __('ig-common::messages.inbox') . '</a>';
     }
 
+    /** Whether a user agent, by default the current request's, belongs to a crawler or a link preview. */
+    public static function isBot(?string $userAgent = null): bool
+    {
+        return (bool) preg_match(
+            '/(bot|crawler|spider|facebookexternalhit|Twitterbot|Googlebot|Bingbot|YandexBot|DuckDuckBot|Slurp|Baiduspider|LinkedInBot|WhatsApp|Discordbot|Slackbot|TelegramBot)/i',
+            $userAgent ?? request()->userAgent() ?? ''
+        );
+    }
+
     public static function verifyRequestSignature(Request $request): bool
     {
         if (! $request->hasHeader('X-Signature') || ! $request->hasHeader('X-Timestamp')) {
