@@ -87,6 +87,7 @@ class CommonServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerTranslations();
         $this->registerPublishing();
+        $this->registerMigrations();
         $this->registerEvents();
         $this->registerValidationRules();
         $this->registerSanitizer();
@@ -289,6 +290,11 @@ class CommonServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../lang' => base_path('lang/vendor/ig-common'),
         ], 'ig-common:lang');
+    }
+
+    private function registerMigrations(): void
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 
     private function registerEvents(): void

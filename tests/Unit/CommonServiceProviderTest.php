@@ -3,7 +3,9 @@
 namespace Tests\Unit;
 
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 use InternetGuru\LaravelCommon\Http\Middleware\LogRequest;
 use InternetGuru\LaravelCommon\Http\Middleware\ReportImageProblems;
 use Illuminate\Support\Number;
@@ -105,5 +107,16 @@ class CommonServiceProviderTest extends TestCase
 
         $this->assertContains(LogRequest::class, app('router')->getMiddlewareGroups()['web']);
         $this->assertContains(ReportImageProblems::class, app('router')->getMiddlewareGroups()['web']);
+    }
+
+    public function test_migrate_runs_the_package_migrations_without_publishing()
+    {
+        Config::set('database.default', 'testing');
+        Config::set('database.connections.testing', ['driver' => 'sqlite', 'database' => ':memory:']);
+
+        $this->artisan('migrate')->assertSuccessful();
+
+        $this->assertTrue(Schema::hasColumn('mail_logs', 'notification'));
+        $this->assertTrue(Schema::hasTable('association_histories'));
     }
 }
