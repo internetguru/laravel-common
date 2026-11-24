@@ -2,6 +2,8 @@
 
 namespace InternetGuru\LaravelCommon\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
@@ -10,6 +12,8 @@ use Illuminate\Support\Facades\Log;
  */
 class MailLog extends Model
 {
+    use MassPrunable;
+
     protected $fillable = [
         'to',
         'replyto',
@@ -29,5 +33,15 @@ class MailLog extends Model
         self::create($fields);
 
         Log::info('Mail sent', $fields);
+    }
+
+    /** @return Builder<self> */
+    public function prunable(): Builder
+    {
+        $days = (int) config('ig-common.mail_log_days');
+
+        return $days > 0
+            ? static::where('created_at', '<', now()->subDays($days))
+            : static::whereRaw('1 = 0');
     }
 }

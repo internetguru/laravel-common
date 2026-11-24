@@ -26,12 +26,6 @@ class Messages extends Component
         if (session()->has('errors')) {
             $errors = session('errors');
             if ($errors instanceof ViewErrorBag) {
-                foreach ($errors->all() as $error) {
-                    $this->addMessage('danger', $error);
-                }
-            }
-            // foreach error bag
-            if ($errors instanceof ViewErrorBag) {
                 foreach ($errors->getBags() as $bag) {
                     foreach ($bag->all() as $error) {
                         $this->addMessage('danger', $error);

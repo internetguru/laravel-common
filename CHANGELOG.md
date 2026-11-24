@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [10.3.0] - 2026-11-23
+
+_Stable release based on [10.3.0-rc.1]._
+
+## [10.3.0-rc.1] - 2026-11-23
+
+### Fixed
+
+- Each error message is shown only once instead of twice.
+
+### Security
+
+- `mail_logs` rows older than 90 days are deleted daily through a scheduled `model:prune`; `IG_MAIL_LOG_DAYS` sets the number of days, and `0` keeps every row.
+- The `json_daily` log masks the values of secret URL query parameters (such as `key`, `api_key`, `token`, `secret`, `password`, `signature`, `code` and `pin`) in log messages and in logged exception messages, including previous exceptions.
+
 ## [10.2.0] - 2026-11-23
 
 _Stable release based on [10.2.0-rc.1]._
@@ -2569,6 +2584,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[10.3.0]: https://github.com/internetguru/laravel-common/compare/v10.2.0...v10.3.0
+[10.3.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v10.2.0
 [10.2.0]: https://github.com/internetguru/laravel-common/compare/v10.1.0...v10.2.0
 [10.2.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v10.1.0
 [10.1.0]: https://github.com/internetguru/laravel-common/compare/v10.0.0...v10.1.0

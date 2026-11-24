@@ -4,7 +4,6 @@ namespace InternetGuru\LaravelCommon\Logging;
 
 use Illuminate\Http\Request;
 use InternetGuru\LaravelCommon\Support\Helpers;
-use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Monolog\LogRecord;
@@ -15,10 +14,11 @@ class JsonDailyLogger
     public function __invoke(array $config): Logger
     {
         $handler = new RotatingFileHandler($config['path'], $config['days'], $config['level']);
-        $handler->setFormatter(new JsonFormatter);
+        $handler->setFormatter(new RedactingJsonFormatter);
 
         $logger = new Logger('json_daily');
         $logger->pushHandler($handler);
+        $logger->pushProcessor(new RedactSecrets);
 
         if (! app()->bound('auth')) {
             return $logger;
