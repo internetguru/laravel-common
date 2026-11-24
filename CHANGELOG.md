@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Keep a scroll over an open modal from scrolling the page behind it.
+
 ## [10.3.0] - 2026-11-23
 
 _Stable release based on [10.3.0-rc.1]._
