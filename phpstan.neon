@@ -1,7 +1,5 @@
 includes:
     - vendor/larastan/larastan/extension.neon
-    # Knows the Carbon macros this package registers
-    - vendor/nesbot/carbon/extension.neon
     - vendor/internetguru/laravel-scripts/phpstan/ig.neon
     - phpstan-baseline.neon
 
