@@ -25,6 +25,11 @@
             width: var(--ig-modal-width, 100vw);
             height: var(--ig-modal-height, 100vh);
         }
+
+        /* The dialog layer covers the screen, so no scroll over it reaches the page behind. */
+        .ig-modal .modal {
+            overscroll-behavior: contain;
+        }
     </style>
 
     <script data-testid="ig-modal-script">
