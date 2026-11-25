@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [10.4.0] - 2026-11-25
+
+_Stable release based on [10.4.0-rc.1]._
+
 ## [10.4.0-rc.1] - 2026-11-25
 
 ### Fixed
@@ -2593,6 +2597,7 @@ _Stable release based on [0.1.0-rc.1]._
 ## [0.0.0] - 2024-09-12
 
 [Unreleased]: https://github.com/internetguru/laravel-common/compare/staging...dev
+[10.4.0]: https://github.com/internetguru/laravel-common/compare/v10.3.0...v10.4.0
 [10.4.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v10.3.0
 [10.3.0]: https://github.com/internetguru/laravel-common/compare/v10.2.0...v10.3.0
 [10.3.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v10.2.0
