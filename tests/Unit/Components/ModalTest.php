@@ -55,6 +55,14 @@ class ModalTest extends TestCase
         $html->assertSee("addEventListener('scroll', syncViewport)", false);
     }
 
+    public function test_a_scroll_over_the_open_modal_stays_off_the_page_behind_it()
+    {
+        $html = $this->blade('<x-ig::modal id="my-modal" />');
+
+        $html->assertSee('.ig-modal .modal {', false);
+        $html->assertSee('overscroll-behavior: contain;', false);
+    }
+
     public function test_it_registers_itself_without_options()
     {
         $html = $this->blade('<x-ig::modal id="my-modal" />');
