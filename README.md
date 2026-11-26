@@ -1526,7 +1526,7 @@ The package includes translations in **English** (`en`), **Czech** (`cs`), and *
 
 ## Publishing Assets
 
-You can publish package assets to customize them. The migrations are not published: `migrate` runs the package's own, and a copy would replace the package migration of the same name.
+You can publish package assets to customize them. The migrations cannot be published: `migrate` runs the package's own.
 
 ```bash
 # Publish configuration
