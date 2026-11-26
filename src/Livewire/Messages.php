@@ -34,16 +34,15 @@ class Messages extends Component
             }
         }
 
-        // Add success messages
-        if (session()->has('success')) {
-            $data = session('success');
-            if (! is_array($data)) {
-                $data = [$data];
-            }
+        $this->addSessionMessages('success');
+        $this->addSessionMessages('warning');
+    }
 
-            foreach ($data as $message) {
-                $this->addMessage('success', $message);
-            }
+    private function addSessionMessages(string $type): void
+    {
+        $messages = session($type, []);
+        foreach (is_array($messages) ? $messages : [$messages] as $message) {
+            $this->addMessage($type, $message);
         }
     }
 
