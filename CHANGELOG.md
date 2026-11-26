@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `<livewire:ig-messages />` shows a `warning` session message (a string or a list) as a warning toast, like `success`.
+
 ## [10.6.0] - 2026-11-26
 
 _Stable release based on [10.6.0-rc.1]._
