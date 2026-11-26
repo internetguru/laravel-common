@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- The README no longer tells applications to publish the migrations: `migrate` runs the package's own, and a published copy replaces the package migration of the same name.
+
 ## [10.4.0] - 2026-11-25
 
 _Stable release based on [10.4.0-rc.1]._

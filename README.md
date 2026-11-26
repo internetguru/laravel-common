@@ -1526,12 +1526,9 @@ The package includes translations in **English** (`en`), **Czech** (`cs`), and *
 
 ## Publishing Assets
 
-You can publish package assets to customize them:
+You can publish package assets to customize them. The migrations are not published: `migrate` runs the package's own, and a copy would replace the package migration of the same name.
 
 ```bash
-# Publish database migrations, only to change them; migrate runs the package's own
-php artisan vendor:publish --tag=ig-common:migrations
-
 # Publish configuration
 php artisan vendor:publish --tag=ig-common:config
 
@@ -1547,7 +1544,7 @@ php artisan vendor:publish --tag=ig-common:lang
 Changes worth considering that were not carried out yet: what to do and why.
 
 - **Mail log: store the bare address.** `LogSentNotification` stores the whole header in `mail_logs.to` and `replyto`, e.g. `To: jane@example.com`. Store only the addresses, from `getAddresses()`, and decide whether to strip the prefix from the rows already stored.
-- **Applications: update to 9.6.2 or later.** Apps on an older version still log names, e-mail addresses and form input on every line, and keep e-mail texts with sign-in PINs. giftcarder, steakgrill and martapavelka are updated; the other apps deployed by docker-ansible (moss, petrolbusiness, cut-tech, ak-beranek, vokom and the rest in its `group_vars`) are not. Each needs `vendor:publish --tag=ig-common:migrations` and the migration in the same commit, since mail fails without the `notification` column.
+- **Applications: update to 9.6.2 or later.** Apps on an older version still log names, e-mail addresses and form input on every line, and keep e-mail texts with sign-in PINs. giftcarder, steakgrill and martapavelka are updated; the other apps deployed by docker-ansible (moss, petrolbusiness, cut-tech, ak-beranek, vokom and the rest in its `group_vars`) are not. Each needs `migrate` in the same deploy as the update, since mail fails without the `notification` column; do not publish the migrations, `migrate` runs the package's own.
 - **Security: keep SQL values out of logged query errors.** A `QueryException` message includes the SQL with its bindings filled in, so a failed query can log an e-mail address, a PIN or a token. `RedactingJsonFormatter` masks only secret URL query parameters; also mask the bindings of a `QueryException` in the log, for example by logging its SQL with `?` placeholders.
 - **Generalize the share button.** `share-page` always opens the same modal: a QR code and the page URL to copy. Turn it into a share menu that projects and individual pages add their own items to, through a slot, a stack or a registry, so laravel-model-browser can offer its exports (CSV download, copying the current page) there instead of in buttons of its own. Allow placing it anywhere, as a full button or as an icon only, for example next to the hamburger menu icon, and keep the footer link as it is when nothing is added.
 - **Remember a guest's language.** laravel-user's `SetAppLocale` keeps a guest's chosen language only in the session, so it is lost when the session expires or the browser closes, and the guest gets the browser-detected language again. Also store it in a long-lived cookie (for example five years, renewed on each switch), read it after the session and before browser detection, and keep it out of cookie encryption if it should be readable without the app key. Signed-in users already keep theirs in `users.lang` and are not affected.
