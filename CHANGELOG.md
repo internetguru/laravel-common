@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [10.6.0] - 2026-11-26
+
+_Stable release based on [10.6.0-rc.1]._
+
+## [10.6.0-rc.1] - 2026-11-26
+
+### Removed
+
+- The `ig-common:migrations` publish tag: `migrate` runs the package's own migrations, and a published copy would replace the package migration of the same name. Delete any copies in `database/migrations`.
+
 ## [10.5.0] - 2026-11-26
 
 _Stable release based on [10.5.0-rc.1]._
@@ -2604,6 +2614,8 @@ _Stable release based on [0.1.0-rc.1]._
 
 ## [0.0.0] - 2024-09-12
 
+[10.6.0]: https://github.com/internetguru/laravel-common/compare/v10.5.0...v10.6.0
+[10.6.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v10.5.0
 [10.5.0]: https://github.com/internetguru/laravel-common/compare/v10.4.0...v10.5.0
 [10.5.0-rc.1]: https://github.com/internetguru/laravel-common/releases/tag/v10.4.0
 [10.4.0]: https://github.com/internetguru/laravel-common/compare/v10.3.0...v10.4.0

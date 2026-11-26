@@ -288,10 +288,6 @@ class CommonServiceProvider extends ServiceProvider
     private function registerPublishing(): void
     {
         $this->publishes([
-            __DIR__ . '/../database/migrations' => database_path('migrations'),
-        ], 'ig-common:migrations');
-
-        $this->publishes([
             __DIR__ . '/../config/ig-common.php' => config_path('ig-common.php'),
         ], 'ig-common:config');
 
