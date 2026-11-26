@@ -53,4 +53,12 @@ class MessagesTest extends TestCase
                 ['type' => 'warning', 'content' => 'Second warning'],
             ]);
     }
+
+    public function test_it_renders_a_link_in_a_warning_as_html()
+    {
+        session()->flash('warning', 'Signed out. <a href="https://example.com/login">Sign in again</a>.');
+
+        Livewire::test(Messages::class)
+            ->assertSeeHtml('Signed out. <a href="https://example.com/login">Sign in again</a>.');
+    }
 }
