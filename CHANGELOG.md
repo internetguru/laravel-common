@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - `<x-ig::modal>` manages the keyboard focus: an opened modal takes it, onto its `[autofocus]` element or the dialog itself, Tab and Shift+Tab cycle inside it, and closing gives it back to the element that held it before.
 
+### Fixed
+
+- An Escape that a widget inside a modal handles itself, such as closing its own dropdown, no longer closes every open modal.
+
 ## [10.7.0] - 2026-11-26
 
 _Stable release based on [10.7.0-rc.1]._

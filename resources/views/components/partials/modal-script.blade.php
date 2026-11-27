@@ -219,7 +219,7 @@
         delete window.igModalQueue;
 
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
+            if (event.key === 'Escape' && ! event.defaultPrevented) {
                 window.igModal.closeAll();
             }
         });

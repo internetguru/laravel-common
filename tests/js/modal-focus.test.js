@@ -86,6 +86,17 @@ describe('modal focus', () => {
         expect(document.activeElement).toBe(byId('trigger'));
     });
 
+    it('stays open on an Escape that a widget inside has handled', async () => {
+        render(modal('m', '<input data-testid="field">'), ['m']);
+        await openFromTrigger('m');
+        byId('field').addEventListener('keydown', (event) => event.preventDefault());
+
+        byId('field').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+        await settle();
+
+        expect(window.igModal.isOpen('m')).toBe(true);
+    });
+
     it('does not send the focus to a trigger that a re-render replaced', async () => {
         render(modal('m'), ['m']);
         await openFromTrigger('m');
