@@ -6,8 +6,8 @@
 
         Every modal registers itself and is watched for class changes, so it behaves the same
         whether it was toggled here or by a Livewire re-render: the body class, the URL hash,
-        the mirrored Livewire property and the bubbling `ig-modal-opened` / `ig-modal-closed`
-        events all follow the wrapper.
+        the mirrored Livewire property, the keyboard focus and the bubbling `ig-modal-opened` /
+        `ig-modal-closed` events all follow the wrapper.
     --}}
     {{--
         iOS positions `fixed` elements against the layout viewport, so as soon as the
@@ -70,6 +70,76 @@
                     }
                 });
             },
+            returnTargets: new WeakMap(),
+            focusInside(modal) {
+                if (modal.contains(document.activeElement)) {
+                    return;
+                }
+                const autofocus = this.focusables(modal).find((element) => element.hasAttribute('autofocus'));
+                if (autofocus) {
+                    autofocus.focus();
+                } else {
+                    // The dialog rather than its first field, which would open a phone's keyboard
+                    modal.querySelector('.modal')?.focus({ preventScroll: true });
+                }
+            },
+            restoreFocus(modal) {
+                const active = document.activeElement;
+                const stranded = ! active || active === document.body || !! active.closest('.ig-modal.d-none');
+                if (! stranded) {
+                    return;
+                }
+                let target = this.returnTargets.get(modal);
+                const visited = new Set([modal]);
+                // A target inside a modal closed along with this one hands over to that modal's own target
+                for (let closed = target?.closest?.('.ig-modal.d-none'); closed && ! visited.has(closed); closed = target?.closest?.('.ig-modal.d-none')) {
+                    visited.add(closed);
+                    target = this.returnTargets.get(closed);
+                }
+                if (target?.isConnected && target !== document.body) {
+                    target.focus();
+                }
+            },
+            focusables(modal) {
+                const candidates = [...modal.querySelectorAll('a[href], area[href], button, input, select, textarea, summary, iframe, audio[controls], video[controls], [tabindex], [contenteditable]:not([contenteditable="false"])')]
+                    .filter((element) => ! element.matches(':disabled')
+                        && element.tabIndex >= 0
+                        && element.type !== 'hidden'
+                        && ! element.closest('[hidden], .d-none, [inert]')
+                        && (element.checkVisibility?.({ visibilityProperty: true }) ?? true));
+
+                // Tab stops at one radio of a group: the checked one, else the first
+                return candidates.filter((element) => {
+                    if (element.type !== 'radio' || ! element.name) {
+                        return true;
+                    }
+                    const group = candidates.filter((other) => other.type === 'radio' && other.name === element.name && other.form === element.form);
+
+                    return element === (group.find((radio) => radio.checked) ?? group[0]);
+                });
+            },
+            // Where Tab has to send the focus to keep it inside the modal, or null to let the browser move it
+            wrapTarget(modal, backwards) {
+                const dialog = modal.querySelector('.modal');
+                const focusables = this.focusables(modal);
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+                const active = document.activeElement;
+                if (! first) {
+                    return dialog;
+                }
+                if (! modal.contains(active)) {
+                    return backwards ? last : first;
+                }
+                if (backwards && (active === first || active === dialog)) {
+                    return last;
+                }
+                if (! backwards && active === last) {
+                    return first;
+                }
+
+                return null;
+            },
             whenLivewireReady(callback) {
                 if (window.Livewire) {
                     callback();
@@ -93,6 +163,8 @@
                         return;
                     }
                     open = ! open;
+                    // Read before the hash is set: a fragment navigation clears the focus
+                    const focused = document.activeElement;
                     document.body.classList.toggle('modal-open', !! document.querySelector('.ig-modal:not(.d-none)'));
                     this.syncViewport();
 
@@ -115,6 +187,13 @@
                         });
                     }
 
+                    if (open) {
+                        this.returnTargets.set(modal, focused);
+                        this.focusInside(modal);
+                    } else {
+                        this.restoreFocus(modal);
+                    }
+
                     modal.dispatchEvent(new CustomEvent(open ? 'ig-modal-opened' : 'ig-modal-closed', { bubbles: true }));
                 };
 
@@ -122,11 +201,16 @@
 
                 if (options.hash && window.location.hash === '#' + options.hash) {
                     this.open(id);
+                    // The browser's own scroll to the fragment during loading clears the focus again
+                    if (document.readyState !== 'complete') {
+                        window.addEventListener('load', () => this.isOpen(id) && this.focusInside(modal), { once: true });
+                    }
                 }
 
                 // A modal rendered open never passes through the observer above
                 if (open) {
                     this.syncViewport();
+                    this.focusInside(modal);
                 }
             },
         };
@@ -135,8 +219,25 @@
         delete window.igModalQueue;
 
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
+            if (event.key === 'Escape' && ! event.defaultPrevented) {
                 window.igModal.closeAll();
+            }
+        });
+
+        // Tab and Shift+Tab cycle through the topmost open modal instead of leaving it for the page behind
+        document.addEventListener('keydown', (event) => {
+            if (event.key !== 'Tab' || event.defaultPrevented) {
+                return;
+            }
+            const openModals = document.querySelectorAll('.ig-modal:not(.d-none)');
+            const modal = openModals[openModals.length - 1];
+            if (! modal) {
+                return;
+            }
+            const target = window.igModal.wrapTarget(modal, event.shiftKey);
+            if (target) {
+                event.preventDefault();
+                target.focus();
             }
         });
 
